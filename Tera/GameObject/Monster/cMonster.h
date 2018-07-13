@@ -1,6 +1,8 @@
 #pragma once
 #include "../cGameObject.h"
 
+class iMap;
+
 class cMonster : public cGameObject
 {
 public:
@@ -11,6 +13,7 @@ public:
 	float			m_fSpeed;
 
 	//iMap*			m_pMap;
+	SYNTHESIZE(iMap*, m_pMap, Map);
 
 	float			m_fCosVal; // 카메라 기준 각도
 
@@ -48,6 +51,9 @@ public:
 	void Setup();
 	void Update();
 	void Render();
+
+	//몬스터 높이맵 적용
+	void PlusMapHeight();
 
 	//몬스터 어슬렁거리는것 구현
 	virtual void MonoBehavior(void) = 0;
