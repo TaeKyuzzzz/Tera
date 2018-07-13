@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "cMonster.h"
 
+#include "iMap.h"
 
 cMonster::cMonster()
 	: m_fRotY(0.0f)
@@ -12,6 +13,7 @@ cMonster::cMonster()
 	, m_bIsGen(true)
 	, m_bAwake(false)
 	, m_vBehaviorSpot(0, 0, 0)
+	, m_pMap(NULL)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matAnimWorld);
@@ -28,9 +30,15 @@ void cMonster::Setup()
 
 void cMonster::Update()
 {
-
+	PlusMapHeight();
 }
 
 void cMonster::Render()
 {
+}
+
+void cMonster::PlusMapHeight()
+{
+	if (m_pMap)
+		m_pMap->GetHeight(m_vPosition.x, m_vPosition.y, m_vPosition.z);
 }
