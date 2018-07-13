@@ -1,7 +1,4 @@
-﻿  cMonsterManager.cpp
-  Tera.cpp
-  코드를 생성하고 있습니다...
-cBoundingBox.obj : error LNK2019: D3DXVec3Normalize 외부 기호(참조 위치: "public: struct ST_OBB __cdecl cBoundingBox::GetOBB(void)" (?GetOBB@cBoundingBox@@QEAA?AUST_OBB@@XZ) 함수)에서 확인하지 못했습니다.
+﻿cBoundingBox.obj : error LNK2019: D3DXVec3Normalize 외부 기호(참조 위치: "public: struct ST_OBB __cdecl cBoundingBox::GetOBB(void)" (?GetOBB@cBoundingBox@@QEAA?AUST_OBB@@XZ) 함수)에서 확인하지 못했습니다.
 cCamera.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
 cMonster01.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
 cMainGame.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.

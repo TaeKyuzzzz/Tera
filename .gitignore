@@ -31,3 +31,6 @@
 *.out
 *.app
 /.vs
+/Debug
+/Tera/Debug
+/x64/Debug
