@@ -36,3 +36,19 @@ public:
 };
 
 
+/*for (int i = 0; i < 18; i += 2)
+		{
+			m_arrPos[i + 0].t = D3DXVECTOR2(0, 0);
+			m_vecVertex.push_back(m_arrPos[i + 0]);
+			m_arrPos[i + 2].t = D3DXVECTOR2(0, 1);
+			m_vecVertex.push_back(m_arrPos[i + 2]);
+			m_arrPos[i + 1].t = D3DXVECTOR2(1, 0);
+			m_vecVertex.push_back(m_arrPos[i + 1]);
+
+			m_arrPos[i + 2].t = D3DXVECTOR2(0, 1);
+			m_vecVertex.push_back(m_arrPos[i + 2]);
+			m_arrPos[i + 3].t = D3DXVECTOR2(1, 1);
+			m_vecVertex.push_back(m_arrPos[i + 3]);
+			m_arrPos[i + 1].t = D3DXVECTOR2(1, 0);
+			m_vecVertex.push_back(m_arrPos[i + 1]);
+			}*/

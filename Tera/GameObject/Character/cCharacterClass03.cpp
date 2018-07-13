@@ -369,7 +369,7 @@ void cCharacterClass03::Move()
 	if (KEYMANAGER->IsStayKeyDown('A') && m_state == CH_STATE_run)
 	{
 		m_fRotY = m_fCosVal + D3DX_PI * 1.5f;
-
+		
 		if(!OBJECTMANAGER->IsCollision(this))
 			m_vPosition += (m_vDirection * m_fSpeed);
 		//m_fRotY -= 0.1f;
@@ -419,6 +419,11 @@ void cCharacterClass03::Move()
 				m_vPosition += (m_vDirection * m_fSpeed);
 		}
 	}
+
+	if (m_fRotY <= 0.0f)
+		m_fRotY += D3DX_PI * 2;
+	else if (m_fRotY >= D3DX_PI * 2)
+		m_fRotY -= D3DX_PI * 2;
 
 	D3DXMATRIX mat , matR, matT;
 	D3DXMatrixRotationY(&matR, m_fRotY);

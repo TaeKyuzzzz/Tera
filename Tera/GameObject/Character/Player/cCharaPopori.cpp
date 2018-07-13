@@ -86,9 +86,9 @@ void cCharaPopori::Update()
 		m_fCosVal = D3DX_PI * 2 - m_fCosVal;
 
 	if (m_fCosVal <= 0.0f)
-		m_fCosVal = D3DX_PI * 2 - 0.01;
+		m_fCosVal += D3DX_PI * 2;
 	else if (m_fCosVal >= D3DX_PI * 2)
-		m_fCosVal = 0.01f;
+		m_fCosVal -= D3DX_PI * 2;
 
 	if (KEYMANAGER->IsOnceKeyDown('Y'))
 	{
