@@ -33,13 +33,14 @@ void cSceneTest::Setup()
 	m_pDummy->Setup(D3DXVECTOR3(120, 0, 0));
 	m_pBackGroundBlack = TEXTUREMANAGER->GetSprite("Texture/SceneTexture/BGBlack.png");
 
-	m_pMonster01 = new cMonster01;
-	m_pMonster01->Setup();
+	//m_pMonster01 = new cMonster01;
+	//m_pMonster01->Setup();
 
 	m_pMap = new cTestMap;
 	m_pMap->Setup();
 
 	m_pPopori->SetMap(m_pMap);
+	m_pMonster01->SetMap(m_pMap);
 
 	OBJECTMANAGER->AddObject(m_pDummy);
 }
@@ -48,7 +49,7 @@ void cSceneTest::Update()
 {
 	m_pDummy->Update();
 	m_pPopori->Update();
-	m_pMonster01->Update();
+	//m_pMonster01->Update();
 
 	if (m_nBGBlackAlpha > 0)
 		m_nBGBlackAlpha -= 5;
@@ -56,7 +57,7 @@ void cSceneTest::Update()
 void cSceneTest::Render()
 {
 
-	m_pMonster01->Render();
+	//m_pMonster01->Render();
 
 	m_pDummy->Render();
 	m_pMap->Render();

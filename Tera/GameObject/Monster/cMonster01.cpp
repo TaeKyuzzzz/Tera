@@ -68,6 +68,8 @@ void cMonster01::Setup()
 
 void cMonster01::Update()
 {
+	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
+
 	//몬스터 죽는거
 	if (KEYMANAGER->IsOnceKeyDown('5'))
 	{
