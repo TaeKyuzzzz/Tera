@@ -114,6 +114,17 @@ struct ST_PNT_VERTEX
 	};
 };
 
+struct ST_PCT_VERTEX
+{
+	D3DXVECTOR3 p;
+	D3DCOLOR	c;
+	D3DXVECTOR2 t;
+
+	enum {
+		FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1
+	};
+};
+
 // 이해하면 주석 지워라
 
 struct ST_BONE : public D3DXFRAME
@@ -157,7 +168,7 @@ struct ST_UI_SIZE
 	int nHeight;
 
 	ST_UI_SIZE() : nWidth(0), nHeight(0) {}
-	ST_UI_SIZE(int w, int h) 
+	ST_UI_SIZE(int w, int h)
 		: nWidth(w), nHeight(h) {}
 };
 

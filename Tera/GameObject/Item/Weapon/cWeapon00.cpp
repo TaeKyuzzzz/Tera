@@ -28,11 +28,11 @@ void cWeapon00::Setup()
 	// TwoHandSword_04
 	m_pBoundingBox = new cBoundingBox;
 	m_pBoundingBox->Setup(
-		D3DXVECTOR3(-5,-10,-5),
+		D3DXVECTOR3(-5, -10, -5),
 		D3DXVECTOR3(5, 50, 5));
 
 	m_vOnPos = D3DXVECTOR3(0, 50, 0);
-	m_vDownPos = D3DXVECTOR3(0, 25, 0);
+	m_vDownPos = D3DXVECTOR3(0, 0, 0);
 
 	m_pSlashEffectTexture = TEXTUREMANAGER->GetTexture("Texture/Effect/SwordShadow.png");
 }

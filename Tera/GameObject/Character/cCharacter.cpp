@@ -52,7 +52,7 @@ void cCharacter::Render()
 
 void cCharacter::PlusMapHeight()
 {
-	if(m_pMap)
+	if (m_pMap)
 		m_pMap->GetHeight(m_vPosition.x, m_vPosition.y, m_vPosition.z);
 }
 

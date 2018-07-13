@@ -9,21 +9,21 @@ class cXMesh;
 
 class cCharaPopori : public cCharacterClass03
 {
-private :
-	
 private:
 
-	cSkinnedMesh*			m_pBody;	
-	
+private:
+
+	cSkinnedMesh*			m_pBody;
+
 	cSkinnedMesh*			m_pHair;
 	cSkinnedMesh*			m_pHand;
 	cSkinnedMesh*			m_pLeg;
-	
+
 	CHARA_STATE				m_currState;
 	ST_BONE*				m_pWeaponHand;
 	ST_BONE*				m_pDummyRoot;
 	ST_BONE*				m_pHead;
-	
+
 	cItemBase*				m_pWeapon;
 
 	int						m_nWeaponNum = 0;

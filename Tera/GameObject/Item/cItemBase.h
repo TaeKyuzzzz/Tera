@@ -6,14 +6,14 @@ class cBoundingBox;
 
 class cItemBase : public cGameObject
 {
-protected :
+protected:
 
 	SYNTHESIZE(D3DXMATRIX, m_matWorld, World);
 
 	char *			m_sName;
 	cXMesh*			m_pBody;
 
-	ST_PC_VERTEX		m_arrPos[50];
+	ST_PCT_VERTEX		m_arrPos[20];
 	int					m_nIndex;
 	float				m_fTime;
 
@@ -23,7 +23,7 @@ protected :
 	D3DXVECTOR3			m_vOnPos;
 	D3DXVECTOR3			m_vDownPos;
 
-	vector<ST_PC_VERTEX>	m_vecVertex;
+	vector<ST_PCT_VERTEX>	m_vecVertex;
 
 public:
 	cItemBase();

@@ -6,7 +6,7 @@ class cBoundingBox;
 
 class cWeapon00 : public cItemBase
 {
-private :
+private:
 
 
 

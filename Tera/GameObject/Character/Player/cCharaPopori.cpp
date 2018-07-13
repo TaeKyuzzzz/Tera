@@ -20,7 +20,7 @@ cCharaPopori::cCharaPopori()
 
 
 cCharaPopori::~cCharaPopori()
-{	
+{
 	SAFE_DELETE(m_pWeapon);
 }
 
@@ -30,7 +30,7 @@ void cCharaPopori::Setup()
 
 	cSkinnedMesh * pSkinnedMesh;
 
-	
+
 	m_pHair = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Head", "Hair01.X");
 	m_pBody = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_00.X");
 	m_pHand = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_00.X");
@@ -47,18 +47,18 @@ void cCharaPopori::Setup()
 	// 위치를 가진 루트 본
 	m_pDummyRoot = (ST_BONE*)D3DXFrameFind(m_pBody->GetFrame(),
 		"Dummy_root");
-	
+
 	// 얼굴과 머리를 장착할 목 본
 	m_pHead = (ST_BONE*)D3DXFrameFind(m_pBody->GetFrame(),
 		"Bip01-Head");
-	
+
 	// 바운딩 박스 생성
 	m_pBoundingBox = new cBoundingBox;
-	m_pBoundingBox->Setup(D3DXVECTOR3(-10,-15,-10),D3DXVECTOR3(10,15,10));
-	
+	m_pBoundingBox->Setup(D3DXVECTOR3(-10, -15, -10), D3DXVECTOR3(10, 15, 10));
+
 	// 구 충돌 영역 생성
 	m_pSpere = new cSpere;
-	m_pSpere->Setup(D3DXVECTOR3(0,0,0),20);
+	m_pSpere->Setup(D3DXVECTOR3(0, 0, 0), 20);
 
 	g_vPlayerPos = &m_vPosition;
 }
@@ -71,7 +71,7 @@ void cCharaPopori::Update()
 	{
 		int a = 1;
 	}
-	
+
 	ChangeWeapon();
 	ChangeBody();
 	ChangeHand();
@@ -103,7 +103,7 @@ void cCharaPopori::Update()
 			m_pBody->SetAnimationIndexBlend(m_state);
 			m_pHand->SetAnimationIndexBlend(m_state);
 			m_pLeg->SetAnimationIndexBlend(m_state);
-			m_pHair->SetAnimationIndexBlend(m_state);	
+			m_pHair->SetAnimationIndexBlend(m_state);
 		}
 		else
 		{
@@ -112,14 +112,14 @@ void cCharaPopori::Update()
 			m_pLeg->SetAnimationIndex(m_state);
 			m_pHair->SetAnimationIndex(m_state);
 		}
-		
+
 		m_currState = m_state;
 
 		m_pBody->AnimAdvanceTime();
 		m_pHand->AnimAdvanceTime();
 		m_pLeg->AnimAdvanceTime();
 		m_pHair->AnimAdvanceTime();
-		
+
 		m_fTime += TIMEMANAGER->GetEllapsedTime();
 	}
 
@@ -144,7 +144,7 @@ void cCharaPopori::Update()
 		m_pWeapon->SetWorld(m_pWeaponHand->CombinedTransformationMatrix);
 		m_pHair->Update(m_pHead->CombinedTransformationMatrix);
 	}
-	
+
 	// 이동값이 있는 애니메이션 적용 시
 	// 애니메이션 로컬을 현재 포지션으로 적용시키는 증가량을 계산 
 	m_vBeforeAnimPos = m_vCurAnimPos;
@@ -166,7 +166,7 @@ void cCharaPopori::Render()
 	m_pHand->Render(NULL);
 	m_pLeg->Render(NULL);
 	m_pHair->Render(NULL);
-	
+
 	m_pWeapon->Render();
 
 	cGameObject::Render();
@@ -270,9 +270,9 @@ void cCharaPopori::ChangeBody()
 			break;
 		}
 
-		m_pWeaponHand = (ST_BONE*)D3DXFrameFind(m_pBody->GetFrame(),"R_Sword");
-		m_pDummyRoot = (ST_BONE*)D3DXFrameFind(m_pBody->GetFrame(),"Dummy_root");
-		m_pHead = (ST_BONE*)D3DXFrameFind(m_pBody->GetFrame(),"Bip01-Head");
+		m_pWeaponHand = (ST_BONE*)D3DXFrameFind(m_pBody->GetFrame(), "R_Sword");
+		m_pDummyRoot = (ST_BONE*)D3DXFrameFind(m_pBody->GetFrame(), "Dummy_root");
+		m_pHead = (ST_BONE*)D3DXFrameFind(m_pBody->GetFrame(), "Bip01-Head");
 
 		m_pBody->SetAnimPosition(position);
 	}
@@ -283,9 +283,9 @@ void cCharaPopori::ChangeHand()
 	if (KEYMANAGER->IsOnceKeyDown('C'))
 	{
 		m_nHandNum = (m_nHandNum + 1) % 4;
-		
+
 		float position = m_pHand->GetAnimPosition();
-		
+
 		switch (m_nHandNum)
 		{
 		case 0:
@@ -317,7 +317,7 @@ void cCharaPopori::ChangeLeg()
 	{
 		m_nLegNum = (m_nLegNum + 1) % 4;
 		float position = m_pLeg->GetAnimPosition();
-		
+
 		switch (m_nLegNum)
 		{
 		case 0:
