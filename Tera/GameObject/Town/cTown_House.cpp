@@ -19,9 +19,9 @@ void cTown_House::Setup()
 	const int size = 3;
 
 	char fileName[size][256] = {
-		"X_House/House01.X",
-		"X_House/House02.X",
-		"X_House/House03.X",
+		"XFile/Town/House01.X",
+		"XFile/Town/House02.X",
+		"XFile/Town/House03.X",
 	};
 
 	for (int i = 0; i < size; i++)
