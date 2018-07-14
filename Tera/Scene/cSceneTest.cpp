@@ -4,6 +4,8 @@
 #include "GameObject\Object\cDummyObj.h"
 #include "GameObject/Monster/cMonster01.h"
 #include "Sprite\cSprite.h"
+
+#include "GameObject/Town/cTown_House.h"
 #include "cTestMap.h"
 
 cSceneTest::cSceneTest()
@@ -22,6 +24,8 @@ cSceneTest::~cSceneTest()
 	SAFE_DELETE(m_pDummy);
 	SAFE_DELETE(m_pMonster01);
 	SAFE_DELETE(m_pMap);
+
+	m_pTown_House->Destroy();
 }
 
 void cSceneTest::Setup()
@@ -36,8 +40,12 @@ void cSceneTest::Setup()
 	//m_pMonster01 = new cMonster01;
 	//m_pMonster01->Setup();
 
+	//m_pTown_House = new cTown_House;
+	//m_pTown_House->Setup();
+
 	m_pMap = new cTestMap;
 	m_pMap->Setup();
+
 
 	m_pPopori->SetMap(m_pMap);
 	m_pMonster01->SetMap(m_pMap);
@@ -61,6 +69,7 @@ void cSceneTest::Render()
 
 	m_pDummy->Render();
 	m_pMap->Render();
+	//m_pTown_House->Render();
 
 	m_pPopori->Render();
 
