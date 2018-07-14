@@ -201,7 +201,7 @@ void cItemBase::Render()
 		g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 		g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		g_pD3DDevice->SetFVF(ST_PCT_VERTEX::FVF);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
 			m_vecVertex.size() / 3,
 			&m_vecVertex[0],

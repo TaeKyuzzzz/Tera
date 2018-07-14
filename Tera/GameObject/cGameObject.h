@@ -6,7 +6,7 @@ class cBoundingBox;
 
 class cGameObject
 {
-private :
+protected :
 
 	bool SightBox;
 	bool SightSpere;

@@ -39,6 +39,7 @@ cMonster01::cMonster01()
 	//Monster01은 이런 특성을 가지고 있다.
 	m_fAreaRadius = 150.0f;
 	m_fRunSpeed = 0.5f;
+	m_fFightZone = 70.0f;
 }
 
 
@@ -70,10 +71,10 @@ void cMonster01::Setup()
 
 	////싸대기 판정 구체
 	m_pSphereR = new cSpere;
-	m_pSphereR->Setup(D3DXVECTOR3(0, 0, 0), 10);
+	m_pSphereR->Setup(D3DXVECTOR3(0, 0, 0), 20);
 
 	m_pSphereL = new cSpere;
-	m_pSphereL->Setup(D3DXVECTOR3(0, 0, 0), 10);
+	m_pSphereL->Setup(D3DXVECTOR3(0, 0, 0), 20);
 
 
 
@@ -85,9 +86,9 @@ void cMonster01::Setup()
 	m_pBoundingBox = new cBoundingBox;
 	m_pBoundingBox->Setup(D3DXVECTOR3(-30, -55, -30), D3DXVECTOR3(30, 55, 30));
 
-	// 구 충돌 영역 생성
+	// 구 충돌 영역 생성(싸움존 거리)
 	m_pSpere = new cSpere;
-	m_pSpere->Setup(D3DXVECTOR3(0, 0, 0), 70);
+	m_pSpere->Setup(D3DXVECTOR3(0, 0, 0), m_fFightZone);
 }
 
 void cMonster01::Update()
@@ -244,12 +245,17 @@ void cMonster01::Render()
 		D3DCOLOR_XRGB(255, 255, 0));
 
 	cGameObject::Render();
+
+	if (SightSpere && m_pSphereR)
+		m_pSphereR->Render();
+	if (SightSpere && m_pSphereL)
+		m_pSphereL->Render();
 }
 
 bool cMonster01::isUseLocalAnim()
 {
 	if (
-		m_state == MON_STATE_atk04
+		m_state == MON_STATE_atk01
 		)
 		return true;
 
@@ -316,6 +322,10 @@ void cMonster01::MonoBehavior(void)
 	if (D3DXVec3Length(&temp) < m_fAreaRadius)
 	{
 		m_bAwake = true;
+		if (D3DXVec3Length(&temp) < m_fFightZone)
+			m_bFight = true;
+		else
+			m_bFight = false;
 	}
 	else
 	{
@@ -324,6 +334,7 @@ void cMonster01::MonoBehavior(void)
 
 	if (m_bAwake)
 	{
+		m_state = MON_STATE_Walk;
 		// u벡터 -> 기준벡터
 		D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
 		D3DXVECTOR3 v;
@@ -339,6 +350,17 @@ void cMonster01::MonoBehavior(void)
 		m_vPosition += (m_fRunSpeed * v);
 		//m_vPosition -= D3DXVECTOR3(1.0f, 0, 1.0f);
 	}
+	else
+	{
+		m_state = MON_STATE_Wait;
+	}
+
+	if (m_bFight)
+	{
+		m_state = MON_STATE_atk01;
+	}
+	else
+		m_state = MON_STATE_Walk;
 
 
 	m_fRotY = m_fCosVal;

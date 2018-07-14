@@ -68,6 +68,8 @@ private:
 	cSpere*					m_pSphereR;
 	cSpere*					m_pSphereL;
 
+	float					m_fFightZone;
+
 public:
 	cMonster01();
 	~cMonster01();
