@@ -39,12 +39,15 @@ cMonster01::cMonster01()
 	//Monster01은 이런 특성을 가지고 있다.
 	m_fAreaRadius = 150.0f;
 	m_fRunSpeed = 0.5f;
+	m_fFightZone = 70.0f;
 }
 
 
 cMonster01::~cMonster01()
 {
 	SAFE_DELETE(m_pMonster);
+	SAFE_DELETE(m_pSphereR);
+	SAFE_DELETE(m_pSphereL);
 }
 
 void cMonster01::Setup()
@@ -59,11 +62,33 @@ void cMonster01::Setup()
 	m_pDummyRoot = (ST_BONE*)D3DXFrameFind(m_pMonster->GetFrame(),
 		"Dummy_root");
 
+	// 싸대기 때릴 양손 본
+	m_pHandR = (ST_BONE*)D3DXFrameFind(m_pMonster->GetFrame(),
+		"Bip01-R-Hand");
+
+	m_pHandL = (ST_BONE*)D3DXFrameFind(m_pMonster->GetFrame(),
+		"Bip01-L-Hand");
+
+	////싸대기 판정 구체
+	m_pSphereR = new cSpere;
+	m_pSphereR->Setup(D3DXVECTOR3(0, 0, 0), 20);
+
+	m_pSphereL = new cSpere;
+	m_pSphereL->Setup(D3DXVECTOR3(0, 0, 0), 20);
+
 
 
 	//처음 젠되는 위치 설정
 
 	m_vPosition = m_vBehaviorSpot;
+
+	// 바운딩 박스 생성
+	m_pBoundingBox = new cBoundingBox;
+	m_pBoundingBox->Setup(D3DXVECTOR3(-30, -55, -30), D3DXVECTOR3(30, 55, 30));
+
+	// 구 충돌 영역 생성(싸움존 거리)
+	m_pSpere = new cSpere;
+	m_pSpere->Setup(D3DXVECTOR3(0, 0, 0), m_fFightZone);
 }
 
 void cMonster01::Update()
@@ -120,6 +145,42 @@ void cMonster01::Update()
 
 		}
 
+		// 이동처리!!
+		D3DXVECTOR3 beforePos = m_vPosition;
+		float		beforeRot = m_fRotY;
+
+		if (m_fRotY <= 0.0f)
+			m_fRotY += D3DX_PI * 2;
+		else if (m_fRotY >= D3DX_PI * 2)
+			m_fRotY -= D3DX_PI * 2;
+
+		D3DXMATRIX mat, matR, matT;
+		D3DXMatrixRotationY(&matR, m_fRotY);
+
+		D3DXMatrixIdentity(&mat);
+		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y + 55, m_vPosition.z);
+		m_pBoundingBox->SetWorld(matR * mat);
+
+		m_pSpere->SetWorld(mat);
+
+		/*	if (OBJECTMANAGER->IsCollision(this))
+		{
+		m_fRotY = beforeRot;
+		m_vPosition = beforePos;
+		D3DXMATRIX mat, matR, matT;
+		D3DXMatrixRotationY(&matR, m_fRotY);
+
+		D3DXMatrixIdentity(&mat);
+		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y + 55, m_vPosition.z);
+		m_pBoundingBox->SetWorld(matR * mat);
+
+		m_pSpere->SetWorld(mat);
+		}*/
+
+		m_pSphereR->SetWorld(m_pHandR->CombinedTransformationMatrix);
+		m_pSphereL->SetWorld(m_pHandL->CombinedTransformationMatrix);
+
+
 		// 이동값이 있는 애니메이션 적용 시
 		// 애니메이션 로컬을 현재 포지션으로 적용시키는 증가량을 계산 
 		m_vBeforeAnimPos = m_vCurAnimPos;
@@ -127,7 +188,7 @@ void cMonster01::Update()
 
 
 		//D3DXMATRIX matR, matT;
-		D3DXMATRIX mat, matR, matT;
+		//D3DXMATRIX mat, matR, matT;
 		D3DXMatrixRotationY(&matR, m_fRotY);
 		D3DXVec3TransformNormal(&m_vDirection, &D3DXVECTOR3(1, 0, 0), &matR);
 		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
@@ -184,12 +245,17 @@ void cMonster01::Render()
 		D3DCOLOR_XRGB(255, 255, 0));
 
 	cGameObject::Render();
+
+	if (SightSpere && m_pSphereR)
+		m_pSphereR->Render();
+	if (SightSpere && m_pSphereL)
+		m_pSphereL->Render();
 }
 
 bool cMonster01::isUseLocalAnim()
 {
 	if (
-		m_state == MON_STATE_atk04
+		m_state == MON_STATE_atk01
 		)
 		return true;
 
@@ -256,6 +322,10 @@ void cMonster01::MonoBehavior(void)
 	if (D3DXVec3Length(&temp) < m_fAreaRadius)
 	{
 		m_bAwake = true;
+		if (D3DXVec3Length(&temp) < m_fFightZone)
+			m_bFight = true;
+		else
+			m_bFight = false;
 	}
 	else
 	{
@@ -264,6 +334,7 @@ void cMonster01::MonoBehavior(void)
 
 	if (m_bAwake)
 	{
+		m_state = MON_STATE_Walk;
 		// u벡터 -> 기준벡터
 		D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
 		D3DXVECTOR3 v;
@@ -272,13 +343,24 @@ void cMonster01::MonoBehavior(void)
 		m_fCosVal = D3DXVec3Dot(&v, &u);
 		m_fCosVal = acosf(m_fCosVal);
 
-		if (u.z < g_vPlayerPos->z)
+		if (m_vPosition.z < g_vPlayerPos->z)
 			m_fCosVal = D3DX_PI * 2 - m_fCosVal;
 
 		D3DXVECTOR3 t, t2;
 		m_vPosition += (m_fRunSpeed * v);
 		//m_vPosition -= D3DXVECTOR3(1.0f, 0, 1.0f);
 	}
+	else
+	{
+		m_state = MON_STATE_Wait;
+	}
+
+	if (m_bFight)
+	{
+		m_state = MON_STATE_atk01;
+	}
+	else
+		m_state = MON_STATE_Walk;
 
 
 	m_fRotY = m_fCosVal;

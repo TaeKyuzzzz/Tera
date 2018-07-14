@@ -33,6 +33,7 @@ public:
 
 	bool			m_bIsGen;									//몬스터 젠여부. 죽어 사라지면 false.
 	bool			m_bAwake;									//캐릭터를 인지했을경우 True, 다시 멀어지면 false
+	bool			m_bFight;									//특정거리로 좁혀지면 전투시작.
 	SYNTHESIZE_REF(D3DXVECTOR3, m_vBehaviorSpot, Spot);			//몬스터 활동 지점
 	float			m_fAreaRadius;								//중점을 기준으로 한 몬스터 활동반경.
 	float			m_fRunSpeed;								//몬스터 이동속도, Awake된 경우에는 별도로 +처리.

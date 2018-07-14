@@ -4,6 +4,8 @@
 #include "GameObject\Object\cDummyObj.h"
 #include "GameObject/Monster/cMonster01.h"
 #include "Sprite\cSprite.h"
+
+#include "GameObject/Town/cTown_House.h"
 #include "cTestMap.h"
 
 cSceneTest::cSceneTest()
@@ -22,6 +24,8 @@ cSceneTest::~cSceneTest()
 	SAFE_DELETE(m_pDummy);
 	SAFE_DELETE(m_pMonster01);
 	SAFE_DELETE(m_pMap);
+
+	m_pTown_House->Destroy();
 }
 
 void cSceneTest::Setup()
@@ -33,8 +37,11 @@ void cSceneTest::Setup()
 	m_pDummy->Setup(D3DXVECTOR3(120, 0, 0));
 	m_pBackGroundBlack = TEXTUREMANAGER->GetSprite("Texture/SceneTexture/BGBlack.png");
 
-	//m_pMonster01 = new cMonster01;
-	//m_pMonster01->Setup();
+	m_pMonster01 = new cMonster01;
+	m_pMonster01->Setup();
+
+	m_pTown_House = new cTown_House;
+	m_pTown_House->Setup();
 
 	m_pMap = new cTestMap;
 	m_pMap->Setup();
@@ -49,7 +56,7 @@ void cSceneTest::Update()
 {
 	m_pDummy->Update();
 	m_pPopori->Update();
-	//m_pMonster01->Update();
+	m_pMonster01->Update();
 
 	if (m_nBGBlackAlpha > 0)
 		m_nBGBlackAlpha -= 5;
@@ -57,10 +64,11 @@ void cSceneTest::Update()
 void cSceneTest::Render()
 {
 
-	//m_pMonster01->Render();
+	m_pMonster01->Render();
 
 	m_pDummy->Render();
 	m_pMap->Render();
+	m_pTown_House->Render();
 
 	m_pPopori->Render();
 

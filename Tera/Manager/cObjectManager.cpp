@@ -47,6 +47,7 @@ bool cObjectManager::IsCollision(cGameObject * obj1)
 	}
 
 	return false;
+	//
 }
 
 bool cObjectManager::OBBCollision(ST_OBB * Box1, ST_OBB * Box2)

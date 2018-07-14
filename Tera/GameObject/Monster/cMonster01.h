@@ -61,6 +61,15 @@ private:
 	//행동패턴 디자인에 쓰인 임시변수
 	D3DXVECTOR3			temp;
 
+	//공격에 쓰이는 본
+
+	ST_BONE*				m_pHandR;
+	ST_BONE*				m_pHandL;
+	cSpere*					m_pSphereR;
+	cSpere*					m_pSphereL;
+
+	float					m_fFightZone;
+
 public:
 	cMonster01();
 	~cMonster01();
