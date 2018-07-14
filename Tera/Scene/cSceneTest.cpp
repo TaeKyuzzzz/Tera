@@ -47,7 +47,7 @@ void cSceneTest::Setup()
 	m_pMap->Setup();
 
 	m_pPopori->SetMap(m_pMap);
-	m_pMonster01->SetMap(m_pMap);
+	//m_pMonster01->SetMap(m_pMap);
 
 	OBJECTMANAGER->AddObject(m_pDummy);
 }

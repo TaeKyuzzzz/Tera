@@ -22,13 +22,13 @@
     <ProjectGuid>{0C1A8ED4-9DFE-473C-AECC-1F530935F9D7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Tera</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -154,6 +154,9 @@
     <ClInclude Include="BoundingBox\cBoundingBox.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="BoundingBox\Cube\cCube.h" />
+    <ClInclude Include="Particle\cParticleSet.h" />
+    <ClInclude Include="Particle\cParticle.h" />
+    <ClInclude Include="Scene\06_PaticleEdit\cScenePaticleEdit.h" />
     <ClInclude Include="GameObject\Monster\cMonsterManager.h" />
     <ClInclude Include="cTestMap.h" />
     <ClInclude Include="GameObject\Monster\cMonster.h" />
@@ -218,6 +221,9 @@
     <ClCompile Include="BoundingBox\cBoundingBox.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="BoundingBox\Cube\cCube.cpp" />
+    <ClCompile Include="Particle\cParticleSet.cpp" />
+    <ClCompile Include="Particle\cParticle.cpp" />
+    <ClCompile Include="Scene\06_PaticleEdit\cScenePaticleEdit.cpp" />
     <ClCompile Include="GameObject\Monster\cMonsterManager.cpp" />
     <ClCompile Include="cTestMap.cpp" />
     <ClCompile Include="GameObject\Monster\cMonster.cpp" />

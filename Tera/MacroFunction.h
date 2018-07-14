@@ -50,7 +50,7 @@ inline void EllipseMakeCenter(HDC hdc, int x, int y, int width, int height)
 	Ellipse(hdc, x - width / 2, y - height / 2, x + width / 2, y + height / 2);
 }
 
-inline DWORD FroDW(float f)
+inline DWORD FtoDW(float f)
 {
 	return *((DWORD*)(&f));
 }

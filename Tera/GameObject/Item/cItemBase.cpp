@@ -44,7 +44,7 @@ void cItemBase::Update()
 	m_pBoundingBox->SetWorld(m_matWorld);
 
 	m_fTime += TIMEMANAGER->GetEllapsedTime();
-	if (m_fTime > 0.0005)
+	if (m_fTime > 0.00005)
 	{
 		m_fTime = 0.0f;
 
@@ -94,7 +94,7 @@ void cItemBase::Update()
 		D3DXVECTOR3 DownP1;
 		D3DXVECTOR3 DownP2;
 
-		for (int i = 0; i < 18; i += 2)
+		for (int i = 0; i < 20; i += 2)
 		{
 			// À­ µ¿¼±
 			if (i == 0)
@@ -108,7 +108,7 @@ void cItemBase::Update()
 				DownBefore = m_arrPos[i - 1].p;
 			}
 
-			if (i == 16)
+			if (i == 18)
 			{
 				UpNext = D3DXVECTOR3(0, 0, 0);
 				DownBefore = D3DXVECTOR3(0, 0, 0);
@@ -126,17 +126,17 @@ void cItemBase::Update()
 			DownP2 = m_arrPos[i + 3].p;
 
 			D3DXVECTOR3 StartUp = UpP1;
-			D3DXVECTOR3	StartDown = UpP2;
+			D3DXVECTOR3	StartDown = DownP1;
 
 			ST_PCT_VERTEX v;
 			v.c = D3DCOLOR_ARGB(125, 255, 255, 255);
-			//for (float i = 0.0f; i <= 1.0f; i += 0.1f)
-			//{
+			for (float i = 0.0f; i <= 1.0f; i += 0.1f)
+			{
 			D3DXVECTOR3 pUp;
 			D3DXVECTOR3 pDwon;
 
-			D3DXVec3CatmullRom(&pUp, &UpBefore, &UpP1, &UpP2, &UpNext, 0.5);
-			D3DXVec3CatmullRom(&pDwon, &UpBefore, &UpP1, &UpP2, &UpNext, 0.5);
+			D3DXVec3CatmullRom(&pUp, &UpBefore, &UpP1, &UpP2, &UpNext, i);
+			D3DXVec3CatmullRom(&pDwon, &UpBefore, &UpP1, &UpP2, &UpNext, i);
 
 			v.p = StartUp;
 			v.t = D3DXVECTOR2(0, 0);
@@ -164,7 +164,7 @@ void cItemBase::Update()
 
 			StartDown = pDwon;
 			StartUp = pUp;
-			//}
+			}
 		}
 		
 	}

@@ -201,7 +201,13 @@
     <ClInclude Include="GameObject\Monster\cMonsterManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Town\cTown_House.h">
+    <ClInclude Include="Scene\06_PaticleEdit\cScenePaticleEdit.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle\cParticleSet.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle\cParticle.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -380,7 +386,13 @@
     <ClCompile Include="GameObject\Monster\cMonsterManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Town\cTown_House.cpp">
+    <ClCompile Include="Scene\06_PaticleEdit\cScenePaticleEdit.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle\cParticleSet.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle\cParticle.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

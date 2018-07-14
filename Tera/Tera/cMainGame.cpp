@@ -8,6 +8,7 @@
 #include "Scene\01_MainScene\cSceneMain.h"
 
 #include "Scene\02_LobbyScene\cSceneLobbyLoading.h"
+#include "Scene\06_PaticleEdit\cScenePaticleEdit.h"
 
 cMainGame::cMainGame()
 	: m_pCamera(NULL)
@@ -50,15 +51,15 @@ void cMainGame::Setup()
 
 	m_pSceneTest = new cSceneTest;
 	m_pSceneMain = new cSceneMain;
-
 	m_pSceneLobbyLoading = new cSceneLobbyLoading;
+	m_pScenePaticleEdit = new cScenePaticleEdit;
 
 	SCENEMANAGER->AddScene("Test", m_pSceneTest);
 	SCENEMANAGER->AddScene("LobbyLoading", m_pSceneLobbyLoading);
 	SCENEMANAGER->AddScene("Main", m_pSceneMain);
+	SCENEMANAGER->AddScene("PaticleEdit", m_pScenePaticleEdit);
 
-
-	SCENEMANAGER->ChangeScene("Main");
+	SCENEMANAGER->ChangeScene("PaticleEdit");
 	
 	// 커서 설정하는 부분
 	//m_cursortex = TEXTUREMANAGER->GetTexture("Texture/Cursor/Arrow.png");

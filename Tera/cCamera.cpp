@@ -63,6 +63,8 @@ void cCamera::Update(D3DXVECTOR3 target)
 	//D3DXMatrixRotationX(&m_matRotateX, m_fWorldX * D3DX_PI / 180.0f);
 
 	m_fWorldY += (ptMouse.x - beforePt.x);
+	
+	
 	//D3DXMatrixRotationY(&m_matRotateY, m_fWorldY * D3DX_PI / 180.0f);
 
 	beforePt = ptMouse;
@@ -99,7 +101,10 @@ void cCamera::Update(D3DXVECTOR3 target)
 	//	m_fWorldZ -= 10;
 
 	//D3DXMatrixRotationX(&m_matRotateX, m_fWorldX * D3DX_PI / 180.0f);
+	
+	// 여기 주석 풀어야함
 	D3DXMatrixRotationY(&m_matRotateY, m_fWorldY * D3DX_PI / 180.0f);
+	
 	//D3DXMatrixRotationZ(&m_matRotateZ, m_fWorldZ * D3DX_PI / 180.0f);
 
 	D3DXMatrixTranslation(&m_matTraslation, Wheel, 0, 0);
