@@ -255,7 +255,7 @@ void cMonster01::Render()
 bool cMonster01::isUseLocalAnim()
 {
 	if (
-		m_state == MON_STATE_atk01
+		m_state == MON_STATE_atk06
 		)
 		return true;
 
@@ -334,34 +334,45 @@ void cMonster01::MonoBehavior(void)
 
 	if (m_bAwake)
 	{
-		m_state = MON_STATE_Walk;
-		// u∫§≈Õ -> ±‚¡ÿ∫§≈Õ
-		D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
-		D3DXVECTOR3 v;
-		D3DXVec3Normalize(&v, &temp);
+		if (m_bFight)
+		{
+			m_state = MON_STATE_atk02;
+			// u∫§≈Õ -> ±‚¡ÿ∫§≈Õ
+			D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
+			D3DXVECTOR3 v;
+			D3DXVec3Normalize(&v, &temp);
 
-		m_fCosVal = D3DXVec3Dot(&v, &u);
-		m_fCosVal = acosf(m_fCosVal);
+			m_fCosVal = D3DXVec3Dot(&v, &u);
+			m_fCosVal = acosf(m_fCosVal);
 
-		if (m_vPosition.z < g_vPlayerPos->z)
-			m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+			if (m_vPosition.z < g_vPlayerPos->z)
+				m_fCosVal = D3DX_PI * 2 - m_fCosVal;
 
-		D3DXVECTOR3 t, t2;
-		m_vPosition += (m_fRunSpeed * v);
-		//m_vPosition -= D3DXVECTOR3(1.0f, 0, 1.0f);
+
+		}
+		else
+		{
+			m_state = MON_STATE_Walk;
+			// u∫§≈Õ -> ±‚¡ÿ∫§≈Õ
+			D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
+			D3DXVECTOR3 v;
+			D3DXVec3Normalize(&v, &temp);
+
+			m_fCosVal = D3DXVec3Dot(&v, &u);
+			m_fCosVal = acosf(m_fCosVal);
+
+			if (m_vPosition.z < g_vPlayerPos->z)
+				m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+
+			D3DXVECTOR3 t, t2;
+			m_vPosition += (m_fRunSpeed * v);
+			//m_vPosition -= D3DXVECTOR3(1.0f, 0, 1.0f);
+		}
 	}
 	else
 	{
 		m_state = MON_STATE_Wait;
 	}
-
-	if (m_bFight)
-	{
-		m_state = MON_STATE_atk01;
-	}
-	else
-		m_state = MON_STATE_Walk;
-
 
 	m_fRotY = m_fCosVal;
 
