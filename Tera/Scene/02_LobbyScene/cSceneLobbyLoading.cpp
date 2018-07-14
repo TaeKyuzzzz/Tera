@@ -30,6 +30,7 @@ void cSceneLobbyLoading::Update()
 	if (m_pLoading->LoadingDone())
 	{
 		//TEXTUREMANAGER->Destroy();
+
 		SCENEMANAGER->ChangeScene("Test");
 	}
 }

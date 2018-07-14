@@ -159,6 +159,7 @@
     <ClInclude Include="GameObject\Monster\cMonster.h" />
     <ClInclude Include="GameObject\Monster\cMonster01.h" />
     <ClInclude Include="iMap.h" />
+    <ClInclude Include="GameObject\Town\cTown_House.h" />
     <ClInclude Include="ProgressBar\cPlayerHpBar.h" />
     <ClInclude Include="Manager\cStaticMeshManager.h" />
     <ClInclude Include="Scene\05_BossScene\cSceneBossLoading.h" />
@@ -222,6 +223,7 @@
     <ClCompile Include="GameObject\Monster\cMonster.cpp" />
     <ClCompile Include="GameObject\Monster\cMonster01.cpp" />
     <ClCompile Include="iMap.cpp" />
+    <ClCompile Include="GameObject\Town\cTown_House.cpp" />
     <ClCompile Include="ProgressBar\cPlayerHpBar.cpp" />
     <ClCompile Include="Manager\cStaticMeshManager.cpp" />
     <ClCompile Include="Scene\05_BossScene\cSceneBossLoading.cpp" />

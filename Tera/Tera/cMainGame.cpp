@@ -16,7 +16,6 @@ cMainGame::cMainGame()
 {
 }
 
-
 cMainGame::~cMainGame()
 {
 	SAFE_DELETE(m_pCamera);
