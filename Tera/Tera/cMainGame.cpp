@@ -93,7 +93,7 @@ void cMainGame::Update()
 void cMainGame::Render()
 {
 	g_pD3DDevice->Clear(NULL, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
+		D3DCOLOR_XRGB(254, 254,254), 1.0f, 0);
 
 	g_pD3DDevice->BeginScene();
 	
@@ -101,11 +101,11 @@ void cMainGame::Render()
 	SetCursor(NULL);
 	g_pD3DDevice->ShowCursor(true);
 	
-	m_pGrid->Render();
 
+	m_pGrid->Render();
 	SCENEMANAGER->Render();
 
-	TIMEMANAGER->Render();
+	//TIMEMANAGER->Render();
 	///////////////////////////////////////////////////////////////////
 	g_pD3DDevice->EndScene();
 

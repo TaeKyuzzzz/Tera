@@ -60,6 +60,16 @@ LPD3DXFONT cFontManager::GetFont(eFontType type)
 		fd.OutputPrecision = OUT_DEFAULT_PRECIS;
 		fd.PitchAndFamily = FF_DONTCARE;
 	}
+	else if (type == TF_UI_NUMBER2)
+	{
+		fd.Height = 14;
+		fd.Width = 7;
+		fd.Weight = FW_NORMAL;
+		fd.Italic = false;
+		//fd.CharSet = DEFAULT_CHARSET;
+		//fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+		//fd.PitchAndFamily = FF_DONTCARE;
+	}
 
 	D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_mapFont[type]);
 

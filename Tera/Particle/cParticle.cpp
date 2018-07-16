@@ -5,6 +5,7 @@
 cParticle::cParticle()
 	: m_curTime(0.0f)
 {
+	m_isUse = true;
 }
 
 

@@ -87,6 +87,26 @@ void cSprite::Render(RECT rc, D3DXVECTOR3 center, D3DXVECTOR3 location)
 	m_pSprite->End();
 }
 
+void cSprite::Render(int x, int y)
+{
+	RECT rc;
+	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+	{
+
+		SetRect(&rc, x, y, textureInfo.Width, textureInfo.Height);
+
+		m_pSprite->Draw
+		(
+			texture,
+			&rc,
+			&D3DXVECTOR3(0,0,0),
+			&D3DXVECTOR3(x,y,0),
+			D3DCOLOR_ARGB(255, 255, 255, 255)
+		);
+	}
+	m_pSprite->End();
+}
+
 void cSprite::AlphaRender(D3DXVECTOR3 center, D3DXVECTOR3 location, int alpha)
 {
 	RECT rc;
