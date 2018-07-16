@@ -1,6 +1,8 @@
 #pragma once
 #include "cCharacter.h"
 
+class cParticleSet;
+
 class cCharacterClass03 : public cCharacter
 {
 protected:
@@ -81,6 +83,9 @@ protected:
 	bool				m_bIsBlend;
 
 	bool				m_bDoCombo; // 연격중 콤보 입력여부
+
+	cParticleSet*		m_pParticleSet;
+	cParticleSet*		m_pParticleAura;
 public:
 	cCharacterClass03();
 	~cCharacterClass03();

@@ -12,9 +12,11 @@ class cParticleSet
 {
 private :
 
-	PARTICLE_TYPE			m_type;
+	SYNTHESIZE(D3DXMATRIX, m_matWorld, World);
+
 
 	vector<cParticle*>		m_vecParticle;
+	PARTICLE_TYPE			m_type;
 
 	float					m_fTime;		// 파티클 수명
 	float					m_fSpeed;

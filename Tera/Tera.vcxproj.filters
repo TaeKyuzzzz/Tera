@@ -210,6 +210,12 @@
     <ClInclude Include="Particle\cParticle.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\Town\cTown_House.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\cParticleManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -393,6 +399,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Particle\cParticle.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Town\cTown_House.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\cParticleManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

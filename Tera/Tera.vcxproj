@@ -154,6 +154,7 @@
     <ClInclude Include="BoundingBox\cBoundingBox.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="BoundingBox\Cube\cCube.h" />
+    <ClInclude Include="Manager\cParticleManager.h" />
     <ClInclude Include="Particle\cParticleSet.h" />
     <ClInclude Include="Particle\cParticle.h" />
     <ClInclude Include="Scene\06_PaticleEdit\cScenePaticleEdit.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="BoundingBox\cBoundingBox.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="BoundingBox\Cube\cCube.cpp" />
+    <ClCompile Include="Manager\cParticleManager.cpp" />
     <ClCompile Include="Particle\cParticleSet.cpp" />
     <ClCompile Include="Particle\cParticle.cpp" />
     <ClCompile Include="Scene\06_PaticleEdit\cScenePaticleEdit.cpp" />

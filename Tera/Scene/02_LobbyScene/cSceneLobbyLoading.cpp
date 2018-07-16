@@ -42,7 +42,11 @@ void cSceneLobbyLoading::Render()
 
 void cSceneLobbyLoading::TotalLoading()
 {
-
+	// 파티클
+	PARTICLEMANAGER->AddParticle("explosion", "Texture/Particle/explosion.txt");
+	PARTICLEMANAGER->AddParticle("iceExplosion", "Texture/Particle/iceExplosion.txt");
+	PARTICLEMANAGER->AddParticle("aura", "Texture/Particle/aura1.txt");
+	// x 파일
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Head", "Hair01.X");
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_00.X");
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_00.X");
@@ -66,6 +70,5 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForStaticMesh("XFile/Item/Weapon/TwoHandSword_03.X");
 	m_pLoading->InitForStaticMesh("XFile/Item/Weapon/TwoHandSword_04.X");
 
-	
 
 }

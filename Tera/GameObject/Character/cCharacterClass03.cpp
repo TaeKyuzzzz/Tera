@@ -3,6 +3,7 @@
 
 #include "BoundingBox\cBoundingBox.h"
 #include "Spere\cSpere.h"
+#include "Particle\cParticleSet.h"
 
 cCharacterClass03::cCharacterClass03()
 {
@@ -31,6 +32,9 @@ cCharacterClass03::cCharacterClass03()
 	m_bIsBlend = true;
 	m_bDoCombo = false;
 	m_fCosVal = 0.0f;
+
+	m_pParticleSet = PARTICLEMANAGER->GetParticle("explosion");
+	m_pParticleAura = PARTICLEMANAGER->GetParticle("aura");
 }
 
 
@@ -197,12 +201,30 @@ void cCharacterClass03::Update()
 	//cCharacter::Update();
 	Move();
 
+	/////////////////
+	// 파티클 테스트 입니다.
+	D3DXMATRIX mat;
+	D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	if (KEYMANAGER->IsOnceKeyDown('P'))
+	{
+		
+	//	D3DXMatrixIdentity(&mat);
+		m_pParticleSet->SetWorld(mat);
+		m_pParticleSet->Start();
+	}
+	m_pParticleAura->SetWorld(mat);
+	m_pParticleAura->Update();
+
+	m_pParticleSet->Update();
 	cCharacter::Update();
 }
 
 void cCharacterClass03::Render()
 {
 	cCharacter::Render();
+
+	m_pParticleSet->Render();
+	m_pParticleAura->Render();
 }
 
 void cCharacterClass03::SetAnimWorld()

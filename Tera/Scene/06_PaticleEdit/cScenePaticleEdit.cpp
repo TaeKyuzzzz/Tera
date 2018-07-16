@@ -37,8 +37,14 @@ cScenePaticleEdit::cScenePaticleEdit()
 	m_fRandDirZMax = 0;
 
 	m_szFile[1024];
-	char * asd= "Texture/asd/asdasd.png";
+	char * asd= "none";
 	strcpy(m_szFile, asd);
+
+	m_nAlpha = 255;
+	m_nColorR = 255;
+	m_nColorG = 255;
+	m_nColorB = 255;
+
 }
 
 
@@ -95,7 +101,12 @@ void cScenePaticleEdit::Update()
 void cScenePaticleEdit::Render()
 {
 	//m_pSprite->Render(D3DXVECTOR3(m_pSprite->textureInfo.Width / 2, 0, 0), D3DXVECTOR3(WINSIZEX / 2, 0, 0));
-	m_pParticleSet->Render();
+	
+	if (!KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+	{
+		m_pParticleSet->Render();
+	}
+	
 	UIRender();
 
 	char szTemp[1024];
@@ -121,7 +132,7 @@ void cScenePaticleEdit::UISetup()
 
 	// \ui 노가다...
 
-	rc[0]  = RectMake(95, 15, 50, 15);
+	rc[0]  = RectMake(0, 0, 300, 15);
 	rc[1]  = RectMake(95, 35, 50, 15);
 	rc[2]  = RectMake(95, 60, 105, 15);
 	rc[3]  = RectMake(95, 105, 50, 15);
@@ -154,13 +165,22 @@ void cScenePaticleEdit::UISetup()
 	rc[23] = RectMake(155, 315, 50, 15);
 	rc[24] = RectMake(220, 315, 50, 15);
 
-	rc[25] = RectMake(95, 360, 300, 15);
-
+	rc[25] = RectMake(93, 360, 178, 15);
+	
+	// ARGB
+	rc[26] = RectMake(105,412, 40,17);
+	rc[27] = RectMake(155,412, 40, 17);
+	rc[28] = RectMake(205,412, 40, 17);
+	rc[29] = RectMake(255,412, 40, 17);
+	// play save Load
+	rc[30] = RectMake(10,500,90,20);
+	rc[31] = RectMake(110,500,90,20);
+	rc[32] = RectMake(205,500,90,20);
 }
 
 void cScenePaticleEdit::UIUpdate()
 {
-	for (int i = 0; i < 26; i++)
+	for (int i = 0; i < BTNMAX; i++)
 	{
 		if (PtInRect(&rc[i], ptMouse))
 		{
@@ -199,13 +219,20 @@ void cScenePaticleEdit::UIUpdate()
 					case 22:	m_fDirectionZ++;	break;
 					case 23:	m_fRandDirZMin++;	break;
 					case 24:	m_fRandDirZMax++;	break;
+					case 25:	LoadTexture();		break;
+					case 26:	m_nAlpha++;			break;
+					case 27:	m_nColorR++;		break;
+					case 28:	m_nColorG++;		break;
+					case 29:	m_nColorB++;		break;
+					case 30:	Play();				break;
+					case 31:	SaveParticle();		break;
+					case 32:	LoadParticle();		break;
 					}
 				}
 				else if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
 				{
 					switch (i)
 					{
-					case  1:	m_fTime -= 0.1f;	break;
 					case 2:
 						if (m_type == PTC_TYPE_LOOP)
 							m_type = PTC_TYPE_ONCE;
@@ -234,6 +261,11 @@ void cScenePaticleEdit::UIUpdate()
 					case 22:	m_fDirectionZ--;	break;
 					case 23:	m_fRandDirZMin--;	break;
 					case 24:	m_fRandDirZMax--;	break;
+					case 25:	LoadTexture();		break;
+					case 26:	m_nAlpha--;			break;
+					case 27:	m_nColorR--;		break;
+					case 28:	m_nColorG--;		break;
+					case 29:	m_nColorB--;		break;
 					}
 				}
 			}
@@ -241,6 +273,10 @@ void cScenePaticleEdit::UIUpdate()
 			{
 				switch (i)
 				{
+				case 0 :
+
+					break;
+
 				case  1:	m_fTime += 0.1f;	break;
 				case 2 : 
 					if (m_type == PTC_TYPE_LOOP)
@@ -270,6 +306,14 @@ void cScenePaticleEdit::UIUpdate()
 				case 22:	m_fDirectionZ++;	break;
 				case 23:	m_fRandDirZMin++;	break;
 				case 24:	m_fRandDirZMax++;	break;
+				case 25:	LoadTexture();		break;
+				case 26:	m_nAlpha++;			break;
+				case 27:	m_nColorR++;		break;
+				case 28:	m_nColorG++;		break;
+				case 29:	m_nColorB++;		break;
+				case 30:	Play();				break;
+				case 31:	SaveParticle();		break;
+				case 32:	LoadParticle();		break;
 				}
 			}
 			else if (KEYMANAGER->IsStayKeyDown(VK_RBUTTON))
@@ -305,9 +349,50 @@ void cScenePaticleEdit::UIUpdate()
 				case 22:	m_fDirectionZ--;	break;
 				case 23:	m_fRandDirZMin--;	break;
 				case 24:	m_fRandDirZMax--;	break;
+				case 25:	LoadTexture();		break;
+				case 26:	m_nAlpha--;			break;
+				case 27:	m_nColorR--;		break;
+				case 28:	m_nColorG--;		break;
+				case 29:	m_nColorB--;		break;
 				}
 			}
 		}
+	}
+
+	//////////// UI 창 옮기기
+
+	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+	{
+		if (PtInRect(&rc[0], ptMouse))
+		{
+			if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+			{
+				beforeMouse = ptMouse;
+				isDrag = true;
+			}
+		}
+	}
+
+	if (isDrag)
+	{
+		x += ptMouse.x - beforeMouse.x;
+		y += ptMouse.y - beforeMouse.y;
+
+		for (int i = 0; i < BTNMAX; i++)
+		{
+			rc[i].left += ptMouse.x - beforeMouse.x;
+			rc[i].top += ptMouse.y - beforeMouse.y;
+			rc[i].right += ptMouse.x - beforeMouse.x;
+			rc[i].bottom += ptMouse.y - beforeMouse.y;
+		}
+		beforeMouse = ptMouse;
+	}
+
+	if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+	{
+		beforeMouse.x = 0;
+		beforeMouse.y = 0;
+		isDrag = false;
 	}
 }
 
@@ -383,10 +468,217 @@ void cScenePaticleEdit::UIRender()
 	pFont->DrawTextA(NULL, szTemp, strlen(szTemp), &rc[24], DT_RIGHT | DT_VCENTER, D3DCOLOR_XRGB(0, 0, 0));
 	
 	sprintf_s(szTemp, 1024, "%s", m_szFile);
-	pFont->DrawTextA(NULL, szTemp, strlen(szTemp), &rc[25], DT_LEFT | DT_VCENTER, D3DCOLOR_XRGB(0, 0, 0));
+	pFont->DrawTextA(NULL, szTemp, strlen(szTemp), &rc[25], DT_RIGHT | DT_VCENTER, D3DCOLOR_XRGB(0, 0, 0));
+
+	sprintf_s(szTemp, 1024, "%d", m_nAlpha);
+	pFont->DrawTextA(NULL, szTemp, strlen(szTemp), &rc[26], DT_LEFT | DT_VCENTER, D3DCOLOR_XRGB(0, 0, 0));
+	sprintf_s(szTemp, 1024, "%d", m_nColorR);
+	pFont->DrawTextA(NULL, szTemp, strlen(szTemp), &rc[27], DT_LEFT | DT_VCENTER, D3DCOLOR_XRGB(0, 0, 0));
+	sprintf_s(szTemp, 1024, "%d", m_nColorG);
+	pFont->DrawTextA(NULL, szTemp, strlen(szTemp), &rc[28], DT_LEFT | DT_VCENTER, D3DCOLOR_XRGB(0, 0, 0));
+	sprintf_s(szTemp, 1024, "%d", m_nColorB);
+	pFont->DrawTextA(NULL, szTemp, strlen(szTemp), &rc[29], DT_LEFT | DT_VCENTER, D3DCOLOR_XRGB(0, 0, 0));
+
 }
 
 void cScenePaticleEdit::LoadTexture()
 {
+	
+	OPENFILENAME OFN;
+
+	ZeroMemory(&OFN, sizeof(OFN));
+	OFN.lStructSize = sizeof(OFN);
+
+	char str[300];
+	char lpstrFile[MAX_PATH] = "";
+
+	memset(&OFN, 0, sizeof(OPENFILENAME));
+	OFN.lStructSize = sizeof(OPENFILENAME);
+	OFN.hwndOwner = g_hWnd;
+	OFN.lpstrFilter = L"PNG(*.png)\0*.png\0Bit(*.bit)\0*.bit\0JPG(*.jpg)\0*.jpg\0";
+	OFN.lpstrFile = (LPWSTR)lpstrFile;
+	OFN.lpstrFile[0] = '\0';
+	OFN.nMaxFile = 256;
+	OFN.lpstrInitialDir = L"./Texture/Particle/";
+	OFN.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	GetOpenFileName(&OFN);
+
+	//MessageBox(NULL, OFN.lpstrFile, L"File Name", MB_OK);
+	WideCharToMultiByte(CP_ACP, 0, OFN.lpstrFile, -1, str, 1024, NULL, NULL);
+
+	strcpy(m_szFile, str);
+}
+
+void cScenePaticleEdit::Play()
+{
+	m_pParticleSet->Setup(
+		m_type,
+		m_fTime, m_fSpeed,
+		m_fAcc, m_fAccMin, m_fAccMax,
+		m_fPositionX, m_fRandPosXMin, m_fRandPosXMax,
+		m_fPositionY, m_fRandPosYMin, m_fRandPosYMax,
+		m_fPositionZ, m_fRandPosZMin, m_fRandPosZMax,
+		m_fDirectionX, m_fRandDirXMin, m_fRandDirXMax,
+		m_fDirectionY, m_fRandDirYMin, m_fRandDirYMax,
+		m_fDirectionZ, m_fRandDirZMin, m_fRandDirZMax,
+		m_szFile
+		, D3DCOLOR_ARGB(m_nAlpha, m_nColorR, m_nColorG, m_nColorB));
+//	m_pParticleSet->Start();
+}
+
+void cScenePaticleEdit::SaveParticle()
+{
+	HANDLE file;
+	FILE* fp;
+	OPENFILENAME OFN;
+
+	ZeroMemory(&OFN, sizeof(OFN));
+	OFN.lStructSize = sizeof(OFN);
+
+	char str[300];
+	char lpstrFile[MAX_PATH] = "";
+
+	memset(&OFN, 0, sizeof(OPENFILENAME));
+	OFN.lStructSize = sizeof(OPENFILENAME);
+	OFN.hwndOwner = g_hWnd;
+	OFN.lpstrFilter = L"Text(*.txt)\0*.txt\0";
+	OFN.lpstrFile = (LPWSTR)lpstrFile;
+	OFN.lpstrFile[0] = '\0';
+	OFN.nMaxFile = 256;
+	OFN.lpstrInitialDir = L"Particle\resource";
+
+
+	GetOpenFileName(&OFN);
+
+	WideCharToMultiByte(CP_ACP, 0, OFN.lpstrFile, -1, str, 1024, NULL, NULL);
+	string szfile = (string)str + ".txt";
+
+	fopen_s(&fp, szfile.c_str(), "w");
+
+	fprintf(fp, "%.1f\n", m_fTime);	
+	fprintf(fp, "%d\n", m_type);	
+	fprintf(fp, "%.1f\n", m_fSpeed);
+
+	fprintf(fp, "%.3f\n", m_fAcc);	
+	fprintf(fp, "%d\n", m_fAccMin);	
+	fprintf(fp, "%d\n", m_fAccMax);
+
+	fprintf(fp, "%d\n", m_fPositionX);
+	fprintf(fp, "%d\n", m_fRandPosXMin);
+	fprintf(fp, "%d\n", m_fRandPosXMax);
+
+	fprintf(fp, "%d\n", m_fPositionY);
+	fprintf(fp, "%d\n", m_fRandPosYMin);
+	fprintf(fp, "%d\n", m_fRandPosYMax);
+
+	fprintf(fp, "%d\n", m_fPositionZ);
+	fprintf(fp, "%d\n", m_fRandPosZMin);
+	fprintf(fp, "%d\n", m_fRandPosZMax);
+
+	fprintf(fp, "%d\n", m_fDirectionX);
+	fprintf(fp, "%d\n", m_fRandDirXMin);
+	fprintf(fp, "%d\n", m_fRandDirXMax);
+
+	fprintf(fp, "%d\n", m_fDirectionY);
+	fprintf(fp, "%d\n", m_fRandDirYMin);
+	fprintf(fp, "%d\n", m_fRandDirYMax);
+
+	fprintf(fp, "%d\n", m_fDirectionZ);
+	fprintf(fp, "%d\n", m_fRandDirZMin);
+	fprintf(fp, "%d\n", m_fRandDirZMax);
+
+
+	fprintf(fp, "%d\n", m_nAlpha);
+	fprintf(fp, "%d\n", m_nColorR);
+	fprintf(fp, "%d\n", m_nColorG);
+	fprintf(fp, "%d\n", m_nColorB);
+
+	fprintf(fp, "%s", m_szFile);
+
+	fclose(fp);
+	
+}
+
+void cScenePaticleEdit::LoadParticle()
+{
+	OPENFILENAME OFN;
+
+	ZeroMemory(&OFN, sizeof(OFN));
+	OFN.lStructSize = sizeof(OFN);
+
+	char str[300];
+	char lpstrFile[MAX_PATH] = "";
+
+	memset(&OFN, 0, sizeof(OPENFILENAME));
+	OFN.lStructSize = sizeof(OPENFILENAME);
+	OFN.hwndOwner = g_hWnd;
+	OFN.lpstrFilter = L"Text(*.txt)\0 * .txt\0";
+	OFN.lpstrFile = (LPWSTR)lpstrFile;
+	OFN.lpstrFile[0] = '\0';
+	OFN.nMaxFile = 256;
+	OFN.lpstrInitialDir = L"Particle\resource";
+	OFN.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	GetOpenFileName(&OFN);
+
+	//MessageBox(NULL, OFN.lpstrFile, L"File Name", MB_OK);
+	WideCharToMultiByte(CP_ACP, 0, OFN.lpstrFile, -1, str, 1024, NULL, NULL);
+
+	FILE* fp;
+	fopen_s(&fp, str, "r");
+
+	char s[1024];
+	
+	fgets(s,1024,fp);		m_fTime = atof(s);
+	fgets(s, 1024, fp);		m_type = (PARTICLE_TYPE)atoi(s);
+	fgets(s, 1024, fp);		m_fSpeed = atof(s);
+
+	fgets(s, 1024, fp);		m_fAcc = atof(s);
+	fgets(s, 1024, fp);		m_fAccMin = atoi(s);
+	fgets(s, 1024, fp);		m_fAccMax = atoi(s);
+
+	fgets(s, 1024, fp);		m_fPositionX = atoi(s);
+	fgets(s, 1024, fp);		m_fRandPosXMin = atoi(s);
+	fgets(s, 1024, fp);		m_fRandPosXMax = atoi(s);
+
+	fgets(s, 1024, fp);		m_fPositionY = atoi(s);
+	fgets(s, 1024, fp);		m_fRandPosYMin = atoi(s);
+	fgets(s, 1024, fp);		m_fRandPosYMax = atoi(s);
+
+	fgets(s, 1024, fp);		m_fPositionZ = atoi(s);
+	fgets(s, 1024, fp);		m_fRandPosZMin = atoi(s);
+	fgets(s, 1024, fp);		m_fRandPosZMax = atoi(s);
+
+	fgets(s, 1024, fp);		m_fDirectionX = atoi(s);
+	fgets(s, 1024, fp);		m_fRandDirXMin = atoi(s);
+	fgets(s, 1024, fp);		m_fRandDirXMax = atoi(s);
+
+	fgets(s, 1024, fp);		m_fDirectionY = atoi(s);
+	fgets(s, 1024, fp);		m_fRandDirYMin = atoi(s);
+	fgets(s, 1024, fp);		m_fRandDirYMax = atoi(s);
+
+	fgets(s, 1024, fp);		m_fDirectionZ = atoi(s);
+	fgets(s, 1024, fp);		m_fRandDirZMin = atoi(s);
+	fgets(s, 1024, fp);		m_fRandDirZMax = atoi(s);
+
+	fgets(s, 1024, fp);		m_nAlpha = atoi(s);
+	fgets(s, 1024, fp);		m_nColorR = atoi(s);
+	fgets(s, 1024, fp);		m_nColorG = atoi(s);
+	fgets(s, 1024, fp);		m_nColorB = atoi(s);
+
+	fgets(s, 1024, fp);		strcpy(m_szFile, s);
+	
+	fclose(fp);
+
+	m_pParticleSet->Setup(
+		m_type,
+		m_fTime, m_fSpeed,
+		m_fAcc, m_fAccMin, m_fAccMax,
+		m_fPositionX, m_fRandPosXMin, m_fRandPosXMax,
+		m_fPositionY, m_fRandPosYMin, m_fRandPosYMax,
+		m_fPositionZ, m_fRandPosZMin, m_fRandPosZMax,
+		m_fDirectionX, m_fRandDirXMin, m_fRandDirXMax,
+		m_fDirectionY, m_fRandDirYMin, m_fRandDirYMax,
+		m_fDirectionZ, m_fRandDirZMin, m_fRandDirZMax,
+		m_szFile, D3DCOLOR_ARGB(m_nAlpha, m_nColorR, m_nColorG, m_nColorB));
 
 }

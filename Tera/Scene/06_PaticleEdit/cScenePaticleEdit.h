@@ -2,7 +2,7 @@
 #include "cGameNode.h"
 #include "Particle\cParticleSet.h"
 
-
+#define BTNMAX 33
 class cSprite;
 
 class cScenePaticleEdit : public cGameNode
@@ -13,9 +13,10 @@ private :
 
 	LPDIRECT3DTEXTURE9			m_pTexture;
 
+	char					m_sName[1024];
+
 	cParticleSet*				m_pParticleSet;
 
-	char					m_sName[1024];
 
 	PARTICLE_TYPE			m_type;
 	float					m_fTime;		// 파티클 수명
@@ -53,13 +54,12 @@ private :
 	int						m_fRandDirZMin;	//23
 	int						m_fRandDirZMax;	//24
 											//
-
-	int						m_nAlpha;
-	int						m_nColorR;
-	int						m_nColorG;
-	int						m_nColorB;
-
 	char 					m_szFile[1024];	//25
+
+	int						m_nAlpha;		//26
+	int						m_nColorR;		//27
+	int						m_nColorG;		//28
+	int						m_nColorB;		//29
 	///////////////////////////////////////
 
 	// ui 관련 텍스쳐
@@ -69,8 +69,10 @@ private :
 	
 	cSprite*				m_pMainImamge;
 
-	RECT					rc[26];			// 렉트가! 26개나!
+	RECT					rc[BTNMAX];			// 렉트가! 26개나!
 
+	POINT					beforeMouse;
+	bool					isDrag;
 public:
 	cScenePaticleEdit();
 	~cScenePaticleEdit();
@@ -85,6 +87,8 @@ public:
 	void UIRender();
 
 	void LoadTexture();
-
+	void Play();
+	void SaveParticle();
+	void LoadParticle();
 };
 
