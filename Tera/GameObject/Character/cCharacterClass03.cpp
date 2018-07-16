@@ -76,6 +76,8 @@ void cCharacterClass03::Update()
 
 			//
 			ProcessGaiaCrash();
+
+			//죽으면 뻗어야 되는데, 일어나버리니깐 뒤에 && 추가한거야.
 			if (cs == m_state && cs != CH_STATE_Dearhwait)
 			{
 				m_state = CH_STATE_Wait;
@@ -213,7 +215,6 @@ void cCharacterClass03::SetAnimWorld()
 	D3DXVec3TransformNormal(&m_vDirection, &D3DXVECTOR3(1, 0, 0), &matR);
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	m_matAnimWorld = matR * matT;
-
 	m_matWorld = matR * matT;;
 }
 

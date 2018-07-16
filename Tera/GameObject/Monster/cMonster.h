@@ -29,6 +29,9 @@ public:
 	float			m_fMpCur;
 	float			m_fMpUI;
 
+	//구간 애니메이션이 진행중이냐
+	bool			m_bAnimation;
+
 	//몬스터 네비게이션 관련
 
 	bool			m_bIsGen;									//몬스터 젠여부. 죽어 사라지면 false.
@@ -38,6 +41,8 @@ public:
 	float			m_fAreaRadius;								//중점을 기준으로 한 몬스터 활동반경.
 	float			m_fRunSpeed;								//몬스터 이동속도, Awake된 경우에는 별도로 +처리.
 	float			m_fTimeofDeath;								//몬스터죽은 시점을 기록. 몬스터가 죽은후 일정시간뒤에 다시 해당위치에 부활.
+	float			m_fEscapeTime;
+	bool			m_bEscapeToggle;
 
 
 

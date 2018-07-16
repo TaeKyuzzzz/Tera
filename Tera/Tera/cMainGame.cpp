@@ -59,7 +59,7 @@ void cMainGame::Setup()
 	SCENEMANAGER->AddScene("Main", m_pSceneMain);
 	SCENEMANAGER->AddScene("PaticleEdit", m_pScenePaticleEdit);
 
-	SCENEMANAGER->ChangeScene("PaticleEdit");
+	SCENEMANAGER->ChangeScene("Main");
 	
 	// 커서 설정하는 부분
 	//m_cursortex = TEXTUREMANAGER->GetTexture("Texture/Cursor/Arrow.png");
@@ -105,7 +105,7 @@ void cMainGame::Render()
 
 	SCENEMANAGER->Render();
 
-	TIMEMANAGER->Render();
+	//TIMEMANAGER->Render();
 	///////////////////////////////////////////////////////////////////
 	g_pD3DDevice->EndScene();
 
