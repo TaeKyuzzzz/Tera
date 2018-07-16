@@ -23,6 +23,7 @@ void cGrid::Setup()
 
 	ST_PC_VERTEX v;
 
+	v.c = D3DCOLOR_ARGB(255, 0, 0, 0);
 	for (int i = 1; i <= nNumLine; i++)
 	{
 		v.p = D3DXVECTOR3(-fMax, 0, i);
@@ -59,7 +60,7 @@ void cGrid::Setup()
 
 void cGrid::Render()
 {
-	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
 	g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST,
@@ -67,5 +68,5 @@ void cGrid::Render()
 		&m_vecVertex[0],
 		sizeof(ST_PC_VERTEX));
 
-	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }

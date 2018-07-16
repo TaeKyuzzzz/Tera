@@ -10,7 +10,8 @@ public:
 		FT_DEFAULT,
 		FT_QUEST,
 		TF_UI_TEXT,
-		TF_UI_NUMBER
+		TF_UI_NUMBER,
+		TF_UI_NUMBER2
 	};
 
 	SINGLETONE(cFontManager);

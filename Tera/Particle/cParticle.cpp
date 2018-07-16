@@ -5,6 +5,7 @@
 cParticle::cParticle()
 	: m_curTime(0.0f)
 {
+	m_isUse = true;
 }
 
 
@@ -38,7 +39,7 @@ void cParticle::Setup()
 	m_fSpeed = m_fFirstSpeed;
 }
 
-void cParticle::Update()
+void cParticle::Update(D3DXMATRIX world)
 {
 
 	if (m_isUse)
@@ -64,7 +65,7 @@ void cParticle::Update()
 		D3DXMatrixTranslation(&matT, v.x, v.y,v.z);
 		
 		// 변환 행렬 생성
-		m_matTS = matT;
+		m_matTS =  matT;
 		D3DXVec3TransformCoord(&m_stPaticle.p, &m_stPaticle.p, &m_matTS);
 		
 		// 스피드에 가속도를 적용
@@ -76,7 +77,7 @@ void cParticle::Render()
 {
 	if (m_isUse)
 	{
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matTS);
+		//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matTS);
 		g_pD3DDevice->SetRenderState(D3DRS_POINTSIZE, FtoDW((1.0f - scale) * 100));
 		g_pD3DDevice->DrawPrimitiveUP(D3DPT_POINTLIST,
 			1,&m_stPaticle,sizeof(ST_PC_VERTEX));

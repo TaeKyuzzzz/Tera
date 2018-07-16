@@ -22,6 +22,7 @@ public:
 	void Render(D3DXVECTOR3 location);
 	void Render(D3DXVECTOR3 center,D3DXVECTOR3 location);
 	void Render(RECT rc,D3DXVECTOR3 center, D3DXVECTOR3 location);
+	void Render(int x, int y);
 	void AlphaRender(D3DXVECTOR3 center, D3DXVECTOR3 location, int alpha);
 };
 

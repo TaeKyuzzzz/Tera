@@ -32,7 +32,7 @@ public:
 		 const char * szFile);
 
 	void Setup();
-	void Update();
+	void Update(D3DXMATRIX world);
 	void Render();
 };
 

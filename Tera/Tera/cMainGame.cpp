@@ -33,6 +33,7 @@ cMainGame::~cMainGame()
 	FONTMANAGER->Destroy();
 	SKINNEDMESHMANAGER->Destroy();
 	STATICMESHMANAGER->Destroy();
+	PARTICLEMANAGER->Destroy();
 
 	g_pDeviceManager->Destroy();
 }
@@ -59,7 +60,7 @@ void cMainGame::Setup()
 	SCENEMANAGER->AddScene("Main", m_pSceneMain);
 	SCENEMANAGER->AddScene("PaticleEdit", m_pScenePaticleEdit);
 
-	SCENEMANAGER->ChangeScene("Main");
+	SCENEMANAGER->ChangeScene("LobbyLoading");
 	
 	// 커서 설정하는 부분
 	//m_cursortex = TEXTUREMANAGER->GetTexture("Texture/Cursor/Arrow.png");
@@ -93,7 +94,7 @@ void cMainGame::Update()
 void cMainGame::Render()
 {
 	g_pD3DDevice->Clear(NULL, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
+		D3DCOLOR_XRGB(254, 254,254), 1.0f, 0);
 
 	g_pD3DDevice->BeginScene();
 	
@@ -101,8 +102,8 @@ void cMainGame::Render()
 	SetCursor(NULL);
 	g_pD3DDevice->ShowCursor(true);
 	
-	m_pGrid->Render();
 
+	m_pGrid->Render();
 	SCENEMANAGER->Render();
 
 	//TIMEMANAGER->Render();
