@@ -16,12 +16,13 @@ cTown_House::~cTown_House()
 
 void cTown_House::Setup()
 {
-	const int size = 3;
+	const int size = 4;
 
 	char fileName[size][256] = {
 		"XFile/Town/House01.X",
 		"XFile/Town/House02.X",
 		"XFile/Town/House03.X",
+		"XFile/Town/WarpGate.X"
 	};
 
 	for (int i = 0; i < size; i++)
