@@ -13,7 +13,7 @@ cMonster::cMonster()
 	, m_bIsGen(true)
 	, m_bAwake(false)
 	, m_bFight(false)
-	, m_vBehaviorSpot(0, 0, 0)
+	, m_vBehaviorSpot(1000, 0, 0)
 	, m_pMap(NULL)
 {
 	D3DXMatrixIdentity(&m_matWorld);
