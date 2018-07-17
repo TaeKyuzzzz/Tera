@@ -32,6 +32,7 @@ void cSceneTest::Setup()
 {
 	m_pPopori = new cCharaPopori;
 	m_pPopori->Setup();
+	OBJECTMANAGER->AddCharaObject(m_pPopori);
 
 	m_pDummy = new cDummyObj;
 	m_pDummy->Setup(D3DXVECTOR3(120, 0, 0));

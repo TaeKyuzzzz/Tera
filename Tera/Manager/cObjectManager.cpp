@@ -19,6 +19,11 @@ void cObjectManager::AddObject(cGameObject * obj)
 	m_vecObject.push_back(obj);
 }
 
+void cObjectManager::AddCharaObject(cGameObject * obj)
+{
+	m_vecCharacter.push_back(obj);
+}
+
 bool cObjectManager::IsCollision(cGameObject * obj1, cGameObject * obj2)
 {
 	// 备 面倒 咯何 何磐
@@ -48,6 +53,25 @@ bool cObjectManager::IsCollision(cGameObject * obj1)
 
 	return false;
 	//
+}
+
+bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage)
+{
+	for (int i = 0; i < m_vecCharacter.size(); i++)
+	{
+	
+		cGameObject * obj1 = m_vecCharacter[i];
+
+		float lengh = D3DXVec3Length(&(obj1->GetSpere()->GetPosition() - spere->GetPosition()));
+		float distance = obj1->GetSpere()->GetRadius() + spere->GetRadius();
+	
+		if (lengh < distance)
+		{
+			obj1->Damaged(Damage, spere->GetPosition());
+			return true;
+		}
+	}
+	return false;
 }
 
 bool cObjectManager::OBBCollision(ST_OBB * Box1, ST_OBB * Box2)

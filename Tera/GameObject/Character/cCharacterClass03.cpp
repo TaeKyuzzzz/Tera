@@ -52,9 +52,9 @@ void cCharacterClass03::Setup()
 void cCharacterClass03::Update()
 {
 
-	Damaged(5.0f);
-	BigDamaged();
-	Die();
+	//Damaged(5.0f, D3DXVECTOR3(0,0,0));
+	//BigDamaged();
+	//Die();
 	// 여기서도 애니메이션의 걸린 시간을 똑같이 진행
 	//if(g_pKeyManager->IsOnceKeyDown('2'))
 	m_fTime += TIMEMANAGER->GetEllapsedTime();
@@ -91,6 +91,7 @@ void cCharacterClass03::Update()
 	}
 	
 	// 버튼 조작
+
 	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 	{
 		// 일반 연격 시작
@@ -103,7 +104,7 @@ void cCharacterClass03::Update()
 			m_bDoCombo = true;
 		}
 		// 첫타
-		else if (m_state == CH_STATE_Wait || CH_STATE_run)
+		else if (m_state == CH_STATE_Wait || m_state == CH_STATE_run)
 		{
 			// 정면 카메라 방향 위치 이동 애니메이션 시 해야되는 작업
 			m_fRotY = m_fCosVal;
@@ -116,7 +117,7 @@ void cCharacterClass03::Update()
 			m_bIsDone = false;
 		}
 	}
-	else if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON) && m_state != CH_STATE_tumbling)
+	else if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON) && (m_state == CH_STATE_run||m_state == CH_STATE_Wait))
 	{
 		SetAnimWorld();
 
@@ -136,7 +137,7 @@ void cCharacterClass03::Update()
 		m_fTime = 0.0f;
 		m_bIsDone = false;
 	}
-	else if (KEYMANAGER->IsOnceKeyDown('1'))
+	else if (KEYMANAGER->IsOnceKeyDown('1') && m_state == CH_STATE_Wait)
 	{
 		// 가이아 크래시
 
@@ -148,7 +149,7 @@ void cCharacterClass03::Update()
 		m_fTime = 0.0f;
 		m_bIsDone = false;
 	}
-	else if (KEYMANAGER->IsOnceKeyDown('2'))
+	else if (KEYMANAGER->IsOnceKeyDown('2') && m_state == CH_STATE_Wait)
 	{
 		// 커팅슬래시
 
@@ -160,7 +161,7 @@ void cCharacterClass03::Update()
 		m_fTime = 0.0f;
 		m_bIsDone = false;
 	}
-	else if (KEYMANAGER->IsOnceKeyDown('3'))
+	else if (KEYMANAGER->IsOnceKeyDown('3') && m_state == CH_STATE_Wait)
 	{
 		// 컷헤드
 
@@ -172,7 +173,7 @@ void cCharacterClass03::Update()
 		m_fTime = 0.0f;
 		m_bIsDone = false;
 	}
-	else if (KEYMANAGER->IsOnceKeyDown('4'))
+	else if (KEYMANAGER->IsOnceKeyDown('4') && m_state == CH_STATE_Wait)
 	{
 		SetAnimWorld();
 
@@ -189,20 +190,26 @@ void cCharacterClass03::Update()
 		m_state = CH_STATE_Wait;
 	}
 
-	// 이동
-	if ((KEYMANAGER->IsStayKeyDown('W') ||
-		KEYMANAGER->IsStayKeyDown('A') ||
-		KEYMANAGER->IsStayKeyDown('D') ||
-		KEYMANAGER->IsStayKeyDown('S')) &&
-		(m_state == CH_STATE_Wait || m_state == CH_STATE_run))
-		m_state = CH_STATE_run;
+	
 
 	// 원래는 캐릭터 클래스가 이동을 관장하게 하려고 했는데
 	// m_state 값에 따라서 이동의 제약을 줘야해서 포기,
 	// 그냥 여기 클래스에서 이동도 처리하기로 했음 
 	//cCharacter::Update();
-	Move();
 
+	// 이동
+	
+	if ((KEYMANAGER->IsStayKeyDown('W') ||
+		KEYMANAGER->IsStayKeyDown('A') ||
+		KEYMANAGER->IsStayKeyDown('D') ||
+		KEYMANAGER->IsStayKeyDown('S')) &&
+		(m_state == CH_STATE_Wait || m_state == CH_STATE_run))
+	{
+		m_bIsBlend = true;
+		m_state = CH_STATE_run;
+	}
+
+	Move();
 	/////////////////
 	// 파티클 테스트 입니다.
 	D3DXMATRIX mat;
@@ -218,6 +225,8 @@ void cCharacterClass03::Update()
 	m_pParticleAura->Update();
 
 	m_pParticleSet->Update();
+
+
 	cCharacter::Update();
 }
 
@@ -385,6 +394,8 @@ void cCharacterClass03::ProcessDie()
 
 void cCharacterClass03::Move()
 {
+	if (KEYMANAGER->IsOnceKeyDown('T'))
+		int a = 10;
 	// 이동에 관련된 함수
 	D3DXVECTOR3 beforePos = m_vPosition;
 	float		beforeRot = m_fRotY;
@@ -406,6 +417,10 @@ void cCharacterClass03::Move()
 	}
 	if (KEYMANAGER->IsStayKeyDown('W') && m_state == CH_STATE_run)
 	{
+		if (KEYMANAGER->IsStayKeyDown(VK_CONTROL))
+		{
+			int a = 10;
+		}
 		if (KEYMANAGER->IsStayKeyDown('A'))
 		{
 			m_fRotY = m_fCosVal + D3DX_PI * 1.75f;
@@ -443,10 +458,11 @@ void cCharacterClass03::Move()
 		}
 	}
 
-	if (m_fRotY <= 0.0f)
-		m_fRotY += D3DX_PI * 2;
-	else if (m_fRotY >= D3DX_PI * 2)
+	if (m_fRotY < 0.0f)
+		m_fRotY += (D3DX_PI * 2);
+	else if (m_fRotY > D3DX_PI * 2)
 		m_fRotY -= D3DX_PI * 2;
+
 
 	D3DXMATRIX mat , matR, matT;
 	D3DXMatrixRotationY(&matR, m_fRotY);
@@ -489,16 +505,24 @@ void cCharacterClass03::Move()
 	m_matWorld = matR * matT;
 }
 
-void cCharacterClass03::Damaged(float damage)
+void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 {
+	if (m_state == CH_STATE_bReactionStart ||
+		m_state == CH_STATE_bReactionStart3 ||
+		m_state == CH_STATE_Dearhwait ||
+		m_state == CH_STATE_Death ||
+		m_state == CH_STATE_groggy1) return;
 
-	if (KEYMANAGER->IsOnceKeyDown('Q'))
-	{
+	//if (KEYMANAGER->IsOnceKeyDown('Q'))
+	//{
 		m_fHpCur -= damage;
 
 		if (damage < m_fHpMax / 10.0f)
 		{
-
+			m_state = CH_STATE_groggy1;
+			m_fCurAnimTime = 0.5f;
+			m_bIsBlend = true;
+			m_bIsDone = false;
 		}
 		else if (damage < m_fHpMax / 6.0f)
 		{
@@ -521,7 +545,7 @@ void cCharacterClass03::Damaged(float damage)
 		{
 			Die();
 		}
-	}
+	//}
 }
 
 void cCharacterClass03::BigDamaged()
@@ -539,8 +563,6 @@ void cCharacterClass03::BigDamaged()
 
 void cCharacterClass03::Die()
 {
-	if (KEYMANAGER->IsOnceKeyDown('R'))
-	{
 		m_fHpCur = 0.0f;
 
 		SetAnimWorld();
@@ -548,5 +570,5 @@ void cCharacterClass03::Die()
 		m_fCurAnimTime = m_fAnimTime[CH_STATE_Death];
 		m_bIsDone = false;
 		m_bIsBlend = false;
-	}
+
 }

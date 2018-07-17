@@ -39,3 +39,7 @@ void cGameObject::Render()
 	if(SightSpere && m_pSpere)
 		m_pSpere->Render();
 }
+
+void cGameObject::Damaged(float damage, D3DXVECTOR3 pos)
+{
+}
