@@ -394,6 +394,8 @@ void cCharacterClass03::ProcessDie()
 
 void cCharacterClass03::Move()
 {
+	if (KEYMANAGER->IsOnceKeyDown('T'))
+		int a = 10;
 	// 이동에 관련된 함수
 	D3DXVECTOR3 beforePos = m_vPosition;
 	float		beforeRot = m_fRotY;
@@ -415,6 +417,10 @@ void cCharacterClass03::Move()
 	}
 	if (KEYMANAGER->IsStayKeyDown('W') && m_state == CH_STATE_run)
 	{
+		if (KEYMANAGER->IsStayKeyDown(VK_CONTROL))
+		{
+			int a = 10;
+		}
 		if (KEYMANAGER->IsStayKeyDown('A'))
 		{
 			m_fRotY = m_fCosVal + D3DX_PI * 1.75f;
@@ -452,10 +458,11 @@ void cCharacterClass03::Move()
 		}
 	}
 
-	if (m_fRotY <= 0.0f)
-		m_fRotY += D3DX_PI * 2;
-	else if (m_fRotY >= D3DX_PI * 2)
+	if (m_fRotY < 0.0f)
+		m_fRotY += (D3DX_PI * 2);
+	else if (m_fRotY > D3DX_PI * 2)
 		m_fRotY -= D3DX_PI * 2;
+
 
 	D3DXMATRIX mat , matR, matT;
 	D3DXMatrixRotationY(&matR, m_fRotY);

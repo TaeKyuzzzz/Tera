@@ -65,7 +65,7 @@ bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage)
 		float lengh = D3DXVec3Length(&(obj1->GetSpere()->GetPosition() - spere->GetPosition()));
 		float distance = obj1->GetSpere()->GetRadius() + spere->GetRadius();
 	
-		if (lengh >= distance)
+		if (lengh < distance)
 		{
 			obj1->Damaged(Damage, spere->GetPosition());
 			return true;

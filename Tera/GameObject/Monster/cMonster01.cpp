@@ -240,6 +240,11 @@ void cMonster01::Update()
 			m_bIsGen = true;
 		}
 	}
+
+
+	// АјАн
+	if(m_state == MON_STATE_atk01)
+	Attack(45.0f);
 }
 
 void cMonster01::Render()
@@ -493,4 +498,17 @@ void cMonster01::MonoBehavior(void)
 			m_bAwake = false;
 	}
 
+}
+
+bool cMonster01::Attack(float damage)
+{
+	if (!OBJECTMANAGER->GiveDamagedChara(m_pSphereR, damage))
+	{
+		if (OBJECTMANAGER->GiveDamagedChara(m_pSphereL, damage))
+			return true;
+	}
+	else
+		return true;
+
+	return false;
 }

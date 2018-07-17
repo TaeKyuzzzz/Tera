@@ -80,14 +80,22 @@ void cCharaPopori::Update()
 	// 카메라 보는 각도 설정
 	D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
 	m_fCosVal = D3DXVec3Dot(&g_vCamera, &u);
+
+	// nan 값 나오지 않게 예외처리..
+	if (m_fCosVal < -1.0f)
+		m_fCosVal = -0.99f;
+	else if (m_fCosVal > 1.0f)
+		m_fCosVal = 0.99;
+
+
 	m_fCosVal = acosf(m_fCosVal);
 
 	if (u.z < g_vCamera.z)
 		m_fCosVal = D3DX_PI * 2 - m_fCosVal;
 
-	if (m_fCosVal <= 0.0f)
+	if (m_fCosVal < 0.0f)
 		m_fCosVal += D3DX_PI * 2;
-	else if (m_fCosVal >= D3DX_PI * 2)
+	else if (m_fCosVal > D3DX_PI * 2)
 		m_fCosVal -= D3DX_PI * 2;
 
 	if (KEYMANAGER->IsOnceKeyDown('Y'))
