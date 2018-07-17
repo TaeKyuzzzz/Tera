@@ -31,6 +31,7 @@ public:
 
 	//구간 애니메이션이 진행중이냐
 	bool			m_bAnimation;
+	bool			m_bAngleLock;
 
 	//몬스터 네비게이션 관련
 
@@ -41,9 +42,12 @@ public:
 	float			m_fAreaRadius;								//중점을 기준으로 한 몬스터 활동반경.
 	float			m_fRunSpeed;								//몬스터 이동속도, Awake된 경우에는 별도로 +처리.
 	float			m_fTimeofDeath;								//몬스터죽은 시점을 기록. 몬스터가 죽은후 일정시간뒤에 다시 해당위치에 부활.
-	float			m_fEscapeTime;
-	bool			m_bEscapeToggle;
-
+	float			m_fEscapeTime;								//인식범위에서 탈출한 시점을 기록
+	bool			m_bEscapeToggle;							//토글변수를 이용하여 시점 기록
+	float			m_fEscapeTime2;								//인식범위에서 탈출한 시점을 기록(전투인 경우)
+	bool			m_bEscapeToggle2;							//토글변수를 이용하여 시점 기록(전투인 경우)
+	bool			m_bIdle;									//아무인식도 없는 상태. 
+	bool			m_bAtkTerm;									//공격사이사이의 간격.
 
 
 

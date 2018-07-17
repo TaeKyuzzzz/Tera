@@ -56,6 +56,8 @@ void cSceneTest::Update()
 {
 	m_pDummy->Update();
 	m_pPopori->Update();
+
+	//if (KEYMANAGER->IsOnceKeyDown('U'))
 	m_pMonster01->Update();
 
 	if (m_nBGBlackAlpha > 0)
