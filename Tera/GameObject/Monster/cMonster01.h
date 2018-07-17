@@ -113,5 +113,7 @@ public:
 	void Die();
 
 	void MonoBehavior(void);
+
+	virtual bool Attack(float damage);
 };
 

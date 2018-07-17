@@ -106,7 +106,7 @@ void cMainGame::Render()
 	m_pGrid->Render();
 	SCENEMANAGER->Render();
 
-	//TIMEMANAGER->Render();
+	TIMEMANAGER->Render();
 	///////////////////////////////////////////////////////////////////
 	g_pD3DDevice->EndScene();
 

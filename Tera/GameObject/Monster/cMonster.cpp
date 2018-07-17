@@ -6,7 +6,7 @@
 cMonster::cMonster()
 	: m_fRotY(0.0f)
 	, m_vDirection(1, 0, 0)
-	, m_vPosition(1400, 0, 0)
+	, m_vPosition(0, 0, 0)
 	, m_fSpeed(1.0f)
 	, m_vBeforeAnimPos(0, 0, 0)
 	, m_vCurAnimPos(0, 0, 0)
@@ -17,6 +17,10 @@ cMonster::cMonster()
 	, m_pMap(NULL)
 	, m_bAnimation(false)
 	, m_bEscapeToggle(false)
+	, m_bEscapeToggle2(false)
+	, m_bIdle(true)
+	, m_bAtkTerm(true)
+	, m_bAngleLock(false)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matAnimWorld);
@@ -44,4 +48,10 @@ void cMonster::PlusMapHeight()
 {
 	if (m_pMap)
 		m_pMap->GetHeight(m_vPosition.x, m_vPosition.y, m_vPosition.z);
+}
+
+bool cMonster::Attack(float damage)
+{
+
+	return false;
 }

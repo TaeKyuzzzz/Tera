@@ -107,7 +107,7 @@ public:
 
 	void Move();
 
-	void Damaged(float damage);
+	void Damaged(float damage, D3DXVECTOR3 pos);
 	void BigDamaged();
 	void Die();
 

@@ -50,7 +50,7 @@ void cTimeManager::Render()
 	char szTemp[1024];
 	sprintf_s(szTemp, 1024, "FPS : %d", m_nFPS);
 	RECT rc;
-	SetRect(&rc, 0, 0, 200, 100);
+	SetRect(&rc, WINSIZEX - 200, 0, WINSIZEX, 100);
 	
 	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
 	pFont->DrawTextA(NULL,
@@ -58,5 +58,5 @@ void cTimeManager::Render()
 		strlen(szTemp),
 		&rc,
 		DT_LEFT | DT_VCENTER,
-		D3DCOLOR_XRGB(255,255,0));
+		D3DCOLOR_XRGB(255,0,0));
 }

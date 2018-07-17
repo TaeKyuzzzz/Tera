@@ -167,6 +167,12 @@ void cSkinnedMesh::Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 		Update(pFrame->pFrameSibling, pParent);
 }
 
+void cSkinnedMesh::DontMoveUpdate(D3DXMATRIX world)
+{
+	Update(m_pRoot, NULL, world);
+	UpdateSkinnedMesh(m_pRoot);
+}
+
 void cSkinnedMesh::UpdateSkinnedMesh(LPD3DXFRAME pFrame)
 {
 	// TODO : 커헌트본매트릭스가 최종적으로 사용되는 매트릭스

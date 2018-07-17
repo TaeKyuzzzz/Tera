@@ -109,18 +109,18 @@ void cScenePaticleEdit::Render()
 	
 	UIRender();
 
-	char szTemp[1024];
-	sprintf_s(szTemp, 1024, "%d %d", ptMouse.x,ptMouse.y);
-	RECT rc;
-	SetRect(&rc, 300, 0, 500, 100);
-
-	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
-	pFont->DrawTextA(NULL,
-		szTemp,
-		strlen(szTemp),
-		&rc,
-		DT_LEFT | DT_VCENTER,
-		D3DCOLOR_XRGB(255, 0, 0));
+	//char szTemp[1024];
+	//sprintf_s(szTemp, 1024, "%d %d", ptMouse.x,ptMouse.y);
+	//RECT rc;
+	//SetRect(&rc, 300, 0, 500, 100);
+	//
+	//LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
+	//pFont->DrawTextA(NULL,
+	//	szTemp,
+	//	strlen(szTemp),
+	//	&rc,
+	//	DT_LEFT | DT_VCENTER,
+	//	D3DCOLOR_XRGB(255, 0, 0));
 }
 
 void cScenePaticleEdit::UISetup()
