@@ -67,7 +67,7 @@ void cSceneTest::Render()
 	m_pMonster01->Render();
 
 	m_pDummy->Render();
-	m_pMap->Render();
+	//m_pMap->Render(); //Ground Map Rendering은 GameObject/Town에서 한다.
 	m_pTown_House->Render();
 
 	m_pPopori->Render();
