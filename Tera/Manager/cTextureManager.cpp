@@ -24,8 +24,8 @@ LPDIRECT3DTEXTURE9 cTextureManager::GetTexture(const char * szFullPath)
 		D3DXCreateTextureFromFileEx(
 			g_pD3DDevice,
 			wtext,
-			D3DX_DEFAULT_NONPOW2,
-			D3DX_DEFAULT_NONPOW2,
+			D3DFMT_FROM_FILE,
+			D3DFMT_FROM_FILE,
 			1,
 			0,
 			D3DFMT_UNKNOWN,

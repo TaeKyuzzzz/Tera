@@ -24,6 +24,8 @@ public:
 	void Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent ,D3DXMATRIX world);
 	void Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent );
 
+	void DontMoveUpdate(D3DXMATRIX world);
+
 	void UpdateSkinnedMesh(LPD3DXFRAME pFrame);
 
 	void Render(LPD3DXFRAME pFrame);

@@ -109,10 +109,9 @@ void cMonster01::Update()
 	if (m_bIsGen)
 	{
 		temp = *g_vPlayerPos - m_vPosition;
-
+		
+		// 애니메이션 스테이트 나누는 곳?
 		MonoBehavior();
-
-		Move();
 
 		// 애니메이션 진행
 		if (m_currState != m_state)
@@ -137,8 +136,10 @@ void cMonster01::Update()
 		// 이동값이 있는 애니메이션의 업데이트면
 		// 애니메이션 스타트 지점의 월드에서 부터 업데이트
 		// 아니면 평소처럼 적용된 월드에서 업데이트
+	
 		if (isUseLocalAnim())
 		{
+			m_matAnimWorld._42 = m_matWorld._42;
 			m_pMonster->Update(m_matAnimWorld);
 
 		}
@@ -147,8 +148,25 @@ void cMonster01::Update()
 			m_pMonster->Update(m_matWorld);
 
 		}
+
 		m_vBeforeAnimPos = m_vCurAnimPos;
 		m_vCurAnimPos = D3DXVECTOR3(m_pDummyRoot->TransformationMatrix._41, 0, 0);
+		
+	
+		if (isUseLocalAnim())
+			m_pMonster->DontMoveUpdate(m_matAnimWorld);
+
+		
+
+		m_pSphereR->SetWorld(m_pHandR->CombinedTransformationMatrix);
+		m_pSphereL->SetWorld(m_pHandL->CombinedTransformationMatrix);
+
+
+		// 이동값이 있는 애니메이션 적용 시
+		// 애니메이션 로컬을 현재 포지션으로 적용시키는 증가량을 계산 		
+
+		// 움직임
+		Move();
 
 		if (m_vCurAnimPos.x - m_vBeforeAnimPos.x != 0)
 			m_vPosition += (m_vDirection * (m_vCurAnimPos.x - m_vBeforeAnimPos.x));
@@ -157,58 +175,18 @@ void cMonster01::Update()
 			m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
 			m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
 		}
-
-
-		// 이동처리!!
-		//D3DXVECTOR3 beforePos = m_vPosition;
-		//float		beforeRot = m_fRotY;
-		//
-		//if (m_fRotY <= 0.0f)
-		//	m_fRotY += D3DX_PI * 2;
-		//else if (m_fRotY >= D3DX_PI * 2)
-		//	m_fRotY -= D3DX_PI * 2;
-		//
-		//D3DXMATRIX mat, matR, matT;
-		//D3DXMatrixRotationY(&matR, m_fRotY);
-		//
-		//D3DXMatrixIdentity(&mat);
-		//D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y + 55, m_vPosition.z);
-		//m_pBoundingBox->SetWorld(matR * mat);
-		//
-		//m_pSpere->SetWorld(mat);
-
-		/*	if (OBJECTMANAGER->IsCollision(this))
-		{
-		m_fRotY = beforeRot;
-		m_vPosition = beforePos;
-		D3DXMATRIX mat, matR, matT;
-		D3DXMatrixRotationY(&matR, m_fRotY);
-
-		D3DXMatrixIdentity(&mat);
-		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y + 55, m_vPosition.z);
-		m_pBoundingBox->SetWorld(matR * mat);
-
-		m_pSpere->SetWorld(mat);
-		}*/
-
-		m_pSphereR->SetWorld(m_pHandR->CombinedTransformationMatrix);
-		m_pSphereL->SetWorld(m_pHandL->CombinedTransformationMatrix);
-
-
-		// 이동값이 있는 애니메이션 적용 시
-		// 애니메이션 로컬을 현재 포지션으로 적용시키는 증가량을 계산 
-		//D3DXMATRIX matR, matT;
-		D3DXMATRIX mat, matR, matT;
+		
+		D3DXMATRIX matR, matT;
 		D3DXMatrixRotationY(&matR, m_fRotY);
 		D3DXVec3TransformNormal(&m_vDirection, &D3DXVECTOR3(1, 0, 0), &matR);
 		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 
-
 		m_matWorld = matR * matT;
-		m_pBoundingBox->SetWorld(m_matWorld);
-		m_pSpere->SetWorld(m_matWorld);
-		//조작
 
+		m_pBoundingBox->SetWorld(m_matWorld);
+
+		m_pSpere->SetWorld(m_matWorld);
+		
 		cMonster::Update();
 
 		cGameObject::Update();
@@ -239,6 +217,7 @@ void cMonster01::Update()
 void cMonster01::Render()
 {
 	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+	
 	if (m_bIsGen)
 		m_pMonster->Render(NULL);
 
@@ -254,6 +233,34 @@ void cMonster01::Render()
 		&rc,
 		DT_LEFT | DT_VCENTER,
 		D3DCOLOR_XRGB(255, 255, 0));
+	
+	SetRect(&rc, 0, 500, 400, 700);
+	sprintf_s(szTemp, 1024, "%.1f %.1f %.1f", m_pDummyRoot->TransformationMatrix._41, m_pDummyRoot->TransformationMatrix._42, m_pDummyRoot->TransformationMatrix._43);
+	pFont->DrawTextA(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_VCENTER,
+		D3DCOLOR_XRGB(255, 255, 0));
+
+	SetRect(&rc, 0, 500, 700, 900);
+	sprintf_s(szTemp, 1024, "%.1f %.1f %.1f", m_matAnimWorld._41, m_matAnimWorld._42, m_matAnimWorld._43);
+	pFont->DrawTextA(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_VCENTER,
+		D3DCOLOR_XRGB(255, 255, 0));
+
+	SetRect(&rc, 0, 500, 900, 1000);
+	sprintf_s(szTemp, 1024, "%.1f %.1f %.1f", m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	pFont->DrawTextA(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_VCENTER,
+		D3DCOLOR_XRGB(255, 255, 0));
+
 
 	cGameObject::Render();
 
@@ -339,7 +346,7 @@ void cMonster01::Move()
 			//현재 애니메이션 구간길이를 입력해줍니다.
 			m_fCurAnimTime = m_fAnimTime[MON_STATE_atk01];
 
-
+			SetAnimWorld();
 		}
 		//애니메이션이 완료된 상태여야 중간에 캔슬되지 않으니 이 if문을 추가했다.
 		else if (!m_bAnimation)
@@ -389,9 +396,10 @@ void cMonster01::Move()
 	if (m_bAnimation)
 	{
 		//루트가 움직이는 모션이므로 이 함수를 호출해야 합니다.
-		SetAnimWorld();
 
 		//애니메이션을 처리해야 하므로 시간을 잴 변수가 필요하다.
+		
+		
 		m_fTime += TIMEMANAGER->GetEllapsedTime();
 
 		if (m_fCurAnimTime <= m_fTime)
@@ -405,6 +413,11 @@ void cMonster01::Move()
 	}
 
 	m_fRotY = m_fCosVal;
+
+
+	// 공격
+	if (m_state == MON_STATE_atk01)
+		Attack(10);
 }
 
 void cMonster01::Damaged()
@@ -448,4 +461,17 @@ void cMonster01::MonoBehavior(void)
 			m_bAwake = false;
 	}
 
+}
+
+bool cMonster01::Attack(float damage)
+{
+	if (!OBJECTMANAGER->GiveDamagedChara(m_pSphereR, damage))
+	{
+		if (OBJECTMANAGER->GiveDamagedChara(m_pSphereL, damage))
+			return true;
+	}
+	else
+		return true;
+	
+	return false;
 }

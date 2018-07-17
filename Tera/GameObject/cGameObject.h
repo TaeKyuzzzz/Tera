@@ -3,7 +3,11 @@
 class cSpere;
 class cBoundingBox;
 
+enum OBJ_TYPE
+{
+	OBJ_CHARACTER,
 
+};
 class cGameObject
 {
 protected :
@@ -23,6 +27,8 @@ public:
 	virtual void Setup();
 	virtual void Update();
 	virtual void Render();
+
+	virtual void Damaged(float damage, D3DXVECTOR3 pos);
 
 };
 

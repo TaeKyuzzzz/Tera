@@ -63,5 +63,8 @@ public:
 
 	//몬스터 어슬렁거리는것 구현
 	virtual void MonoBehavior(void) = 0;
+
+	// 공격
+	virtual bool Attack(float damage);
 };
 
