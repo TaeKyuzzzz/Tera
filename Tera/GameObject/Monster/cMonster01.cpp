@@ -34,13 +34,14 @@ cMonster01::cMonster01()
 		m_fAnimTime[i] /= 30.0f;
 
 	// 블랜딩 처리 할거니
-	//이거 false로 안해주면 공격모션->걷는모션 전환이 부자연스러워. (제식을 해버리더라고.)
+	//블렌드 처리하니깐 제식해버리더라구. 그래서 해제시켰다.
 	m_bIsBlend = false;
 
 	//Monster01은 이런 특성을 가지고 있다.
 	m_fAreaRadius = 300.0f;
 	m_fRunSpeed = 1.0f;
 	m_fFightZone = 100.0f;
+	m_fHpCur = 100.0f;
 }
 
 
@@ -95,10 +96,10 @@ void cMonster01::Setup()
 void cMonster01::Update()
 {
 
-	//m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
+	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
 
 	//몬스터 죽는거
-	if (KEYMANAGER->IsOnceKeyDown('5'))
+	if (m_fHpCur <= 0)
 	{
 		//사망시점 기록
 		m_fTimeofDeath = (float)GetTickCount();
@@ -196,7 +197,7 @@ void cMonster01::Update()
 		// 애니메이션 로컬을 현재 포지션으로 적용시키는 증가량을 계산 
 		//D3DXMATRIX matR, matT;
 		
-		if (m_vCurAnimPos.x - m_vBeforeAnimPos.x != 0)
+		if (m_vCurAnimPos.x - m_vBeforeAnimPos.x < 30.f)
 			m_vPosition += (m_vDirection * (m_vCurAnimPos.x - m_vBeforeAnimPos.x));
 		else
 		{
@@ -285,11 +286,12 @@ void cMonster01::Render()
 bool cMonster01::isUseLocalAnim()
 {
 	if (
-		m_state == MON_STATE_atk01
+		m_state == MON_STATE_atk02
 		)
 		return true;
 
-	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x > 1.0f)
+	//이게 진짜 중요!!!
+	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x > 10.0f)
 	{
 		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
 		m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
@@ -334,8 +336,6 @@ void cMonster01::Move()
 		//공격모드
 		if (m_bFight)
 		{
-			//전투는 구간애니메이션 합으로 이루어져있으므로 이렇게 설정함.
-			m_bAnimation = true;
 
 			if (!m_bAngleLock)
 			{
@@ -351,17 +351,22 @@ void cMonster01::Move()
 					m_fCosVal = D3DX_PI * 2 - m_fCosVal;
 			}
 
-			if (!m_bAtkTerm)
+			if (!m_bAtkTerm && !m_bAnimation)
 			{
+				SetAnimWorld();
+				//전투는 구간애니메이션 합으로 이루어져있으므로 이렇게 설정함.
+				m_bAnimation = true;
 				//공격중에는 방향을 바꾸지 않으므로 앵글락을 온시켜줍니다.
 				m_bAngleLock = true;
 				//전투모션은 atk01타입이다.
-				m_state = MON_STATE_atk01;
+				m_state = MON_STATE_atk02;
 				//현재 애니메이션 구간길이를 입력해줍니다.
-				m_fCurAnimTime = m_fAnimTime[MON_STATE_atk01];
+				m_fCurAnimTime = m_fAnimTime[MON_STATE_atk02];
 			}
-			else
+			else if(m_bAtkTerm && !m_bAnimation)
 			{
+				//전투는 구간애니메이션 합으로 이루어져있으므로 이렇게 설정함.
+				m_bAnimation = true;
 				m_state = MON_STATE_Wait;
 				m_fCurAnimTime = m_fAnimTime[MON_STATE_Wait];
 			}
@@ -383,7 +388,6 @@ void cMonster01::Move()
 			if (m_vPosition.z < g_vPlayerPos->z)
 				m_fCosVal = D3DX_PI * 2 - m_fCosVal;
 
-			D3DXVECTOR3 t, t2;
 			m_vPosition += (m_fRunSpeed * v);
 		}
 	}
@@ -440,7 +444,7 @@ void cMonster01::Move()
 	}
 
 	m_fRotY = m_fCosVal;
-	SetAnimWorld();
+	
 }
 
 void cMonster01::Damaged()
