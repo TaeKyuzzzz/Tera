@@ -166,6 +166,12 @@ void cCharaPopori::Update()
 	cCharacterClass03::Update();
 
 	cGameObject::Update();
+
+	if (m_state == CH_STATE_combo1 ||
+		m_state == CH_STATE_combo2 ||
+		m_state == CH_STATE_combo3 ||
+		m_state == CH_STATE_combo4)
+		Attack(20.0f);
 }
 
 void cCharaPopori::Render()
@@ -365,5 +371,12 @@ void cCharaPopori::ChangeLeg()
 		}
 		m_pLeg->SetAnimPosition(position);
 	}
+}
+
+bool cCharaPopori::Attack(float damage)
+{
+	if (OBJECTMANAGER->GiveDamagedMonster(m_pWeapon->GetBoundingBox(), damage))
+		return true;
+	return false;
 }
 

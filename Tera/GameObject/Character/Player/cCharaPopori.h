@@ -46,6 +46,9 @@ public:
 	void ChangeBody();
 	void ChangeHand();
 	void ChangeLeg();
+
+	//캐릭터가 몬스터를 공격하는 함수
+	virtual bool Attack(float damage);
 };
 
 /*

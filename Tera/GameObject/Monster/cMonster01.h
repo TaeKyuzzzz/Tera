@@ -81,6 +81,7 @@ public:
 	void Setup();
 	void Update();
 	void Render();
+	void SetupBehaviorSpot(D3DXVECTOR3	v) { m_vBehaviorSpot = v; }
 
 
 	//--------------------------옵션설정
@@ -114,6 +115,10 @@ public:
 
 	void MonoBehavior(void);
 
+	//몬스터가 캐릭터를 공격하는 함수
 	virtual bool Attack(float damage);
+
+	//몬스터가 캐릭터에게 피해를 받는 함수
+	void Damaged(float damage, D3DXVECTOR3 pos);
 };
 

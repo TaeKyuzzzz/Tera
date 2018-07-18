@@ -42,6 +42,8 @@ cMonster01::cMonster01()
 	m_fRunSpeed = 1.0f;
 	m_fFightZone = 100.0f;
 	m_fHpCur = 100.0f;
+	//처음에 얘로 셋팅해놓는다.
+	m_vBehaviorSpot = D3DXVECTOR3(900, 0, 2100);
 }
 
 
@@ -100,13 +102,9 @@ void cMonster01::Update()
 
 	//몬스터 죽는거
 	if (m_fHpCur <= 0)
-	{
-		//사망시점 기록
-		m_fTimeofDeath = (float)GetTickCount();
-		m_bIsGen = false;
-	}
+		Die();
 
-	//젠 되었을때
+	//젠되어있을때 
 	if (m_bIsGen)
 	{
 		temp = *g_vPlayerPos - m_vPosition;
@@ -221,7 +219,7 @@ void cMonster01::Update()
 		cGameObject::Update();
 	}
 
-	//죽었을때
+	//죽고 몬스터가 완전히 사라졌을때
 	else
 	{
 		//다시 처음으로 설정
@@ -231,17 +229,39 @@ void cMonster01::Update()
 		m_currState = MON_STATE_unarmedwait;
 		m_fRotY = 0.0f;
 		m_vDirection = D3DXVECTOR3(1, 0, 0);
-		m_vPosition = m_vBehaviorSpot;
-		m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
 		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
+		m_fHpCur = 100.0f;
 
 		//5초뒤에 부활.
 		if (GetTickCount() - m_fTimeofDeath >= 5000.0f)
 		{
 			m_bIsGen = true;
+			m_bDeath = false;
 		}
 	}
 
+	//구간애니메이션 처리부분.
+	if (m_bAnimation)
+	{
+		//애니메이션을 처리해야 하므로 시간을 잴 변수가 필요하다.
+		m_fTime += TIMEMANAGER->GetEllapsedTime();
+
+		if (m_fCurAnimTime - 0.05 <= m_fTime)
+		{
+			m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
+			m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
+			m_fTime = 0.0f;
+			m_bAnimation = false;
+			m_bAngleLock = false;
+			m_bAtkTerm = !m_bAtkTerm;
+			if (m_state == MON_STATE_Death)
+			{
+				m_bIsGen = false;
+				//완전히 사라진 시점 기록
+				m_fTimeofDeath = (float)GetTickCount();
+			}
+		}
+	}
 
 	// 공격
 	if(m_state == MON_STATE_atk01)
@@ -344,7 +364,7 @@ void cMonster01::Move()
 		//공격모드
 		if (m_bFight)
 		{
-
+			//앵글락 상태에서는 퍼포먼스도중에 회전하지 않는다.(때리면서 돌아가는거 방지)
 			if (!m_bAngleLock)
 			{
 
@@ -359,17 +379,18 @@ void cMonster01::Move()
 					m_fCosVal = D3DX_PI * 2 - m_fCosVal;
 			}
 
-			if (!m_bAtkTerm && !m_bAnimation)
+			//공격을 시작할때(아직 애니메이션을 시작하지 않은 상태여야 한다.)
+			if (!m_bAtkTerm && !m_bAnimation && D3DXVec3Length(&temp) < m_fFightZone)
 			{
 				SetAnimWorld();
-				//전투는 구간애니메이션 합으로 이루어져있으므로 이렇게 설정함.
+				//구간애니메이션이므로 이를 온 시켜준다.
 				m_bAnimation = true;
 				//공격중에는 방향을 바꾸지 않으므로 앵글락을 온시켜줍니다.
 				m_bAngleLock = true;
 				//전투모션은 atk01타입이다.
 				m_state = MON_STATE_atk01;
 				//현재 애니메이션 구간길이를 입력해줍니다.
-				m_fCurAnimTime = m_fAnimTime[MON_STATE_atk02];
+				m_fCurAnimTime = m_fAnimTime[MON_STATE_atk01];
 			}
 			else if(m_bAtkTerm && !m_bAnimation)
 			{
@@ -434,23 +455,6 @@ void cMonster01::Move()
 		}
 	}
 
-	//구간애니메이션 처리부분.
-	if (m_bAnimation)
-	{
-		//애니메이션을 처리해야 하므로 시간을 잴 변수가 필요하다.
-		m_fTime += TIMEMANAGER->GetEllapsedTime();
-
-		if (m_fCurAnimTime - 0.05<= m_fTime)
-		{
-			m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
-			m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
-			m_fTime = 0.0f;
-			m_bAnimation = false;
-			m_bAngleLock = false;
-			m_bAtkTerm = !m_bAtkTerm;
-		}
-	}
-
 	m_fRotY = m_fCosVal;
 	
 }
@@ -465,6 +469,12 @@ void cMonster01::BigDamaged()
 
 void cMonster01::Die()
 {
+	m_fHpCur = 0.0f;
+
+	m_state = MON_STATE_Death;
+	m_fCurAnimTime = m_fAnimTime[MON_STATE_Death];
+	m_bIsBlend = false;
+	m_bAnimation = true;
 }
 
 //맵 위에서 보이는 단순행동패턴
@@ -477,16 +487,17 @@ void cMonster01::MonoBehavior(void)
 		if (D3DXVec3Length(&temp) < m_fFightZone)
 		{
 			m_bFight = true;
-			m_bEscapeToggle2 = true;
-			m_fEscapeTime2 = GetTickCount();
 		}
+		else
+			m_bEscapeToggle2 = true;
 		
 		if(m_bEscapeToggle2)
 		{
-			if (GetTickCount() - m_fEscapeTime2 > 2000.0f && !m_bAnimation)
+			if (!m_bAnimation)
 			{
 				m_bFight = false;
 				m_bAtkTerm = true;			//전투상태초기화.
+				m_bEscapeToggle2 = false;
 			}
 		}
 	}
@@ -518,4 +529,22 @@ bool cMonster01::Attack(float damage)
 		return true;
 
 	return false;
+}
+
+void cMonster01::Damaged(float damage, D3DXVECTOR3 pos)
+{
+	if (m_state == MON_STATE_flinch		 || 
+		m_state == MON_STATE_deathwait	 ||
+		m_state == MON_STATE_Death)	 return;
+
+	m_fHpCur -= damage;
+
+	if (damage)
+	{
+		m_bAnimation = true;
+		m_state = MON_STATE_flinch;
+		m_fCurAnimTime = m_fAnimTime[MON_STATE_flinch];
+		m_fTime = 0.0f;
+		//m_bIsBlend = true;
+	}
 }

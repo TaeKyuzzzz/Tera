@@ -44,7 +44,6 @@ public:
 	float			m_fTimeofDeath;								//몬스터죽은 시점을 기록. 몬스터가 죽은후 일정시간뒤에 다시 해당위치에 부활.
 	float			m_fEscapeTime;								//인식범위에서 탈출한 시점을 기록
 	bool			m_bEscapeToggle;							//토글변수를 이용하여 시점 기록
-	float			m_fEscapeTime2;								//인식범위에서 탈출한 시점을 기록(전투인 경우)
 	bool			m_bEscapeToggle2;							//토글변수를 이용하여 시점 기록(전투인 경우)
 	bool			m_bIdle;									//아무인식도 없는 상태. 
 	bool			m_bAtkTerm;									//공격사이사이의 쉬는거

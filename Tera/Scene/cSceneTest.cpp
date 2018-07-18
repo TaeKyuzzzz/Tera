@@ -41,6 +41,7 @@ void cSceneTest::Setup()
 
 	m_pMonster01 = new cMonster01;
 	m_pMonster01->Setup();
+	OBJECTMANAGER->AddMonsterObject(m_pMonster01);
 
 	m_pTown_House = new cTown_House;
 	m_pTown_House->Setup();
