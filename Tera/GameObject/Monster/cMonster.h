@@ -70,7 +70,5 @@ public:
 
 	// 공격
 	virtual bool Attack(float damage);
-
-	int a = 10; // 변경내용
 };
 
