@@ -93,7 +93,7 @@ void cTestMap::Render()
 {
 	
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
-	m_pGround->Render();
+	//m_pGround->Render();
 }
 
 bool cTestMap::GetHeight(IN float x, OUT float & y, IN float z)

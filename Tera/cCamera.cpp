@@ -36,7 +36,7 @@ void cCamera::Setup()
 		D3DX_PI / 4.0f,
 		rc.right / (float)rc.bottom,
 		1.0f,
-		10000.0f
+		50000.0f
 	);
 
 	g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &matProj); // ¼¼ÆÃ
