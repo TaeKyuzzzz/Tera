@@ -71,6 +71,6 @@ public:
 	// °ø°İ
 	virtual bool Attack(float damage);
 
-	// Èì
+	
 };
 
