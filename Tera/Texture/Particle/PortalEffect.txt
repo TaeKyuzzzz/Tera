@@ -26,4 +26,4 @@
 255
 255
 255
-C:\Users\shin\Tera\Tera\Texture\Particle\particle_02.png
+Texture\Particle\particle_02.png

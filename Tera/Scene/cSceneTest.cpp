@@ -55,6 +55,17 @@ void cSceneTest::Setup()
 	OBJECTMANAGER->AddObject(m_pDummy);
 }
 
+void cSceneTest::Release()
+{
+	SAFE_DELETE(m_pBackGroundBlack);
+	SAFE_DELETE(m_pPopori);
+	SAFE_DELETE(m_pDummy);
+	SAFE_DELETE(m_pMonster01);
+	SAFE_DELETE(m_pMap);
+
+	m_pTown_House->Destroy();
+}
+
 void cSceneTest::Update()
 {
 	m_pTown_House->Update();
@@ -74,7 +85,7 @@ void cSceneTest::Render()
 	m_pMonster01->Render();
 
 	m_pDummy->Render();
-	m_pMap->Render(); //Ground Map Rendering은 GameObject/Town에서 한다.
+	//m_pMap->Render(); //Ground Map Rendering은 GameObject/Town에서 한다.
 	m_pTown_House->Render();
 
 	m_pPopori->Render();

@@ -132,6 +132,22 @@ void cSprite::AlphaRender(D3DXVECTOR3 center, D3DXVECTOR3 location, int alpha)
 	m_pSprite->End();
 }
 
+void cSprite::AlphaRender(RECT rc, D3DXVECTOR3 center, D3DXVECTOR3 location, int alpha)
+{
+	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+	{
+		m_pSprite->Draw
+		(
+			texture,
+			&rc,
+			&center,
+			&location,
+			D3DCOLOR_ARGB(alpha, 255, 255, 255)
+		);
+	}
+	m_pSprite->End();
+}
+
 void cSprite::AlphaRenderWinSize(D3DXVECTOR3 center, D3DXVECTOR3 location, int alpha)
 {
 	RECT rc;

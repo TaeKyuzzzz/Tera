@@ -28,6 +28,7 @@ public:
 	~cSceneTest();
 
 	void Setup();
+	void Release();
 	void Update();
 	void Render();
 };

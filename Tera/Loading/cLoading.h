@@ -11,6 +11,7 @@ enum LOAD_KIND
 	LOAD_KIND_SOUND,
 	LOAD_KIND_SKINNEDMESH,
 	LOAD_KIND_STATICMESH,
+	LOAD_KIND_PARTICLE,
 	LOAD_KIND_END
 };
 //이미지 리소스 구조체
@@ -42,6 +43,11 @@ struct tagStaticMeshResouce
 	const char * fileName;
 };
 
+struct tagParticleResource
+{
+	const char * fileName;
+	string		 key;
+};
 class LoadItem
 {
 private:
@@ -51,6 +57,7 @@ private:
 	tagSoundResouce			_soundResource;
 	tagStaticMeshResouce	_staticMeshResource;
 	tagSkinnedMeshResouce	_skinnedMeshResource;
+	tagParticleResource		_particleResource;
 
 public:
 
@@ -64,6 +71,9 @@ public:
 	// 키 값으로 사운드 파일 초기화
 	HRESULT IniteForSound(string KeyName, const char* fileName, bool bgm = FALSE, bool Loop = false);
 
+	// 파티클
+	HRESULT IniteForParticle(string key, const char * fileName);
+
 	//로딩 아이템 종류 가져오기
 	LOAD_KIND GetLoadingKind() { return _kind; }
 	//이미지 리소스 가져오기
@@ -73,7 +83,7 @@ public:
 	tagTextureResouce GetTextrueResource() { return _textureResource; }
 	tagStaticMeshResouce GetStaticMeshResource() { return _staticMeshResource; }
 	tagSkinnedMeshResouce GetSkinnedResource() { return _skinnedMeshResource; }
-
+	tagParticleResource GetParticleResource() { return _particleResource; }
 };
 
 class cLoading :public cGameNode
@@ -105,6 +115,7 @@ public:
 	// 스태틱 메시
 	HRESULT InitForStaticMesh(const char * szFileName);
 	
+	HRESULT IniteForParticle(string key, const char * fileName);
 	// 사운드 파일
 	HRESULT InitForSound(string keyName, const char* fileName, bool bgm = false, bool loop = false);
 	//로딩이 완료 됬니???????(로딩 완료휴 씬 변경)

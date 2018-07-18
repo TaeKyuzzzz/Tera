@@ -60,35 +60,16 @@ void cScenePaticleEdit::Setup()
 	//m_pSprite = TEXTUREMANAGER->GetSprite("Texture/SceneTexture/BGBlack.png");
 	
 	m_pParticleSet = new cParticleSet;
-	
-	
-	//m_pParticleSet->Setup(
-	//1.0f,1.0f,
-	//	-0.001f,0,0,
-	//	0,-10,10,
-	//	0,0,0,
-	//	0,-20,20,
-	//	0,-30,30,
-	//	100,0,0,
-	//	0,-30,30,
-	//	"Texture/Particle/fire_01.png"
-	//	,D3DCOLOR_ARGB(50,255,0,0));
-
-	m_pParticleSet->Setup(
-		PTC_TYPE_ONCE,
-		0.4f, 1.0f,
-		0,100,200,
-		0, 0, 100,
-		0, 0, 0,
-		0, -5, 5,
-		0, -50, 50,
-		100, 0,0,
-		0, -50, 50,
-		"Texture/Particle/fire_01.png"
-		, D3DCOLOR_ARGB(100, 255, 255, 255));
 
 	UISetup();
 
+}
+
+void cScenePaticleEdit::Release()
+{
+	SAFE_DELETE(m_pParticleSet);
+	//SAFE_DELETE(m_pSprite);
+	SAFE_DELETE(m_pMainImamge);
 }
 
 void cScenePaticleEdit::Update()
@@ -96,6 +77,9 @@ void cScenePaticleEdit::Update()
 	m_pParticleSet->Update();
 	UIUpdate();
 
+	// 다시 메인으로 탈출!
+	if (KEYMANAGER->IsOnceKeyDown(VK_ESCAPE))
+		SCENEMANAGER->ChangeScene("Main");
 }
 
 void cScenePaticleEdit::Render()

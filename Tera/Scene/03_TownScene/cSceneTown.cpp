@@ -15,6 +15,10 @@ void cSceneTown::Setup()
 {
 }
 
+void cSceneTown::Release()
+{
+}
+
 void cSceneTown::Update()
 {
 }

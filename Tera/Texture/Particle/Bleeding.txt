@@ -26,4 +26,4 @@
 255
 9
 9
-C:\Users\shin\Tera\Tera\Texture\Particle\blood.png
+Texture\Particle\blood.png
