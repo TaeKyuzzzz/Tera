@@ -483,8 +483,11 @@ void cScenePaticleEdit::LoadTexture()
 	OFN.lpstrFile = (LPWSTR)lpstrFile;
 	OFN.lpstrFile[0] = '\0';
 	OFN.nMaxFile = 256;
-	OFN.lpstrInitialDir = L"./Texture/Particle/";
+	
 	OFN.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	OFN.Flags = OFN_NOCHANGEDIR;                       
+	OFN.lpstrInitialDir = L"Texture\\Particle";
+
 	GetOpenFileName(&OFN);
 
 	//MessageBox(NULL, OFN.lpstrFile, L"File Name", MB_OK);

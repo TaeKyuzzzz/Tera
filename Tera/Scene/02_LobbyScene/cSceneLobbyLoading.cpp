@@ -57,11 +57,11 @@ void cSceneLobbyLoading::TotalLoading()
 	PARTICLEMANAGER->AddParticle("gaiaCrash", "Texture/Particle/gaiaCrash.txt");
 	PARTICLEMANAGER->AddParticle("PortalEffect", "Texture/Particle/PortalEffect.txt");
 
-	m_pLoading->IniteForParticle("explosion", "Texture/Particle/explosion.txt");
-	m_pLoading->IniteForParticle("iceExplosion", "Texture/Particle/iceExplosion.txt");
-	m_pLoading->IniteForParticle("aura", "Texture/Particle/aura1.txt");
-	m_pLoading->IniteForParticle("gaiaCrash", "Texture/Particle/gaiaCrash.txt");
-	m_pLoading->IniteForParticle("PortalEffect", "Texture/Particle/PortalEffect.txt");
+	//m_pLoading->IniteForParticle("explosion", "Texture/Particle/explosion.txt");
+	//m_pLoading->IniteForParticle("iceExplosion", "Texture/Particle/iceExplosion.txt");
+	//m_pLoading->IniteForParticle("aura", "Texture/Particle/aura1.txt");
+	//m_pLoading->IniteForParticle("gaiaCrash", "Texture/Particle/gaiaCrash.txt");
+	//m_pLoading->IniteForParticle("PortalEffect", "Texture/Particle/PortalEffect.txt");
 
 
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Head", "Hair01.X");
