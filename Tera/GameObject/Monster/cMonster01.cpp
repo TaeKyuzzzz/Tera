@@ -245,7 +245,7 @@ void cMonster01::Update()
 
 	// °ø°Ý
 	if(m_state == MON_STATE_atk01)
-	Attack(15.0¤©);
+	Attack(15.0f);
 }
 
 void cMonster01::Render()
