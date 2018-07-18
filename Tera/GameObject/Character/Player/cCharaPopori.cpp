@@ -170,6 +170,10 @@ void cCharaPopori::Update()
 
 void cCharaPopori::Render()
 {
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+
 	m_pBody->Render(NULL);
 	m_pHand->Render(NULL);
 	m_pLeg->Render(NULL);
@@ -181,6 +185,18 @@ void cCharaPopori::Render()
 
 	cCharacterClass03::Render();
 
+	char szTemp[1024];
+	sprintf_s(szTemp, 1024, "%.1f %.1f %.1f", m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	RECT rc;
+	SetRect(&rc, 0, 500, 500, 700);
+
+	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
+	pFont->DrawTextA(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_VCENTER,
+		D3DCOLOR_XRGB(255, 255, 0));
 }
 
 bool cCharaPopori::isUseLocalAnim()

@@ -33,8 +33,10 @@ cCharacterClass03::cCharacterClass03()
 	m_bDoCombo = false;
 	m_fCosVal = 0.0f;
 
-	m_pParticleSet = PARTICLEMANAGER->GetParticle("explosion");
+	m_pParticleSet = PARTICLEMANAGER->GetParticle("gaiaCrash");
 	m_pParticleAura = PARTICLEMANAGER->GetParticle("aura");
+
+	m_isDoEffect = false;
 }
 
 
@@ -88,6 +90,8 @@ void cCharacterClass03::Update()
 				m_bIsBlend = false;
 			}
 		}
+		
+		SkillEffect(); // 스킬 이펙트 처리
 	}
 	
 	// 버튼 조작
@@ -140,7 +144,6 @@ void cCharacterClass03::Update()
 	else if (KEYMANAGER->IsOnceKeyDown('1') && m_state == CH_STATE_Wait)
 	{
 		// 가이아 크래시
-
 		SetAnimWorld();
 
 		// 여기는 점프를 만들어야 합니다.
@@ -148,6 +151,7 @@ void cCharacterClass03::Update()
 		m_fCurAnimTime = m_fAnimTime[CH_STATE_gaiaCrush01];
 		m_fTime = 0.0f;
 		m_bIsDone = false;
+		m_isDoEffect = false;
 	}
 	else if (KEYMANAGER->IsOnceKeyDown('2') && m_state == CH_STATE_Wait)
 	{
@@ -160,6 +164,7 @@ void cCharacterClass03::Update()
 		m_fCurAnimTime = m_fAnimTime[CH_STATE_CuttingSlash];
 		m_fTime = 0.0f;
 		m_bIsDone = false;
+		m_isDoEffect = false;
 	}
 	else if (KEYMANAGER->IsOnceKeyDown('3') && m_state == CH_STATE_Wait)
 	{
@@ -172,6 +177,7 @@ void cCharacterClass03::Update()
 		m_fCurAnimTime = m_fAnimTime[CH_STATE_CutHead];
 		m_fTime = 0.0f;
 		m_bIsDone = false;
+		m_isDoEffect = false;
 	}
 	else if (KEYMANAGER->IsOnceKeyDown('4') && m_state == CH_STATE_Wait)
 	{
@@ -182,6 +188,7 @@ void cCharacterClass03::Update()
 		m_fCurAnimTime = m_fAnimTime[CH_STATE_StingerBlade];
 		m_fTime = 0.0f;
 		m_bIsDone = false;
+		m_isDoEffect = false;
 	}
 
 	// 스킬 셋에 따른 스킬을 나가게 해야해 ( 포션 사용도 )
@@ -394,8 +401,6 @@ void cCharacterClass03::ProcessDie()
 
 void cCharacterClass03::Move()
 {
-	if (KEYMANAGER->IsOnceKeyDown('T'))
-		int a = 10;
 	// 이동에 관련된 함수
 	D3DXVECTOR3 beforePos = m_vPosition;
 	float		beforeRot = m_fRotY;
@@ -563,12 +568,36 @@ void cCharacterClass03::BigDamaged()
 
 void cCharacterClass03::Die()
 {
-		m_fHpCur = 0.0f;
+	m_fHpCur = 0.0f;
 
-		SetAnimWorld();
-		m_state = CH_STATE_Death;
-		m_fCurAnimTime = m_fAnimTime[CH_STATE_Death];
-		m_bIsDone = false;
-		m_bIsBlend = false;
+	SetAnimWorld();
+	m_state = CH_STATE_Death;
+	m_fCurAnimTime = m_fAnimTime[CH_STATE_Death];
+	m_bIsDone = false;
+	m_bIsBlend = false;
+}
+
+void cCharacterClass03::SkillEffect()
+{
+	D3DXMATRIX matR, matT;
+
+	if(!m_isDoEffect)
+	{
+		D3DXMatrixRotationY(&matR, m_fRotY);
+		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+
+		if (m_state == CH_STATE_gaiaCrush02 &&  m_fTime >= m_fAnimTime[CH_STATE_gaiaCrush02] - 0.85f)
+		{
+			m_isDoEffect = true;
+			m_pParticleSet->SetWorld(matR * matT);
+			m_pParticleSet->Start();
+		}
+		else if (m_state == CH_STATE_CuttingSlash && m_fTime >= m_fAnimTime[CH_STATE_CuttingSlash] - 1.1f)
+		{
+			m_isDoEffect = true;
+			m_pParticleSet->SetWorld(matR * matT);
+			m_pParticleSet->Start();
+		}
+	}
 
 }

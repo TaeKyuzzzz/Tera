@@ -1,5 +1,6 @@
 #pragma once
 #include "iMap.h"
+
 class cXMesh;
 
 class cTestMap : public iMap
@@ -15,7 +16,6 @@ private :
 	DWORD						numOfVertex;
 	DWORD						numOfIndex;
 
-	int a = 10;// 이건 테스트입니다.
 public:
 	cTestMap();
 	~cTestMap();

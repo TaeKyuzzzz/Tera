@@ -86,6 +86,9 @@ protected:
 
 	cParticleSet*		m_pParticleSet;
 	cParticleSet*		m_pParticleAura;
+	
+	bool				m_isDoEffect;
+
 public:
 	cCharacterClass03();
 	~cCharacterClass03();
@@ -110,6 +113,9 @@ public:
 	void Damaged(float damage, D3DXVECTOR3 pos);
 	void BigDamaged();
 	void Die();
+
+	// 스킬 이펙트 처리.. 나중에 리펙토링 하자
+	void SkillEffect();
 
 };
 

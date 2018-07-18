@@ -53,6 +53,7 @@ void cTestMap::Setup()
 	pIB->Unlock();
 	pIB->Release();
 	D3DXMatrixIdentity(&m_matWorld);
+
 }
 
 void cTestMap::Update()
@@ -61,6 +62,7 @@ void cTestMap::Update()
 
 void cTestMap::Render()
 {
+	
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	m_pGround->Render();
 }
