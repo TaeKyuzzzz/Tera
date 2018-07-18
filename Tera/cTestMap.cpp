@@ -34,16 +34,6 @@ void cTestMap::Setup()
 
 	m_pGround->GetMesh()->GetVertexBuffer(&pVB);
 
-	void* pVertices;
-	pVB->Lock(0, sizeof(ST_PNT_VERTEX) * numOfVertex, (void**)&pVertices, 0);
-	m_pVertex = (ST_PNT_VERTEX*)pVertices;
-
-	for (DWORD i = 0; i < numOfVertex; i++)
-		D3DXVec3TransformCoord(&m_pVertex[i].p, &m_pVertex[i].p, &m_matWorld);
-
-	pVB->Unlock();
-	pVB->Release();
-
 	void* pIndex;
 	m_pGround->GetMesh()->GetIndexBuffer(&pIB);	
 	pIB->Lock(0, sizeof(WORD) * numOfIndex, (void**)&pIndex, 0);
@@ -52,6 +42,45 @@ void cTestMap::Setup()
 
 	pIB->Unlock();
 	pIB->Release();
+	
+
+	void* pVertices;
+	pVB->Lock(0, sizeof(ST_PNT_VERTEX) * numOfVertex, (void**)&pVertices, 0);
+	m_pVertex = (ST_PNT_VERTEX*)pVertices;
+	
+	for (int i = 0; i < numOfIndex; i += 3)
+	{
+		// 법선벡터를 만들어야해..
+		D3DXVECTOR3 v0, v1, v2, u, v;
+		v0 = m_pVertex[m_pIndex[i + 0]].p;
+		v1 = m_pVertex[m_pIndex[i + 1]].p;
+		v2 = m_pVertex[m_pIndex[i + 2]].p;
+
+		u = v1 - v0;
+		v = v2 - v0;
+		D3DXVECTOR3 faceNormal;
+		D3DXVec3Cross(&faceNormal,&u, &v);
+
+		m_pVertex[m_pIndex[i + 0]].n = m_pVertex[m_pIndex[i + 0]].n + faceNormal;
+		D3DXVec3Normalize(&m_pVertex[m_pIndex[i + 0]].n, &m_pVertex[m_pIndex[i + 0]].n);
+
+		m_pVertex[m_pIndex[i + 1]].n = m_pVertex[m_pIndex[i + 1]].n + faceNormal;
+		D3DXVec3Normalize(&m_pVertex[m_pIndex[i + 1]].n, &m_pVertex[m_pIndex[i + 1]].n);
+
+		m_pVertex[m_pIndex[i + 2]].n = m_pVertex[m_pIndex[i + 2]].n + faceNormal;
+		D3DXVec3Normalize(&m_pVertex[m_pIndex[i + 2]].n, &m_pVertex[m_pIndex[i + 2]].n);
+	}
+
+	for (DWORD i = 0; i < numOfVertex; i++)
+	{
+		D3DXVec3TransformCoord(&m_pVertex[i].p, &m_pVertex[i].p, &m_matWorld);
+		D3DXVec3TransformNormal(&m_pVertex[i].n, &m_pVertex[i].n, &m_matWorld);
+	}
+
+	pVB->Unlock();
+	pVB->Release();
+
+	
 	D3DXMatrixIdentity(&m_matWorld);
 
 }

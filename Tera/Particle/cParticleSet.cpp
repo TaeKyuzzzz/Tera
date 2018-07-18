@@ -188,7 +188,7 @@ void cParticleSet::Render()
 	for (int i = 0; i < m_vecParticle.size(); i++)
 		m_vecParticle[i]->Render();
 
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 
