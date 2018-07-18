@@ -89,6 +89,8 @@ protected:
 	
 	bool				m_isDoEffect;
 
+
+
 public:
 	cCharacterClass03();
 	~cCharacterClass03();

@@ -19,6 +19,7 @@ cCharacter::cCharacter()
 	, m_pMpBar(NULL)
 	, m_BackBar(NULL)
 	, m_pMap(NULL)
+	, m_pBleedingAlpha(255)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matAnimWorld);
@@ -30,11 +31,14 @@ cCharacter::~cCharacter()
 	SAFE_DELETE(m_pHpBar);
 	SAFE_DELETE(m_pMpBar);
 	SAFE_DELETE(m_BackBar);
+	SAFE_DELETE(m_pBleeding);
 }
 
 void cCharacter::Setup()
 {
 	SetUpStateBar();
+
+	m_pBleeding = TEXTUREMANAGER->GetSprite("Texture/Effect/bleeding.png");
 }
 
 void cCharacter::Update()
@@ -42,12 +46,16 @@ void cCharacter::Update()
 	UpdateUpStateBar();
 	PlusMapHeight();
 
+	if (m_pBleedingAlpha > 0)
+		m_pBleedingAlpha -= 5;
 	//m_matWorld._42 = m_vPosition.y;
 }
 
 void cCharacter::Render()
 {
 	RenderUpStateBar();
+
+	m_pBleeding->AlphaRender(D3DXVECTOR3(m_pBleeding->textureInfo.Width / 2, 0, 0), D3DXVECTOR3(WINSIZEX / 2, 0, 0), m_pBleedingAlpha);
 }
 
 void cCharacter::PlusMapHeight()
@@ -136,4 +144,9 @@ void cCharacter::RenderUpStateBar()
 
 	pFont->DrawTextA(NULL, szTemp, strlen(szTemp), &rc,
 		DT_LEFT | DT_VCENTER, D3DCOLOR_XRGB(255, 255, 255));
+}
+
+void cCharacter::Damaged()
+{
+	m_pBleedingAlpha = 255;
 }

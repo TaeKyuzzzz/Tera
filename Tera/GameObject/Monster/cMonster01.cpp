@@ -11,6 +11,8 @@ cMonster01::cMonster01()
 {
 	m_state = MON_STATE_unarmedwait;
 
+
+
 	//루프애니메이션이 아닐때, 동작이 끝난걸 알려주는 변수.
 	m_bIsDone = true;
 
@@ -42,6 +44,10 @@ cMonster01::cMonster01()
 	m_fRunSpeed = 1.0f;
 	m_fFightZone = 100.0f;
 	m_fHpCur = 100.0f;
+
+
+	// 패턴의 가짓 수
+	m_nNumofPattern = 2;
 }
 
 
@@ -55,6 +61,11 @@ cMonster01::~cMonster01()
 void cMonster01::Setup()
 {
 	cMonster::Setup();
+	
+	m_fMaxHp = 500.0f;
+	m_fCurHp = 500.0f;
+	m_fAttack = 20.0f;
+	m_fDefense = 10.0f;
 
 	m_pMonster = new cSkinnedMesh;
 	m_pMonster->Setup("XFile/Monster", "Moster01.X");
@@ -245,9 +256,9 @@ void cMonster01::Update()
 
 	// 공격
 	if(m_state == MON_STATE_atk01)
-		Attack(15.0f);
+		Attack(m_fAttack);
 	if(m_state == MON_STATE_atk02)
-		Attack(50.0f);
+		Attack(m_fAttack * 3);
 }
 
 void cMonster01::Render()
@@ -366,10 +377,23 @@ void cMonster01::Move()
 				m_bAnimation = true;
 				//공격중에는 방향을 바꾸지 않으므로 앵글락을 온시켜줍니다.
 				m_bAngleLock = true;
-				//전투모션은 atk01타입이다.
-				m_state = MON_STATE_atk01;
-				//현재 애니메이션 구간길이를 입력해줍니다.
-				m_fCurAnimTime = m_fAnimTime[MON_STATE_atk02];
+				
+				
+				int patternNum = rand() % m_nNumofPattern;
+
+				switch (patternNum)
+				{
+				case 0 :
+					//전투모션은 atk01타입이다.
+					m_state = MON_STATE_atk01;
+					//현재 애니메이션 구간길이를 입력해줍니다.
+					m_fCurAnimTime = m_fAnimTime[MON_STATE_atk01];
+					break;
+				case 1 :
+					m_state = MON_STATE_atk02;
+					m_fCurAnimTime = m_fAnimTime[MON_STATE_atk02];
+					break;
+				}
 			}
 			else if(m_bAtkTerm && !m_bAnimation)
 			{

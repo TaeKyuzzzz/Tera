@@ -15,6 +15,16 @@ public:
 	//iMap*			m_pMap;
 	SYNTHESIZE(iMap*, m_pMap, Map);
 
+
+	// 기본 적으로 몬스터가 갖는 속성
+
+	float			m_fMaxHp;
+	float			m_fCurHp;
+
+	float			m_fAttack;
+	float			m_fDefense;
+
+
 	float			m_fCosVal; // 카메라 기준 각도
 
 	D3DXMATRIX		m_matAnimWorld;
@@ -53,6 +63,8 @@ public:
 	bool			m_bFlinch;									//피격을 알리는 불변수
 
 
+	// 패턴 가짓 수
+	int				m_nNumofPattern;
 
 
 public:

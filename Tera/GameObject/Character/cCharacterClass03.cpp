@@ -239,10 +239,11 @@ void cCharacterClass03::Update()
 
 void cCharacterClass03::Render()
 {
-	cCharacter::Render();
 
 	m_pParticleSet->Render();
 	m_pParticleAura->Render();
+	
+	cCharacter::Render();
 }
 
 void cCharacterClass03::SetAnimWorld()
@@ -512,6 +513,8 @@ void cCharacterClass03::Move()
 
 void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 {
+	cCharacter::Damaged();
+
 	if (m_state == CH_STATE_bReactionStart ||
 		m_state == CH_STATE_bReactionStart3 ||
 		m_state == CH_STATE_Dearhwait ||

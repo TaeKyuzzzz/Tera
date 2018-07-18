@@ -55,18 +55,18 @@ void cTestMap::Setup()
 		v0 = m_pVertex[m_pIndex[i + 0]].p;
 		v1 = m_pVertex[m_pIndex[i + 1]].p;
 		v2 = m_pVertex[m_pIndex[i + 2]].p;
-
+		
 		u = v1 - v0;
 		v = v2 - v0;
 		D3DXVECTOR3 faceNormal;
 		D3DXVec3Cross(&faceNormal,&u, &v);
-
+		
 		m_pVertex[m_pIndex[i + 0]].n = m_pVertex[m_pIndex[i + 0]].n + faceNormal;
 		D3DXVec3Normalize(&m_pVertex[m_pIndex[i + 0]].n, &m_pVertex[m_pIndex[i + 0]].n);
-
+		
 		m_pVertex[m_pIndex[i + 1]].n = m_pVertex[m_pIndex[i + 1]].n + faceNormal;
 		D3DXVec3Normalize(&m_pVertex[m_pIndex[i + 1]].n, &m_pVertex[m_pIndex[i + 1]].n);
-
+		
 		m_pVertex[m_pIndex[i + 2]].n = m_pVertex[m_pIndex[i + 2]].n + faceNormal;
 		D3DXVec3Normalize(&m_pVertex[m_pIndex[i + 2]].n, &m_pVertex[m_pIndex[i + 2]].n);
 	}

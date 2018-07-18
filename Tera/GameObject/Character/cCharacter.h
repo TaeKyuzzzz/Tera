@@ -36,6 +36,9 @@ public:
 	cProgressBar*		m_pMpBar;
 	cSprite*			m_BackBar;
 
+
+	cSprite*			m_pBleeding;
+	int					m_pBleedingAlpha;
 public:
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 
@@ -52,5 +55,7 @@ public:
 	void SetUpStateBar();
 	void UpdateUpStateBar();
 	void RenderUpStateBar();
+
+	void Damaged();
 };
 
