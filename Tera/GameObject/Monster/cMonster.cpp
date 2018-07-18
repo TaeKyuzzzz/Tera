@@ -21,6 +21,8 @@ cMonster::cMonster()
 	, m_bIdle(true)
 	, m_bAtkTerm(true)
 	, m_bAngleLock(false)
+	, m_bDeath(false)
+	, m_bFlinch(false)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matAnimWorld);
