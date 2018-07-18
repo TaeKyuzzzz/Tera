@@ -91,7 +91,7 @@ void cCharacterClass03::Update()
 			}
 		}
 		
-		SkillEffect(); // 스킬 이펙트 처리
+		SkillProcess(); // 스킬 이펙트, 타격 처리
 	}
 	
 	// 버튼 조작
@@ -239,10 +239,11 @@ void cCharacterClass03::Update()
 
 void cCharacterClass03::Render()
 {
-	cCharacter::Render();
 
 	m_pParticleSet->Render();
 	m_pParticleAura->Render();
+	
+	cCharacter::Render();
 }
 
 void cCharacterClass03::SetAnimWorld()
@@ -512,45 +513,46 @@ void cCharacterClass03::Move()
 
 void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 {
+
 	if (m_state == CH_STATE_bReactionStart ||
 		m_state == CH_STATE_bReactionStart3 ||
 		m_state == CH_STATE_Dearhwait ||
 		m_state == CH_STATE_Death ||
 		m_state == CH_STATE_groggy1) return;
 
-	//if (KEYMANAGER->IsOnceKeyDown('Q'))
-	//{
-		m_fHpCur -= damage;
+	cCharacter::Damaged();
 
-		if (damage < m_fHpMax / 10.0f)
-		{
-			m_state = CH_STATE_groggy1;
-			m_fCurAnimTime = 0.5f;
-			m_bIsBlend = true;
-			m_bIsDone = false;
-		}
-		else if (damage < m_fHpMax / 6.0f)
-		{
-			SetAnimWorld();
-			m_state = CH_STATE_bReactionStart;
-			m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart];
-			m_bIsDone = false;
-			m_bIsBlend = false;
-		}
-		else
-		{
-			SetAnimWorld();
-			m_state = CH_STATE_bReactionStart3;
-			m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart3];
-			m_bIsDone = false;
-			m_bIsBlend = false;
-		}
+	m_fHpCur -= damage;
 
-		if (m_fHpCur < 0)
-		{
-			Die();
-		}
-	//}
+	if (damage < m_fHpMax / 10.0f)
+	{
+		m_state = CH_STATE_groggy1;
+		m_fCurAnimTime = 0.5f;
+		m_bIsBlend = true;
+		m_bIsDone = false;
+	}
+	else if (damage < m_fHpMax / 6.0f)
+	{
+		SetAnimWorld();
+		m_state = CH_STATE_bReactionStart;
+		m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart];
+		m_bIsDone = false;
+		m_bIsBlend = false;
+	}
+	else
+	{
+		SetAnimWorld();
+		m_state = CH_STATE_bReactionStart3;
+		m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart3];
+		m_bIsDone = false;
+		m_bIsBlend = false;
+	}
+
+	if (m_fHpCur < 0)
+	{
+		Die();
+	}
+	
 }
 
 void cCharacterClass03::BigDamaged()
@@ -577,7 +579,7 @@ void cCharacterClass03::Die()
 	m_bIsBlend = false;
 }
 
-void cCharacterClass03::SkillEffect()
+void cCharacterClass03::SkillProcess()
 {
 	D3DXMATRIX matR, matT;
 

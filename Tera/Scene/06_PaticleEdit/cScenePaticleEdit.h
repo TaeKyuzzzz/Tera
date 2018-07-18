@@ -78,6 +78,7 @@ public:
 	~cScenePaticleEdit();
 
 	void Setup();
+	void Release();
 	void Update();
 	void Render();
 

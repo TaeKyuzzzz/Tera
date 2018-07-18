@@ -60,7 +60,7 @@ void cMainGame::Setup()
 	SCENEMANAGER->AddScene("Main", m_pSceneMain);
 	SCENEMANAGER->AddScene("PaticleEdit", m_pScenePaticleEdit);
 
-	SCENEMANAGER->ChangeScene("LobbyLoading");
+	SCENEMANAGER->ChangeScene("Main");
 	
 	// 커서 설정하는 부분
 	//m_cursortex = TEXTUREMANAGER->GetTexture("Texture/Cursor/Arrow.png");
@@ -135,29 +135,29 @@ void cMainGame::SetLight()
 	D3DXVec3Normalize(&vDir, &vDir);
 	stLight.Direction = vDir;
 
-	//g_pD3DDevice->SetLight(101, &stLight);
-	//g_pD3DDevice->LightEnable(101, true);
-	//
-	//vDir = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-	//D3DXVec3Normalize(&vDir, &vDir);
-	//stLight.Direction = vDir;
-	//
-	//g_pD3DDevice->SetLight(102, &stLight);
-	//g_pD3DDevice->LightEnable(102, true);
-	//
-	//vDir = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
-	//D3DXVec3Normalize(&vDir, &vDir);
-	//stLight.Direction = vDir;
-	//
-	//g_pD3DDevice->SetLight(102, &stLight);
-	//g_pD3DDevice->LightEnable(103, true);
-	//
-	//vDir = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
-	//D3DXVec3Normalize(&vDir, &vDir);
-	//stLight.Direction = vDir;
-	//
-	//g_pD3DDevice->SetLight(102, &stLight);
-	//g_pD3DDevice->LightEnable(104, true);
+	g_pD3DDevice->SetLight(101, &stLight);
+	g_pD3DDevice->LightEnable(101, true);
+	
+	vDir = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	D3DXVec3Normalize(&vDir, &vDir);
+	stLight.Direction = vDir;
+	
+	g_pD3DDevice->SetLight(102, &stLight);
+	g_pD3DDevice->LightEnable(102, true);
+	
+	vDir = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+	D3DXVec3Normalize(&vDir, &vDir);
+	stLight.Direction = vDir;
+	
+	g_pD3DDevice->SetLight(103, &stLight);
+	g_pD3DDevice->LightEnable(103, true);
+	
+	vDir = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	D3DXVec3Normalize(&vDir, &vDir);
+	stLight.Direction = vDir;
+	
+	g_pD3DDevice->SetLight(104, &stLight);
+	g_pD3DDevice->LightEnable(104, true);
 }
 
 void cMainGame::RemoteMode()

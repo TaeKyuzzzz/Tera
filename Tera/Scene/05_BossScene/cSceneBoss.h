@@ -10,6 +10,7 @@ public:
 	virtual~cSceneBoss();
 
 	void Setup();
+	void Release();
 	void Update();
 	void Render();
 };

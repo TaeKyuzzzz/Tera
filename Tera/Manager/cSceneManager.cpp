@@ -84,7 +84,7 @@ HRESULT cSceneManager::ChangeScene(string sceneName)
 	find->second->Setup();
 
 	// 원래 이부분은 위의 find->second->Setup(); 이 성공해야 실행되는 곳
-	if (_currentScene) delete(_currentScene);
+	if (_currentScene) _currentScene->Release();
 	_currentScene = find->second;
 	return S_OK;
 

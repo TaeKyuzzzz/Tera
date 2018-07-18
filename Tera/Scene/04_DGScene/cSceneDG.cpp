@@ -15,6 +15,10 @@ void cSceneDG::Setup()
 {
 }
 
+void cSceneDG::Release()
+{
+}
+
 void cSceneDG::Update()
 {
 }

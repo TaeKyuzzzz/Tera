@@ -70,6 +70,20 @@ LPD3DXFONT cFontManager::GetFont(eFontType type)
 		//fd.OutputPrecision = OUT_DEFAULT_PRECIS;
 		//fd.PitchAndFamily = FF_DONTCARE;
 	}
+	else if (type == TF_MAIN)
+	{
+		fd.Height = 33;
+		fd.Width = 17;
+		fd.Weight = FW_MEDIUM;
+		fd.Italic = false;
+		fd.CharSet = DEFAULT_CHARSET;
+		fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+		fd.PitchAndFamily = FF_DONTCARE;
+		
+		AddFontResourceExA("Font/BMJUA_ttf.ttf", FR_PRIVATE, 0);
+		char str[] = "배달의민족 주아";
+		wcsncpy_s(fd.FaceName, L"배달의민족 주아", sizeof(str));
+	}
 
 	D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_mapFont[type]);
 

@@ -89,6 +89,8 @@ protected:
 	
 	bool				m_isDoEffect;
 
+
+
 public:
 	cCharacterClass03();
 	~cCharacterClass03();
@@ -115,7 +117,7 @@ public:
 	void Die();
 
 	// 스킬 이펙트 처리.. 나중에 리펙토링 하자
-	void SkillEffect();
+	void SkillProcess();
 
 };
 
