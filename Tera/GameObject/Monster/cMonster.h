@@ -47,7 +47,11 @@ public:
 	float			m_fEscapeTime2;								//인식범위에서 탈출한 시점을 기록(전투인 경우)
 	bool			m_bEscapeToggle2;							//토글변수를 이용하여 시점 기록(전투인 경우)
 	bool			m_bIdle;									//아무인식도 없는 상태. 
-	bool			m_bAtkTerm;									//공격사이사이의 간격.
+	bool			m_bAtkTerm;									//공격사이사이의 쉬는거
+
+	bool			m_bDeath;									//죽음을 알리는 불변수
+	bool			m_bFlinch;									//피격을 알리는 불변수
+
 
 
 
