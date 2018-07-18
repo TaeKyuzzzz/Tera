@@ -245,7 +245,9 @@ void cMonster01::Update()
 
 	// АјАн
 	if(m_state == MON_STATE_atk01)
-	Attack(15.0f);
+		Attack(15.0f);
+	if(m_state == MON_STATE_atk02)
+		Attack(50.0f);
 }
 
 void cMonster01::Render()
@@ -291,7 +293,8 @@ void cMonster01::Render()
 bool cMonster01::isUseLocalAnim()
 {
 	if (
-		m_state == MON_STATE_atk02
+		m_state == MON_STATE_atk02 ||
+		m_state == MON_STATE_atk01
 		)
 		return true;
 
