@@ -6,6 +6,9 @@
 #include "XMesh/cXLoader.h"
 #include "XMesh/cXMesh.h"
 
+#include "Particle\cParticleSet.h"
+
+
 cTown_House::cTown_House()
 {
 }
@@ -33,10 +36,18 @@ void cTown_House::Setup()
 		cXLoader  ground_meshX;
 		m_vTownHouse.push_back(ground_meshX.xFimeLoad(fileName[i]));
 	}
+
+	// 파티클 설치
+	m_pParticleWarp = PARTICLEMANAGER->GetParticle("PortalEffect");
+	D3DXMATRIX mat;
+	D3DXMatrixTranslation(&mat, 969, -406, 4157);
+	m_pParticleWarp->SetWorld(mat);
+	m_pParticleWarp->Start();
 }
 
 void cTown_House::Update()
 {
+	m_pParticleWarp->Update();
 }
 
 void cTown_House::Render()
@@ -54,6 +65,9 @@ void cTown_House::Render()
 			p->Render();
 		}
 	}
+
+	m_pParticleWarp->Render();
+
 }
 
 void cTown_House::Destroy()

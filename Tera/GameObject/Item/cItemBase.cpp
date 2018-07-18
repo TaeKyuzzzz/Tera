@@ -175,6 +175,12 @@ void cItemBase::Update()
 void cItemBase::Render()
 {
 
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+	m_pBody->Render();
+
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 	if (m_vecVertex.size() != 0)
 	{
 		// ¾ËÆÄ
@@ -215,10 +221,6 @@ void cItemBase::Render()
 		g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 		//g_pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 	}
-
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
-	m_pBody->Render();
-
 
 	cGameObject::Render();
 }

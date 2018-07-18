@@ -245,7 +245,9 @@ void cMonster01::Update()
 
 	// 공격
 	if(m_state == MON_STATE_atk01)
-	Attack(45.0f);
+		Attack(15.0f);
+	if(m_state == MON_STATE_atk02)
+		Attack(50.0f);
 }
 
 void cMonster01::Render()
@@ -291,7 +293,8 @@ void cMonster01::Render()
 bool cMonster01::isUseLocalAnim()
 {
 	if (
-		m_state == MON_STATE_atk02
+		m_state == MON_STATE_atk02 ||
+		m_state == MON_STATE_atk01
 		)
 		return true;
 
@@ -364,7 +367,7 @@ void cMonster01::Move()
 				//공격중에는 방향을 바꾸지 않으므로 앵글락을 온시켜줍니다.
 				m_bAngleLock = true;
 				//전투모션은 atk01타입이다.
-				m_state = MON_STATE_atk02;
+				m_state = MON_STATE_atk01;
 				//현재 애니메이션 구간길이를 입력해줍니다.
 				m_fCurAnimTime = m_fAnimTime[MON_STATE_atk02];
 			}
