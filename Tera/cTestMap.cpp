@@ -22,7 +22,7 @@ cTestMap::~cTestMap()
 void cTestMap::Setup()
 {
 	m_pGround = STATICMESHMANAGER->GetStaticMesh(
-		"XFile/Map/Field/ANC_B_4858_SL.X");
+		"XFile/Map/Field/ANC_B_4858_SL(Ori).X");
 	//"XFile/Item/Weapon/TwoHandSword_00.X"
 	//"XFile/Map/Field/ANC_B_4858_SL.X"
 	numOfVertex = m_pGround->GetMesh()->GetNumVertices();

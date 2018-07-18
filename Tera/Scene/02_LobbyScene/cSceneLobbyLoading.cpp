@@ -47,6 +47,8 @@ void cSceneLobbyLoading::TotalLoading()
 	PARTICLEMANAGER->AddParticle("iceExplosion", "Texture/Particle/iceExplosion.txt");
 	PARTICLEMANAGER->AddParticle("aura", "Texture/Particle/aura1.txt");
 	// x 파일
+	m_pLoading->InitForStaticMesh("XFile/Map/Field/ANC_B_4858_SL.X"); //무거운 파일을 먼저 로딩한다. 늦게하면 메모리에 안올라간다.
+
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Head", "Hair01.X");
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_00.X");
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_00.X");
