@@ -131,3 +131,24 @@ void cSprite::AlphaRender(D3DXVECTOR3 center, D3DXVECTOR3 location, int alpha)
 	}
 	m_pSprite->End();
 }
+
+void cSprite::AlphaRenderWinSize(D3DXVECTOR3 center, D3DXVECTOR3 location, int alpha)
+{
+	RECT rc;
+	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+	{
+
+		SetRect(&rc, 0, 0,
+			WINSIZEX, WINSIZEY); // 시작점과 너비
+													// 드로우
+		m_pSprite->Draw
+		(
+			texture,
+			&rc,
+			&center,
+			&location,
+			D3DCOLOR_ARGB(alpha, 255, 255, 255)
+		);
+	}
+	m_pSprite->End();
+}

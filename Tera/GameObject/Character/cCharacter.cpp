@@ -19,7 +19,7 @@ cCharacter::cCharacter()
 	, m_pMpBar(NULL)
 	, m_BackBar(NULL)
 	, m_pMap(NULL)
-	, m_pBleedingAlpha(255)
+	, m_pBleedingAlpha(0)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matAnimWorld);
@@ -39,6 +39,11 @@ void cCharacter::Setup()
 	SetUpStateBar();
 
 	m_pBleeding = TEXTUREMANAGER->GetSprite("Texture/Effect/bleeding.png");
+	
+	float xSize = (float) WINSIZEX / m_pBleeding->textureInfo.Width;
+	D3DXMATRIX mat;
+	D3DXMatrixScaling(&mat, xSize, 1, 1);
+	m_pBleeding->m_pSprite->SetTransform(&mat);
 }
 
 void cCharacter::Update()
@@ -47,15 +52,15 @@ void cCharacter::Update()
 	PlusMapHeight();
 
 	if (m_pBleedingAlpha > 0)
-		m_pBleedingAlpha -= 5;
+		m_pBleedingAlpha -= 2;
 	//m_matWorld._42 = m_vPosition.y;
 }
 
 void cCharacter::Render()
 {
 	RenderUpStateBar();
-
-	m_pBleeding->AlphaRender(D3DXVECTOR3(m_pBleeding->textureInfo.Width / 2, 0, 0), D3DXVECTOR3(WINSIZEX / 2, 0, 0), m_pBleedingAlpha);
+	//AlphaRender AlphaRenderWinSize
+	m_pBleeding->AlphaRender(D3DXVECTOR3( WINSIZEX/2, 0, 0), D3DXVECTOR3(WINSIZEX / 2, 0, 0), m_pBleedingAlpha);
 }
 
 void cCharacter::PlusMapHeight()
@@ -148,5 +153,5 @@ void cCharacter::RenderUpStateBar()
 
 void cCharacter::Damaged()
 {
-	m_pBleedingAlpha = 255;
+	m_pBleedingAlpha = 120;
 }

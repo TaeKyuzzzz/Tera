@@ -513,7 +513,6 @@ void cCharacterClass03::Move()
 
 void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 {
-	cCharacter::Damaged();
 
 	if (m_state == CH_STATE_bReactionStart ||
 		m_state == CH_STATE_bReactionStart3 ||
@@ -521,39 +520,39 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 		m_state == CH_STATE_Death ||
 		m_state == CH_STATE_groggy1) return;
 
-	//if (KEYMANAGER->IsOnceKeyDown('Q'))
-	//{
-		m_fHpCur -= damage;
+	cCharacter::Damaged();
 
-		if (damage < m_fHpMax / 10.0f)
-		{
-			m_state = CH_STATE_groggy1;
-			m_fCurAnimTime = 0.5f;
-			m_bIsBlend = true;
-			m_bIsDone = false;
-		}
-		else if (damage < m_fHpMax / 6.0f)
-		{
-			SetAnimWorld();
-			m_state = CH_STATE_bReactionStart;
-			m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart];
-			m_bIsDone = false;
-			m_bIsBlend = false;
-		}
-		else
-		{
-			SetAnimWorld();
-			m_state = CH_STATE_bReactionStart3;
-			m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart3];
-			m_bIsDone = false;
-			m_bIsBlend = false;
-		}
+	m_fHpCur -= damage;
 
-		if (m_fHpCur < 0)
-		{
-			Die();
-		}
-	//}
+	if (damage < m_fHpMax / 10.0f)
+	{
+		m_state = CH_STATE_groggy1;
+		m_fCurAnimTime = 0.5f;
+		m_bIsBlend = true;
+		m_bIsDone = false;
+	}
+	else if (damage < m_fHpMax / 6.0f)
+	{
+		SetAnimWorld();
+		m_state = CH_STATE_bReactionStart;
+		m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart];
+		m_bIsDone = false;
+		m_bIsBlend = false;
+	}
+	else
+	{
+		SetAnimWorld();
+		m_state = CH_STATE_bReactionStart3;
+		m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart3];
+		m_bIsDone = false;
+		m_bIsBlend = false;
+	}
+
+	if (m_fHpCur < 0)
+	{
+		Die();
+	}
+	
 }
 
 void cCharacterClass03::BigDamaged()
