@@ -15,6 +15,10 @@ void cSceneBoss::Setup()
 {
 }
 
+void cSceneBoss::Release()
+{
+}
+
 void cSceneBoss::Update()
 {
 }

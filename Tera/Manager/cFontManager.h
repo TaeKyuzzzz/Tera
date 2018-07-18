@@ -11,7 +11,8 @@ public:
 		FT_QUEST,
 		TF_UI_TEXT,
 		TF_UI_NUMBER,
-		TF_UI_NUMBER2
+		TF_UI_NUMBER2,
+		TF_MAIN
 	};
 
 	SINGLETONE(cFontManager);

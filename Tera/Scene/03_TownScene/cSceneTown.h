@@ -10,6 +10,7 @@ public:
 	virtual~cSceneTown();
 
 	void Setup();
+	void Release();
 	void Update();
 	void Render();
 };

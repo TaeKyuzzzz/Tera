@@ -91,7 +91,7 @@ void cCharacterClass03::Update()
 			}
 		}
 		
-		SkillEffect(); // 스킬 이펙트 처리
+		SkillProcess(); // 스킬 이펙트, 타격 처리
 	}
 	
 	// 버튼 조작
@@ -579,7 +579,7 @@ void cCharacterClass03::Die()
 	m_bIsBlend = false;
 }
 
-void cCharacterClass03::SkillEffect()
+void cCharacterClass03::SkillProcess()
 {
 	D3DXMATRIX matR, matT;
 

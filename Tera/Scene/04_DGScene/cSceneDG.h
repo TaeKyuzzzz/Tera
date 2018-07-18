@@ -10,6 +10,7 @@ public:
 	virtual~cSceneDG();
 
 	void Setup();
+	void Release();
 	void Update();
 	void Render();
 };
