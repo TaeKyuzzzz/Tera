@@ -15,6 +15,7 @@ cUIButton::~cUIButton()
 
 void cUIButton::SetTexture(const char * szUp, const char * szOver, const char * szDown)
 {
+	//abc
 	D3DXIMAGE_INFO stImageInfo;
 	
 	m_arrTexture[BT_UP] = TEXTUREMANAGER->GetTexture(szUp,&stImageInfo);
