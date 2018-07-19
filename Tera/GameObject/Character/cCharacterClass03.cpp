@@ -628,6 +628,8 @@ void cCharacterClass03::SkillProcess()
 			hitBox.Setup(D3DXVECTOR3(0,0,-60), D3DXVECTOR3(100,10,60));
 			hitBox.SetWorld(matR * matT);
 			OBJECTMANAGER->GiveDamagedMonster(&hitBox, 60);
+			CAMERAMANAGER->Shaking(0.275f);
+
 		}
 		else if (m_state == CH_STATE_CuttingSlash && m_fTime >= m_fAnimTime[CH_STATE_CuttingSlash] - 1.1f)
 		{
@@ -640,6 +642,8 @@ void cCharacterClass03::SkillProcess()
 			hitBox.Setup(D3DXVECTOR3(0, 0, -60), D3DXVECTOR3(100, 10, 60));
 			hitBox.SetWorld(matR * matT);
 			OBJECTMANAGER->GiveDamagedMonster(&hitBox, 60);
+			CAMERAMANAGER->Shaking(0.275f);
+
 		}
 	}
 

@@ -26,11 +26,11 @@ void cCameraManager::Update()
 	D3DXMatrixIdentity(&mat);
 	if (m_fShakingTime > 0.0f)
 	{
-		m_fShakingTime - TIMEMANAGER->GetEllapsedTime();
+		m_fShakingTime -= TIMEMANAGER->GetEllapsedTime();
 
-		mat._41 = rand() % 100 - 50;
-		mat._42 = rand() % 100 - 50;
-		mat._43 = rand() % 100 - 50;
+		mat._41 = rand() % 10 - 5;
+		mat._42 = rand() % 10 - 5;
+		mat._43 = rand() % 10 - 5;
 	}
 	m_pCamera->SetWorld(mat);
 
