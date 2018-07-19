@@ -43,7 +43,7 @@ void cSceneTest::Setup()
 	
 	m_pMonster01 = new cMonster01;
 	m_pMonster01->Setup();
-	m_pMonster01->SetPosition(D3DXVECTOR3(1247, 0, 3578));
+	m_pMonster01->SetPosition(m_pMonster01->GetSpot());
 	OBJECTMANAGER->AddMonsterObject(m_pMonster01);
 
 	m_pTown_House = new cTown_House;
