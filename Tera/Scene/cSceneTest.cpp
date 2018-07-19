@@ -30,6 +30,8 @@ cSceneTest::~cSceneTest()
 
 void cSceneTest::Setup()
 {
+	CAMERAMANAGER->SetType(CAMERA_FREE);
+
 	m_pPopori = new cCharaPopori;
 	m_pPopori->Setup();
 	m_pPopori->SetPosition(D3DXVECTOR3(1206, 427, 2952));
@@ -69,13 +71,15 @@ void cSceneTest::Release()
 
 void cSceneTest::Update()
 {
-	m_pTown_House->Update();
+	//m_pTown_House->Update();
 
 	m_pDummy->Update();
 	m_pPopori->Update();
 
 	//if (KEYMANAGER->IsOnceKeyDown('U'))
 	m_pMonster01->Update();
+
+	PARTICLEMANAGER->Update();
 
 	if (m_nBGBlackAlpha > 0)
 		m_nBGBlackAlpha -= 5;
@@ -91,6 +95,7 @@ void cSceneTest::Render()
 
 	m_pPopori->Render();
 	
+	PARTICLEMANAGER->Render();
 	/////////////
 	if (m_nBGBlackAlpha>0)
 		m_pBackGroundBlack->AlphaRender(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), m_nBGBlackAlpha);

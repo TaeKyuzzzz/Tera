@@ -105,6 +105,11 @@ cParticleSet * cParticleManager::GetParticle(string key)
 	return m_mapParticleSet[key];
 }
 
+void cParticleManager::AddChild(cParticleSet * child)
+{
+	m_vecParticle.push_back(child);
+}
+
 void cParticleManager::Destroy()
 {
 	for (auto p : m_mapParticleSet)
@@ -113,4 +118,59 @@ void cParticleManager::Destroy()
 			SAFE_DELETE(p.second);
 	}
 	m_mapParticleSet.clear();
+
+	//for (auto p : m_vecParticle)
+	//{
+	//	SAFE_DELETE(p);
+	//}
+}
+
+void cParticleManager::Update()
+{
+	for (int i = 0; i < m_vecParticle.size(); i++)
+		m_vecParticle[i]->Update();
+}
+
+void cParticleManager::Render()
+{
+	g_pD3DDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
+	g_pD3DDevice->SetRenderState(D3DRS_POINTSCALEENABLE, true);
+	//g_pD3DDevice->SetRenderState(D3DRS_POINTSIZE, FtoDW(10.0f));
+	g_pD3DDevice->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(0.0f));
+	g_pD3DDevice->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(0.0f));
+	g_pD3DDevice->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(1.0f));
+	g_pD3DDevice->SetRenderState(D3DRS_POINTSIZE_MAX, FtoDW(100.0f));
+	g_pD3DDevice->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDW(0.0f));
+
+	// 텍스처 알파 옵션 셋팅
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+
+	// 알파블랜딩 방식 결정
+	g_pD3DDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	//
+
+
+	//
+	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	g_pD3DDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	//
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
+
+	for (int i = 0; i < m_vecParticle.size(); i++)
+		m_vecParticle[i]->RenderOnce();
+
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+
+	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }

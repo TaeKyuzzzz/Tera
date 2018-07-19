@@ -203,6 +203,16 @@ void cCharaPopori::Render()
 		&rc,
 		DT_LEFT | DT_VCENTER,
 		D3DCOLOR_XRGB(255, 255, 0));
+	sprintf_s(szTemp, 1024, "%.1f %.1f %.1f", m_matWorld._41, m_matWorld._42, m_matWorld._43);
+
+	SetRect(&rc, 0, 700, 500, 900);
+
+	pFont->DrawTextA(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_VCENTER,
+		D3DCOLOR_XRGB(255, 255, 0));
 }
 
 bool cCharaPopori::isUseLocalAnim()

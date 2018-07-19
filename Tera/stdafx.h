@@ -55,8 +55,8 @@ extern D3DXVECTOR3 g_vCamera;
 //#define WINSIZEX 1920 // 1600
 //#define WINSIZEY 1080 // 900
 
-#define WINSIZEX 1280 // 1600
-#define WINSIZEY 720 // 900
+#define WINSIZEX 1600 // 1600
+#define WINSIZEY 900 // 900
 
 #define SAFE_DELETE(p)			{if(p) {delete(p); (p) = nullptr;}}
 #define SAFE_DELETE_ARRAY(p)	{if(p) {delete[] (p); (p) = nullptr;}}
@@ -201,3 +201,4 @@ struct ST_OBB // OBB±¸Á¶Ã¼
 #include "Manager/cSkinnedMeshManager.h"
 #include "Manager/cStaticMeshManager.h"
 #include "Manager/cParticleManager.h"
+#include "Manager/cCameraManager.h"

@@ -30,10 +30,10 @@ void cTestMap::Setup()
 	numOfIndex = m_pGround->GetMesh()->GetNumFaces() * 3;
 
 	LPDIRECT3DVERTEXBUFFER9 pVB;
-	LPDIRECT3DINDEXBUFFER9	pIB;
 
 	m_pGround->GetMesh()->GetVertexBuffer(&pVB);
 
+	LPDIRECT3DINDEXBUFFER9	pIB;
 	void* pIndex;
 	m_pGround->GetMesh()->GetIndexBuffer(&pIB);	
 	pIB->Lock(0, sizeof(WORD) * numOfIndex, (void**)&pIndex, 0);

@@ -5,6 +5,9 @@
 #include "BoundingBox\cBoundingBox.h"
 #include "Spere\cSpere.h"
 
+#include "Particle\cParticleSet.h"
+#include "cShader.h"
+
 cMonster01::cMonster01()
 	: m_pMonster(NULL)
 	, m_currState(MON_STATE_unarmedwait)
@@ -50,7 +53,11 @@ cMonster01::cMonster01()
 	// 패턴의 가짓 수
 	m_nNumofPattern = 2;
 	//처음에 얘로 셋팅해놓는다.
-	m_vBehaviorSpot = D3DXVECTOR3(900, 0, 2100);
+	m_vBehaviorSpot = D3DXVECTOR3(1247, 0, 3578);
+
+	m_pParticleBleeding = PARTICLEMANAGER->GetParticle("Bleeding");
+	PARTICLEMANAGER->AddChild(m_pParticleBleeding);
+
 }
 
 
@@ -105,6 +112,8 @@ void cMonster01::Setup()
 	// 구 충돌 영역 생성(싸움존 거리)
 	m_pSpere = new cSpere;
 	m_pSpere->Setup(m_vPosition, m_fFightZone);
+
+
 }
 
 void cMonster01::Update()
@@ -284,13 +293,28 @@ void cMonster01::Update()
 		Attack(m_fAttack);
 	if(m_state == MON_STATE_atk02)
 		Attack(m_fAttack * 3);
+
+
+	//파티클 처리
+	//m_pParticleBleeding->Update();
 }
 
 void cMonster01::Render()
 {
 	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+	
 	if (m_bIsGen)
+	{
 		m_pMonster->Render(NULL);
+		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		m_pMonster->Render(NULL);
+		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
+
+
+	
+	// 
+	//m_pParticleBleeding->Render();
 
 	char szTemp[1024];
 	sprintf_s(szTemp, 1024, "State : %d", m_state);
@@ -648,9 +672,9 @@ void cMonster01::Roaming(void)
 
 bool cMonster01::Attack(float damage)
 {
-	if (!OBJECTMANAGER->GiveDamagedChara(m_pSphereR, damage))
+	if (!OBJECTMANAGER->GiveDamagedChara(m_pSphereR, damage, m_vPosition))
 	{
-		if (OBJECTMANAGER->GiveDamagedChara(m_pSphereL, damage))
+		if (OBJECTMANAGER->GiveDamagedChara(m_pSphereL, damage, m_vPosition))
 			return true;
 	}
 	else
@@ -674,5 +698,16 @@ void cMonster01::Damaged(float damage, D3DXVECTOR3 pos)
 		m_fCurAnimTime = m_fAnimTime[MON_STATE_flinch];
 		m_fTime = 0.0f;
 		//m_bIsBlend = true;
+
+		// 블리딩 터트릴 좌표를 만들어서 세팅하고 시작
+		D3DXMATRIX matTS,matR, matT;
+		D3DXMatrixRotationY(&matR, m_fRotY);
+		float x = 30 + m_vPosition.x;
+		float y = rand() % 80 + 10 + m_vPosition.y;
+		float z = rand() % 60 - 30 + m_vPosition.z;
+		D3DXMatrixTranslation(&matT, x, y, z);
+		m_pParticleBleeding->SetWorld(matR * matT);
+		m_pParticleBleeding->Start();
+		
 	}
 }

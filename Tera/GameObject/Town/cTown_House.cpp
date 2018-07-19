@@ -43,11 +43,13 @@ void cTown_House::Setup()
 	D3DXMatrixTranslation(&mat, 969, -406, 4157);
 	m_pParticleWarp->SetWorld(mat);
 	m_pParticleWarp->Start();
+
+	PARTICLEMANAGER->AddChild(m_pParticleWarp);
 }
 
 void cTown_House::Update()
 {
-	m_pParticleWarp->Update();
+	//m_pParticleWarp->Update();
 }
 
 void cTown_House::Render()
@@ -68,7 +70,7 @@ void cTown_House::Render()
 		}
 	}
 
-	m_pParticleWarp->Render();
+	//m_pParticleWarp->Render();
 
 }
 

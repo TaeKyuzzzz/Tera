@@ -60,7 +60,7 @@ bool cObjectManager::IsCollision(cGameObject * obj1)
 	//
 }
 
-bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage)
+bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage, D3DXVECTOR3 pos)
 {
 	for (int i = 0; i < m_vecCharacter.size(); i++)
 	{
@@ -72,7 +72,7 @@ bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage)
 	
 		if (lengh < distance)
 		{
-			obj1->Damaged(Damage, spere->GetPosition());
+			obj1->Damaged(Damage, pos);
 			return true;
 		}
 	}

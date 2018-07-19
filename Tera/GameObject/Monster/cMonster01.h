@@ -2,7 +2,7 @@
 #include "cMonster.h"
 
 class cSkinnedMesh;
-
+class cParticleSet;
 
 class cMonster01 : public cMonster
 {
@@ -64,12 +64,16 @@ private:
 
 	//공격에 쓰이는 본
 
-	ST_BONE*				m_pHandR;
-	ST_BONE*				m_pHandL;
-	cSpere*					m_pSphereR;
-	cSpere*					m_pSphereL;
+	ST_BONE*			m_pHandR;
+	ST_BONE*			m_pHandL;
+	cSpere*				m_pSphereR;
+	cSpere*				m_pSphereL;
 
-	float					m_fFightZone;
+	float				m_fFightZone;
+
+
+	cParticleSet*		m_pParticleBleeding;
+
 
 public:
 	cMonster01();

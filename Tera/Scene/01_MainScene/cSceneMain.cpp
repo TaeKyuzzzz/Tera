@@ -39,6 +39,7 @@ void cSceneMain::Setup()
 	m_isStart = false;
 	m_colorOver = D3DCOLOR_ARGB(255, 255, 255, 0);
 	m_colorDefault = D3DCOLOR_ARGB(255, 0, 0, 0);
+
 }
 
 void cSceneMain::Release()
