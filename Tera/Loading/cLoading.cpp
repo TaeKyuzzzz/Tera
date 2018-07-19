@@ -55,7 +55,7 @@ HRESULT LoadItem::IniteForParticle(string key, const char * fileName)
 {
 	_kind = LOAD_KIND_PARTICLE;
 	memset(&_particleResource, 0, sizeof(tagParticleResource));
-	_particleResource.key = key;
+	_particleResource.key = (string)key;
 	_particleResource.fileName = fileName;
 	return S_OK;
 }
