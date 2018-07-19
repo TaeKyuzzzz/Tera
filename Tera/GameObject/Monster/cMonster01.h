@@ -115,6 +115,7 @@ public:
 	void Die();
 
 	void MonoBehavior(void);
+	void Roaming(void);
 
 	//몬스터가 캐릭터를 공격하는 함수
 	virtual bool Attack(float damage);

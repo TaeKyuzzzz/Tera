@@ -374,6 +374,12 @@ void cMonster01::Move()
 	//캐릭터 인식상태일때
 	if (m_bAwake)
 	{
+		//혹시모르니깐 어슬렁패턴에 쓰인 불변수는 모두 초기화 시켜주자.
+		{
+			m_bStart = false;
+			m_bWalkOnOff = false;
+		}
+
 		//적이 캐릭터를 인식이되면 기본상태는 해제.
 		m_bIdle = false;
 
@@ -434,6 +440,7 @@ void cMonster01::Move()
 		else
 		{
 			/////////////예외처리. 바운더리에서는 더이상 쫓아오지않는다.///////////
+			//(아직 바운더리 근처에서 전투할 경우에 몬스터가 넘어가 멈춰버리는 현상에 대해서는 처리 안함)
 			if(m_bEscapeToggle)
 			{
 				m_state = MON_STATE_Wait;
@@ -476,10 +483,15 @@ void cMonster01::Move()
 	else
 	{
 		if (m_bIdle)
-			m_state = MON_STATE_unarmedwait;
+			Roaming();
 
 		else
 		{
+			//혹시모르니깐 어슬렁패턴에 쓰인 불변수는 모두 초기화 시켜주자.
+			{
+				m_bStart = false;
+				m_bWalkOnOff = false;
+			}
 			//왜그런지 모르겠는데 이 값이 작아질수록 Idle로 바뀌는 시간이 길어진다.
 			if (D3DXVec2Length(&tt) < 50.0f)
 				m_bIdle = true;
@@ -559,6 +571,77 @@ void cMonster01::MonoBehavior(void)
 	if(D3DXVec2Length(&tt) > m_fTracableArea && m_bAwake)
 	{
 		m_bEscapeToggle = true;
+	}
+
+}
+
+void cMonster01::Roaming(void)
+{
+	//기다리는과정(첫세팅)
+	if (!m_bWalkOnOff && !m_bStart)
+	{
+		m_bStart = true;
+		m_state = MON_STATE_unarmedwait;
+		m_fStopTime = (float)GetTickCount();
+	}
+	//기다리는 과정
+	else if (!m_bWalkOnOff)
+	{
+		if (GetTickCount() - m_fStopTime > 4000.0f)
+		{
+			m_bWalkOnOff = true;
+			m_bStart = false;
+		}
+	}
+	//걷는과정.처음셋팅할때
+	else if (m_bWalkOnOff && !m_bStart)
+	{
+		m_bStart = true;
+		//시간없어서 패트롤 영역을 사각형으로 처리했어요 미안해 ㅠㅠ
+		int plusminus = rand() % 2;
+		int plusminus2 = rand() % 2;
+
+		if (plusminus)
+			plusminus = 1;
+		else
+			plusminus = -1;
+
+		if (plusminus2)
+			plusminus2 = 1;
+		else
+			plusminus2 = -1;
+
+		int AreaX = rand() % (int)(m_fAreaRadius / 5.0f);
+		int AreaZ = rand() % (int)(m_fAreaRadius / 5.0f);
+
+		NextSpot = m_vBehaviorSpot + D3DXVECTOR3(plusminus*AreaX, 0, plusminus2*AreaZ);
+	}
+	//임의의 지점까지 걷는 모션.
+	else if (m_bWalkOnOff)
+	{
+		m_state = MON_STATE_Walk;
+		// u벡터 -> 기준벡터
+		D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
+		D3DXVECTOR3 v, v2;
+		v2 = NextSpot - m_vPosition;
+		//이거안해주면 높이맵인식되서 문워크한다.
+		v2.y = 0;
+		D3DXVec3Normalize(&v, &v2);
+
+		m_fCosVal = D3DXVec3Dot(&v, &u);
+		m_fCosVal = acosf(m_fCosVal);
+
+		if (m_vPosition.z < NextSpot.z)
+			m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+
+		m_vPosition += (0.3f*m_fRunSpeed * v);
+
+		//이거 오차범위 넉넉하게 줘야 한다. 안그러면 정확하게 맞추려고 부르르르르 떤다. 
+		if (D3DXVec3Length(&v2) < 1.0f)
+		{
+			m_bWalkOnOff = false;
+			m_bStart = false;
+		}
 	}
 
 }

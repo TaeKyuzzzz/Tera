@@ -57,6 +57,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	g_pMainGame = new cMainGame;
 	g_pMainGame->Setup();
 
+	//랜덤 시드관련
+	srand(time(NULL));
+
     // 기본 메시지 루프입니다.
    // while (GetMessage(&msg, nullptr, 0, 0))
    // {
