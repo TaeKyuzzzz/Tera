@@ -11,13 +11,15 @@ cFontManager::~cFontManager()
 {
 }
 
-LPD3DXFONT cFontManager::GetFont(eFontType type)
+LPD3DXFONT cFontManager::GetFont(eFontType type, D3DXVECTOR2 textSize)
 {
 	if (m_mapFont.find(type) != m_mapFont.end())
 		return m_mapFont[type];
 
 	D3DXFONT_DESC fd;// 폰트의 속성을 담은 구조체
 	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+
+	LPD3DXFONT pont;
 
 	if (type == FT_DEFAULT)
 	{
@@ -84,10 +86,28 @@ LPD3DXFONT cFontManager::GetFont(eFontType type)
 		char str[] = "배달의민족 주아";
 		wcsncpy_s(fd.FaceName, L"배달의민족 주아", sizeof(str));
 	}
+	else if (type == FT_GA)
+	{
+		fd.Height = textSize.x;
+		fd.Width = textSize.y;
+		fd.Weight = FW_MEDIUM;
+		fd.Italic = false;
+		fd.CharSet = DEFAULT_CHARSET;
+		fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+		fd.PitchAndFamily = FF_DONTCARE;
+		AddFontResourceExA("c:/Windows/Fonts/GA.ttf", FR_PRIVATE, 0);
+		char str[] = "DS가변 교양있는글씨 M";
+		wcsncpy_s(fd.FaceName, L"DS가변 교양있는글씨 M", sizeof(str));
 
-	D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_mapFont[type]);
+		D3DXCreateFontIndirect(g_pD3DDevice, &fd, &pont);
+		return pont;
+	}
+	if(type != FT_GA)
+	{
+		D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_mapFont[type]);
 
-	return m_mapFont[type];
+		return m_mapFont[type];
+	}
 }
 
 void cFontManager::Destroy()

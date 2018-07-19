@@ -62,7 +62,7 @@ void cDeviceManager::Destroy()
 {
 	int a = 10;
 	ULONG ul = m_pD3DDevice->Release(); // 디바이스의 릴리즈는 레퍼런스 카운트를 반환한다.
-	assert(ul == 0 && "디바이스를 이용해 생성한 객체 중에 해제되지 않은 객체가 있습니다.");
+	//assert(ul == 0 && "디바이스를 이용해 생성한 객체 중에 해제되지 않은 객체가 있습니다.");
 
 	m_pD3D->Release();			//
 }

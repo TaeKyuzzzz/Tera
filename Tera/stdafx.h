@@ -165,12 +165,12 @@ struct ST_BONE_MESH : public D3DXMESHCONTAINER
 
 struct ST_UI_SIZE
 {
-	int nWidth;
-	int nHeight;
+	float fWidth;
+	float fHeight;
 
-	ST_UI_SIZE() : nWidth(0), nHeight(0) {}
+	ST_UI_SIZE() : fWidth(0), fHeight(0) {}
 	ST_UI_SIZE(int w, int h)
-		: nWidth(w), nHeight(h) {}
+		: fWidth(w), fHeight(h) {}
 };
 
 struct ST_OBB // OBB구조체
@@ -202,3 +202,6 @@ struct ST_OBB // OBB구조체
 #include "Manager/cStaticMeshManager.h"
 #include "Manager/cParticleManager.h"
 #include "Manager/cCameraManager.h"
+#include "ItemUI.h"
+#include "Manager/cUIManager.h"
+#include "Manager/cItemManager.h"

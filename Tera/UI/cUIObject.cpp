@@ -6,6 +6,10 @@ cUIObject::cUIObject()
 	: m_vPosition(0,0,0)
 	, m_pParent(NULL)
 	, m_stSize(0,0)
+	, m_isCollision(false)
+	, m_nReduceDragRange{ 1,1 }
+	, m_isMove(true)
+	, m_nAlpha(200)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -19,6 +23,8 @@ void cUIObject::AddChild(cUIObject * pChild)
 {
 	m_vecChild.push_back(pChild);
 	pChild->SetParent(this);
+
+
 }
 void cUIObject::Destroy()
 {
@@ -26,9 +32,11 @@ void cUIObject::Destroy()
 		p->Destroy();
 
 	delete this;
+
+	
 }
 
-void cUIObject::Update()
+void cUIObject::Update(ST_UI_SIZE dragSize)
 {
 	// 자기 위치로 월드 행렬 변환 
 	D3DXMatrixIdentity(&m_matWorld);
@@ -44,12 +52,81 @@ void cUIObject::Update()
 		m_matWorld._43 += m_pParent->m_matWorld._43;
 	}
 
+	ImageDrag(m_nReduceDragRange);
+
 	for (auto child : m_vecChild)
-		child->Update();
+	{
+		child->Update(dragSize);
+	}
+
+
+	
 }
 
 void cUIObject::Render(LPD3DXSPRITE pSprite)
 {
 	for (auto child : m_vecChild)
 		child->Render(pSprite);
+
+	//for (int i = 0; i < m_vInvenSlot.size(); i++)
+	//{
+	//	Rectangle(hdc, m_vInvenSlot[i].rc.left, m_vInvenSlot[i].rc.top, m_vInvenSlot[i].rc.right, m_vInvenSlot[i].rc.bottom);
+	//}
+
 }
+
+void cUIObject::ImageDrag(D3DXVECTOR2 vec2ReduceDragRange)
+{
+	if (m_enClickState != NOTCLICKABLE && m_isCollision)
+	{
+		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON) || KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
+		{
+			m_beforeMousePT = ptMouse;
+			m_enClickState = CLICK;
+		}
+
+		if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON) || KEYMANAGER->IsStayKeyDown(VK_RBUTTON))
+		{
+			//맷월드가 x,y다 즉 위치다
+			m_matWorld._41 += (ptMouse.x - m_beforeMousePT.x);
+			m_matWorld._42 += (ptMouse.y - m_beforeMousePT.y);
+			m_enClickState = CLICKING;
+		}
+		if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON) || KEYMANAGER->IsOnceKeyUp(VK_RBUTTON))
+		{
+			m_move.x += (ptMouse.x - m_beforeMousePT.x);
+			m_move.y += (ptMouse.y - m_beforeMousePT.y);
+			m_enClickState = NON;
+		}
+	}
+
+	if (m_isMove)
+	{
+		m_matWorld._41 += m_move.x;
+		m_matWorld._42 += m_move.y;
+	}
+
+	SetRect(&m_CollisionRect
+		, m_matWorld._41
+		, m_matWorld._42
+		, m_matWorld._41 + m_stSize.fWidth
+		, m_matWorld._42 + m_stSize.fHeight);
+
+
+	SetRect(&m_DragRect
+		, m_matWorld._41
+		, m_matWorld._42
+		, m_matWorld._41 + (m_stSize.fWidth * vec2ReduceDragRange.x)
+		, m_matWorld._42 + (m_stSize.fHeight * vec2ReduceDragRange.y)
+	);
+
+	if (PtInRect(&m_DragRect, ptMouse))
+	{
+
+		m_isCollision = true;
+
+	}
+	else m_isCollision = false;
+}
+
+

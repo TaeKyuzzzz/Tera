@@ -83,6 +83,9 @@ void cSceneTest::Update()
 
 	if (m_nBGBlackAlpha > 0)
 		m_nBGBlackAlpha -= 5;
+
+	UIMANAGER->Update();
+	ITEMMANAGER->Update();
 }
 void cSceneTest::Render()
 {
@@ -99,4 +102,7 @@ void cSceneTest::Render()
 	/////////////
 	if (m_nBGBlackAlpha>0)
 		m_pBackGroundBlack->AlphaRender(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), m_nBGBlackAlpha);
+
+	UIMANAGER->Render();
+	ITEMMANAGER->Render();
 }

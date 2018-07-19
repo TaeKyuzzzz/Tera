@@ -155,8 +155,13 @@
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="BoundingBox\Cube\cCube.h" />
     <ClInclude Include="cShader.h" />
+    <ClInclude Include="GameObject\Item\cItem.h" />
+    <ClInclude Include="GameObject\Item\cItemInfo.h" />
+    <ClInclude Include="ItemUI.h" />
     <ClInclude Include="Manager\cCameraManager.h" />
+    <ClInclude Include="Manager\cItemManager.h" />
     <ClInclude Include="Manager\cParticleManager.h" />
+    <ClInclude Include="Manager\cUIManager.h" />
     <ClInclude Include="Particle\cParticleSet.h" />
     <ClInclude Include="Particle\cParticle.h" />
     <ClInclude Include="Scene\06_PaticleEdit\cScenePaticleEdit.h" />
@@ -189,6 +194,8 @@
     <ClInclude Include="GameObject\Item\Weapon\cWeapon01.h" />
     <ClInclude Include="GameObject\Item\Weapon\cWeapon02.h" />
     <ClInclude Include="GameObject\Item\Weapon\cWeapon03.h" />
+    <ClInclude Include="UI\cUI.h" />
+    <ClInclude Include="UI\cUIInfo.h" />
     <ClInclude Include="Utill\cMemoryLeak.h" />
     <ClInclude Include="UI\cUIImageView.h" />
     <ClInclude Include="UI\cUITextView.h" />
@@ -225,8 +232,13 @@
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="BoundingBox\Cube\cCube.cpp" />
     <ClCompile Include="cShader.cpp" />
+    <ClCompile Include="GameObject\Item\cItem.cpp" />
+    <ClCompile Include="GameObject\Item\cItemInfo.cpp" />
+    <ClCompile Include="GameObject\Item\CreateItemList.cpp" />
     <ClCompile Include="Manager\cCameraManager.cpp" />
+    <ClCompile Include="Manager\cItemManager.cpp" />
     <ClCompile Include="Manager\cParticleManager.cpp" />
+    <ClCompile Include="Manager\cUIManager.cpp" />
     <ClCompile Include="Particle\cParticleSet.cpp" />
     <ClCompile Include="Particle\cParticle.cpp" />
     <ClCompile Include="Scene\06_PaticleEdit\cScenePaticleEdit.cpp" />
@@ -258,6 +270,10 @@
     <ClCompile Include="GameObject\Item\Weapon\cWeapon01.cpp" />
     <ClCompile Include="GameObject\Item\Weapon\cWeapon02.cpp" />
     <ClCompile Include="GameObject\Item\Weapon\cWeapon03.cpp" />
+    <ClCompile Include="UI\CreateUIList.cpp" />
+    <ClCompile Include="UI\cUI.cpp" />
+    <ClCompile Include="UI\cUIInfo.cpp" />
+    <ClCompile Include="UI\TextList.cpp" />
     <ClCompile Include="Utill\cMemoryLeak.cpp" />
     <ClCompile Include="UI\cUIImageView.cpp" />
     <ClCompile Include="UI\cUITextView.cpp" />

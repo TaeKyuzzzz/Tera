@@ -54,6 +54,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	cKeyManager::Create();
 	cTimeManager::GetInstance();
 
+	ITEMMANAGER->GetMemoryLinkUI(UIMANAGER);
+	UIMANAGER->GetMemoryLinkItem(ITEMMANAGER);
+
+	UIMANAGER->Setup();
+	ITEMMANAGER->Setup();
+
 	g_pMainGame = new cMainGame;
 	g_pMainGame->Setup();
 
