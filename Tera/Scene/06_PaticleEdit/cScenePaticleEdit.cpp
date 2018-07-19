@@ -57,6 +57,7 @@ cScenePaticleEdit::~cScenePaticleEdit()
 
 void cScenePaticleEdit::Setup()
 {
+	CAMERAMANAGER->SetType(CAMERA_FIX);
 	//m_pSprite = TEXTUREMANAGER->GetSprite("Texture/SceneTexture/BGBlack.png");
 	
 	m_pParticleSet = new cParticleSet;
@@ -79,7 +80,10 @@ void cScenePaticleEdit::Update()
 
 	// 다시 메인으로 탈출!
 	if (KEYMANAGER->IsOnceKeyDown(VK_ESCAPE))
+	{
+		//TEXTUREMANAGER->Destroy();
 		SCENEMANAGER->ChangeScene("Main");
+	}
 }
 
 void cScenePaticleEdit::Render()
@@ -467,7 +471,11 @@ void cScenePaticleEdit::UIRender()
 
 void cScenePaticleEdit::LoadTexture()
 {
-	
+	TCHAR _curDirectoryPath[256];
+	GetCurrentDirectory(256, _curDirectoryPath);
+
+
+
 	OPENFILENAME OFN;
 
 	ZeroMemory(&OFN, sizeof(OFN));
@@ -484,16 +492,19 @@ void cScenePaticleEdit::LoadTexture()
 	OFN.lpstrFile[0] = '\0';
 	OFN.nMaxFile = 256;
 	
-	OFN.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-	OFN.Flags = OFN_NOCHANGEDIR;                       
-	OFN.lpstrInitialDir = L"Texture\\Particle";
+	OFN.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
+	//OFN.Flags = OFN_NOCHANGEDIR;                       
+	OFN.lpstrInitialDir = L".\\Texture\\Particle";
 
 	GetOpenFileName(&OFN);
 
-	//MessageBox(NULL, OFN.lpstrFile, L"File Name", MB_OK);
+	MessageBox(NULL, OFN.lpstrFile, L"File Name", MB_OK);
 	WideCharToMultiByte(CP_ACP, 0, OFN.lpstrFile, -1, str, 1024, NULL, NULL);
 
 	strcpy(m_szFile, str);
+
+	SetCurrentDirectory(_curDirectoryPath);
+
 }
 
 void cScenePaticleEdit::Play()
@@ -515,6 +526,11 @@ void cScenePaticleEdit::Play()
 
 void cScenePaticleEdit::SaveParticle()
 {
+
+	TCHAR _curDirectoryPath[256];
+	GetCurrentDirectory(256, _curDirectoryPath);
+
+
 	HANDLE file;
 	FILE* fp;
 	OPENFILENAME OFN;
@@ -524,7 +540,7 @@ void cScenePaticleEdit::SaveParticle()
 
 	char str[300];
 	char lpstrFile[MAX_PATH] = "";
-
+	
 	memset(&OFN, 0, sizeof(OPENFILENAME));
 	OFN.lStructSize = sizeof(OPENFILENAME);
 	OFN.hwndOwner = g_hWnd;
@@ -533,7 +549,7 @@ void cScenePaticleEdit::SaveParticle()
 	OFN.lpstrFile[0] = '\0';
 	OFN.nMaxFile = 256;
 	OFN.lpstrInitialDir = L"Particle\resource";
-
+	OFN.Flags = OFN_OVERWRITEPROMPT;
 
 	GetOpenFileName(&OFN);
 
@@ -583,11 +599,15 @@ void cScenePaticleEdit::SaveParticle()
 	fprintf(fp, "%s", m_szFile);
 
 	fclose(fp);
-	
+	SetCurrentDirectory(_curDirectoryPath);
 }
 
 void cScenePaticleEdit::LoadParticle()
 {
+
+	TCHAR _curDirectoryPath[256];
+	GetCurrentDirectory(256, _curDirectoryPath);
+
 	OPENFILENAME OFN;
 
 	ZeroMemory(&OFN, sizeof(OFN));
@@ -668,4 +688,5 @@ void cScenePaticleEdit::LoadParticle()
 		m_fDirectionZ, m_fRandDirZMin, m_fRandDirZMax,
 		m_szFile, D3DCOLOR_ARGB(m_nAlpha, m_nColorR, m_nColorG, m_nColorB));
 
+	SetCurrentDirectory(_curDirectoryPath);
 }

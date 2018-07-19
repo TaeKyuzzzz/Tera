@@ -19,13 +19,15 @@ private:
 
 	D3DXVECTOR3		m_position;
 
+	SYNTHESIZE(D3DXMATRIX, m_matWorld, World);
+
 public:
 	cCamera();
 	~cCamera();
 
 	void Setup();
 	void Update(D3DXVECTOR3 target);
-
+	void UpdateFix(D3DXVECTOR3 target);
 
 };
 

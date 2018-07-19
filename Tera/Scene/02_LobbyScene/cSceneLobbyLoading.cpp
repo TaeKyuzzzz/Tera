@@ -35,7 +35,7 @@ void cSceneLobbyLoading::Update()
 	if (m_pLoading->LoadingDone())
 	{
 		//TEXTUREMANAGER->Destroy();
-
+		CAMERAMANAGER->SetType(CAMERA_FREE);
 		SCENEMANAGER->ChangeScene("Test");
 	}
 }
@@ -47,23 +47,25 @@ void cSceneLobbyLoading::Render()
 
 void cSceneLobbyLoading::TotalLoading()
 {
+	
+	// 파티클
+	//PARTICLEMANAGER->AddParticle("explosion", "Texture/Particle/explosion.txt");
+	//PARTICLEMANAGER->AddParticle("iceExplosion", "Texture/Particle/iceExplosion.txt");
+	//PARTICLEMANAGER->AddParticle("aura", "Texture/Particle/aura1.txt");
+	//PARTICLEMANAGER->AddParticle("gaiaCrash", "Texture/Particle/gaiaCrash.txt");
+	//PARTICLEMANAGER->AddParticle("PortalEffect", "Texture/Particle/PortalEffect.txt");
+
+	m_pLoading->IniteForParticle("explosion", "Texture/Particle/explosion.txt");
+	m_pLoading->IniteForParticle("iceExplosion", "Texture/Particle/iceExplosion.txt");
+	m_pLoading->IniteForParticle("aura", "Texture/Particle/aura1.txt");
+	m_pLoading->IniteForParticle("gaiaCrash", "Texture/Particle/gaiaCrash.txt");
+	m_pLoading->IniteForParticle("PortalEffect", "Texture/Particle/PortalEffect.txt");
+	m_pLoading->IniteForParticle("Heal", "Texture/Particle/heal.txt");
+	m_pLoading->IniteForParticle("Bleeding", "Texture/Particle/Bleeding.txt");
+
 	// x 파일
 	m_pLoading->InitForStaticMesh("XFile/Map/Field/ANC_B_4858_SL.X"); //무거운 파일을 먼저 로딩한다. 늦게하면 메모리에 안올라간다.
 	
-	// 파티클
-	PARTICLEMANAGER->AddParticle("explosion", "Texture/Particle/explosion.txt");
-	PARTICLEMANAGER->AddParticle("iceExplosion", "Texture/Particle/iceExplosion.txt");
-	PARTICLEMANAGER->AddParticle("aura", "Texture/Particle/aura1.txt");
-	PARTICLEMANAGER->AddParticle("gaiaCrash", "Texture/Particle/gaiaCrash.txt");
-	PARTICLEMANAGER->AddParticle("PortalEffect", "Texture/Particle/PortalEffect.txt");
-
-	//m_pLoading->IniteForParticle("explosion", "Texture/Particle/explosion.txt");
-	//m_pLoading->IniteForParticle("iceExplosion", "Texture/Particle/iceExplosion.txt");
-	//m_pLoading->IniteForParticle("aura", "Texture/Particle/aura1.txt");
-	//m_pLoading->IniteForParticle("gaiaCrash", "Texture/Particle/gaiaCrash.txt");
-	//m_pLoading->IniteForParticle("PortalEffect", "Texture/Particle/PortalEffect.txt");
-
-
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Head", "Hair01.X");
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_00.X");
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_00.X");

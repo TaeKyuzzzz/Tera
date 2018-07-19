@@ -200,3 +200,4 @@ struct ST_OBB // OBB±¸Á¶Ã¼
 #include "Manager/cSkinnedMeshManager.h"
 #include "Manager/cStaticMeshManager.h"
 #include "Manager/cParticleManager.h"
+#include "Manager/cCameraManager.h"

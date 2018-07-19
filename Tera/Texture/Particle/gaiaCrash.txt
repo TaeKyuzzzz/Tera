@@ -26,4 +26,4 @@
 255
 255
 255
-Texture\Particle\fire_01.png
+C:\Users\shin\Tera\Tera\Texture\Particle\fire_01.png

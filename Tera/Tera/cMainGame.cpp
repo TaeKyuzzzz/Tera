@@ -34,6 +34,7 @@ cMainGame::~cMainGame()
 	SKINNEDMESHMANAGER->Destroy();
 	STATICMESHMANAGER->Destroy();
 	PARTICLEMANAGER->Destroy();
+	CAMERAMANAGER->Destroy();
 
 	g_pDeviceManager->Destroy();
 }
@@ -44,9 +45,11 @@ void cMainGame::Setup()
 	g_pD3DDevice->SetRenderState(D3DRS_AMBIENT, 0x00202020);
 	SetLight();
 
-	m_pCamera = new cCamera;
-	m_pCamera->Setup();
-
+	//m_pCamera = new cCamera;
+	//m_pCamera->Setup();
+	
+	CAMERAMANAGER->Create();
+	
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
 
@@ -83,11 +86,12 @@ void cMainGame::Update()
 
 	SCENEMANAGER->Update();
 	
-	if (g_vPlayerPos)
-		m_pCamera->Update(*g_vPlayerPos);
+	/*if (g_vPlayerPos)
+		m_pCamera->UpdateFix(*g_vPlayerPos);
 	else
-		m_pCamera->Update(D3DXVECTOR3(0, 0, 0));
-	
+		m_pCamera->UpdateFix(D3DXVECTOR3(0, 0, 0));*/
+	CAMERAMANAGER->Update();
+
 	RemoteMode();
 }
 
