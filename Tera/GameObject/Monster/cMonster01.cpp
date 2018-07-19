@@ -41,6 +41,7 @@ cMonster01::cMonster01()
 
 	//Monster01은 이런 특성을 가지고 있다.
 	m_fAreaRadius = 300.0f;
+	m_fTracableArea = 1000.0f;
 	m_fRunSpeed = 1.0f;
 	m_fFightZone = 100.0f;
 	m_fHpCur = 100.0f;
@@ -108,6 +109,10 @@ void cMonster01::Setup()
 
 void cMonster01::Update()
 {
+	temp = *g_vPlayerPos - m_vPosition;
+
+	tt.x = m_vPosition.x - m_vBehaviorSpot.x;
+	tt.y = m_vPosition.z - m_vBehaviorSpot.z;
 
 	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
 
@@ -118,7 +123,6 @@ void cMonster01::Update()
 	//젠되어있을때 
 	if (m_bIsGen)
 	{
-		temp = *g_vPlayerPos - m_vPosition;
 
 		MonoBehavior();
 
@@ -234,10 +238,9 @@ void cMonster01::Update()
 	else
 	{
 		//다시 처음으로 설정
-
 		m_vPosition = m_vBehaviorSpot;
 		m_state = MON_STATE_unarmedwait;
-		m_currState = MON_STATE_unarmedwait;
+		//m_currState = MON_STATE_unarmedwait;
 		m_fRotY = 0.0f;
 		m_vDirection = D3DXVECTOR3(1, 0, 0);
 		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
@@ -248,6 +251,8 @@ void cMonster01::Update()
 		{
 			m_bIsGen = true;
 			m_bDeath = false;
+
+			m_pMonster->AnimAdvanceTime();
 		}
 	}
 
@@ -308,7 +313,7 @@ void cMonster01::Render()
 		m_pSphereL->Render();
 
 	
-	sprintf_s(szTemp, 1024, "%.1f %.1f %.1f", m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	sprintf_s(szTemp, 1024, "Distance %.1f", D3DXVec2Length(&tt));
 	
 	SetRect(&rc, 0, 400, 200, 500);
 
@@ -426,22 +431,46 @@ void cMonster01::Move()
 
 
 		}
-		//애니메이션이 완료된 상태여야 중간에 캔슬되지 않으니 이 if문을 추가했다.
 		else
 		{
-			m_state = MON_STATE_Walk;
-			// u벡터 -> 기준벡터
-			D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
-			D3DXVECTOR3 v;
-			D3DXVec3Normalize(&v, &temp);
+			/////////////예외처리. 바운더리에서는 더이상 쫓아오지않는다.///////////
+			if(m_bEscapeToggle)
+			{
+				m_state = MON_STATE_Wait;
+				// u벡터 -> 기준벡터
+				D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
+				D3DXVECTOR3 v;
+				D3DXVec3Normalize(&v, &temp);
 
-			m_fCosVal = D3DXVec3Dot(&v, &u);
-			m_fCosVal = acosf(m_fCosVal);
+				m_fCosVal = D3DXVec3Dot(&v, &u);
+				m_fCosVal = acosf(m_fCosVal);
 
-			if (m_vPosition.z < g_vPlayerPos->z)
-				m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+				if (m_vPosition.z < g_vPlayerPos->z)
+					m_fCosVal = D3DX_PI * 2 - m_fCosVal;
 
-			m_vPosition += (m_fRunSpeed * v);
+				if (D3DXVec3Length(&temp) > m_fAreaRadius)
+				{
+					m_bEscapeToggle = false;
+					m_bAwake = false;
+				}
+			}
+			///////////////////////////////////////////////////////////////////////
+			else
+			{
+				m_state = MON_STATE_Walk;
+				// u벡터 -> 기준벡터
+				D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
+				D3DXVECTOR3 v;
+				D3DXVec3Normalize(&v, &temp);
+
+				m_fCosVal = D3DXVec3Dot(&v, &u);
+				m_fCosVal = acosf(m_fCosVal);
+
+				if (m_vPosition.z < g_vPlayerPos->z)
+					m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+
+				m_vPosition += (m_fRunSpeed * v);
+			}
 		}
 	}
 	else
@@ -451,10 +480,6 @@ void cMonster01::Move()
 
 		else
 		{
-			D3DXVECTOR2 tt;
-			tt.x = m_vPosition.x - m_vBehaviorSpot.x;
-			tt.y = m_vPosition.z - m_vBehaviorSpot.z;
-
 			//왜그런지 모르겠는데 이 값이 작아질수록 Idle로 바뀌는 시간이 길어진다.
 			if (D3DXVec2Length(&tt) < 50.0f)
 				m_bIdle = true;
@@ -474,7 +499,7 @@ void cMonster01::Move()
 				if (m_vPosition.z < m_vBehaviorSpot.z)
 					m_fCosVal = D3DX_PI * 2 - m_fCosVal;
 
-				m_vPosition += (3.0f * m_fRunSpeed * v);
+				m_vPosition += (1.5f * m_fRunSpeed * v);
 			}
 		}
 	}
@@ -501,23 +526,27 @@ void cMonster01::Die()
 	m_bAnimation = true;
 }
 
-//맵 위에서 보이는 단순행동패턴
+//몬스터와 캐릭터사이의 거리에 따른 불변수 집합
 void cMonster01::MonoBehavior(void)
 {
 	if (D3DXVec3Length(&temp) <= m_fAreaRadius)
 	{
-		m_bEscapeToggle = false;
 		m_bAwake = true;
+
 		if (D3DXVec3Length(&temp) < m_fFightZone)
 		{
+			m_bEscapeToggle2 = false;
 			m_bFight = true;
 		}
-		else
+		else if(D3DXVec3Length(&temp) >= m_fFightZone && !m_bEscapeToggle2)
+		{
 			m_bEscapeToggle2 = true;
+			m_fEscapeTime2 = (float)GetTickCount();
+		}
 		
 		if(m_bEscapeToggle2)
 		{
-			if (!m_bAnimation)
+			if (GetTickCount() - m_fEscapeTime2 > 2000.0f && !m_bAnimation)
 			{
 				m_bFight = false;
 				m_bAtkTerm = true;			//전투상태초기화.
@@ -527,17 +556,9 @@ void cMonster01::MonoBehavior(void)
 	}
 	
 	//갓 탈출했으면
-	else if(D3DXVec3Length(&temp) > m_fAreaRadius && !m_bEscapeToggle)
+	if(D3DXVec2Length(&tt) > m_fTracableArea && m_bAwake)
 	{
 		m_bEscapeToggle = true;
-		m_fEscapeTime = GetTickCount();
-	}
-
-	if (m_bEscapeToggle && m_bAwake)
-	{
-		//탈출시점으로부터 5초가 지나면 다시 서식지로 돌아간다.
-		if (GetTickCount() - m_fEscapeTime > 3000.0f)
-			m_bAwake = false;
 	}
 
 }

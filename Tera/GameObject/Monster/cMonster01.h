@@ -60,6 +60,7 @@ private:
 
 	//행동패턴 디자인에 쓰인 임시변수
 	D3DXVECTOR3			temp;
+	D3DXVECTOR2			tt;
 
 	//공격에 쓰이는 본
 
