@@ -24,7 +24,7 @@ cItemManager::~cItemManager()
 void cItemManager::Setup()
 {
 
-
+	hdc = GetDC(g_hWnd);
 	//슬롯만들기
 	SetItemSlot(INVENTORY);
 	SetItemSlot(CONSUMABLESSHOP);
@@ -74,7 +74,10 @@ void cItemManager::Render()
 {
 	ItemRender();	
 
-
+	//for (int i = 0; i < m_vStatusSlot.size(); i++)
+	//{
+	//	Rectangle(hdc, m_vStatusSlot[i].rc.left, m_vStatusSlot[i].rc.top, m_vStatusSlot[i].rc.right, m_vStatusSlot[i].rc.bottom);
+	//}
 }
 
 void cItemManager::Destroy()
@@ -126,10 +129,11 @@ void cItemManager::SetItemSlot(enumSlotType itemSlotType)
 
 		_tagItemPos.SetSlotType(itemSlotType);
 
-		m_vec3StatusPos.push_back(D3DXVECTOR3(125, 36, 0));
+		m_vec3StatusPos.push_back(D3DXVECTOR3(63, 183, 0));
 		m_vec3StatusPos.push_back(D3DXVECTOR3(208, 86, 0));
 		m_vec3StatusPos.push_back(D3DXVECTOR3(44, 86, 0));
 		m_vec3StatusPos.push_back(D3DXVECTOR3(188, 184, 0));
+		//m_vec3StatusPos.push_back(D3DXVECTOR3())
 
 
 		for (int i = 0; i < 4; i++)
@@ -416,7 +420,13 @@ void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPla
 								if (m_vShopItem.size() > 23) continue;
 								m_vShopItem.push_back(sendItem[i]);
 							}
-							else m_vStatusItem.push_back(sendItem[i]);
+							else
+							{							
+								//입고있던 아이템의 인덱스를 알아내서 삭제하는 함수
+								EquipmentWearBack(sendItem[i]);												
+								m_vStatusItem.push_back(sendItem[i]);
+								m_vInvenItem.erase(sendItem.begin() + i);
+							}
 						}
 
 						if (currentPlaceName == "Status")
@@ -526,8 +536,10 @@ void cItemManager::SortInSlot()
 {
 	for (int i = 0; i < m_vStatusItem.size(); i++)
 	{
-
-		if (m_vStatusItem[i]->GetAbility()._tagItemKind == ARMOR)
+		if (m_vStatusItem[i]->GetAbility()._tagItemKind == SHOES)
+			m_vStatusItem[i]->TransPos(m_vStatusSlot[0].vec3Pos);
+		
+		else if (m_vStatusItem[i]->GetAbility()._tagItemKind == ARMOR)
 			m_vStatusItem[i]->TransPos(m_vStatusSlot[1].vec3Pos);
 
 		else if (m_vStatusItem[i]->GetAbility()._tagItemKind == WEAPON)
@@ -635,6 +647,23 @@ void cItemManager::ItemRenewalThisPlace(vItem& _vVectorName)
 	for (int i = 0; i < _vVectorName.size(); i++)
 	{
 		_vVectorName[i]->GetUIImage()->SetAlpha(200);
+	}
+}
+
+void cItemManager::EquipmentWearBack(cItemInfo* _placeItem)
+{
+	//스테이터스 슬롯에 있다는것은 장비하고 있다는 뜻
+	for (int i = 0; i < m_vStatusItem.size(); i++)
+	{
+
+		if (m_vStatusItem[i]->GetAbility()._tagItemKind == _placeItem->GetAbility()._tagItemKind)
+
+		{
+			m_vInvenItem.push_back(m_vStatusItem[i]);
+
+			m_vStatusItem.erase(m_vStatusItem.begin() + i);
+		}
+		
 	}
 }
 

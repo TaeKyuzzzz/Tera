@@ -81,7 +81,7 @@ void cUIManager::Render()
 		m_vText[i]->Render();
 	}
 
-	UIInfoTextPopUp();
+	UIInfoTextPopUp("Status");
 
 
 }
@@ -333,27 +333,26 @@ int cUIManager::FindUIIndex(const char* szFindIndex)
 
 void cUIManager::UIInfoTextPopUp(const char* szFindIndex)
 {
-	//char szTemp[1024];
-	//
-	//if (szFindIndex != NULL)
-	//{
-	//	int FindIndex = FindUIIndex(szFindIndex);
-	//	sprintf_s(szTemp, 1024, "x = %d \t y = %d", (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._41 - ptMouse.x
-	//		, (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._42 - ptMouse.y);
-	//}
-	//
-	//
-	//RECT rc2;
-	//SetRect(&rc2, 100, 100, 800, 200);
-	//
-	//LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA, { 30, 20 });
-	//pFont->DrawTextA(NULL,
-	//	szTemp,
-	//	strlen(szTemp),
-	//	&rc2,
-	//	DT_LEFT | DT_TOP,
-	//	D3DCOLOR_XRGB(255, 255, 0));
-	//pFont->Release();
+	char szTemp[1024];
+	
+
+	int FindIndex = FindUIIndex(szFindIndex);
+	sprintf_s(szTemp, 1024, "x = %d \t y = %d", (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._41 - ptMouse.x
+		, (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._42 - ptMouse.y);
+	
+	
+	
+	RECT rc2;
+	SetRect(&rc2, 100, 100, 800, 200);
+	
+	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA, { 30, 20 });
+	pFont->DrawTextA(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc2,
+		DT_LEFT | DT_TOP,
+		D3DCOLOR_XRGB(255, 255, 0));
+	pFont->Release();
 }
 
 

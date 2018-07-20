@@ -26,15 +26,20 @@ void cItemManager::CreateItemList()
 	CreateItem("검은마력의신발", "Texture/ItemIcon/BlackBoots.png", SHOES, 25, 7000, 1400, m_vInvenItem);
 	CreateItem("검은마력의장갑", "Texture/ItemIcon/BlackGlove.png", GLOVES, 20, 5500, 1100, m_vInvenItem);
 	
-	//레더셋트
-	CreateItem("레더아머", "Texture/ItemIcon/LeatherArmor.png", ARMOR, 50, 13000, 2600, m_vInvenItem);
-	CreateItem("레더슈즈", "Texture/ItemIcon/LeatherBoots.png", SHOES, 15, 5500, 1100, m_vInvenItem);
-	CreateItem("레더글로브", "Texture/ItemIcon/LeatherGlove.png", GLOVES, 11, 4500, 900, m_vInvenItem);
-	
+	////레더셋트
+	//CreateItem("레더아머", "Texture/ItemIcon/LeatherArmor.png", ARMOR, 50, 13000, 2600, m_vInvenItem);
+	//CreateItem("레더슈즈", "Texture/ItemIcon/LeatherBoots.png", SHOES, 15, 5500, 1100, m_vInvenItem);
+	//CreateItem("레더글로브", "Texture/ItemIcon/LeatherGlove.png", GLOVES, 11, 4500, 900, m_vInvenItem);
+	//
+	////스카이셋트
+	//CreateItem("스카이아머", "Texture/ItemIcon/SkyCloth.png", ARMOR, 20, 5000, 1000, m_vInvenItem);
+	//CreateItem("스카이슈즈", "Texture/ItemIcon/SkyBoots.png", SHOES, 5, 1000, 200, m_vInvenItem);
+	//CreateItem("스카이글로브", "Texture/ItemIcon/SkyGlove.png", GLOVES, 3, 800, 160, m_vInvenItem);
+
 	//스카이셋트
-	CreateItem("스카이아머", "Texture/ItemIcon/SkyCloth.png", ARMOR, 20, 5000, 1000, m_vInvenItem);
-	CreateItem("스카이슈즈", "Texture/ItemIcon/SkyBoots.png", SHOES, 5, 1000, 200, m_vInvenItem);
-	CreateItem("스카이글로브", "Texture/ItemIcon/SkyGlove.png", GLOVES, 3, 800, 160, m_vInvenItem);
+	CreateItem("스카이아머", "Texture/ItemIcon/SkyCloth.png", ARMOR, 20, 5000, 1000, m_vStatusItem);
+	CreateItem("스카이슈즈", "Texture/ItemIcon/SkyBoots.png", SHOES, 5, 1000, 200, m_vStatusItem);
+	CreateItem("스카이글로브", "Texture/ItemIcon/SkyGlove.png", GLOVES, 3, 800, 160, m_vStatusItem);
 
 	
 	

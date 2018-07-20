@@ -4,6 +4,7 @@
 #define ZEROVALUE 0
 
 
+
 enum enTextType
 {
 	CONSTCHAR,

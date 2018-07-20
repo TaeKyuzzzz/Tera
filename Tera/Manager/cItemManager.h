@@ -26,7 +26,6 @@ class cItemManager
 {
 private:
 	typedef vector<cItemInfo*> vItem;
-
 	typedef vector<cItemInfo> vItem2;
 
 
@@ -71,6 +70,7 @@ private:
 	cUIManager*			_UI;
 	bool isTemp;
 	int m_vClickedIndex;
+	int m_nWearingIndex;
 	HDC hdc;
 
 	SYNTHESIZE(int, m_nitemArrNum, IterArrNum);
@@ -108,7 +108,7 @@ public:
 	void ItemRender();
 	bool IsCollisionBetweenItemAndMouse();
 	void ItemRenewalThisPlace(vItem& _vVectorName);
-
+	void EquipmentWearBack(cItemInfo* _placeItem);
 
 
 };
