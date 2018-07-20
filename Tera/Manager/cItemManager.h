@@ -26,7 +26,10 @@ class cItemManager
 {
 private:
 	typedef vector<cItemInfo*> vItem;
-	typedef vector<cItemInfo*>::iterator viItem;
+
+	typedef vector<cItemInfo> vItem2;
+
+
 
 	struct tagItemPos
 	{

@@ -24,7 +24,7 @@ cItemManager::~cItemManager()
 void cItemManager::Setup()
 {
 
-	hdc = GetDC(g_hWnd);
+
 	//슬롯만들기
 	SetItemSlot(INVENTORY);
 	SetItemSlot(CONSUMABLESSHOP);
@@ -73,6 +73,8 @@ void cItemManager::Update()
 void cItemManager::Render()
 {
 	ItemRender();	
+
+
 }
 
 void cItemManager::Destroy()
@@ -95,7 +97,7 @@ void cItemManager::CreateItem(const char* itemName, const char* filePath, tagIte
 	tagItemInfo _tagItemInfo;
 
 	_tagItemInfo._itemPath = filePath;
-	_tagItemInfo._itemPos = m_vInvenSlot[nItemNum].vec3Pos;
+	_tagItemInfo._itemPos = D3DXVECTOR3(0,0,0);
 	_tagItemInfo._itemName = itemName;
 	_tagItemInfo._itemKind = itemType;
 	_tagItemInfo._itemAbilityValue = itemAbility;
@@ -109,6 +111,7 @@ void cItemManager::CreateItem(const char* itemName, const char* filePath, tagIte
 	vPlaceItem.push_back(m_pItemInfo);
 
 	m_vAllItem.push_back(m_pItemInfo);
+
 
 	nItemNum += 1;
 
@@ -387,7 +390,7 @@ void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPla
 						
 						if (i < 8)
 						{
-
+							if (m_vInvenItem.size() > 39) continue;
 							
 							if (i % 8 == 0 && _UI->GetGold() > 250 )CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", POTION, 50, 250, 50, m_vInvenItem), _UI->CalculatorGold(-250);
 							if (i % 8 == 1 && _UI->GetGold() > 500 )CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", POTION, 100, 500, 100, m_vInvenItem), _UI->CalculatorGold(-500);
@@ -408,11 +411,19 @@ void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPla
 					{
 						if (currentPlaceName == "Inventory")
 						{
-							if (_UI->GetIsCallShop())m_vShopItem.push_back(sendItem[i]);
+							if (_UI->GetIsCallShop())
+							{
+								if (m_vShopItem.size() > 23) continue;
+								m_vShopItem.push_back(sendItem[i]);
+							}
 							else m_vStatusItem.push_back(sendItem[i]);
 						}
 
-						if (currentPlaceName == "Status") m_vInvenItem.push_back(sendItem[i]);
+						if (currentPlaceName == "Status")
+						{
+							if (m_vStatusItem.size() > 3) continue;
+							m_vInvenItem.push_back(sendItem[i]);
+						}
 
 						sendItem.erase(sendItem.begin() + i);
 					}

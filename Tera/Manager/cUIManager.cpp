@@ -26,7 +26,7 @@ void cUIManager::Setup()
 	CreateUIList();
 	ConnectNode();
 
-	inven = 0, shop = 0, status = 0;
+
 	
 }
 
@@ -227,8 +227,8 @@ void cUIManager::CallKeyInput()
 	if (!m_isCallInven && KEYMANAGER->IsOnceKeyDown('I')) m_isCallInven = true;
 	else if (m_isCallInven && KEYMANAGER->IsOnceKeyDown('I')) m_isCallInven = false;
 
-	if (!m_isCallShop && KEYMANAGER->IsOnceKeyDown('S')) m_isCallShop = true;
-	else if (m_isCallShop && KEYMANAGER->IsOnceKeyDown('S')) m_isCallShop = false;
+	if (!m_isCallShop && KEYMANAGER->IsOnceKeyDown('Q')) m_isCallShop = true;
+	else if (m_isCallShop && KEYMANAGER->IsOnceKeyDown('Q')) m_isCallShop = false;
 
 	if (!m_isCallStatus && KEYMANAGER->IsOnceKeyDown('E')) m_isCallStatus = true;
 	else if (m_isCallStatus && KEYMANAGER->IsOnceKeyDown('E')) m_isCallStatus = false;
@@ -333,34 +333,27 @@ int cUIManager::FindUIIndex(const char* szFindIndex)
 
 void cUIManager::UIInfoTextPopUp(const char* szFindIndex)
 {
-	char szTemp[1024];
-
-	if (szFindIndex != NULL)
-	{
-		int FindIndex = FindUIIndex(szFindIndex);
-		sprintf_s(szTemp, 1024, "x = %d \t y = %d", (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._41 - ptMouse.x
-			, (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._42 - ptMouse.y);
-	}
-
-	else sprintf_s(szTemp, 1024, "inven = %d \t\t\t status = %d \t\t\t shop = %d ", inven, status, shop);
-	
-	
-
-	
-
-
-
-	RECT rc2;
-	SetRect(&rc2, 100, 100, 800, 200);
-
-	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA, { 30, 20 });
-	pFont->DrawTextA(NULL,
-		szTemp,
-		strlen(szTemp),
-		&rc2,
-		DT_LEFT | DT_TOP,
-		D3DCOLOR_XRGB(255, 255, 0));
-	pFont->Release();
+	//char szTemp[1024];
+	//
+	//if (szFindIndex != NULL)
+	//{
+	//	int FindIndex = FindUIIndex(szFindIndex);
+	//	sprintf_s(szTemp, 1024, "x = %d \t y = %d", (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._41 - ptMouse.x
+	//		, (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._42 - ptMouse.y);
+	//}
+	//
+	//
+	//RECT rc2;
+	//SetRect(&rc2, 100, 100, 800, 200);
+	//
+	//LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA, { 30, 20 });
+	//pFont->DrawTextA(NULL,
+	//	szTemp,
+	//	strlen(szTemp),
+	//	&rc2,
+	//	DT_LEFT | DT_TOP,
+	//	D3DCOLOR_XRGB(255, 255, 0));
+	//pFont->Release();
 }
 
 

@@ -62,7 +62,7 @@ private:
 	
 	cUIInfo* m_pUIInfo;
 
-	int inven, shop, status;
+
 
 
 public:
