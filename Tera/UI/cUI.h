@@ -4,6 +4,9 @@ class cUI :
 	public cUIInfo
 {
 public:
+
+	void Destroy();
+
 	cUI();
 	virtual~cUI();
 };

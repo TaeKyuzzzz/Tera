@@ -16,15 +16,7 @@ cUIInfo::cUIInfo()
 
 cUIInfo::~cUIInfo()
 {
-	//SAFE_DELETE(m_pText);
-	//SAFE_DELETE(m_pUIImage);
-	//SAFE_DELETE(m_pUIButtonImage);
-
-	m_pUIImage->Destroy();
-	m_pText->Destroy();
-	m_pUIButtonImage->Destroy();
-
-	m_pSprite->Release();
+	SAFE_DELETE(m_pUIRoot);
 }
 
 void cUIInfo::Setup(tagTextPack* _tagTextPack, tagUIInfo* _UI)

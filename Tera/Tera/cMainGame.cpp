@@ -35,6 +35,8 @@ cMainGame::~cMainGame()
 	STATICMESHMANAGER->Destroy();
 	PARTICLEMANAGER->Destroy();
 	CAMERAMANAGER->Destroy();
+	ITEMMANAGER->Destroy();
+	UIMANAGER->Destroy();
 
 	g_pDeviceManager->Destroy();
 }

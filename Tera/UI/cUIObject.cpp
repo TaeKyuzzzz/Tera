@@ -17,6 +17,7 @@ cUIObject::cUIObject()
 
 cUIObject::~cUIObject()
 {
+	
 }
 
 void cUIObject::AddChild(cUIObject * pChild)

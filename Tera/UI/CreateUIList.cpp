@@ -17,7 +17,7 @@ void cUIManager::CreateUIList()
 	CreateUI(WINDOW, "ConsumablesIcon", "Texture/UIIcon/ConsumablesShopIcon.png", D3DXVECTOR3(m_vShopPos.x - 20, m_vShopPos.y - 20, 0), { -1,-1 }, "ConsumablesShop");
 	CreateUI(BUTTON, "closeIdleC", "Texture/UIIcon/closeIdle.png", "Texture/UIIcon/closeOver.png", "Texture/UIIcon/closeDown.png",
 		D3DXVECTOR3(m_vShopPos.x + 340, m_vShopPos.y + 5, 0), "ConsumablesShop");
-	CreateUI(BUTTON, "TotalSalesAmount", "Texture/UIIcon/TotalSalesAmountIdle.png", "Texture/UIIcon/Texture/UIIcon/TotalSalesAmountOver.png"
+	CreateUI(BUTTON, "SaleBT", "Texture/UIIcon/TotalSalesAmountIdle.png", "Texture/UIIcon/Texture/UIIcon/TotalSalesAmountOver.png"
 		, "Texture/UIIcon/Texture/UIIcon/TotalSalesAmountDown.png", D3DXVECTOR3(m_vShopPos.x + 300, m_vShopPos.y + 255, 0), "ConsumablesShop");
 
 	//¿Â∫Ò√¢

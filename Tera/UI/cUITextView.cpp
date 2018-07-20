@@ -9,7 +9,7 @@ cUITextView::cUITextView()
 
 cUITextView::~cUITextView()
 {
-	SAFE_DELETE_ARRAY(m_pRect);
+	//SAFE_DELETE(m_pRect);
 }
 
 void cUITextView::SetText(tagTextPack* _tagTextPack)

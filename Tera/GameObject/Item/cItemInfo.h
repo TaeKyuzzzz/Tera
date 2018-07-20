@@ -34,6 +34,7 @@ private:
 	SYNTHESIZE(const char*, m_szName, Name);
 	SYNTHESIZE(const char*, m_szAbilityKind, AbilityKind);
 	SYNTHESIZE(const char*, m_szExplain, Explain);
+	SYNTHESIZE(int, m_nSalePrice, SalePrice);
 
 public:
 	cItemInfo();
@@ -42,6 +43,7 @@ public:
 	void Setup(tagItemInfo* _item);
 	void Update();
 	void Render();
+
 
 	void TransPos(D3DXVECTOR3 vec3Pos);
 	//void ConnectNode(cUIObject* parrent);

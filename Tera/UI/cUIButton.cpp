@@ -13,12 +13,18 @@ cUIButton::cUIButton()
 
 cUIButton::~cUIButton()
 {
-	SAFE_DELETE_ARRAY(m_arrTexture[BT_STATE_COUNT]);
+
+
+	//SAFE_DELETE_ARRAY(m_arrTexture[BT_STATE_COUNT]);
 }
 
 void cUIButton::SetTexture(const char * szUp, const char * szOver, const char * szDown)
 {
+
+	
 	D3DXIMAGE_INFO stImageInfo;
+
+	
 	
 	m_arrTexture[BT_UP] = TEXTUREMANAGER->GetTexture(szUp,&stImageInfo);
 	m_stSize.fHeight = stImageInfo.Height;

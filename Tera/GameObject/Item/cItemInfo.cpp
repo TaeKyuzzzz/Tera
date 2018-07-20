@@ -11,8 +11,11 @@ cItemInfo::cItemInfo()
 
 cItemInfo::~cItemInfo()
 {
-	SAFE_DELETE(m_pUIImage);
-	m_pSprite->Release();
+	SAFE_DELETE(m_pUIRoot);
+
+
+	//m_pSprite->Release();
+	//g_pD3DDevice->Release();
 }
 
 void cItemInfo::Setup(tagItemInfo* _item)
@@ -21,7 +24,7 @@ void cItemInfo::Setup(tagItemInfo* _item)
 	m_pUIImage->SetTexture(_item->_itemPath);
 	m_pUIImage->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_szName = _item->_itemName;
-
+	m_nSalePrice = _item->_itemSalePrice;
 
 
 	m_stAbility.abilityValue = _item->_itemAbilityValue;

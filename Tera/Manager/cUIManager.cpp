@@ -17,7 +17,8 @@ cUIManager::cUIManager()
 
 cUIManager::~cUIManager()
 {
-
+	//SAFE_DELETE(m_pUIInfo);
+	//m_pUIInfo->
 }
 
 void cUIManager::Setup()

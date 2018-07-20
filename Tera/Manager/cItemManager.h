@@ -15,7 +15,7 @@ class cItem;
 class cUIObject;
 class cUIImageView;
 class cUIManager;
-
+class cUIButton;
 class cUIInfo;
 
 #define INVENTORYNUMMAX 40
@@ -89,7 +89,7 @@ public:
 
 	
 	inline void GetMemoryLinkUI(cUIManager* UI) { _UI = UI; }
-	void CreateItem(const char* itemName, const char* filePath, tagItemKind itemType, int itemAbility, int itemBuyPrice, int itemSalePrice, vItem& vPlaceItem);
+	void CreateItem(const char* itemName, const char* filePath, tagItemKind itemType, int itemAbility, int itemSalePrice, vItem& vPlaceItem);
 	//아이템생성 리스트
 	void CreateItemList();
 	//아이템이 위치할 슬롯 생성
@@ -109,6 +109,7 @@ public:
 	bool IsCollisionBetweenItemAndMouse();
 	void ItemRenewalThisPlace(vItem& _vVectorName);
 	void EquipmentWearBack(cItemInfo* _placeItem);
+	void SalesItemCalculator();
 
 
 };
