@@ -74,10 +74,25 @@ void cItemManager::Render()
 {
 	ItemRender();	
 
-	//for (int i = 0; i < m_vStatusSlot.size(); i++)
-	//{
-	//	Rectangle(hdc, m_vStatusSlot[i].rc.left, m_vStatusSlot[i].rc.top, m_vStatusSlot[i].rc.right, m_vStatusSlot[i].rc.bottom);
-	//}
+	char szTemp[1024];
+
+
+	
+	sprintf_s(szTemp, 1024, "인벤아이템갯수 : %d, \n 장비창아이템갯수 : %d"
+		, m_vInvenItem.size(), m_vStatusItem.size());
+
+	RECT rc2;
+	SetRect(&rc2, 100, 200, 800, 400);
+
+	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA, { 30, 20 });
+	pFont->DrawTextA(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc2,
+		DT_LEFT | DT_TOP,
+		D3DCOLOR_XRGB(255, 255, 0));
+	pFont->Release();
+
 }
 
 void cItemManager::Destroy()
@@ -425,7 +440,7 @@ void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPla
 								//입고있던 아이템의 인덱스를 알아내서 삭제하는 함수
 								EquipmentWearBack(sendItem[i]);												
 								m_vStatusItem.push_back(sendItem[i]);
-								m_vInvenItem.erase(sendItem.begin() + i);
+								//m_vInvenItem.erase(sendItem.begin() + i);
 							}
 						}
 
