@@ -42,11 +42,10 @@ private:
 private:
 	SINGLETONE(cItemManager);
 
-	SYNTHESIZE(vItem, m_vItem, VItem);
 	SYNTHESIZE(vItem, m_vInvenItem, InvenItem);
 	SYNTHESIZE(vItem, m_vShopItem, ShopItem);
 	SYNTHESIZE(vItem, m_vStatusItem, StatusItem);
-	SYNTHESIZE(vItem, m_vShopServeItem, ShopServeItem);
+	SYNTHESIZE(vItem, m_vAllItem, AllItem);
 
 
 	SYNTHESIZE(vector<tagItemPos>, m_vInvenSlot, VInvenSlot);
@@ -75,12 +74,15 @@ private:
 	SYNTHESIZE(int, m_nUINum, UINum);
 	SYNTHESIZE(int, m_nSlotArrNum, SlotArrNum);
 
+	cItemInfo* m_pItemInfo;
+
 
 public:
 
 	void Setup();
 	void Update();
 	void Render();
+	void Destroy();
 
 	
 	inline void GetMemoryLinkUI(cUIManager* UI) { _UI = UI; }
@@ -101,7 +103,7 @@ public:
 	void SortInSlot();
 	void ItemUpdate();
 	void ItemRender();
-	bool CollisionBetweenItemAndMouse(vItem& _vVectorName);
+	bool IsCollisionBetweenItemAndMouse();
 	void ItemRenewalThisPlace(vItem& _vVectorName);
 
 

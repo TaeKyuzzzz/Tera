@@ -26,20 +26,23 @@ void cUIManager::Setup()
 	CreateUIList();
 	ConnectNode();
 
+	inven = 0, shop = 0, status = 0;
 	
 }
 
 void cUIManager::Update()
 {
+
+
 	//closeIdel 뒤의 I = Inventory S = Status C = ConsumablesShop
 	CloseUI("closeIdleI");
 	CloseUI("closeIdleS");
 	CloseUI("closeIdleC");
 
-	//아이템 정보창
-	m_vUI[FindUIIndex("ItemInfoWindow")]->Update();
-	if (m_isItemInfoOutPut) m_vUI[FindUIIndex("ItemInfoWindow")]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x, ptMouse.y, 0));
-		
+
+
+	ItemInfoCTextRenewal("이름");
+
 	CallKeyInput();
 
 
@@ -47,11 +50,16 @@ void cUIManager::Update()
 	if (m_isCallStatus)		CallUIUpdate("Status");
 	if (m_isCallShop)		CallUIUpdate("ConsumablesShop");
 
-	for (int i = 1; i < 2; i++)
+
+	//아이템 정보창
+	m_vUI[FindUIIndex("ItemInfoWindow")]->Update();
+	if (m_isItemInfoOutPut) m_vUI[FindUIIndex("ItemInfoWindow")]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x, ptMouse.y, 0));
+
+	for (int i = 1; i < 3; i++)
 	{
 		ItemInfoITextRenewal(i);
 	}
-	
+
 	//UIInfoTextPopUp("Inventory");
 }
 
@@ -73,14 +81,19 @@ void cUIManager::Render()
 		m_vText[i]->Render();
 	}
 
-	//UIInfoTextPopUp("Inventory");
+	UIInfoTextPopUp();
 
 
 }
 
+void cUIManager::Destroy()
+{
+	SAFE_DELETE(m_pUIInfo);
+}
+
 void cUIManager::CreateUI(UIType _UIType, const char* UIName, const char* filePath, D3DXVECTOR3 vec3Pos, D3DXVECTOR2 vec2ReduceDragSize, const char* UIParentName)
 {
-	cUIInfo* _UIInfo = new cUI;
+	m_pUIInfo = new cUI;
 
 	tagUIInfo _tagUIInfo;
 
@@ -91,14 +104,14 @@ void cUIManager::CreateUI(UIType _UIType, const char* UIName, const char* filePa
 	_tagUIInfo._UIParentName = UIParentName;
 	_tagUIInfo._UIReduceDragSize = vec2ReduceDragSize;
 
-	_UIInfo->Setup(NULL, &_tagUIInfo);
-	m_vUI.push_back(_UIInfo);
+	m_pUIInfo->Setup(NULL, &_tagUIInfo);
+	m_vUI.push_back(m_pUIInfo);
 }
 
 void cUIManager::CreateUI(UIType _UIType, const char * UIName, const char * filePath1, const char * filePath2, const char * filePath3, D3DXVECTOR3 vec3Pos,  const char * UIParentName)
 {
 
-	cUIInfo* _UIInfo = new cUI;
+	m_pUIInfo = new cUI;
 
 	tagUIInfo _tagUIInfo;
 
@@ -111,8 +124,8 @@ void cUIManager::CreateUI(UIType _UIType, const char * UIName, const char * file
 	_tagUIInfo._UIParentName = UIParentName;
 
 
-	_UIInfo->Setup(NULL, &_tagUIInfo);
-	m_vUI.push_back(_UIInfo);
+	m_pUIInfo->Setup(NULL, &_tagUIInfo);
+	m_vUI.push_back(m_pUIInfo);
 }
 
 void cUIManager::CreateText(tagText _tagText)
@@ -123,7 +136,7 @@ void cUIManager::CreateText(tagText _tagText)
 	if (_tagText.Type == VARIABLEVALUE)TextDataIndex = UIITextDataIndex(_tagText.nIdentyfyNum);
 	
 
-	cUIInfo* _UIInfo = new cUI;
+	m_pUIInfo = new cUI;
 
 	tagTextPack _tagTextPack;
 
@@ -149,8 +162,8 @@ void cUIManager::CreateText(tagText _tagText)
 
 
 
-	_UIInfo->Setup(&_tagTextPack);
-	m_vText.push_back(_UIInfo);
+	m_pUIInfo->Setup(&_tagTextPack);
+	m_vText.push_back(m_pUIInfo);
 
 }
 
@@ -320,14 +333,21 @@ int cUIManager::FindUIIndex(const char* szFindIndex)
 
 void cUIManager::UIInfoTextPopUp(const char* szFindIndex)
 {
-	int FindIndex = FindUIIndex(szFindIndex);
-	
-
 	char szTemp[1024];
 
-	sprintf_s(szTemp, 1024, "x = %d \t y = %d", (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._41 - ptMouse.x
-		, (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._42 - ptMouse.y);
+	if (szFindIndex != NULL)
+	{
+		int FindIndex = FindUIIndex(szFindIndex);
+		sprintf_s(szTemp, 1024, "x = %d \t y = %d", (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._41 - ptMouse.x
+			, (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._42 - ptMouse.y);
+	}
+
+	else sprintf_s(szTemp, 1024, "inven = %d \t\t\t status = %d \t\t\t shop = %d ", inven, status, shop);
 	
+	
+
+	
+
 
 
 	RECT rc2;
@@ -343,17 +363,22 @@ void cUIManager::UIInfoTextPopUp(const char* szFindIndex)
 	pFont->Release();
 }
 
-int cUIManager::FindCollisionItem(vector<cItemInfo*>& _vPlaceItem)
+
+
+int cUIManager::FindAbilityValue()
 {
-	for (int i = 0; i < _vPlaceItem.size(); i++)
+	for (int i = 0; i < _IM->GetAllItem().size(); i++)
 	{
-		if (_vPlaceItem[i]->GetUIRoot()->GetIsCollision())
+		//부딪혔을때
+		if (_IM->GetAllItem()[i]->GetUIRoot()->GetIsCollision())
 		{
-			return _vPlaceItem[i]->GetAbility().abilityValue;
+			//부딪힌 녀석의 어빌리티값을 리턴한다.
+
+			return _IM->GetAllItem()[i]->GetAbility().abilityValue;
 		}
-		else return 0;
 	}
 }
+
 
 //인트형 텍스트 정보중에서
 void cUIManager::ItemInfoITextRenewal(int sequence)
@@ -366,30 +391,27 @@ void cUIManager::ItemInfoITextRenewal(int sequence)
 		if (m_vText[i]->GetidentifyNUM() == sequence)
 		{
 
-			vector<int> vTempText;
+			vector<int> vInt;
 
 			//새로 만든 벡터를 데이터갯수에 맞게 재조정한다.
-												//첫 텍스트에 입력된 정보가 인트 sequence인 녀석을 찾음
-			vTempText.resize(m_vPreTextIDataPack[UIITextDataIndex(sequence)].size());
+			//팩 벡터 내부의 백터들중에 첫 텍스트에 입력된 정보가 인트 sequence인 녀석을 찾음
+			vInt.resize(m_vPreTextIDataPack[UIITextDataIndex(sequence)].size());
 
 			//0번은 식별자라 1번부터 작성하면된다.
 
-			//골드일 경우 무조건 한개
+			// 번호가 1번일때
 			if (sequence == 1)
 			{
-				vTempText[1] = m_nGold;
-				m_vText[i]->GetText()->SetTextIContents(vTempText);
+				vInt[1] = m_nGold;
+				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 
-			//아닐경우 텍스트 갯수를 모른다
+			// 번호가 2이상일때
 			else
 			{
-				
-				vTempText[1] = 
+				vInt[1] = FindAbilityValue();
 					
-				FindCollisionItem(_IM->GetInvenItem()) + FindCollisionItem(_IM->GetShopItem()) + FindCollisionItem(_IM->GetStatusItem());
-			
-				m_vText[i]->GetText()->SetTextIContents(vTempText);
+				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 
 		
@@ -398,20 +420,62 @@ void cUIManager::ItemInfoITextRenewal(int sequence)
 	}
 }
 
-void cUIManager::ItemInfoCTextRenewal(vector<cItemInfo*> vPlaceItem)
+void cUIManager::ItemInfoCTextRenewal(const char* szFindText)
 {
-	for (int i = 0; i < vPlaceItem.size(); i++)
+	for (int i = 0; i < m_vText.size(); i++)
 	{
-		if (vPlaceItem[i]->GetUIRoot()->GetIsCollision())
+		if (m_vText[i]->GetIdentifyCHAR() == szFindText)
 		{
-			//vPlaceItem[i]
+			vector<const char*> vChar;
+
+			vChar.resize(m_vPreTextCDataPack[UICTextDataIndex(szFindText)].size());
+
+			
+
+			for (int i = 0; i < _IM->GetAllItem().size(); i++)
+			{
+				if (_IM->GetAllItem()[i]->GetUIRoot()->GetIsCollision())
+				{			
+
+					//_IM->GetAllItem()[i]->GetUIRoot()
+
+					vChar[0] = _IM->GetAllItem()[i]->GetName();
+
+					if (_IM->GetAllItem()[i]->GetAbility()._tagItemKind == ETCCONSUMABLES)
+					{
+						vChar[1] = "기능아이템";
+					}
+
+					else if (_IM->GetAllItem()[i]->GetAbility()._tagItemKind == POTION)
+					{
+						vChar[1] = "회복력";
+					}
+
+					else if (_IM->GetAllItem()[i]->GetAbility()._tagItemKind == WEAPON)
+					{
+						vChar[1] = "공격력";
+					}
+
+					else
+					{
+						vChar[1] = "방어력";
+					}
+
+					vChar[2] = "설명";
+
+					vChar[3] = textExplane.find(_IM->GetAllItem()[i]->GetName())->second;
+
+					break;
+				}			
 
 
+				
+			}
 
-			//vector<const char*> vTempText;
-			//vTempText.resize(m_vPreTextCDataPack[UICTextDataIndex])
+
+			m_vText[i]->GetText()->SetTextCContents(vChar);
+			
 		}
-
 	}
 }
 

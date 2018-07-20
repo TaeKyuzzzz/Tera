@@ -95,7 +95,7 @@ LPD3DXFONT cFontManager::GetFont(eFontType type, D3DXVECTOR2 textSize)
 		fd.CharSet = DEFAULT_CHARSET;
 		fd.OutputPrecision = OUT_DEFAULT_PRECIS;
 		fd.PitchAndFamily = FF_DONTCARE;
-		AddFontResourceExA("c:/Windows/Fonts/GA.ttf", FR_PRIVATE, 0);
+		AddFontResourceExA("Font/GA.ttf", FR_PRIVATE, 0);
 		char str[] = "DS가변 교양있는글씨 M";
 		wcsncpy_s(fd.FaceName, L"DS가변 교양있는글씨 M", sizeof(str));
 

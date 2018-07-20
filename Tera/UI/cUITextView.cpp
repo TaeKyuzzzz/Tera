@@ -9,6 +9,7 @@ cUITextView::cUITextView()
 
 cUITextView::~cUITextView()
 {
+	SAFE_DELETE_ARRAY(m_pRect);
 }
 
 void cUITextView::SetText(tagTextPack* _tagTextPack)
@@ -46,29 +47,32 @@ void cUITextView::Render(LPD3DXSPRITE pSprite)
 
 	char szTemp[1024];
 
-	RECT* rc = new RECT[m_vTextNumMax];
+	m_pRect = new RECT[m_vTextNumMax];
 
 
-
-	//int startIndex;
-	//if (_tagTextType == CONSTCHAR)startIndex = 0;
-	//if (_tagTextType == VARIABLEVALUE)startIndex = 1;
 
 	for (int i = 0; i < m_vTextNumMax; i++)
 	{
+		//변수일때는 첫번째에 키값을 저장하기때문에 건너뛴다.
 		if (_enTextType == VARIABLEVALUE && i == 0)continue;
+		if (_enTextType == VARIABLEVALUE && m_vTextIContents[i] == 0) continue;
 
 		m_pFont = FONTMANAGER->GetFont(cFontManager::FT_GA, m_vTextSize[i]);
+
+
+		//문자일땐 CContents를 변수일땐 IContents의 넣었던걸 꺼내쓴다.
 		if (_enTextType == CONSTCHAR)sprintf_s(szTemp, "%s", m_vTextCContents[i]);
+
 		if (_enTextType == VARIABLEVALUE)sprintf_s(szTemp, "%d", m_vTextIContents[i]);
 
-		SetRect(&rc[i], m_matWorld._41 + m_vTextPos[i].x
+		SetRect(&m_pRect[i], m_matWorld._41 + m_vTextPos[i].x
 			, m_matWorld._42 + m_vTextPos[i].y
 			, m_matWorld._41 + m_vTextPos[i].x + 400
 			, m_matWorld._42 + m_vTextPos[i].y + 800);
+
 		m_pFont->DrawTextA
 			(
-			  NULL, szTemp, strlen(szTemp), &rc[i]
+			  NULL, szTemp, strlen(szTemp), &m_pRect[i]
 			, DT_LEFT | DT_TOP | DT_NOCLIP
 			, D3DCOLOR_XRGB((int)m_vTextColor[i].x, (int)m_vTextColor[i].y, (int)m_vTextColor[i].z)
 			);

@@ -56,9 +56,13 @@ private:
 	
 	SYNTHESIZE(int, m_nGold, Gold);
 
+	map<const char*, const char*> textExplane;
 
 	cItemManager* _IM;
 	
+	cUIInfo* m_pUIInfo;
+
+	int inven, shop, status;
 
 
 public:
@@ -66,6 +70,7 @@ public:
 	void Setup();
 	void Update();
 	void Render();
+	void Destroy();
 	
 	
 	inline void GetMemoryLinkItem(cItemManager* IM) { _IM = IM; }
@@ -94,15 +99,19 @@ public:
 	//추가하는곳 UITextData.cpp에 작성했음
 	void UITextList();
 	void ItemInfoITextRenewal(int sequence);
-	void ItemInfoCTextRenewal(vector<cItemInfo*> _vItem);
-
-
+	void ItemInfoCTextRenewal(const char* szFindText);
 
 	int FindUIIndex(const char* szFindIndex);
-	void UIInfoTextPopUp(const char* szFindIndex);
-	int FindCollisionItem(vector<cItemInfo*>& _vPlaceItem);
+	void UIInfoTextPopUp(const char* szFindIndex = NULL);
+	
+	int FindAbilityValue();
 
 	void CalculatorGold(int Price) { m_nGold += Price; }
+	void TextExplane();
+
+	const char* FindExplane();
+
+	//void FindAbilityValue();
 
 };
 

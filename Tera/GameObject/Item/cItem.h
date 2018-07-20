@@ -6,6 +6,6 @@ class cItem : public cItemInfo
 {
 public:
 	cItem();
-	~cItem();
+	virtual~cItem();
 };
 

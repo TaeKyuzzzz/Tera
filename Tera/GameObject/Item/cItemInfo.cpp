@@ -11,6 +11,8 @@ cItemInfo::cItemInfo()
 
 cItemInfo::~cItemInfo()
 {
+	SAFE_DELETE(m_pUIImage);
+	m_pSprite->Release();
 }
 
 void cItemInfo::Setup(tagItemInfo* _item)
@@ -18,8 +20,12 @@ void cItemInfo::Setup(tagItemInfo* _item)
 	m_pUIImage = new cUIImageView;
 	m_pUIImage->SetTexture(_item->_itemPath);
 	m_pUIImage->SetPosition(D3DXVECTOR3(0, 0, 0));
-	m_szAbility.abilityValue = _item->_itemAbilityValue;
-	m_szAbility._tagItemKind = _item->_itemKind;
+	m_szName = _item->_itemName;
+
+
+
+	m_stAbility.abilityValue = _item->_itemAbilityValue;
+	m_stAbility._tagItemKind = _item->_itemKind;
 	m_pUIRoot = m_pUIImage;
 	
 	// UI

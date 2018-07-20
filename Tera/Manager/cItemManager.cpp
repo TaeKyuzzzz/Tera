@@ -32,26 +32,6 @@ void cItemManager::Setup()
 
 	//아이템목록에 있는 아이템 생성하기
 	CreateItemList();
-	
-	//for (int i = 0; i < 8; i++)
-	//{
-	//	m_vShopItem.push_back(m_vItem[0]);
-	//	m_vShopServeItem.push_back(m_vShopItem[i]);
-	//
-	//	m_vItem.erase(m_vItem.begin());
-	//}
-	//
-	//for (int i = 0; i < 12; i++)
-	//{
-	//	m_vInvenItem.push_back(m_vItem[0]);
-	//	m_vItem.erase(m_vItem.begin());
-	//}
-	
-	
-	
-	
-
-	
 }
 
 void cItemManager::Update()
@@ -68,88 +48,36 @@ void cItemManager::Update()
 	//드래그하는 동안의 예외설정
 	ExceptionsWhileDragging();
 
-	ItemRenewalThisPlace(m_vInvenItem);
-	ItemRenewalThisPlace(m_vShopItem);
-	ItemRenewalThisPlace(m_vStatusItem);
-
-
 	//슬롯 내 정렬
 	SortInSlot();
-
-
 
 
 	//각자 장소에 있는 아이템 모두 업데이트
 	ItemUpdate();
 
-
-
-	MoveFromAToB(m_vInvenItem, m_vShopSlot);
-	MoveFromAToB(m_vShopItem, m_vInvenSlot);
-	MoveFromAToB(m_vInvenItem, m_vStatusSlot);
+	//MoveFromAToB(m_vInvenItem, m_vShopSlot);
+	//MoveFromAToB(m_vShopItem, m_vInvenSlot);
+	//MoveFromAToB(m_vInvenItem, m_vStatusSlot);
 
 	
 	ClickUseItemThisPlace(m_vInvenItem, "Inventory");
 	ClickUseItemThisPlace(m_vStatusItem, "Status");
 	ClickUseItemThisPlace(m_vShopItem, "ConsumablesShop");
 
-	if (CollisionBetweenItemAndMouse(m_vInvenItem) || CollisionBetweenItemAndMouse(m_vShopItem) || CollisionBetweenItemAndMouse(m_vStatusItem))
-		_UI->SetItemInfoOutPut(true);
+	if (IsCollisionBetweenItemAndMouse())_UI->SetItemInfoOutPut(true);
+	
 	else _UI->SetItemInfoOutPut(false);
 	
 }
 
 void cItemManager::Render()
 {
-	ItemRender();
+	ItemRender();	
+}
 
-
-	//for (int i = 0; i < m_vStatusSlot.size(); i++)
-	//{
-	//	Rectangle(hdc, m_vStatusSlot[i].rc.left, m_vStatusSlot[i].rc.top, m_vStatusSlot[i].rc.right, m_vStatusSlot[i].rc.bottom);
-	//
-	//	char szTemp[1024];
-	//	//sprintf_s(szTemp, 1024, "x = %d \t y = %d", (int)m_vInvenItem[1]->GetUIRoot()->GetPosition().x, (int)m_vInvenItem[1]->GetUIRoot()->GetPosition().y);
-	//	sprintf_s(szTemp, 1024, "%d", (int)i);
-	//	RECT rc[4];
-	//	SetRect(&rc[i], (int)m_vStatusSlot[i].vec3Pos.x
-	//		, (int)m_vStatusSlot[i].vec3Pos.y
-	//		, (int)m_vStatusSlot[i].vec3Pos.x + 400
-	//		, (int)m_vStatusSlot[i].vec3Pos.y + 400);
-	//
-	//	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA, { 30, 20 });
-	//	pFont->DrawTextA(NULL,
-	//		szTemp,
-	//		strlen(szTemp),
-	//		&rc[i],
-	//		DT_LEFT | DT_TOP,
-	//		D3DCOLOR_XRGB(255, 255, 0));
-	//	pFont->Release();
-	//
-	//}
-
-	
-		char szTemp[1024];
-		sprintf_s(szTemp, 1024, "Size = %d", m_vShopItem.size());
-
-
-		RECT rc;
-		SetRect(&rc,
-			300
-			, 300
-			, 2000
-			, 2000);
-
-		LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA, { 30, 20 });
-		pFont->DrawTextA(NULL,
-			szTemp,
-			strlen(szTemp),
-			&rc,
-			DT_LEFT | DT_TOP,
-			D3DCOLOR_XRGB(255, 255, 0));
-		pFont->Release();
-	
-	
+void cItemManager::Destroy()
+{
+	SAFE_DELETE(m_pItemInfo);
 }
 
 
@@ -161,7 +89,7 @@ void cItemManager::Render()
 void cItemManager::CreateItem(const char* itemName, const char* filePath, tagItemKind itemType, int itemAbility, int itemBuyPrice, int itemSalePrice, vItem& vPlaceItem)
 {
 	//새로운 iteminfo클래스 셋팅
-	cItemInfo* _itemInfo = new cItem;
+	m_pItemInfo = new cItem;
 
 	//iteminfo에 보내줄 내용의 형식
 	tagItemInfo _tagItemInfo;
@@ -176,9 +104,11 @@ void cItemManager::CreateItem(const char* itemName, const char* filePath, tagIte
 	//_tagItemInfo._itemExplain;
 
 	//아이템인포에 정보를 전달
-	_itemInfo->Setup(&_tagItemInfo);
+	m_pItemInfo->Setup(&_tagItemInfo);
 	//this클래스의 벡터에 포인터로 저장
-	vPlaceItem.push_back(_itemInfo);
+	vPlaceItem.push_back(m_pItemInfo);
+
+	m_vAllItem.push_back(m_pItemInfo);
 
 	nItemNum += 1;
 
@@ -459,14 +389,14 @@ void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPla
 						{
 
 							
-							if (i % 8 == 0 && _UI->GetGold() > 250 )CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", CONSUMABLES, 50, 250, 50, m_vInvenItem), _UI->CalculatorGold(-250);
-							if (i % 8 == 1 && _UI->GetGold() > 500 )CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", CONSUMABLES, 100, 500, 100, m_vInvenItem), _UI->CalculatorGold(-500);
-							if (i % 8 == 2 && _UI->GetGold() > 1000 )CreateItem("상급회복물약", "Texture/ItemIcon/HPBig.png", CONSUMABLES, 150, 1000, 200, m_vInvenItem), _UI->CalculatorGold(-1000);
-							if (i % 8 == 3 && _UI->GetGold() > 300 )CreateItem("하급마나물약", "Texture/ItemIcon/MPSmall.png", CONSUMABLES, 50, 300, 60, m_vInvenItem), _UI->CalculatorGold(-300);
-							if (i % 8 == 4 && _UI->GetGold() > 600)CreateItem("중급마나물약", "Texture/ItemIcon/MPMid.png", CONSUMABLES, 100, 600, 120, m_vInvenItem), _UI->CalculatorGold(-600);
-							if (i % 8 == 5 && _UI->GetGold() > 1200)CreateItem("상급마나물약", "Texture/ItemIcon/MPBig.png", CONSUMABLES, 150, 1200, 240, m_vInvenItem), _UI->CalculatorGold(-1200);
-							if (i % 8 == 6 && _UI->GetGold() > 1000)CreateItem("미스테리부적", "Texture/ItemIcon/MysteryPaper.png", CONSUMABLES, 0, 1000, 200, m_vInvenItem), _UI->CalculatorGold(-1000);
-							if (i % 8 == 7 && _UI->GetGold() > 2000)CreateItem("마을귀환서", "Texture/ItemIcon/CityRecall.png", CONSUMABLES, 0, 2000, 400, m_vInvenItem), _UI->CalculatorGold(-2000);
+							if (i % 8 == 0 && _UI->GetGold() > 250 )CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", POTION, 50, 250, 50, m_vInvenItem), _UI->CalculatorGold(-250);
+							if (i % 8 == 1 && _UI->GetGold() > 500 )CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", POTION, 100, 500, 100, m_vInvenItem), _UI->CalculatorGold(-500);
+							if (i % 8 == 2 && _UI->GetGold() > 1000 )CreateItem("상급회복물약", "Texture/ItemIcon/HPBig.png", POTION, 150, 1000, 200, m_vInvenItem), _UI->CalculatorGold(-1000);
+							if (i % 8 == 3 && _UI->GetGold() > 300 )CreateItem("하급마나물약", "Texture/ItemIcon/MPSmall.png", POTION, 50, 300, 60, m_vInvenItem), _UI->CalculatorGold(-300);
+							if (i % 8 == 4 && _UI->GetGold() > 600)CreateItem("중급마나물약", "Texture/ItemIcon/MPMid.png", POTION, 100, 600, 120, m_vInvenItem), _UI->CalculatorGold(-600);
+							if (i % 8 == 5 && _UI->GetGold() > 1200)CreateItem("상급마나물약", "Texture/ItemIcon/MPBig.png", POTION, 150, 1200, 240, m_vInvenItem), _UI->CalculatorGold(-1200);
+							if (i % 8 == 6 && _UI->GetGold() > 1000)CreateItem("미스테리부적", "Texture/ItemIcon/MysteryPaper.png", POTION, 0, 1000, 200, m_vInvenItem), _UI->CalculatorGold(-1000);
+							if (i % 8 == 7 && _UI->GetGold() > 2000)CreateItem("마을귀환서", "Texture/ItemIcon/CityRecall.png", POTION, 0, 2000, 400, m_vInvenItem), _UI->CalculatorGold(-2000);
 						}
 						else
 						{
@@ -499,11 +429,6 @@ void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPla
 
 void cItemManager::ExceptionsWhileDragging()
 {
-	//아이템 아이콘의 드래그앤 드랍을 정확한 슬롯위치에 보정시키기 위해 false로설정
-	for (int i = 0; i < m_vItem.size(); i++)
-	{
-		m_vItem[i]->GetUIImage()->SetIsMove(false);
-	}
 
 	for (int i = 0; i < m_vInvenItem.size(); i++)
 	{
@@ -618,11 +543,7 @@ void cItemManager::SortInSlot()
 
 void cItemManager::ItemUpdate()
 {
-	//아이템들 업데이트
-	for (int i = 0; i < m_vItem.size(); i++)
-	{
-		m_vItem[i]->Update();
-	}
+
 
 
 	//콜 되었을때 인벤토리 아이템 업데이트
@@ -659,10 +580,7 @@ void cItemManager::ItemUpdate()
 
 void cItemManager::ItemRender()
 {
-	for (int i = 0; i < m_vItem.size(); i++)
-	{
-		m_vItem[i]->Render();
-	}
+
 	if (_UI->GetIsCallInven())
 	{
 		//인벤토리 아이템 렌더
@@ -690,12 +608,12 @@ void cItemManager::ItemRender()
 	}
 }
 
-bool cItemManager::CollisionBetweenItemAndMouse(vItem& _vVectorName)
+bool cItemManager::IsCollisionBetweenItemAndMouse()
 {
 
-	for (int i = 0; i < _vVectorName.size(); i++)
+	for (int i = 0; i < m_vAllItem.size(); i++)
 	{
-		if(_vVectorName[i]->GetUIRoot()->GetIsCollision())
+		if(m_vAllItem[i]->GetUIRoot()->GetIsCollision())
 		return true;
 	}
 	return false;

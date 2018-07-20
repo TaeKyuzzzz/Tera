@@ -33,7 +33,7 @@ protected :
 
 	enTextType		_enTextType;
 
-
+	RECT*	m_pRect;
 
 
 public:

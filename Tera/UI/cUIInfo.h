@@ -47,7 +47,7 @@ private:
 
 public:
 	cUIInfo();
-	~cUIInfo();
+	virtual~cUIInfo();
 
 	void Setup(tagTextPack* _tagTextPack, tagUIInfo* _UI = NULL);//tagUIInfo* _UI
 	void Update();

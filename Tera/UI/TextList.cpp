@@ -7,6 +7,12 @@
 #include "UI\cUIButton.h"
 #include "GameObject\Item\cItemInfo.h"
 
+enum eITextTitle
+{
+	GOLD = 1,
+	ITEMVALUE
+};
+
 
 void cUIManager::UITextList()
 {
@@ -33,7 +39,7 @@ void cUIManager::UITextList()
 	CreateUIITextData
 	(
 		//인벤토리
-		{ 1, m_nGold }
+		{ GOLD, m_nGold }
 		, { { 50,10,0 },{ 200,334,0 } }
 		, { { 25,15 } ,{ 15,8 } }
 		, { { 128,128,128 },{ 255,255,255 } }
@@ -41,7 +47,7 @@ void cUIManager::UITextList()
 
 	tagText t4;
 	t4.Type = VARIABLEVALUE;
-	t4.nIdentyfyNum = 1;
+	t4.nIdentyfyNum = GOLD;
 	t4.szParrentName = "Inventory";
 	CreateText(t4);
 #pragma endregion
@@ -51,10 +57,10 @@ void cUIManager::UITextList()
 #pragma region 아이템툴팁
 	CreateUICTextData
 	(
-		{ "이름","능력", "설명" }
-		, { { 50,10,0 },{ 50,40,0 },{ 10,70,0 } }
-		, { { 25,15 },{ 25,15 },{ 25,15 } }
-		, { { 128,128,128 },{ 200,200,200 },{ 128,128,128 } }
+		{ "이름","능력", "설명:", "설명의내용"}
+		, { { 50,10,0 },{ 50,40,0 },{ 10,90,0 }, {30, 120, 0} }
+		, { { 25,15 },{ 25,15 },{ 25,15 }, {25, 15} }
+		, { { 135,132,255 },{ 200,200,200 },{ 128,128,128 }, {128,128,128}}
 	);
 
 	tagText t2;
@@ -66,41 +72,53 @@ void cUIManager::UITextList()
 
 	CreateUIITextData
 	(
-		{ 2, 999}
-		, { { 800, 100, 0 },{ 200, 30, 0 },{ 200, 30, 0 } }
-		, { { 50, 15 },{ 50, 15 },{ 50, 15 } }
-		, { { 230, 230, 230 },{ 230, 50, 230 },{ 230, 50, 230 } }
+		{ ITEMVALUE, ZEROVALUE}
+		, { { 800, 100, 0 },{ 155, 38, 0 }}
+		, { { 50, 15 },{ 30, 15 } }
+		, { { 230, 230, 230 },{ 230, 50, 230 } }
 	);
 
 	tagText t3;
 	t3.Type = VARIABLEVALUE;
-	t3.nIdentyfyNum = 2;
+	t3.nIdentyfyNum = ITEMVALUE;
 	t3.szParrentName = "ItemInfoWindow";
 	CreateText(t3);
-
 #pragma endregion
 
-
-
-
-
-
-
-	
-
-	
-
-
-
-
-
-	
-
-
-	
-	
+	TextExplane();
 }
 
+void cUIManager::TextExplane()
+{
+
+
+
+	textExplane["하급회복물약"] = "소량의 HP를 \n 회복시킨다";
+	textExplane["중급회복물약"] = "적정량의 HP를\n 회복시킨다";
+	textExplane["상급회복물약"] = "대량의 HP를\n 회복시킨다";
+	textExplane["하급마나물약"] = "소량의 MP를\n 회복시킨다";
+	textExplane["중급마나물약"] = "적정량의 MP를\n 회복시킨다";
+	textExplane["상급마나물약"] = "대량의 MP를\n 회복시킨다";
+	textExplane["미스테리부적"] = "사용시 신비한\n 일이 일어난다";
+	textExplane["마을귀환서"] = "가까운 마을로\n 귀환한다";
+	textExplane["고등어"] = "칼날로 된 고등어,\n 먹을 수 없다";
+	textExplane["아이스소드"] = "얼음을 형상화해 \n 만든 검";
+	textExplane["스카이소드"] = "하늘의 모습을\n 담아만든 검";
+	textExplane["검은마력의옷"] = "고대 마력의 비밀\n을 담은 옷";
+	textExplane["검은마력의신발"] = "고대 마력의 비밀\n을 담은 신발";
+	textExplane["검은마력의장갑"] = "고대 마력의 비밀\n을 담은 장갑";
+	textExplane["레더아머"] = "가죽을 덧대어\n 만든 갑옷";
+	textExplane["레더슈즈"] = "가죽을 덧대어를\n 만든 신발";
+	textExplane["레더글로브"] = "가죽을 덧대어\n 만든 장갑";
+	textExplane["스카이아머"] = "하늘의 모습을\n 담아 만든 옷";
+	textExplane["스카이슈즈"] = "하늘의 모습을\n 담아 만든 신발";
+	textExplane["스카이글로브"] = "하늘의 모습을\n 담아 만든 장갑";
+	
+
+	 
+
+
+}
 
 
 

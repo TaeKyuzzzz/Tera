@@ -5,6 +5,6 @@ class cUI :
 {
 public:
 	cUI();
-	~cUI();
+	virtual~cUI();
 };
 

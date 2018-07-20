@@ -25,6 +25,7 @@ cSceneTest::~cSceneTest()
 	SAFE_DELETE(m_pMonster01);
 	SAFE_DELETE(m_pMap);
 
+
 	m_pTown_House->Destroy();
 }
 
@@ -65,6 +66,9 @@ void cSceneTest::Release()
 	SAFE_DELETE(m_pDummy);
 	SAFE_DELETE(m_pMonster01);
 	SAFE_DELETE(m_pMap);
+
+	UIMANAGER->Destroy();
+	ITEMMANAGER->Destroy();
 
 	m_pTown_House->Destroy();
 }

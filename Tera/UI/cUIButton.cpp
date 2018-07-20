@@ -13,6 +13,7 @@ cUIButton::cUIButton()
 
 cUIButton::~cUIButton()
 {
+	SAFE_DELETE_ARRAY(m_arrTexture[BT_STATE_COUNT]);
 }
 
 void cUIButton::SetTexture(const char * szUp, const char * szOver, const char * szDown)

@@ -75,7 +75,8 @@ enum tagItemKind
 	WEAPON,
 	GLOVES,
 	SHOES,
-	CONSUMABLES
+	POTION,
+	ETCCONSUMABLES
 };
 
 struct tagItemInfo

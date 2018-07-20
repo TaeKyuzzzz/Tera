@@ -2,7 +2,7 @@
 
 struct tagItemAbilityType
 {
-	int abilityValue;
+	int abilityValue = 0;
 
 	tagItemKind _tagItemKind;
 	
@@ -30,12 +30,14 @@ private:
 	SYNTHESIZE(cUIImageView*, m_pUIImage, UIImage);
 	SYNTHESIZE(POINT, m_ptDragSize, DragSize);
 	SYNTHESIZE(int, m_nCurrentSlotNum, CurrentSlotNum);
-	SYNTHESIZE(tagItemAbilityType, m_szAbility, Ability);
-
+	SYNTHESIZE(tagItemAbilityType, m_stAbility, Ability);
+	SYNTHESIZE(const char*, m_szName, Name);
+	SYNTHESIZE(const char*, m_szAbilityKind, AbilityKind);
+	SYNTHESIZE(const char*, m_szExplain, Explain);
 
 public:
 	cItemInfo();
-	~cItemInfo();
+	virtual~cItemInfo();
 
 	void Setup(tagItemInfo* _item);
 	void Update();
