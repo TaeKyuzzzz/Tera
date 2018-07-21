@@ -18,6 +18,7 @@ int				Wheel = -40;
 D3DXVECTOR3*	g_vPlayerPos;
 HWND g_hWnd;
 D3DXVECTOR3 g_vCamera;
+bool isOptionMode = true;
 
 // 이 코드 모듈에 들어 있는 함수의 정방향 선언입니다.
 ATOM                MyRegisterClass(HINSTANCE hInstance);

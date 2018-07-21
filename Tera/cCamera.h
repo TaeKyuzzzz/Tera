@@ -6,7 +6,7 @@ private:
 	D3DXVECTOR3		m_vLookAt;
 	D3DXVECTOR3		m_vUp;
 
-	POINT			beforePt;
+	//POINT			beforePt;
 	bool			isDrag;
 	float			m_fWorldX;
 	float			m_fWorldY;
@@ -20,7 +20,8 @@ private:
 	D3DXVECTOR3		m_position;
 
 	SYNTHESIZE(D3DXMATRIX, m_matWorld, World);
-
+	SYNTHESIZE(POINT, beforePt, BeforePT);
+	SYNTHESIZE(POINT, currentPt, CurrentPT);
 public:
 	cCamera();
 	~cCamera();

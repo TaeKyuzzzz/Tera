@@ -30,8 +30,6 @@ void cUIManager::Setup()
 
 void cUIManager::Update()
 {
-
-
 	//closeIdel µÚÀÇ I = Inventory S = Status C = ConsumablesShop
 	CloseUI("closeIdleI");
 	CloseUI("closeIdleS");
@@ -152,13 +150,45 @@ void cUIManager::CallUIRender(const char* UIname)
 
 void cUIManager::CallKeyInput()
 {
-	if (!m_isCallInven && KEYMANAGER->IsOnceKeyDown('I')) m_isCallInven = true;
+	if (KEYMANAGER->IsOnceKeyDown(VK_ESCAPE))
+	{
+		if (isOptionMode)
+		{
+			isOptionMode = false;
+			CAMERAMANAGER->SetType(CAMERA_FREE);
+			m_isCallInven = false;
+			m_isCallShop = false;
+			m_isCallStatus = false;
+		}
+		else
+		{
+			isOptionMode = true;
+			CAMERAMANAGER->SetType(CAMERA_FIX);
+		}
+	}
+
+	if (!m_isCallInven && KEYMANAGER->IsOnceKeyDown('I'))
+	{
+		m_isCallInven = true;
+		isOptionMode = true;
+		CAMERAMANAGER->SetType(CAMERA_FIX);
+	}
 	else if (m_isCallInven && KEYMANAGER->IsOnceKeyDown('I')) m_isCallInven = false;
 
-	if (!m_isCallShop && KEYMANAGER->IsOnceKeyDown('Q')) m_isCallShop = true;
+	if (!m_isCallShop && KEYMANAGER->IsOnceKeyDown('Q'))
+	{
+		m_isCallShop = true;
+		isOptionMode = true;
+		CAMERAMANAGER->SetType(CAMERA_FIX);
+	}
 	else if (m_isCallShop && KEYMANAGER->IsOnceKeyDown('Q')) m_isCallShop = false;
 
-	if (!m_isCallStatus && KEYMANAGER->IsOnceKeyDown('E')) m_isCallStatus = true;
+	if (!m_isCallStatus && KEYMANAGER->IsOnceKeyDown('E'))
+	{
+		m_isCallStatus = true;
+		isOptionMode = true;
+		CAMERAMANAGER->SetType(CAMERA_FIX);
+	}
 	else if (m_isCallStatus && KEYMANAGER->IsOnceKeyDown('E')) m_isCallStatus = false;
 }
 

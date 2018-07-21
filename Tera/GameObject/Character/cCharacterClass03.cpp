@@ -99,121 +99,133 @@ void cCharacterClass03::Update()
 	}
 	
 	// 버튼 조작
-
-	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+	if (!isOptionMode)
 	{
-		// 일반 연격 시작
-		if (m_state == CH_STATE_combo1 || 
-			m_state == CH_STATE_combo2 || 
-			m_state == CH_STATE_combo3 ||
-			m_state == CH_STATE_combo4)
+		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 		{
-			// 연격을 하기 위한 콤여 여부 불 값 갱신 
-			if (!m_bDoCombo)
+			// 일반 연격 시작
+			if (m_state == CH_STATE_combo1 ||
+				m_state == CH_STATE_combo2 ||
+				m_state == CH_STATE_combo3 ||
+				m_state == CH_STATE_combo4)
 			{
-				if (m_fTime >= m_fCurAnimTime - 0.35f)
+				// 연격을 하기 위한 콤여 여부 불 값 갱신 
+				if (!m_bDoCombo)
 				{
-					m_bDoCombo = true;
-					m_fRotY = m_fCosVal;
+					if (m_fTime >= m_fCurAnimTime - 0.35f)
+					{
+						m_bDoCombo = true;
+						m_fRotY = m_fCosVal;
+					}
 				}
 			}
+			// 첫타
+			else if (m_state == CH_STATE_Wait || m_state == CH_STATE_run)
+			{
+				// 정면 카메라 방향 위치 이동 애니메이션 시 해야되는 작업
+				m_fRotY = m_fCosVal;
+				// 위치 이동 애니메이션 시 해야되는 작업
+				SetAnimWorld();
+
+				m_state = CH_STATE_combo1;
+				m_fCurAnimTime = m_fAnimTime[CH_STATE_combo1];
+				m_fTime = 0.0f;
+				m_bIsDone = false;
+			}
 		}
-		// 첫타
-		else if (m_state == CH_STATE_Wait || m_state == CH_STATE_run)
+		else if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON) &&
+			(m_state == CH_STATE_run || m_state == CH_STATE_Wait ||
+				m_state == CH_STATE_combo1R || m_state == CH_STATE_combo2R || m_state == CH_STATE_combo3R))
 		{
-			// 정면 카메라 방향 위치 이동 애니메이션 시 해야되는 작업
-			m_fRotY = m_fCosVal;
-			// 위치 이동 애니메이션 시 해야되는 작업
+
+			GetAngle();
+
 			SetAnimWorld();
 
-			m_state = CH_STATE_combo1;
-			m_fCurAnimTime = m_fAnimTime[CH_STATE_combo1];
+			// 구르기
+			m_state = CH_STATE_tumbling;
+			m_fCurAnimTime = m_fAnimTime[CH_STATE_tumbling];
 			m_fTime = 0.0f;
 			m_bIsDone = false;
 		}
+		else if (KEYMANAGER->IsOnceKeyDown(VK_SPACE))
+		{
+			SetAnimWorld();
+
+			// 여기는 점프를 만들어야 합니다.
+			m_state = CH_STATE_DwonBlow;
+			m_fCurAnimTime = m_fAnimTime[CH_STATE_DwonBlow];
+			m_fTime = 0.0f;
+			m_bIsDone = false;
+		}
+		else if (KEYMANAGER->IsOnceKeyDown('1') && m_state == CH_STATE_Wait)
+		{
+			// 가이아 크래시
+			SetAnimWorld();
+
+			// 여기는 점프를 만들어야 합니다.
+			m_state = CH_STATE_gaiaCrush01;
+			m_fCurAnimTime = m_fAnimTime[CH_STATE_gaiaCrush01];
+			m_fTime = 0.0f;
+			m_bIsDone = false;
+			m_isDoEffect = false;
+		}
+		else if (KEYMANAGER->IsOnceKeyDown('2') && m_state == CH_STATE_Wait)
+		{
+			// 커팅슬래시
+
+			SetAnimWorld();
+
+			// 여기는 점프를 만들어야 합니다.
+			m_state = CH_STATE_CuttingSlash;
+			m_fCurAnimTime = m_fAnimTime[CH_STATE_CuttingSlash];
+			m_fTime = 0.0f;
+			m_bIsDone = false;
+			m_isDoEffect = false;
+		}
+		else if (KEYMANAGER->IsOnceKeyDown('3') && m_state == CH_STATE_Wait)
+		{
+			// 컷헤드
+
+			SetAnimWorld();
+
+			// 여기는 점프를 만들어야 합니다.
+			m_state = CH_STATE_CutHead;
+			m_fCurAnimTime = m_fAnimTime[CH_STATE_CutHead];
+			m_fTime = 0.0f;
+			m_bIsDone = false;
+			m_isDoEffect = false;
+		}
+		else if (KEYMANAGER->IsOnceKeyDown('4') && m_state == CH_STATE_Wait)
+		{
+			SetAnimWorld();
+
+			// 여기는 점프를 만들어야 합니다.
+			m_state = CH_STATE_StingerBlade;
+			m_fCurAnimTime = m_fAnimTime[CH_STATE_StingerBlade];
+			m_fTime = 0.0f;
+			m_bIsDone = false;
+			m_isDoEffect = false;
+		}
+
+		// 스킬 셋에 따른 스킬을 나가게 해야해 ( 포션 사용도 )
+		else if (m_bIsDone)
+		{
+			if (m_state == CH_STATE_run)
+				m_bIsBlend = true;
+			m_state = CH_STATE_Wait;
+		}
 	}
-	else if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON) && 
-		(m_state == CH_STATE_run || m_state == CH_STATE_Wait ||
-			m_state == CH_STATE_combo1R || m_state == CH_STATE_combo2R || m_state == CH_STATE_combo3R))
+	else
 	{
-
-		GetAngle();
-
-		SetAnimWorld();
-		
-		// 구르기
-		m_state = CH_STATE_tumbling;
-		m_fCurAnimTime = m_fAnimTime[CH_STATE_tumbling];
-		m_fTime = 0.0f;
-		m_bIsDone = false;
+		if (m_bIsDone)
+		{
+			if (m_state == CH_STATE_run)
+				m_bIsBlend = true;
+			m_state = CH_STATE_Wait;
+		}
 	}
-	else if (KEYMANAGER->IsOnceKeyDown(VK_SPACE))
-	{
-		SetAnimWorld();
-
-		// 여기는 점프를 만들어야 합니다.
-		m_state = CH_STATE_DwonBlow;
-		m_fCurAnimTime = m_fAnimTime[CH_STATE_DwonBlow];
-		m_fTime = 0.0f;
-		m_bIsDone = false;
-	}
-	else if (KEYMANAGER->IsOnceKeyDown('1') && m_state == CH_STATE_Wait)
-	{
-		// 가이아 크래시
-		SetAnimWorld();
-
-		// 여기는 점프를 만들어야 합니다.
-		m_state = CH_STATE_gaiaCrush01;
-		m_fCurAnimTime = m_fAnimTime[CH_STATE_gaiaCrush01];
-		m_fTime = 0.0f;
-		m_bIsDone = false;
-		m_isDoEffect = false;
-	}
-	else if (KEYMANAGER->IsOnceKeyDown('2') && m_state == CH_STATE_Wait)
-	{
-		// 커팅슬래시
-
-		SetAnimWorld();
-
-		// 여기는 점프를 만들어야 합니다.
-		m_state = CH_STATE_CuttingSlash;
-		m_fCurAnimTime = m_fAnimTime[CH_STATE_CuttingSlash];
-		m_fTime = 0.0f;
-		m_bIsDone = false;
-		m_isDoEffect = false;
-	}
-	else if (KEYMANAGER->IsOnceKeyDown('3') && m_state == CH_STATE_Wait)
-	{
-		// 컷헤드
-
-		SetAnimWorld();
-
-		// 여기는 점프를 만들어야 합니다.
-		m_state = CH_STATE_CutHead;
-		m_fCurAnimTime = m_fAnimTime[CH_STATE_CutHead];
-		m_fTime = 0.0f;
-		m_bIsDone = false;
-		m_isDoEffect = false;
-	}
-	else if (KEYMANAGER->IsOnceKeyDown('4') && m_state == CH_STATE_Wait)
-	{
-		SetAnimWorld();
-
-		// 여기는 점프를 만들어야 합니다.
-		m_state = CH_STATE_StingerBlade;
-		m_fCurAnimTime = m_fAnimTime[CH_STATE_StingerBlade];
-		m_fTime = 0.0f;
-		m_bIsDone = false;
-		m_isDoEffect = false;
-	}
-
-	// 스킬 셋에 따른 스킬을 나가게 해야해 ( 포션 사용도 )
-	else if(m_bIsDone)
-	{
-		if (m_state == CH_STATE_run)
-			m_bIsBlend = true;
-		m_state = CH_STATE_Wait;
-	}
+	
 
 	
 
@@ -252,6 +264,8 @@ void cCharacterClass03::Update()
 	//m_pParticleSet->Update();
 	//m_pParticleHeal->Update();
 
+	// 스킬 공격 ㅊ ㅓ리
+
 	cCharacter::Update();
 }
 
@@ -261,7 +275,9 @@ void cCharacterClass03::Render()
 	//m_pParticleSet->Render();
 	//m_pParticleAura->Render();
 	//m_pParticleHeal->Render();
-
+	
+	
+	
 	cCharacter::Render();
 }
 
@@ -612,6 +628,7 @@ void cCharacterClass03::SkillProcess()
 {
 	D3DXMATRIX matR, matT;
 
+	// 이펙트 있는 스킬의 타격, 파티클 처리
 	if(!m_isDoEffect)
 	{
 		D3DXMatrixRotationY(&matR, m_fRotY);
@@ -627,7 +644,7 @@ void cCharacterClass03::SkillProcess()
 			cBoundingBox hitBox;
 			hitBox.Setup(D3DXVECTOR3(0,0,-60), D3DXVECTOR3(100,10,60));
 			hitBox.SetWorld(matR * matT);
-			OBJECTMANAGER->GiveDamagedMonster(&hitBox, 60);
+			OBJECTMANAGER->GiveDamagedMonster(&hitBox, m_fAttack * 3.0f);
 			CAMERAMANAGER->Shaking(0.275f);
 
 		}
@@ -641,12 +658,11 @@ void cCharacterClass03::SkillProcess()
 			cBoundingBox hitBox;
 			hitBox.Setup(D3DXVECTOR3(0, 0, -60), D3DXVECTOR3(100, 10, 60));
 			hitBox.SetWorld(matR * matT);
-			OBJECTMANAGER->GiveDamagedMonster(&hitBox, 60);
+			OBJECTMANAGER->GiveDamagedMonster(&hitBox, m_fAttack * 3.0f);
 			CAMERAMANAGER->Shaking(0.275f);
 
 		}
 	}
-
 }
 
 void cCharacterClass03::GetAngle()
@@ -697,3 +713,4 @@ void cCharacterClass03::GetAngle()
 
 	m_matWorld = matR * matT;
 }
+
