@@ -3,6 +3,7 @@
 #include "ProgressBar\cProgressBar.h"
 #include "Sprite\cSprite.h"
 #include "iMap.h"
+#include "GameObject\Item\cItem.h"
 
 cCharacter::cCharacter()
 	: m_fRotY(0.0f)
@@ -20,6 +21,8 @@ cCharacter::cCharacter()
 	, m_BackBar(NULL)
 	, m_pMap(NULL)
 	, m_pBleedingAlpha(0)
+	, m_fAttack(20.0f)
+	, m_fDefense(10.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matAnimWorld);
@@ -44,6 +47,7 @@ void cCharacter::Setup()
 	D3DXMATRIX mat;
 	D3DXMatrixScaling(&mat, xSize, 1, 1);
 	m_pBleeding->m_pSprite->SetTransform(&mat);
+
 }
 
 void cCharacter::Update()
@@ -154,4 +158,90 @@ void cCharacter::RenderUpStateBar()
 void cCharacter::Damaged()
 {
 	m_pBleedingAlpha = 120;
+}
+
+bool cCharacter::Attack(float damage)
+{
+	return false;
+}
+
+int cCharacter::ChangeEquit()
+{
+	vector<cItemInfo*> vec = (ITEMMANAGER->GetStatusItem());
+	
+	for (int i = 0; i < vec.size(); i++)
+	{
+		if (vec[i]->GetAbility()._tagItemKind == WEAPON)
+		{
+			if (m_pEquitWeapon)
+			{
+				if (m_pEquitWeapon->GetAbility()._tagItemKind == vec[i]->GetAbility()._tagItemKind)
+					if (strcmp(m_pEquitWeapon->GetName(), vec[i]->GetName()) != 0)
+					{
+						m_pEquitWeapon = vec[i];
+						return 1;
+					}
+			}
+			else
+			{
+				m_pEquitWeapon = vec[i];
+				return 1;
+				
+			}
+		}
+		else if (vec[i]->GetAbility()._tagItemKind == ARMOR)
+		{
+			if (m_pEquitBody)
+			{
+				if (m_pEquitBody->GetAbility()._tagItemKind == vec[i]->GetAbility()._tagItemKind)
+					if (strcmp(m_pEquitBody->GetName(), vec[i]->GetName()) != 0)
+					{
+						m_pEquitBody = vec[i];
+						return 2;
+					}
+			}
+			else
+			{
+				m_pEquitBody = vec[i];
+				return 2;
+			}
+		}
+		else if (vec[i]->GetAbility()._tagItemKind == GLOVES)
+		{
+
+			if (m_pEquitHand)
+			{
+				if (m_pEquitHand->GetAbility()._tagItemKind == vec[i]->GetAbility()._tagItemKind)
+					if (strcmp(m_pEquitHand->GetName(), vec[i]->GetName()) != 0)
+					{
+						m_pEquitHand = vec[i];
+						return 3;
+					}
+			}
+			else
+			{
+				m_pEquitHand = vec[i];
+				return 3;
+			}
+		}
+		else if (vec[i]->GetAbility()._tagItemKind == SHOES)
+		{
+			if (m_pEquitLeg)
+			{
+				if (m_pEquitLeg->GetAbility()._tagItemKind == vec[i]->GetAbility()._tagItemKind)
+					if (strcmp(m_pEquitLeg->GetName(), vec[i]->GetName()) != 0)
+					{
+						m_pEquitLeg = vec[i];
+						return 4;
+					}
+			}
+			else
+			{
+				m_pEquitLeg = vec[i];
+				return 4;
+			}
+		}
+	}
+
+	return 0;
 }

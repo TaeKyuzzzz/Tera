@@ -13,7 +13,6 @@
 cMainGame::cMainGame()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
-	, m_pSceneTest(NULL)
 {
 }
 
@@ -23,7 +22,8 @@ cMainGame::~cMainGame()
 	SAFE_DELETE(m_pGrid);
 	
 	surfcursor->Release();
-	m_cursortex->Release();
+	m_cursorArrow->Release();
+	m_cursorEmpty->Release();
 
 	SCENEMANAGER->Destroy();
 	TEXTUREMANAGER->Destroy();
@@ -53,43 +53,34 @@ void cMainGame::Setup()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
 
-	m_pSceneTest = new cSceneTest;
-	m_pSceneMain = new cSceneMain;
-	m_pSceneLobbyLoading = new cSceneLobbyLoading;
-	m_pScenePaticleEdit = new cScenePaticleEdit;
-
-	SCENEMANAGER->AddScene("Test", m_pSceneTest);
-	SCENEMANAGER->AddScene("LobbyLoading", m_pSceneLobbyLoading);
-	SCENEMANAGER->AddScene("Main", m_pSceneMain);
-	SCENEMANAGER->AddScene("PaticleEdit", m_pScenePaticleEdit);
+	SCENEMANAGER->AddScene("Test", new cSceneTest);
+	SCENEMANAGER->AddScene("LobbyLoading", new cSceneLobbyLoading);
+	SCENEMANAGER->AddScene("Main", new cSceneMain);
+	SCENEMANAGER->AddScene("PaticleEdit", new cScenePaticleEdit);
 
 	SCENEMANAGER->ChangeScene("Main");
 	
 	// 커서 설정하는 부분
-	//m_cursortex = TEXTUREMANAGER->GetTexture("Texture/Cursor/Arrow.png");
-	//m_cursortex = TEXTUREMANAGER->GetTexture("Texture/Cursor/Empty.png");
-	D3DXCreateTextureFromFile(g_pD3DDevice, L"Texture/Cursor/Arrow.png", &m_cursortex);
-	m_cursortex->GetSurfaceLevel(0, &surfcursor);
-
+	//m_cursorArrow = TEXTUREMANAGER->GetTexture("Texture/Cursor/Arrow.png");
+	//m_cursorEmpty = TEXTUREMANAGER->GetTexture("Texture/Cursor/Empty.png");
+	D3DXCreateTextureFromFile(g_pD3DDevice, L"Texture/Cursor/Arrow.png", &m_cursorArrow);
+	D3DXCreateTextureFromFile(g_pD3DDevice, L"Texture/Cursor/Empty.png", &m_cursorEmpty);
+	
+	m_cursorArrow->GetSurfaceLevel(0, &surfcursor);
+	g_pD3DDevice->SetCursorProperties(0, 0, surfcursor);
+	
 	// 커서 가두기
 	//RECT Clip;
 	//GetClientRect(g_hWnd, &Clip);
 	//ClientToScreen(g_hWnd, (LPPOINT)&Clip);
 	//ClientToScreen(g_hWnd, (LPPOINT)(&Clip.right));
 	//ClipCursor(&Clip);
-
-	g_pD3DDevice->SetCursorProperties(0, 0, surfcursor);
 }
 
 void cMainGame::Update()
 {
-
 	SCENEMANAGER->Update();
 	
-	/*if (g_vPlayerPos)
-		m_pCamera->UpdateFix(*g_vPlayerPos);
-	else
-		m_pCamera->UpdateFix(D3DXVECTOR3(0, 0, 0));*/
 	CAMERAMANAGER->Update();
 
 	RemoteMode();
@@ -100,11 +91,16 @@ void cMainGame::Render()
 	g_pD3DDevice->Clear(NULL, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
 		D3DCOLOR_XRGB(254, 254,254), 1.0f, 0);
 
+	SetCursor(NULL);
+	
+	if(isOptionMode)
+		g_pD3DDevice->ShowCursor(true);
+	else
+		g_pD3DDevice->ShowCursor(false);
+
 	g_pD3DDevice->BeginScene();
 	
 	/////////////////////////////////////////////////////////////////
-	SetCursor(NULL);
-	g_pD3DDevice->ShowCursor(true);
 	
 
 	m_pGrid->Render();

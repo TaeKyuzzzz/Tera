@@ -16,15 +16,9 @@ private :
 	cCamera*				m_pCamera;
 	cGrid*					m_pGrid;
 
-	cSceneTest*				m_pSceneTest;
-	
-	cSceneMain*				m_pSceneMain;
-
-	cSceneLobbyLoading*		m_pSceneLobbyLoading;
-	cScenePaticleEdit*		m_pScenePaticleEdit;
-
 	LPDIRECT3DSURFACE9 surfcursor;
-	LPDIRECT3DTEXTURE9 m_cursortex;
+	LPDIRECT3DTEXTURE9 m_cursorArrow;
+	LPDIRECT3DTEXTURE9 m_cursorEmpty;
 
 public:
 	cMainGame();
