@@ -22,7 +22,7 @@
     <ProjectGuid>{0C1A8ED4-9DFE-473C-AECC-1F530935F9D7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Tera</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -154,6 +154,7 @@
     <ClInclude Include="BoundingBox\cBoundingBox.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="BoundingBox\Cube\cCube.h" />
+    <ClInclude Include="GameObject\Monster\cKelsaik.h" />
     <ClInclude Include="cShader.h" />
     <ClInclude Include="GameObject\Item\cItem.h" />
     <ClInclude Include="GameObject\Item\cItemInfo.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="BoundingBox\cBoundingBox.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="BoundingBox\Cube\cCube.cpp" />
+    <ClCompile Include="GameObject\Monster\cKelsaik.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="GameObject\Item\cItem.cpp" />
     <ClCompile Include="GameObject\Item\cItemInfo.cpp" />
