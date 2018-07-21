@@ -96,13 +96,9 @@ void cItemManager::Render()
 {
 	ItemRender();	
 
-	for (int i = 0; i < m_vAllItem.size(); i++)
-	{
-		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
-		{
-			m_vItemExplaneWindow[0]->Render();
-		}
-	}
+	ItemExplaneWindowRender(m_vInvenItem);
+	ItemExplaneWindowRender(m_vStatusItem);
+	ItemExplaneWindowRender(m_vShopItem);
 
 	for (int i = 0; i < m_vText.size(); i++)
 	{
@@ -344,6 +340,22 @@ int cItemManager::FindItemExplaneWndIndex(const char* szItemExplaneName)
 		if (m_vAllItem[i]->GetName() == szItemExplaneName)
 		{
 			return i;
+		}
+	}
+}
+
+void cItemManager::ItemExplaneWindowRender(vItem vPlaceItem)
+{
+	for (int i = 0; i < vPlaceItem.size(); i++)
+	{
+		if (vPlaceItem[i]->GetUIRoot()->GetIsCollision())
+		{
+			if (vPlaceItem == m_vStatusItem && _UI->GetIsCallStatus() || 
+				vPlaceItem == m_vInvenItem && _UI->GetIsCallInven() ||	
+				vPlaceItem == m_vShopItem && _UI->GetIsCallShop())		
+				
+			m_vItemExplaneWindow[0]->Render();
+		
 		}
 	}
 }
@@ -916,17 +928,6 @@ void cItemManager::ItemRender()
 		}
 	}
 }
-
-//bool cItemManager::IsCollisionBetweenItemAndMouse()
-//{
-//
-//	for (int i = 0; i < m_vAllItem.size(); i++)
-//	{
-//		if(m_vAllItem[i]->GetUIRoot()->GetIsCollision())
-//		return true;
-//	}
-//	return false;
-//}
 
 void cItemManager::ItemRenewalThisPlace(vItem& _vVectorName)
 {

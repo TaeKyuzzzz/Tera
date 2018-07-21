@@ -85,7 +85,7 @@ private:
 	SYNTHESIZE(int, m_nGold, Gold);
 
 
-#pragma region 텍스트관련
+#pragma region 텍스트관련변수
 
 	SYNTHESIZE(vItem, m_vText, VText);
 
@@ -138,6 +138,7 @@ public:
 	void TextExplane();
 	int FindAbilityValue();
 	int FindItemExplaneWndIndex(const char* szItemExplaneName);
+	void ItemExplaneWindowRender(vItem vPlaceItem);
 
 #pragma endregion
 
@@ -162,7 +163,6 @@ public:
 	void SortInSlot();
 	void ItemUpdate();
 	void ItemRender();
-	bool IsCollisionBetweenItemAndMouse();
 	void ItemRenewalThisPlace(vItem& _vVectorName);
 	void EquipmentWearBack(cItemInfo* _placeItem);
 	void SalesItemCalculator();
