@@ -80,14 +80,9 @@ void cItemManager::Update()
 	
 
 	//아이템 정보창
-	for (int i = 0; i < m_vAllItem.size(); i++)
+	for (int i = 0; i < m_vItemImitation.size(); i++)
 	{
-		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
-		{
 			m_vItemImitation[i]->Update();		
-			
-
-		}
 	}
 	for (int i = 0; i < m_vItemImitation.size(); i++)
 	{
@@ -116,17 +111,36 @@ void cItemManager::Render()
 	ItemExplaneRendingCondition(m_vStatusItem);
 	ItemExplaneRendingCondition(m_vShopItem);
 
+	//if (isPlaceItemCollision)
+	//{
+	//	//아이템 정보창
+	//	for (int i = 0; i < m_vItemImitation.size(); i++)
+	//	{
+	//		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+	//		{
+	//			m_vItemImitation[i]->Render();
+	//		}
+	//	}
+	//}
+
 	if (isPlaceItemCollision)
 	{
 		//아이템 정보창
-		for (int i = 0; i < m_vAllItem.size(); i++)
+		for (int i = 0; i < m_vItemImitation.size(); i++)
 		{
-			if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+			for (int j = 0; j < m_vAllItem.size(); j++)
 			{
-				m_vItemImitation[i]->Render();
+				if (m_vAllItem[j]->GetUIRoot()->GetIsCollision())
+				{
+					if (m_vItemImitation[i]->GetName() == m_vAllItem[j]->GetName())
+						m_vItemImitation[i]->Render();
+				}
 			}
 		}
 	}
+
+
+
 
 	for (int i = 0; i < m_vText.size(); i++)
 	{
