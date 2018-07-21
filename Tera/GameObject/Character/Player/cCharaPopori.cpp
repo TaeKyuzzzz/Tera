@@ -32,6 +32,8 @@ void cCharaPopori::Setup()
 
 	cSkinnedMesh * pSkinnedMesh;
 
+	m_pWeapon = new cWeapon00;
+	m_pWeapon->Setup();
 
 	m_pHair = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Head", "Hair01.X");
 	m_pBody = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_00.X");
@@ -257,7 +259,7 @@ void cCharaPopori::ChangeWeapon()
 		if (m_pWeapon)
 			SAFE_DELETE(m_pWeapon);
 
-		if (m_pEquitWeapon->GetName()== "대검")
+		if (m_pEquitWeapon->GetName() == "대검")
 		{
 			m_pWeapon = new cWeapon00;
 			m_pWeapon->Setup();
@@ -284,9 +286,9 @@ void cCharaPopori::ChangeBody()
 {
 	
 		float position = m_pBody->GetAnimPosition();
-		m_pEquitBody->GetName();
+		//m_pEquitBody->GetName();
 
-		if (m_pEquitBody->GetName() == "")
+		if (m_pEquitBody == NULL)
 		{
 			m_pBody = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_00.X");
 			m_pBody->SetAnimationIndex(m_currState);
@@ -319,7 +321,7 @@ void cCharaPopori::ChangeHand()
 	
 		float position = m_pHand->GetAnimPosition();
 
-		if (m_pEquitHand->GetName() == "")
+		if (m_pEquitHand == NULL)
 		{
 			m_pHand = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_00.X");
 			m_pHand->SetAnimationIndex(m_currState);
@@ -347,7 +349,7 @@ void cCharaPopori::ChangeLeg()
 {
 	float position = m_pLeg->GetAnimPosition();
 
-	if (m_pEquitLeg->GetName() == "")
+	if (m_pEquitLeg == NULL)
 	{
 		m_pLeg = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Leg", "Leg_00.X");
 		m_pLeg->SetAnimationIndex(m_currState);
