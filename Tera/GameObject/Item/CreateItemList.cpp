@@ -31,12 +31,12 @@ void cItemManager::CreateItemList()
 	//레더셋트
 	CreateItem("레더아머", "Texture/ItemIcon/LeatherClothes.png", NOTANITEM, 50, 2600, m_vItemImitation);
 	CreateItem("레더슈즈", "Texture/ItemIcon/LeatherShoes.png", NOTANITEM, 15, 1100, m_vItemImitation);
-	CreateItem("레더글로브", "Texture/ItemIcon/LeatherGlove.png", NOTANITEM, 11, 900, m_vItemImitation);
+	CreateItem("레더글러브", "Texture/ItemIcon/LeatherGlove.png", NOTANITEM, 11, 900, m_vItemImitation);
 
 	//퍼플플랫셋트
 	CreateItem("퍼플플랫아머", "Texture/ItemIcon/PurpleClothes.png", NOTANITEM, 20, 1000, m_vItemImitation);
 	CreateItem("퍼플플랫슈즈", "Texture/ItemIcon/PurpleShoes.png", NOTANITEM, 5, 200, m_vItemImitation);
-	CreateItem("퍼플플랫글로브", "Texture/ItemIcon/PurpleGlove.png", NOTANITEM, 3, 160, m_vItemImitation);
+	CreateItem("퍼플플랫글러브", "Texture/ItemIcon/PurpleGlove.png", NOTANITEM, 3, 160, m_vItemImitation);
 #pragma endregion
 
 	
@@ -64,12 +64,12 @@ void cItemManager::CreateItemList()
 	//레더셋트
 	CreateItem("레더아머", "Texture/ItemIcon/LeatherClothes.png", ARMOR, 50, 2600, m_vInvenItem);
 	CreateItem("레더슈즈", "Texture/ItemIcon/LeatherShoes.png", SHOES, 15, 1100, m_vInvenItem);
-	CreateItem("레더글로브", "Texture/ItemIcon/LeatherGlove.png", GLOVES, 11, 900, m_vInvenItem);
+	CreateItem("레더글러브", "Texture/ItemIcon/LeatherGlove.png", GLOVES, 11, 900, m_vInvenItem);
 	
 	//스카이셋트
 	CreateItem("퍼플플랫아머", "Texture/ItemIcon/PurpleClothes.png", ARMOR, 20, 1000, m_vInvenItem);
 	CreateItem("퍼플플랫슈즈", "Texture/ItemIcon/PurpleShoes.png", SHOES, 5, 200, m_vInvenItem);
-	CreateItem("퍼플플랫글로브", "Texture/ItemIcon/PurpleGlove.png", GLOVES, 3, 160, m_vInvenItem);
+	CreateItem("퍼플플랫글러브", "Texture/ItemIcon/PurpleGlove.png", GLOVES, 3, 160, m_vInvenItem);
 
 
 

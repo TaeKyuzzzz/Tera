@@ -137,10 +137,10 @@ void cItemManager::TextExplane()
 	textExplane["검은마력의장갑"] = "고대 마력의 비밀\n을 담은 장갑";
 	textExplane["레더아머"] = "가죽을 덧대어\n 만든 갑옷";
 	textExplane["레더슈즈"] = "가죽을 덧대어를\n 만든 신발";
-	textExplane["레더글로브"] = "가죽을 덧대어\n 만든 장갑";
+	textExplane["레더글러브"] = "가죽을 덧대어\n 만든 장갑";
 	textExplane["퍼플플랫아머"] = "보라색 천을 \n덧대어 만든 옷";
 	textExplane["퍼플플랫슈즈"] = "보라색 천을 \n덧대어 만든 신발";
-	textExplane["퍼플플랫글로브"] = "보라색 천을 \n덧대어 만든 장갑";
+	textExplane["퍼플플랫글러브"] = "보라색 천을 \n덧대어 만든 장갑";
 	
 
 	 

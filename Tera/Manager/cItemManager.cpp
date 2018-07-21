@@ -77,19 +77,21 @@ void cItemManager::Update()
 
 
 	m_vItemAssistant[0]->Update();
+	m_vItemAssistant[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x, ptMouse.y + 20, 0));
+	m_vItemAssistant[1]->GetUIImage()->SetPosition(D3DXVECTOR3(110, 200, 0));
 	
 
 	//아이템 정보창
 	for (int i = 0; i < m_vItemImitation.size(); i++)
 	{
-			m_vItemImitation[i]->Update();		
+		m_vItemImitation[i]->Update();		
 	}
 	for (int i = 0; i < m_vItemImitation.size(); i++)
 	{
 		m_vItemImitation[i]->GetUIImage()->SetPosition(D3DXVECTOR3(ptMouse.x + 5, ptMouse.y + 33, 0));
 	}
-	m_vItemAssistant[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x, ptMouse.y + 20, 0));
-	m_vItemAssistant[1]->GetUIImage()->SetPosition(D3DXVECTOR3(110, 200, 0));
+
+
 
 
 
@@ -125,6 +127,7 @@ void cItemManager::Render()
 
 	if (isPlaceItemCollision)
 	{
+
 		//아이템 정보창
 		for (int i = 0; i < m_vItemImitation.size(); i++)
 		{
@@ -137,6 +140,7 @@ void cItemManager::Render()
 				}
 			}
 		}
+		
 	}
 
 
