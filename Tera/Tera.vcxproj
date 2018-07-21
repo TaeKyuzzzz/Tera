@@ -41,7 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -154,6 +154,7 @@
     <ClInclude Include="BoundingBox\cBoundingBox.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="BoundingBox\Cube\cCube.h" />
+    <ClInclude Include="GameObject\Monster\cKelsaik.h" />
     <ClInclude Include="cShader.h" />
     <ClInclude Include="GameObject\Item\cItem.h" />
     <ClInclude Include="GameObject\Item\cItemInfo.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="BoundingBox\cBoundingBox.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="BoundingBox\Cube\cCube.cpp" />
+    <ClCompile Include="GameObject\Monster\cKelsaik.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="GameObject\Item\cItem.cpp" />
     <ClCompile Include="GameObject\Item\cItemInfo.cpp" />
