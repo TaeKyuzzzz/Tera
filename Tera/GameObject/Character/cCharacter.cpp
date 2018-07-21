@@ -58,6 +58,9 @@ void cCharacter::Update()
 	if (m_pBleedingAlpha > 0)
 		m_pBleedingAlpha -= 2;
 	//m_matWorld._42 = m_vPosition.y;
+
+	ITEMMANAGER->SetAttackValue(m_fAttack);
+	ITEMMANAGER->SetDefenceValue(m_fDefense);
 }
 
 void cCharacter::Render()

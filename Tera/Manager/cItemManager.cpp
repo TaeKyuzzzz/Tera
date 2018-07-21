@@ -85,9 +85,9 @@ void cItemManager::Update()
 	}
 	m_vItemExplaneWindow[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x, ptMouse.y, 0));
 	
-	ItemInfoCTextRenewal("이름");
+	ItemInfoCTextRenewal("아이템정보");
 
-	for (int i = 1; i < 3; i++)
+	for (int i = 1; i < 4; i++)
 	{
 		ItemInfoITextRenewal(i);
 	}
@@ -242,17 +242,26 @@ void cItemManager::ItemInfoITextRenewal(int sequence)
 
 			//0번은 식별자라 1번부터 작성하면된다.
 
-			// 번호가 1번일때
+			// 번호가 1번일때 인벤토리 소지금 텍스트
 			if (sequence == 1)
 			{
 				vInt[1] = m_nGold;
 				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 
-			// 번호가 2이상일때
-			else
+			// 번호가 2이상일때 아이템툴팁 텍스트
+			else if(sequence == 2)
 			{
 				vInt[1] = FindAbilityValue();
+
+				m_vText[i]->GetText()->SetTextIContents(vInt);
+			}
+			//스테이터스 텍스트
+			else if (sequence == 3)
+			{
+				vInt[1] = m_nAttackValue;
+
+				vInt[2] = m_nDefenceValue;
 
 				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}

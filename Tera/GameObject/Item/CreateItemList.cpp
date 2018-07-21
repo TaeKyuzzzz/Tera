@@ -39,10 +39,6 @@ void cItemManager::CreateItemList()
 	CreateItem("스카이슈즈", "Texture/ItemIcon/SkyBoots.png", SHOES, 5, 200, m_vInvenItem);
 	CreateItem("스카이글로브", "Texture/ItemIcon/SkyGlove.png", GLOVES, 3, 160, m_vInvenItem);
 
-	//스카이셋트
-	CreateItem("스카이아머", "Texture/ItemIcon/SkyCloth.png", ARMOR, 20, 1000, m_vStatusItem);
-	CreateItem("스카이슈즈", "Texture/ItemIcon/SkyBoots.png", SHOES, 5, 200, m_vStatusItem);
-	CreateItem("스카이글로브", "Texture/ItemIcon/SkyGlove.png", GLOVES, 3, 160, m_vStatusItem);
 
 
 

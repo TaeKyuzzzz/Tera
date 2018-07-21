@@ -80,6 +80,9 @@ private:
 	SYNTHESIZE(int, m_nUINum, UINum);
 	SYNTHESIZE(int, m_nSlotArrNum, SlotArrNum);
 
+	SYNTHESIZE(int, m_nAttackValue, AttackValue);
+	SYNTHESIZE(int, m_nDefenceValue, DefenceValue);
+
 	cItemInfo* m_pItemInfo;
 
 	//일단 골드 여기에 둠 캐릭터 클래스만들기전까지
