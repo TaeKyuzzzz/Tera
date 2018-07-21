@@ -75,7 +75,7 @@ void cItemManager::UITextList()
 	t6.nIdentyfyNum = CHARACTERSPEC;
 	t6.szParrentName = "Status";
 	CreateText(t6);
-	//123
+	
 
 #pragma endregion
 
