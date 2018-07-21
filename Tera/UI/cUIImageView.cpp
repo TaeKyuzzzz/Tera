@@ -11,8 +11,9 @@ cUIImageView::cUIImageView()
 
 cUIImageView::~cUIImageView()
 {
-	SAFE_RELEASE(m_pTexture);
-	TEXTUREMANAGER->Destroy();
+	//SAFE_RELEASE(m_pTexture);
+	//m_pTexture->Release();
+	//TEXTUREMANAGER->Destroy();
 }
 
 void cUIImageView::SetTexture(const char * szFullPath)

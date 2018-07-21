@@ -2,6 +2,11 @@
 #include "cUI.h"
 
 
+void cUI::Destroy()
+{
+	
+}
+
 cUI::cUI()
 {
 }
