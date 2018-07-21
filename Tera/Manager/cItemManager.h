@@ -49,7 +49,8 @@ private:
 	SYNTHESIZE(vItem, m_vShopItem, ShopItem);
 	SYNTHESIZE(vItem, m_vStatusItem, StatusItem);
 	SYNTHESIZE(vItem, m_vAllItem, AllItem);
-	SYNTHESIZE(vItem, m_vItemExplaneWindow, ItemExplaneWindow)
+	SYNTHESIZE(vItem, m_vItemAssistant, Assistant);
+	SYNTHESIZE(vItem, m_vItemImitation, ItemImitation)
 
 
 	SYNTHESIZE(vector<tagItemPos>, m_vInvenSlot, VInvenSlot);
@@ -142,6 +143,8 @@ public:
 	void TextExplane();
 	int FindAbilityValue();
 	int FindItemExplaneWndIndex(const char* szItemExplaneName);
+	int FindSalePriceValue();
+	const char* FindItemKind();
 	void ItemExplaneWindowRender(vItem vPlaceItem);
 
 #pragma endregion
@@ -150,7 +153,7 @@ public:
 	
 
 	inline void GetMemoryLinkUI(cUIManager* UI) { _UI = UI; }
-	void CreateItem(const char* itemName, const char* filePath, tagItemKindAndETC itemType, int itemAbility, int itemSalePrice, vItem& vPlaceItem);
+	void CreateItem(const char* itemName, const char* filePath, tagItemKindAndETC itemType, int itemAbility, int itemSalePrice, vItem& vPlaceItem, const char* szParrentName = NULL);
 	//아이템생성 리스트
 	void CreateItemList();
 	//아이템이 위치할 슬롯 생성

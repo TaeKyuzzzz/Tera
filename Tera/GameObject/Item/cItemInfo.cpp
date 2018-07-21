@@ -38,7 +38,9 @@ void cItemInfo::Setup(tagTextPack* _tagTextPack, tagItemInfo* _item)
 			m_pUIImage->SetTexture(_item->_itemPath);
 			m_pUIImage->SetPosition(D3DXVECTOR3(0, 0, 0));
 			m_szName = _item->_itemName;
-			m_pUIRoot = m_pUIImage;
+			m_szParentName = _item->_itemParentName;
+
+			if(!_item->_itemParentName) m_pUIRoot = m_pUIImage;
 
 
 		}
@@ -48,6 +50,7 @@ void cItemInfo::Setup(tagTextPack* _tagTextPack, tagItemInfo* _item)
 			m_pUIImage->SetTexture(_item->_itemPath);
 			m_pUIImage->SetPosition(D3DXVECTOR3(0, 0, 0));
 			m_szName = _item->_itemName;
+			m_nBuyPrice = _item->_itemBuyPrice;
 			m_nSalePrice = _item->_itemSalePrice;
 			m_nAbilityValue = _item->_itemAbilityValue;
 			m_stItemKind = _item->_itemKind;
@@ -73,13 +76,14 @@ void cItemInfo::Render()
 {
 
 	if (m_pUIRoot)m_pUIRoot->Render(m_pSprite);
-	if (m_pUIImage)m_pUIImage->Render(m_pSprite);
+	//if (m_pUIImage)m_pUIImage->Render(m_pSprite);
 
 }
 
 void cItemInfo::ConnectNode(cUIObject* pParent)
 {
 	if (m_pText)pParent->AddChild(m_pText);
+	else if (m_pUIImage)pParent->AddChild(m_pUIImage);
 }
 
 void cItemInfo::TransPos(D3DXVECTOR3 vec3Pos)

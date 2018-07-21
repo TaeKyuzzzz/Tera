@@ -27,6 +27,7 @@ private:
 	SYNTHESIZE(const char*, m_szName, Name);
 	SYNTHESIZE(const char*, m_szAbilityKind, szAbilityKind);
 	SYNTHESIZE(const char*, m_szExplain, Explain);
+	SYNTHESIZE(int, m_nBuyPrice, BuyPrice);
 	SYNTHESIZE(int, m_nSalePrice, SalePrice);
 	
 	//텍스트관련

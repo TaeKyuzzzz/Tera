@@ -76,21 +76,35 @@ void cItemManager::Update()
 	SalesItemCalculator();
 
 
+	m_vItemAssistant[0]->Update();
+	
 
 	//아이템 정보창
 	for (int i = 0; i < m_vAllItem.size(); i++)
 	{
 		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
-			m_vItemExplaneWindow[0]->Update();
+		{
+			m_vItemImitation[i]->Update();		
+			
+
+		}
 	}
-	m_vItemExplaneWindow[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x, ptMouse.y, 0));
-	
+	for (int i = 0; i < m_vItemImitation.size(); i++)
+	{
+		m_vItemImitation[i]->GetUIImage()->SetPosition(D3DXVECTOR3(ptMouse.x + 5, ptMouse.y + 33, 0));
+	}
+	m_vItemAssistant[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x, ptMouse.y + 20, 0));
+	m_vItemAssistant[1]->GetUIImage()->SetPosition(D3DXVECTOR3(110, 200, 0));
+
+
+
 	ItemInfoCTextRenewal("아이템정보");
 
 	for (int i = 1; i < 4; i++)
 	{
 		ItemInfoITextRenewal(i);
 	}
+
 
 }
 
@@ -102,6 +116,17 @@ void cItemManager::Render()
 	ItemExplaneRendingCondition(m_vStatusItem);
 	ItemExplaneRendingCondition(m_vShopItem);
 
+	if (isPlaceItemCollision)
+	{
+		//아이템 정보창
+		for (int i = 0; i < m_vAllItem.size(); i++)
+		{
+			if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+			{
+				m_vItemImitation[i]->Render();
+			}
+		}
+	}
 
 	for (int i = 0; i < m_vText.size(); i++)
 	{
@@ -254,6 +279,8 @@ void cItemManager::ItemInfoITextRenewal(int sequence)
 			{
 				vInt[1] = FindAbilityValue();
 
+				vInt[2] = FindSalePriceValue();
+
 				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			//스테이터스 텍스트
@@ -317,7 +344,7 @@ void cItemManager::ItemInfoCTextRenewal(const char * szFindText)
 
 					vChar[3] = textExplane.find(m_vAllItem[i]->GetName())->second;
 
-					break;
+					vChar[4] = FindItemKind();
 				}
 
 
@@ -356,6 +383,62 @@ int cItemManager::FindItemExplaneWndIndex(const char* szItemExplaneName)
 	}
 }
 
+//int cItemManager::FindSalePriceValue(vItem vPlaceItem)
+//{
+//	for (int i = 0; i < vPlaceItem.size(); i++)
+//	{
+//		if(vPlaceItem == m_vShopItem) return vPlaceItem[i]->GetBuyPrice();
+//		else return vPlaceItem[i]->GetSalePrice();
+//	}
+//	 
+//}
+
+int cItemManager::FindSalePriceValue()
+{
+	for (int i = 0; i < m_vAllItem.size(); i++)
+	{
+
+		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+		{
+
+			int shopIDX = _UI->FindUIIndex("ConsumablesShop");
+			RECT itemRc = m_vAllItem[i]->GetUIRoot()->GetCollisionRect();
+			RECT shopUIRc = _UI->GetVUI()[shopIDX]->GetUIRoot()->GetCollisionRect();
+			RECT tempRc;
+
+			if (IntersectRect(&tempRc, &itemRc, &shopUIRc))
+			{
+				return m_vAllItem[i]->GetBuyPrice();
+			}
+			else return m_vAllItem[i]->GetSalePrice();
+		}
+	}
+
+}
+
+const char * cItemManager::FindItemKind()
+{
+	for (int i = 0; i < m_vAllItem.size(); i++)
+	{
+
+		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+		{
+
+			int shopIDX = _UI->FindUIIndex("ConsumablesShop");
+			RECT itemRc = m_vAllItem[i]->GetUIRoot()->GetCollisionRect();
+			RECT shopUIRc = _UI->GetVUI()[shopIDX]->GetUIRoot()->GetCollisionRect();
+			RECT tempRc;
+
+			if (IntersectRect(&tempRc, &itemRc, &shopUIRc))
+			{
+				return "구입가격";
+			}
+			else return "상점매입가";
+		}
+	}
+	
+}
+
 void cItemManager::ItemExplaneWindowRender(vItem vPlaceItem)
 {
 	for (int i = 0; i < vPlaceItem.size(); i++)
@@ -366,13 +449,13 @@ void cItemManager::ItemExplaneWindowRender(vItem vPlaceItem)
 			if (vPlaceItem == m_vInvenItem && _UI->GetIsCallInven())	
 			if (vPlaceItem == m_vShopItem && _UI->GetIsCallShop())		
 				
-			m_vItemExplaneWindow[0]->Render();
+			m_vItemAssistant[0]->Render();
 		
 		}
 	}
 }
 
-void cItemManager::CreateItem(const char* itemName, const char* filePath, tagItemKindAndETC itemType, int itemAbility, int itemSalePrice, vItem& vPlaceItem)
+void cItemManager::CreateItem(const char* itemName, const char* filePath, tagItemKindAndETC itemType, int itemAbility, int itemSalePrice, vItem& vPlaceItem, const char* szParrentName)
 {
 	//새로운 iteminfo클래스 셋팅
 	m_pItemInfo = new cItem;
@@ -385,7 +468,9 @@ void cItemManager::CreateItem(const char* itemName, const char* filePath, tagIte
 	_tagItemInfo._itemName = itemName;
 	_tagItemInfo._itemKind = itemType;
 	_tagItemInfo._itemAbilityValue = itemAbility;
+	_tagItemInfo._itemBuyPrice = itemSalePrice * 5;
 	_tagItemInfo._itemSalePrice = itemSalePrice;
+	_tagItemInfo._itemParentName = szParrentName;
 	
 	//아이템인포에 정보를 전달
 	m_pItemInfo->Setup(NULL, &_tagItemInfo);
@@ -738,14 +823,17 @@ void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPla
 
 void cItemManager::ConnectNodeCommand()
 {
+	//텍스트와 아이템 설명창의 연결
 	for (int i = 0; i < m_vText.size(); i++)
 	{
 		if (m_vText[i]->GetParentName() == "ItemExplaneWindow")
 		{
-			m_vText[i]->ConnectNode(m_vItemExplaneWindow[0]->GetUIRoot());
+			m_vText[i]->ConnectNode(m_vItemAssistant[0]->GetUIRoot());
 		}
 	}
 
+
+	//텍스트와 ui의 연결
 	for (int i = 0; i < m_vText.size(); i++)
 	{
 		for (int j = 0; j < _UI->GetVUI().size(); j++)
@@ -753,6 +841,18 @@ void cItemManager::ConnectNodeCommand()
 			if (m_vText[i]->GetParentName() == _UI->GetVUI()[j]->GetName())
 			{
 				m_vText[i]->ConnectNode(_UI->GetVUI()[j]->GetUIRoot());
+			}
+		}
+	}
+
+	//itemAssistant와 UI의 연결
+	for (int i = 0; i < m_vItemAssistant.size(); i++)
+	{
+		for (int j = 0; j < m_vItemAssistant.size(); j++)
+		{
+			if (m_vItemAssistant[i]->GetParentName() == m_vItemAssistant[j]->GetName())
+			{
+				m_vItemAssistant[i]->ConnectNode(m_vItemAssistant[j]->GetUIRoot());
 			}
 		}
 	}
@@ -995,11 +1095,14 @@ void cItemManager::ItemExplaneRendingCondition(vItem vPlaceItem)
 	{
 		if (vPlaceItem[i]->GetUIRoot()->GetIsCollision())
 		{
-			if (vPlaceItem == m_vInvenItem && _UI->GetIsCallInven()||
-				vPlaceItem == m_vStatusItem && _UI->GetIsCallStatus()||
+			if (vPlaceItem == m_vInvenItem && _UI->GetIsCallInven() ||
+				vPlaceItem == m_vStatusItem && _UI->GetIsCallStatus() ||
 				vPlaceItem == m_vShopItem && _UI->GetIsCallShop())
-
-				m_vItemExplaneWindow[0]->Render();
+			{
+				isPlaceItemCollision = true;
+				m_vItemAssistant[0]->Render();
+			}
+			else isPlaceItemCollision = false;
 		}
 	}
 }
