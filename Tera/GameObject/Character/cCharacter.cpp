@@ -171,11 +171,11 @@ int cCharacter::ChangeEquit()
 	
 	for (int i = 0; i < vec.size(); i++)
 	{
-		if (vec[i]->GetAbility()._tagItemKind == WEAPON)
+		if (vec[i]->GetItemKind() == WEAPON)
 		{
 			if (m_pEquitWeapon)
 			{
-				if (m_pEquitWeapon->GetAbility()._tagItemKind == vec[i]->GetAbility()._tagItemKind)
+				if (m_pEquitWeapon->GetItemKind() == vec[i]->GetItemKind())
 					if (strcmp(m_pEquitWeapon->GetName(), vec[i]->GetName()) != 0)
 					{
 						m_pEquitWeapon = vec[i];
@@ -189,11 +189,11 @@ int cCharacter::ChangeEquit()
 				
 			}
 		}
-		else if (vec[i]->GetAbility()._tagItemKind == ARMOR)
+		else if (vec[i]->GetItemKind() == ARMOR)
 		{
 			if (m_pEquitBody)
 			{
-				if (m_pEquitBody->GetAbility()._tagItemKind == vec[i]->GetAbility()._tagItemKind)
+				if (m_pEquitBody->GetItemKind() == vec[i]->GetItemKind())
 					if (strcmp(m_pEquitBody->GetName(), vec[i]->GetName()) != 0)
 					{
 						m_pEquitBody = vec[i];
@@ -206,12 +206,12 @@ int cCharacter::ChangeEquit()
 				return 2;
 			}
 		}
-		else if (vec[i]->GetAbility()._tagItemKind == GLOVES)
+		else if (vec[i]->GetItemKind() == GLOVES)
 		{
 
 			if (m_pEquitHand)
 			{
-				if (m_pEquitHand->GetAbility()._tagItemKind == vec[i]->GetAbility()._tagItemKind)
+				if (m_pEquitHand->GetItemKind() == vec[i]->GetItemKind())
 					if (strcmp(m_pEquitHand->GetName(), vec[i]->GetName()) != 0)
 					{
 						m_pEquitHand = vec[i];
@@ -224,11 +224,11 @@ int cCharacter::ChangeEquit()
 				return 3;
 			}
 		}
-		else if (vec[i]->GetAbility()._tagItemKind == SHOES)
+		else if (vec[i]->GetItemKind() == SHOES)
 		{
 			if (m_pEquitLeg)
 			{
-				if (m_pEquitLeg->GetAbility()._tagItemKind == vec[i]->GetAbility()._tagItemKind)
+				if (m_pEquitLeg->GetItemKind() == vec[i]->GetItemKind())
 					if (strcmp(m_pEquitLeg->GetName(), vec[i]->GetName()) != 0)
 					{
 						m_pEquitLeg = vec[i];

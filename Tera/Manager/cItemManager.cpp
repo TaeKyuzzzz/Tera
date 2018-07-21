@@ -85,10 +85,12 @@ void cItemManager::Update()
 
 
 	//아이템 정보창
-	m_vItemExplaneWindow[0]->Update();
+	for (int i = 0; i < m_vAllItem.size(); i++)
+	{
+		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+			m_vItemExplaneWindow[0]->Update();
+	}
 	m_vItemExplaneWindow[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x, ptMouse.y, 0));
-		
-	
 	
 }
 
@@ -96,12 +98,16 @@ void cItemManager::Render()
 {
 	ItemRender();	
 
-	for (int i = 0; i < m_vAllItem.size(); i++)
-	{
-		if(m_vAllItem[i]->GetUIRoot()->GetIsCollision())
-			m_vItemExplaneWindow[0]->Render();
-	}
+	//for (int i = 0; i < m_vAllItem.size(); i++)
+	//{
+	//	if(m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+	//		m_vItemExplaneWindow[0]->Render();
+	//}
 	
+	ItemExplaneRendingCondition(m_vInvenItem);
+	ItemExplaneRendingCondition(m_vStatusItem);
+	ItemExplaneRendingCondition(m_vShopItem);
+
 
 	for (int i = 0; i < m_vText.size(); i++)
 	{
@@ -977,6 +983,21 @@ void cItemManager::SalesItemCalculator()
 				CalculatorGold(m_vShopItem[i]->GetSalePrice());
 				m_vShopItem.erase(m_vShopItem.begin() + 8, m_vShopItem.end());
 			}
+		}
+	}
+}
+
+void cItemManager::ItemExplaneRendingCondition(vItem vPlaceItem)
+{
+	for (int i = 0; i < vPlaceItem.size(); i++)
+	{
+		if (vPlaceItem[i]->GetUIRoot()->GetIsCollision())
+		{
+			if (vPlaceItem == m_vInvenItem && _UI->GetIsCallInven()||
+				vPlaceItem == m_vStatusItem && _UI->GetIsCallStatus()||
+				vPlaceItem == m_vShopItem && _UI->GetIsCallShop())
+
+				m_vItemExplaneWindow[0]->Render();
 		}
 	}
 }

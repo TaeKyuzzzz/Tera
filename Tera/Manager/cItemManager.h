@@ -71,7 +71,7 @@ private:
 	int m_nInvenItemIndex;
 	cUIManager*			_UI;
 	bool isTemp;
-	bool isItemCollision;
+	bool isPlaceItemCollision;
 	int m_vClickedIndex;
 	int m_nWearingIndex;
 	HDC hdc;
@@ -167,7 +167,7 @@ public:
 	void ItemRenewalThisPlace(vItem& _vVectorName);
 	void EquipmentWearBack(cItemInfo* _placeItem);
 	void SalesItemCalculator();
-
+	void ItemExplaneRendingCondition(vItem vPlaceItem);
 
 };
 
