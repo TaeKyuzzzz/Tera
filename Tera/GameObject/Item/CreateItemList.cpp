@@ -19,7 +19,7 @@ void cItemManager::CreateItemList()
 	CreateItem("마을귀환서", "Texture/ItemIcon/CityRecall.png", ETCCONSUMABLES, 0, 400, m_vShopItem);
 	
 	
-	CreateItem("대검", "Texture/ItemIcon/Claymore.png", WEAPON, 15, 200, m_vInvenItem);
+	CreateItem("대검", "Texture/ItemIcon/Claymore.png", WEAPON, 15, 200, m_vStatusItem);
 	CreateItem("아이스소드", "Texture/ItemIcon/TwohandIce.png", WEAPON, 150, 4000, m_vInvenItem);
 	CreateItem("스카이소드", "Texture/ItemIcon/TwohandSky.png", WEAPON, 100, 3000, m_vInvenItem);
 	CreateItem("고등어", "Texture/ItemIcon/TwohandFish.png", WEAPON, 50,2000, m_vInvenItem);

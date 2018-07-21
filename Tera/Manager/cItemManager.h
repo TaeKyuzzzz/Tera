@@ -71,6 +71,7 @@ private:
 	int m_nInvenItemIndex;
 	cUIManager*			_UI;
 	bool isTemp;
+	bool isItemCollision;
 	int m_vClickedIndex;
 	int m_nWearingIndex;
 	HDC hdc;

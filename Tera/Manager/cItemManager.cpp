@@ -96,9 +96,12 @@ void cItemManager::Render()
 {
 	ItemRender();	
 
-	ItemExplaneWindowRender(m_vInvenItem);
-	ItemExplaneWindowRender(m_vStatusItem);
-	ItemExplaneWindowRender(m_vShopItem);
+	for (int i = 0; i < m_vAllItem.size(); i++)
+	{
+		if(m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+			m_vItemExplaneWindow[0]->Render();
+	}
+	
 
 	for (int i = 0; i < m_vText.size(); i++)
 	{
@@ -350,9 +353,9 @@ void cItemManager::ItemExplaneWindowRender(vItem vPlaceItem)
 	{
 		if (vPlaceItem[i]->GetUIRoot()->GetIsCollision())
 		{
-			if (vPlaceItem == m_vStatusItem && _UI->GetIsCallStatus() || 
-				vPlaceItem == m_vInvenItem && _UI->GetIsCallInven() ||	
-				vPlaceItem == m_vShopItem && _UI->GetIsCallShop())		
+			if (vPlaceItem == m_vStatusItem && _UI->GetIsCallStatus())	
+			if (vPlaceItem == m_vInvenItem && _UI->GetIsCallInven())	
+			if (vPlaceItem == m_vShopItem && _UI->GetIsCallShop())		
 				
 			m_vItemExplaneWindow[0]->Render();
 		
@@ -705,7 +708,10 @@ void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPla
 
 						if (currentPlaceName == "Status")
 						{
-							if (m_vInvenItem.size() > 39) continue;
+							if (m_vInvenItem.size() > 39	||
+								sendItem[i]->GetItemKind() == WEAPON) continue;
+
+						
 							m_vInvenItem.push_back(sendItem[i]);
 						}
 
