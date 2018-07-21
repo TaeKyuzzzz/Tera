@@ -43,12 +43,7 @@ void cItemManager::Setup()
 
 void cItemManager::Update()
 {
-	ItemInfoCTextRenewal("이름");
 
-	for (int i = 1; i < 3; i++)
-	{
-		ItemInfoITextRenewal(i);
-	}
 
 	//슬롯을 가지고 있는 UI의 위치를 갱신하여
 	//슬롯의 위치도 갱신시켜준다.
@@ -90,6 +85,13 @@ void cItemManager::Update()
 	}
 	m_vItemExplaneWindow[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x, ptMouse.y, 0));
 	
+	ItemInfoCTextRenewal("이름");
+
+	for (int i = 1; i < 3; i++)
+	{
+		ItemInfoITextRenewal(i);
+	}
+
 }
 
 void cItemManager::Render()
@@ -408,7 +410,6 @@ void cItemManager::SetItemSlot(enumSlotType itemSlotType)
 		m_vec3StatusPos.push_back(D3DXVECTOR3(208, 86, 0));
 		m_vec3StatusPos.push_back(D3DXVECTOR3(44, 86, 0));
 		m_vec3StatusPos.push_back(D3DXVECTOR3(188, 184, 0));
-		//m_vec3StatusPos.push_back(D3DXVECTOR3())
 
 
 		for (int i = 0; i < 4; i++)
