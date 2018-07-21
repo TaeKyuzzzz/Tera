@@ -404,7 +404,7 @@ void cItemManager::SetItemSlot(enumSlotType itemSlotType)
 
 		_tagItemPos.SetSlotType(itemSlotType);
 
-		m_vec3StatusPos.push_back(D3DXVECTOR3(63, 183, 0));
+		m_vec3StatusPos.push_back(D3DXVECTOR3(63, 184, 0));
 		m_vec3StatusPos.push_back(D3DXVECTOR3(208, 86, 0));
 		m_vec3StatusPos.push_back(D3DXVECTOR3(44, 86, 0));
 		m_vec3StatusPos.push_back(D3DXVECTOR3(188, 184, 0));
