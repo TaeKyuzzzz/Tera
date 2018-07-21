@@ -185,6 +185,7 @@ int cCharacter::ChangeEquit()
 				if (m_pEquitWeapon->GetItemKind() == vec[i]->GetItemKind())
 					if (strcmp(m_pEquitWeapon->GetName(), vec[i]->GetName()) != 0)
 					{
+						m_fAttack -= m_pEquitWeapon->GetAbilityValue();
 						m_pEquitWeapon = vec[i];
 						m_fAttack += m_pEquitWeapon->GetAbilityValue();
 						return 1;
@@ -207,6 +208,7 @@ int cCharacter::ChangeEquit()
 				if (m_pEquitBody->GetItemKind() == vec[i]->GetItemKind())
 					if (strcmp(m_pEquitBody->GetName(), vec[i]->GetName()) != 0)
 					{
+						m_fDefense -= m_pEquitBody->GetAbilityValue();
 						m_pEquitBody = vec[i];
 						m_fDefense += m_pEquitBody->GetAbilityValue();
 						return 2;
@@ -228,6 +230,7 @@ int cCharacter::ChangeEquit()
 				if (m_pEquitHand->GetItemKind() == vec[i]->GetItemKind())
 					if (strcmp(m_pEquitHand->GetName(), vec[i]->GetName()) != 0)
 					{
+						m_fDefense -= m_pEquitHand->GetAbilityValue();
 						m_pEquitHand = vec[i];
 						m_fDefense += m_pEquitHand->GetAbilityValue();
 						return 3;
@@ -249,6 +252,7 @@ int cCharacter::ChangeEquit()
 				if (m_pEquitLeg->GetItemKind() == vec[i]->GetItemKind())
 					if (strcmp(m_pEquitLeg->GetName(), vec[i]->GetName()) != 0)
 					{
+						m_fDefense -= m_pEquitLeg->GetAbilityValue();
 						m_pEquitLeg = vec[i];
 						m_fDefense += m_pEquitLeg->GetAbilityValue();
 						return 4;
