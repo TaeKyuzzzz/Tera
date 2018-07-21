@@ -9,6 +9,7 @@ class cSceneMain;
 
 class cSceneLobbyLoading;
 class cScenePaticleEdit;
+class cSceneBossLoading;
 
 class cMainGame : public cGameNode
 {
@@ -22,6 +23,7 @@ private :
 
 	cSceneLobbyLoading*		m_pSceneLobbyLoading;
 	cScenePaticleEdit*		m_pScenePaticleEdit;
+	cSceneBossLoading*		m_pSceneBossLoading;
 
 	LPDIRECT3DSURFACE9 surfcursor;
 	LPDIRECT3DTEXTURE9 m_cursortex;
