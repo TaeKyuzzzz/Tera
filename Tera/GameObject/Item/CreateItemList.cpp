@@ -5,7 +5,10 @@
 
 void cItemManager::CreateItemList()
 {
-	//아이템생성//itemFilePath,             //itemName	 	//itemKind //abilityValue
+	//아이템 설명창
+	CreateItem("ItemExplaneWindow", "Texture/UIIcon/ItemInfoWindow.png", NOTANITEM, NULL, NULL, m_vItemExplaneWindow);
+
+
 	CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", POTION, 50, 50, m_vShopItem);
 	CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", POTION, 100, 100, m_vShopItem);
 	CreateItem("상급회복물약", "Texture/ItemIcon/HPBig.png", POTION, 150, 200, m_vShopItem);
@@ -16,7 +19,7 @@ void cItemManager::CreateItemList()
 	CreateItem("마을귀환서", "Texture/ItemIcon/CityRecall.png", ETCCONSUMABLES, 0, 400, m_vShopItem);
 	
 	
-	
+	CreateItem("대검", "Texture/ItemIcon/Claymore.png", WEAPON, 15, 200, m_vInvenItem);
 	CreateItem("아이스소드", "Texture/ItemIcon/TwohandIce.png", WEAPON, 150, 4000, m_vInvenItem);
 	CreateItem("스카이소드", "Texture/ItemIcon/TwohandSky.png", WEAPON, 100, 3000, m_vInvenItem);
 	CreateItem("고등어", "Texture/ItemIcon/TwohandFish.png", WEAPON, 50,2000, m_vInvenItem);
@@ -40,6 +43,8 @@ void cItemManager::CreateItemList()
 	CreateItem("스카이아머", "Texture/ItemIcon/SkyCloth.png", ARMOR, 20, 1000, m_vStatusItem);
 	CreateItem("스카이슈즈", "Texture/ItemIcon/SkyBoots.png", SHOES, 5, 200, m_vStatusItem);
 	CreateItem("스카이글로브", "Texture/ItemIcon/SkyGlove.png", GLOVES, 3, 160, m_vStatusItem);
+
+
 
 	
 	

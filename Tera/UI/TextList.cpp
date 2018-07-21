@@ -1,11 +1,5 @@
 #include "stdafx.h"
-#include "Manager\cUIManager.h"
-#include "UI/cUIInfo.h"
 #include "Manager\cItemManager.h"
-#include "UI\cUIObject.h"
-#include "UI\cUITextView.h"
-#include "UI\cUIButton.h"
-#include "GameObject\Item\cItemInfo.h"
 
 enum eITextTitle
 {
@@ -14,7 +8,7 @@ enum eITextTitle
 };
 
 
-void cUIManager::UITextList()
+void cItemManager::UITextList()
 {
 
 	//내용(1), 위치(3), 글씨크기(2), 컬러(3)
@@ -66,7 +60,7 @@ void cUIManager::UITextList()
 	tagText t2;
 	t2.Type = CONSTCHAR;
 	t2.szTextName = "이름";
-	t2.szParrentName = "ItemInfoWindow";
+	t2.szParrentName = "ItemExplaneWindow";
 	CreateText(t2);
 
 
@@ -81,14 +75,14 @@ void cUIManager::UITextList()
 	tagText t3;
 	t3.Type = VARIABLEVALUE;
 	t3.nIdentyfyNum = ITEMVALUE;
-	t3.szParrentName = "ItemInfoWindow";
+	t3.szParrentName = "ItemExplaneWindow";
 	CreateText(t3);
 #pragma endregion
 
 	TextExplane();
 }
 
-void cUIManager::TextExplane()
+void cItemManager::TextExplane()
 {
 
 
@@ -101,6 +95,7 @@ void cUIManager::TextExplane()
 	textExplane["상급마나물약"] = "대량의 MP를\n 회복시킨다";
 	textExplane["미스테리부적"] = "사용시 신비한\n 일이 일어난다";
 	textExplane["마을귀환서"] = "가까운 마을로\n 귀환한다";
+	textExplane["대검"] = "커다란 검, \n굉장히 무겁다.";
 	textExplane["고등어"] = "칼날로 된 고등어,\n 먹을 수 없다";
 	textExplane["아이스소드"] = "얼음을 형상화해 \n 만든 검";
 	textExplane["스카이소드"] = "하늘의 모습을\n 담아만든 검";

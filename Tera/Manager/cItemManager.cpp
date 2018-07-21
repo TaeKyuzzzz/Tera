@@ -5,6 +5,7 @@
 #include "UI/cUIInfo.h"
 #include "UI/cUIImageView.h"
 #include "UI/cUIButton.h"
+#include "UI\cUITextView.h"
 
 
 
@@ -24,7 +25,8 @@ cItemManager::~cItemManager()
 
 void cItemManager::Setup()
 {
-
+	UITextList();
+	
 	hdc = GetDC(g_hWnd);
 	//슬롯만들기
 	SetItemSlot(INVENTORY);
@@ -33,11 +35,22 @@ void cItemManager::Setup()
 
 	//아이템목록에 있는 아이템 생성하기
 	CreateItemList();
+
+	ConnectNodeCommand();
+
 }
 
 void cItemManager::Update()
 {
+	ItemInfoCTextRenewal("이름");
 
+
+	
+
+	for (int i = 1; i < 3; i++)
+	{
+		ItemInfoITextRenewal(i);
+	}
 
 	//슬롯을 가지고 있는 UI의 위치를 갱신하여
 	//슬롯의 위치도 갱신시켜준다.
@@ -67,11 +80,15 @@ void cItemManager::Update()
 	ClickUseItemThisPlace(m_vStatusItem, "Status");
 	ClickUseItemThisPlace(m_vShopItem, "ConsumablesShop");
 
-	if (IsCollisionBetweenItemAndMouse())_UI->SetItemInfoOutPut(true);
-	
-	else _UI->SetItemInfoOutPut(false);
-
 	SalesItemCalculator();
+
+
+
+	//아이템 정보창
+	m_vItemExplaneWindow[0]->Update();
+	m_vItemExplaneWindow[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x, ptMouse.y, 0));
+		
+	
 	
 }
 
@@ -79,24 +96,34 @@ void cItemManager::Render()
 {
 	ItemRender();	
 
-	char szTemp[1024];
+	for (int i = 0; i < m_vAllItem.size(); i++)
+	{
+		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+		{
+			m_vItemExplaneWindow[0]->Render();
+		}
+	}
 
+	for (int i = 0; i < m_vText.size(); i++)
+	{
+		m_vText[i]->Render();
+	}
 
-	
-	sprintf_s(szTemp, 1024, "인벤아이템갯수 : %d, \n 장비창아이템갯수 : %d"
-		, m_vInvenItem.size(), m_vStatusItem.size());
+	//값 찍어보기
+	//char szTemp[1024];	
+	//sprintf_s(szTemp, 1024, "인벤아이템갯수 : %d, \n 장비창아이템갯수 : %d"
+	//	, m_vInvenItem.size(), m_vStatusItem.size());
+	//RECT rc2;
+	//SetRect(&rc2, 100, 200, 800, 400);
+	//LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA, { 30, 20 });
+	//pFont->DrawTextA(NULL,
+	//	szTemp,
+	//	strlen(szTemp),
+	//	&rc2,
+	//	DT_LEFT | DT_TOP,
+	//	D3DCOLOR_XRGB(255, 255, 0));
+	//pFont->Release();
 
-	RECT rc2;
-	SetRect(&rc2, 100, 200, 800, 400);
-
-	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA, { 30, 20 });
-	pFont->DrawTextA(NULL,
-		szTemp,
-		strlen(szTemp),
-		&rc2,
-		DT_LEFT | DT_TOP,
-		D3DCOLOR_XRGB(255, 255, 0));
-	pFont->Release();
 
 }
 
@@ -111,13 +138,217 @@ void cItemManager::Destroy()
 
 }
 
+void cItemManager::CreateText(tagText _tagText)
+{
+	int TextDataIndex;
+	//해당 키워드로 텍스트팩 내부를 뒤져서 인덱스번호를 리턴함
+	if (_tagText.Type == CONSTCHAR) TextDataIndex = UICTextDataIndex(_tagText.szTextName);
+	if (_tagText.Type == VARIABLEVALUE)TextDataIndex = UIITextDataIndex(_tagText.nIdentyfyNum);
+
+
+	m_pItemTextInfo = new cItem;
+
+	tagTextPack _tagTextPack;
+
+	if (_tagText.Type == CONSTCHAR)
+	{
+		_tagTextPack._textType = _tagText.Type;
+		_tagTextPack._textParentName = _tagText.szParrentName;
+		_tagTextPack._vTextCContents = m_vPreTextCDataPack[TextDataIndex];
+		_tagTextPack._vTextPos = m_vPreTextCPosPack[TextDataIndex];
+		_tagTextPack._vTextSize = m_vPreTextCSizePack[TextDataIndex];
+		_tagTextPack._vTextColor = m_vPreTextCColorPack[TextDataIndex];
+	}
+
+	if (_tagText.Type == VARIABLEVALUE)
+	{
+		_tagTextPack._textType = _tagText.Type;
+		_tagTextPack._textParentName = _tagText.szParrentName;
+		_tagTextPack._vTextIContents = m_vPreTextIDataPack[TextDataIndex];
+		_tagTextPack._vTextPos = m_vPreTextIPosPack[TextDataIndex];
+		_tagTextPack._vTextSize = m_vPreTextISizePack[TextDataIndex];
+		_tagTextPack._vTextColor = m_vPreTextIColorPack[TextDataIndex];
+	}
 
 
 
+	m_pItemTextInfo->Setup(&_tagTextPack);
+	m_vText.push_back(m_pItemTextInfo);
+
+}
+
+void cItemManager::CreateUICTextData(vTextCContents _vTextCContents, vTextPos _vTextPos, vTextSize _vTextSize, vTextColor _vTextColor)
+{
+	m_vPreTextCDataPack.push_back(_vTextCContents);
+	m_vPreTextCPosPack.push_back(_vTextPos);
+	m_vPreTextCSizePack.push_back(_vTextSize);
+	m_vPreTextCColorPack.push_back(_vTextColor);
+}
+
+void cItemManager::CreateUIITextData(vTextIContents _vTextIContents, vTextPos _vTextPos, vTextSize _vTextSize, vTextColor _vTextColor)
+{
+	m_vPreTextIDataPack.push_back(_vTextIContents);
+	m_vPreTextIPosPack.push_back(_vTextPos);
+	m_vPreTextISizePack.push_back(_vTextSize);
+	m_vPreTextIColorPack.push_back(_vTextColor);
+}
+
+int cItemManager::UICTextDataIndex(const char * titleName)
+{
+	int indexSave;
+	for (int i = 0; i < m_vPreTextCDataPack.size(); )
+	{
+		if (GetPreTextCDataPack()[i].operator[](0) == titleName)
+		{
+			indexSave = i;
+			return indexSave;
+		}
+		else
+		{
+			i++;
+		}
+	}
+}
+
+int cItemManager::UIITextDataIndex(int variableName)
+{
+	int indexSave;
+	for (int i = 0; i < m_vPreTextIDataPack.size(); )
+	{
+		if (GetPreTextIDataPack()[i].operator[](0) == variableName)
+		{
+			indexSave = i;
+			return indexSave;
+		}
+		else
+		{
+			i++;
+		}
+	}
+
+}
+
+void cItemManager::ItemInfoITextRenewal(int sequence)
+{
+	for (int i = 0; i < m_vText.size(); i++)
+	{
+		if (m_vText[i]->GetidentifyNUM() == sequence)
+		{
+
+			vector<int> vInt;
+
+			//새로 만든 벡터를 데이터갯수에 맞게 재조정한다.
+			//팩 벡터 내부의 백터들중에 첫 텍스트에 입력된 정보가 인트 sequence인 녀석을 찾음
+			vInt.resize(m_vPreTextIDataPack[UIITextDataIndex(sequence)].size());
+
+			//0번은 식별자라 1번부터 작성하면된다.
+
+			// 번호가 1번일때
+			if (sequence == 1)
+			{
+				vInt[1] = m_nGold;
+				m_vText[i]->GetText()->SetTextIContents(vInt);
+			}
+
+			// 번호가 2이상일때
+			else
+			{
+				vInt[1] = FindAbilityValue();
+
+				m_vText[i]->GetText()->SetTextIContents(vInt);
+			}
 
 
 
-void cItemManager::CreateItem(const char* itemName, const char* filePath, tagItemKind itemType, int itemAbility, int itemSalePrice, vItem& vPlaceItem)
+		}
+	}
+}
+
+void cItemManager::ItemInfoCTextRenewal(const char * szFindText)
+{
+	for (int i = 0; i < m_vText.size(); i++)
+	{
+		if (m_vText[i]->GetIdentifyCHAR() == szFindText)
+		{
+			vector<const char*> vChar;
+
+			vChar.resize(m_vPreTextCDataPack[UICTextDataIndex(szFindText)].size());
+
+
+
+			for (int i = 0; i < m_vAllItem.size(); i++)
+			{
+				if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+				{
+
+					//m_vAllItem[i]->GetUIRoot()
+
+					vChar[0] = m_vAllItem[i]->GetName();
+
+					if (m_vAllItem[i]->GetItemKind() == ETCCONSUMABLES)
+					{
+						vChar[1] = "기능아이템";
+					}
+
+					else if (m_vAllItem[i]->GetItemKind() == POTION)
+					{
+						vChar[1] = "회복력";
+					}
+
+					else if (m_vAllItem[i]->GetItemKind() == WEAPON)
+					{
+						vChar[1] = "공격력";
+					}
+
+					else
+					{
+						vChar[1] = "방어력";
+					}
+
+					vChar[2] = "설명";
+
+					vChar[3] = textExplane.find(m_vAllItem[i]->GetName())->second;
+
+					break;
+				}
+
+
+
+			}
+
+
+			m_vText[i]->GetText()->SetTextCContents(vChar);
+
+		}
+	}
+}
+
+int cItemManager::FindAbilityValue()
+{
+	for (int i = 0; i < m_vAllItem.size(); i++)
+	{
+		//부딪혔을때
+		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+		{
+			//부딪힌 녀석의 어빌리티값을 리턴한다.
+
+			return m_vAllItem[i]->GetAbilityValue();
+		}
+	}
+}
+
+int cItemManager::FindItemExplaneWndIndex(const char* szItemExplaneName)
+{
+	for (int i = 0; i < m_vAllItem.size(); i++)
+	{
+		if (m_vAllItem[i]->GetName() == szItemExplaneName)
+		{
+			return i;
+		}
+	}
+}
+
+void cItemManager::CreateItem(const char* itemName, const char* filePath, tagItemKindAndETC itemType, int itemAbility, int itemSalePrice, vItem& vPlaceItem)
 {
 	//새로운 iteminfo클래스 셋팅
 	m_pItemInfo = new cItem;
@@ -126,22 +357,28 @@ void cItemManager::CreateItem(const char* itemName, const char* filePath, tagIte
 	tagItemInfo _tagItemInfo;
 
 	_tagItemInfo._itemPath = filePath;
-	_tagItemInfo._itemPos = D3DXVECTOR3(0,0,0);
+	_tagItemInfo._itemPos = D3DXVECTOR3(0, 0, 0);
 	_tagItemInfo._itemName = itemName;
 	_tagItemInfo._itemKind = itemType;
 	_tagItemInfo._itemAbilityValue = itemAbility;
 	_tagItemInfo._itemSalePrice = itemSalePrice;
-
-
+	
 	//아이템인포에 정보를 전달
-	m_pItemInfo->Setup(&_tagItemInfo);
+	m_pItemInfo->Setup(NULL, &_tagItemInfo);
+
 	//this클래스의 벡터에 포인터로 저장
 	vPlaceItem.push_back(m_pItemInfo);
 
-	m_vAllItem.push_back(m_pItemInfo);
+	//아이템의 종류가 아닐땐 아이템설명창 정보에 넣어준다.
+	if (itemType != NOTANITEM) 
+	{
 
+		m_vAllItem.push_back(m_pItemInfo);
 
-	nItemNum += 1;
+		nItemNum += 1;
+
+	}
+
 
 }
 
@@ -421,14 +658,14 @@ void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPla
 						{
 							if (m_vInvenItem.size() > 39) continue;
 							
-							if (i % 8 == 0 && _UI->GetGold() > 250 )CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", POTION, 50, 50, m_vInvenItem), _UI->CalculatorGold(-250);
-							if (i % 8 == 1 && _UI->GetGold() > 500 )CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", POTION, 100, 100, m_vInvenItem), _UI->CalculatorGold(-500);
-							if (i % 8 == 2 && _UI->GetGold() > 1000 )CreateItem("상급회복물약", "Texture/ItemIcon/HPBig.png", POTION, 150, 200, m_vInvenItem), _UI->CalculatorGold(-1000);
-							if (i % 8 == 3 && _UI->GetGold() > 300 )CreateItem("하급마나물약", "Texture/ItemIcon/MPSmall.png", POTION, 50, 60, m_vInvenItem), _UI->CalculatorGold(-300);
-							if (i % 8 == 4 && _UI->GetGold() > 600)CreateItem("중급마나물약", "Texture/ItemIcon/MPMid.png", POTION, 100, 120, m_vInvenItem), _UI->CalculatorGold(-600);
-							if (i % 8 == 5 && _UI->GetGold() > 1200)CreateItem("상급마나물약", "Texture/ItemIcon/MPBig.png", POTION, 150, 240, m_vInvenItem), _UI->CalculatorGold(-1200);
-							if (i % 8 == 6 && _UI->GetGold() > 1000)CreateItem("미스테리부적", "Texture/ItemIcon/MysteryPaper.png", POTION, 0, 200, m_vInvenItem), _UI->CalculatorGold(-1000);
-							if (i % 8 == 7 && _UI->GetGold() > 2000)CreateItem("마을귀환서", "Texture/ItemIcon/CityRecall.png", POTION, 0, 400, m_vInvenItem), _UI->CalculatorGold(-2000);
+							if (i % 8 == 0 && m_nGold > 250 )CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", POTION, 50, 50, m_vInvenItem), CalculatorGold(-250);
+							if (i % 8 == 1 && m_nGold > 500 )CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", POTION, 100, 100, m_vInvenItem), CalculatorGold(-500);
+							if (i % 8 == 2 && m_nGold > 1000 )CreateItem("상급회복물약", "Texture/ItemIcon/HPBig.png", POTION, 150, 200, m_vInvenItem), CalculatorGold(-1000);
+							if (i % 8 == 3 && m_nGold > 300 )CreateItem("하급마나물약", "Texture/ItemIcon/MPSmall.png", POTION, 50, 60, m_vInvenItem), CalculatorGold(-300);
+							if (i % 8 == 4 && m_nGold > 600)CreateItem("중급마나물약", "Texture/ItemIcon/MPMid.png", POTION, 100, 120, m_vInvenItem), CalculatorGold(-600);
+							if (i % 8 == 5 && m_nGold > 1200)CreateItem("상급마나물약", "Texture/ItemIcon/MPBig.png", POTION, 150, 240, m_vInvenItem), CalculatorGold(-1200);
+							if (i % 8 == 6 && m_nGold > 1000)CreateItem("미스테리부적", "Texture/ItemIcon/MysteryPaper.png", POTION, 0, 200, m_vInvenItem), CalculatorGold(-1000);
+							if (i % 8 == 7 && m_nGold > 2000)CreateItem("마을귀환서", "Texture/ItemIcon/CityRecall.png", POTION, 0, 400, m_vInvenItem), CalculatorGold(-2000);
 						}
 						else
 						{
@@ -468,6 +705,30 @@ void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPla
 			}
 		}
 
+	}
+
+
+}
+
+void cItemManager::ConnectNodeCommand()
+{
+	for (int i = 0; i < m_vText.size(); i++)
+	{
+		if (m_vText[i]->GetParentName() == "ItemExplaneWindow")
+		{
+			m_vText[i]->ConnectNode(m_vItemExplaneWindow[0]->GetUIRoot());
+		}
+	}
+
+	for (int i = 0; i < m_vText.size(); i++)
+	{
+		for (int j = 0; j < _UI->GetVUI().size(); j++)
+		{
+			if (m_vText[i]->GetParentName() == _UI->GetVUI()[j]->GetName())
+			{
+				m_vText[i]->ConnectNode(_UI->GetVUI()[j]->GetUIRoot());
+			}
+		}
 	}
 
 
@@ -561,16 +822,16 @@ void cItemManager::SortInSlot()
 {
 	for (int i = 0; i < m_vStatusItem.size(); i++)
 	{
-		if (m_vStatusItem[i]->GetAbility()._tagItemKind == SHOES)
+		if (m_vStatusItem[i]->GetItemKind() == SHOES)
 			m_vStatusItem[i]->TransPos(m_vStatusSlot[0].vec3Pos);
 		
-		else if (m_vStatusItem[i]->GetAbility()._tagItemKind == ARMOR)
+		else if (m_vStatusItem[i]->GetItemKind() == ARMOR)
 			m_vStatusItem[i]->TransPos(m_vStatusSlot[1].vec3Pos);
 
-		else if (m_vStatusItem[i]->GetAbility()._tagItemKind == WEAPON)
+		else if (m_vStatusItem[i]->GetItemKind() == WEAPON)
 			m_vStatusItem[i]->TransPos(m_vStatusSlot[2].vec3Pos);
 
-		else if (m_vStatusItem[i]->GetAbility()._tagItemKind == GLOVES)
+		else if (m_vStatusItem[i]->GetItemKind() == GLOVES)
 			m_vStatusItem[i]->TransPos(m_vStatusSlot[3].vec3Pos);
 
 	}
@@ -656,16 +917,16 @@ void cItemManager::ItemRender()
 	}
 }
 
-bool cItemManager::IsCollisionBetweenItemAndMouse()
-{
-
-	for (int i = 0; i < m_vAllItem.size(); i++)
-	{
-		if(m_vAllItem[i]->GetUIRoot()->GetIsCollision())
-		return true;
-	}
-	return false;
-}
+//bool cItemManager::IsCollisionBetweenItemAndMouse()
+//{
+//
+//	for (int i = 0; i < m_vAllItem.size(); i++)
+//	{
+//		if(m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+//		return true;
+//	}
+//	return false;
+//}
 
 void cItemManager::ItemRenewalThisPlace(vItem& _vVectorName)
 {
@@ -681,7 +942,7 @@ void cItemManager::EquipmentWearBack(cItemInfo* _placeItem)
 	for (int i = 0; i < m_vStatusItem.size(); i++)
 	{
 
-		if (m_vStatusItem[i]->GetAbility()._tagItemKind == _placeItem->GetAbility()._tagItemKind)
+		if (m_vStatusItem[i]->GetItemKind() == _placeItem->GetItemKind())
 
 		{
 			m_vInvenItem.push_back(m_vStatusItem[i]);
@@ -706,7 +967,7 @@ void cItemManager::SalesItemCalculator()
 
 			for (int i = saleSlot; i < m_vShopItem.size(); i++)
 			{
-				_UI->CalculatorGold(m_vShopItem[i]->GetSalePrice());
+				CalculatorGold(m_vShopItem[i]->GetSalePrice());
 				m_vShopItem.erase(m_vShopItem.begin() + 8, m_vShopItem.end());
 			}
 		}

@@ -62,14 +62,8 @@ struct tagTextPack
 	vTextColor	   _vTextColor;
 };
 
-enum tagWhereToUseVariables
-{
-	ICESWORD
-};
 
-
-
-enum tagItemKind
+enum tagItemKindAndETC
 {
 	HELMET,
 	ARMOR,
@@ -77,36 +71,22 @@ enum tagItemKind
 	GLOVES,
 	SHOES,
 	POTION,
-	ETCCONSUMABLES
+	ETCCONSUMABLES,
+	NOTANITEM
 };
 
 struct tagItemInfo
 {
-	const char*	 _itemName;
-	tagItemKind	 _itemKind;
-	D3DXVECTOR3  _itemPos;
-	const char*	 _itemPath;
-	int			 _itemAbilityValue;
-	int			 _itemSalePrice;
-	int			 _itemBuyPrice;
-	const char*	 _itemExplain;
+	const char*			 _itemName;
+	tagItemKindAndETC	 _itemKind;
+	D3DXVECTOR3			 _itemPos;
+	const char*			 _itemPath;
+	int					 _itemAbilityValue;
+	int					 _itemSalePrice;
+	int					 _itemBuyPrice;
+	const char*			 _itemExplain;
 };
 
-
-
-//struct tagDragPointer
-//{
-//	RECT collisionRc;
-//	bool isClick = false;
-//	bool isCollision = false;
-//	POINT g_beforeMousePT = {0,0};
-//	POINT g_move = { 0,0 };
-//	int sequence = 0;
-//	POINT floatToInt;
-//};
-
-//POINT g_beforeMousePT = { 0,0 };
-//POINT g_move = { 0,0 };
 
 
 

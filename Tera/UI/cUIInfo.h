@@ -15,7 +15,7 @@ private:
 
 	SYNTHESIZE(cUIObject*, m_pUIRoot, UIRoot);
 	SYNTHESIZE(cUIImageView*, m_pUIImage, UIImage);
-	SYNTHESIZE(cUITextView*, m_pText, Text);
+
 
 	SYNTHESIZE(cUIButton*, m_pUIButtonImage, UIButtonImage);
 
@@ -29,17 +29,6 @@ private:
 	SYNTHESIZE(const char*, m_Name, Name);
 	SYNTHESIZE(const char*, m_parentName, ParentName);
 
-	//변수일때
-	//SYNTHESIZE(int, m_nWhereToUseVariables, WhereToUseVariables);
-	////상수일때
-	//SYNTHESIZE(const char*, m_szWheretoUseCHAR, WheretoUseCHAR);
-
-	//변수일때
-	SYNTHESIZE(int, m_nIdentify, identifyNUM);
-	//상수일때
-	SYNTHESIZE(const char*, m_szIdentify, IdentifyCHAR);
-
-
 	POINT dragSize;
 	POINT m_ptBeforeMouse;
 	bool m_isCollision;
@@ -49,7 +38,7 @@ public:
 	cUIInfo();
 	virtual~cUIInfo();
 
-	void Setup(tagTextPack* _tagTextPack, tagUIInfo* _UI = NULL);//tagUIInfo* _UI
+	void Setup(tagUIInfo* _UI);//tagUIInfo* _UI
 	void Update();
 	void Render();
 	void ConnectNode(cUIObject* pParent);
