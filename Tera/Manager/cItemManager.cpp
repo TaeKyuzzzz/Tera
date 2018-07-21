@@ -13,6 +13,7 @@ cItemManager::cItemManager()
 	:nItemNum(0)
 	, isTemp(false)
 	, m_vClickedIndex(0)
+	, m_nGold(10000)
 {
 	
 }
@@ -43,9 +44,6 @@ void cItemManager::Setup()
 void cItemManager::Update()
 {
 	ItemInfoCTextRenewal("¿Ã∏ß");
-
-
-	
 
 	for (int i = 1; i < 3; i++)
 	{
@@ -98,12 +96,6 @@ void cItemManager::Render()
 {
 	ItemRender();	
 
-	//for (int i = 0; i < m_vAllItem.size(); i++)
-	//{
-	//	if(m_vAllItem[i]->GetUIRoot()->GetIsCollision())
-	//		m_vItemExplaneWindow[0]->Render();
-	//}
-	
 	ItemExplaneRendingCondition(m_vInvenItem);
 	ItemExplaneRendingCondition(m_vStatusItem);
 	ItemExplaneRendingCondition(m_vShopItem);
