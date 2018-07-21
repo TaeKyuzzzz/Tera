@@ -15,7 +15,7 @@ class cCameraManager
 
 private :
 
-	SYNTHESIZE(CAMERA_TYPE, m_type, Type);
+	CAMERA_TYPE		m_type;
 	
 	cCamera*		m_pCamera;
 
@@ -27,6 +27,9 @@ public :
 
 	void Shaking(float time);
 	void Destroy();
+
+
+	void SetType(CAMERA_TYPE type);
 
 };
 

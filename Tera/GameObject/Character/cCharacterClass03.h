@@ -91,7 +91,6 @@ protected:
 	bool				m_isDoEffect;
 
 
-
 public:
 	cCharacterClass03();
 	~cCharacterClass03();
@@ -122,5 +121,6 @@ public:
 
 	// 키 입력에 따른 각도 구하기
 	void GetAngle();
+
 };
 

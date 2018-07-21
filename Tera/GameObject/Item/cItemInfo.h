@@ -1,16 +1,8 @@
 #pragma once
 
-struct tagItemAbilityType
-{
-	int abilityValue = 0;
-
-	tagItemKind _tagItemKind;
-	
-
-};
-
 class cUIObject;
 class cUIImageView;
+class cUITextView;
 
 
 class cItemInfo
@@ -30,20 +22,31 @@ private:
 	SYNTHESIZE(cUIImageView*, m_pUIImage, UIImage);
 	SYNTHESIZE(POINT, m_ptDragSize, DragSize);
 	SYNTHESIZE(int, m_nCurrentSlotNum, CurrentSlotNum);
-	SYNTHESIZE(tagItemAbilityType, m_stAbility, Ability);
+	SYNTHESIZE(int, m_nAbilityValue, AbilityValue);
+	SYNTHESIZE(tagItemKindAndETC, m_stItemKind, ItemKind);
 	SYNTHESIZE(const char*, m_szName, Name);
-	SYNTHESIZE(const char*, m_szAbilityKind, AbilityKind);
+	SYNTHESIZE(const char*, m_szAbilityKind, szAbilityKind);
 	SYNTHESIZE(const char*, m_szExplain, Explain);
+	SYNTHESIZE(int, m_nSalePrice, SalePrice);
+	
+	//텍스트관련
+	SYNTHESIZE(cUITextView*, m_pText, Text);
+		//변수일때
+	SYNTHESIZE(int, m_nIdentify, identifyNUM);
+		//상수일때
+	SYNTHESIZE(const char*, m_szIdentify, IdentifyCHAR);
+	SYNTHESIZE(const char*, m_szParentName, ParentName);
+
 
 public:
 	cItemInfo();
 	virtual~cItemInfo();
 
-	void Setup(tagItemInfo* _item);
+	void Setup(tagTextPack* _tagTextPack, tagItemInfo* _item = NULL);
 	void Update();
 	void Render();
 
+	void ConnectNode(cUIObject* pParent);
 	void TransPos(D3DXVECTOR3 vec3Pos);
-	//void ConnectNode(cUIObject* parrent);
 };
 

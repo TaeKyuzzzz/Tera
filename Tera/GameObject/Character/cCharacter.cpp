@@ -3,6 +3,7 @@
 #include "ProgressBar\cProgressBar.h"
 #include "Sprite\cSprite.h"
 #include "iMap.h"
+#include "GameObject\Item\cItem.h"
 
 cCharacter::cCharacter()
 	: m_fRotY(0.0f)
@@ -20,6 +21,8 @@ cCharacter::cCharacter()
 	, m_BackBar(NULL)
 	, m_pMap(NULL)
 	, m_pBleedingAlpha(0)
+	, m_fAttack(20.0f)
+	, m_fDefense(10.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matAnimWorld);
@@ -44,6 +47,7 @@ void cCharacter::Setup()
 	D3DXMATRIX mat;
 	D3DXMatrixScaling(&mat, xSize, 1, 1);
 	m_pBleeding->m_pSprite->SetTransform(&mat);
+
 }
 
 void cCharacter::Update()
@@ -154,4 +158,135 @@ void cCharacter::RenderUpStateBar()
 void cCharacter::Damaged()
 {
 	m_pBleedingAlpha = 120;
+}
+
+bool cCharacter::Attack(float damage)
+{
+	return false;
+}
+
+int cCharacter::ChangeEquit()
+{
+	vector<cItemInfo*> vec = (ITEMMANAGER->GetStatusItem());
+	
+	bool isEquitWeapon = false;
+	bool isEquitArmor = false;
+	bool isEquitHand = false;
+	bool isEquitLeg = false;
+
+	for (int i = 0; i < vec.size(); i++)
+	{
+		if (vec[i]->GetItemKind() == WEAPON)
+		{
+			isEquitWeapon = true;
+
+			if (m_pEquitWeapon)
+			{
+				if (m_pEquitWeapon->GetItemKind() == vec[i]->GetItemKind())
+					if (strcmp(m_pEquitWeapon->GetName(), vec[i]->GetName()) != 0)
+					{
+						m_pEquitWeapon = vec[i];
+						m_fAttack += m_pEquitWeapon->GetAbilityValue();
+						return 1;
+					}
+			}
+			else
+			{
+				m_pEquitWeapon = vec[i];
+				m_fAttack += m_pEquitWeapon->GetAbilityValue();
+				return 1;
+				
+			}
+		}
+		 if (vec[i]->GetItemKind() == ARMOR)
+		{
+			isEquitArmor = true;
+
+			if (m_pEquitBody)
+			{
+				if (m_pEquitBody->GetItemKind() == vec[i]->GetItemKind())
+					if (strcmp(m_pEquitBody->GetName(), vec[i]->GetName()) != 0)
+					{
+						m_pEquitBody = vec[i];
+						m_fDefense += m_pEquitBody->GetAbilityValue();
+						return 2;
+					}
+			}
+			else
+			{
+				m_pEquitBody = vec[i];
+				m_fDefense += m_pEquitBody->GetAbilityValue();
+				return 2;
+			}
+		}
+		 if (vec[i]->GetItemKind() == GLOVES)
+		{
+			isEquitHand = true;
+
+			if (m_pEquitHand)
+			{
+				if (m_pEquitHand->GetItemKind() == vec[i]->GetItemKind())
+					if (strcmp(m_pEquitHand->GetName(), vec[i]->GetName()) != 0)
+					{
+						m_pEquitHand = vec[i];
+						m_fDefense += m_pEquitHand->GetAbilityValue();
+						return 3;
+					}
+			}
+			else
+			{
+				m_pEquitHand = vec[i];
+				m_fDefense += m_pEquitHand->GetAbilityValue();
+				return 3;
+			}
+		}
+		 if (vec[i]->GetItemKind() == SHOES)
+		{
+			isEquitLeg = true;
+
+			if (m_pEquitLeg)
+			{
+				if (m_pEquitLeg->GetItemKind() == vec[i]->GetItemKind())
+					if (strcmp(m_pEquitLeg->GetName(), vec[i]->GetName()) != 0)
+					{
+						m_pEquitLeg = vec[i];
+						m_fDefense += m_pEquitLeg->GetAbilityValue();
+						return 4;
+					}
+			}
+			else
+			{
+				m_pEquitLeg = vec[i];
+				m_fDefense += m_pEquitLeg->GetAbilityValue();
+				return 4;
+			}
+		}
+	}
+
+	if (isEquitWeapon == false && m_pEquitWeapon != NULL)
+	{
+		m_fAttack -= m_pEquitWeapon->GetAbilityValue();
+		m_pEquitWeapon = NULL;
+		return 1;
+	}
+	if (isEquitArmor == false && m_pEquitBody != NULL)
+	{
+		m_fDefense -= m_pEquitBody->GetAbilityValue();
+		m_pEquitBody = NULL;
+		return 2;
+	}
+	if (isEquitHand == false && m_pEquitHand != NULL)
+	{
+		m_fDefense -= m_pEquitHand->GetAbilityValue();
+		m_pEquitHand = NULL;
+		return 3;
+	}
+	 if (isEquitLeg == false && m_pEquitLeg != NULL)
+	{
+		m_fDefense -= m_pEquitLeg->GetAbilityValue();
+		m_pEquitLeg = NULL;
+		return 4;
+	}
+
+	return 0;
 }

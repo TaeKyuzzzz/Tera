@@ -18,6 +18,7 @@ int				Wheel = -40;
 D3DXVECTOR3*	g_vPlayerPos;
 HWND g_hWnd;
 D3DXVECTOR3 g_vCamera;
+bool isOptionMode = true;
 
 // 이 코드 모듈에 들어 있는 함수의 정방향 선언입니다.
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -55,12 +56,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	cTimeManager::GetInstance();
 
 
+	ITEMMANAGER->GetMemoryLinkUI(UIMANAGER);
+	UIMANAGER->GetMemoryLinkItem(ITEMMANAGER);
 
 	UIMANAGER->Setup();
 	ITEMMANAGER->Setup();
-
-	ITEMMANAGER->GetMemoryLinkUI(UIMANAGER);
-	UIMANAGER->GetMemoryLinkItem(ITEMMANAGER);
+	
 
 	g_pMainGame = new cMainGame;
 	g_pMainGame->Setup();

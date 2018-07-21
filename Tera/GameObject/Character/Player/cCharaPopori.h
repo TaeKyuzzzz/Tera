@@ -49,6 +49,9 @@ public:
 
 	//캐릭터가 몬스터를 공격하는 함수
 	virtual bool Attack(float damage);
+
+	// 장비 바꾸기
+	int ChangeEquit();
 };
 
 /*

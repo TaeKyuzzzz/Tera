@@ -16,29 +16,12 @@ cUIInfo::cUIInfo()
 
 cUIInfo::~cUIInfo()
 {
-	//SAFE_DELETE(m_pText);
-	//SAFE_DELETE(m_pUIImage);
-	//SAFE_DELETE(m_pUIButtonImage);
-
-	m_pUIImage->Destroy();
-	m_pText->Destroy();
-	m_pUIButtonImage->Destroy();
-
-	m_pSprite->Release();
+	SAFE_DELETE(m_pUIRoot);
 }
 
-void cUIInfo::Setup(tagTextPack* _tagTextPack, tagUIInfo* _UI)
+void cUIInfo::Setup(tagUIInfo* _UI)
 {
-	if (_tagTextPack != NULL)
-	{
-		m_pText = new cUITextView;
-		m_pText->SetText(_tagTextPack);
-		if(_tagTextPack->_textType == VARIABLEVALUE)m_nIdentify = _tagTextPack->_vTextIContents[0];
-		if (_tagTextPack->_textType == CONSTCHAR)m_szIdentify = _tagTextPack->_vTextCContents[0];
-	
-	}
-
-	else if (_UI->_UIType == WINDOW)
+	if (_UI->_UIType == WINDOW)
 	{
 		m_pUIImage = new cUIImageView;
 		m_pUIImage->SetTexture(_UI->_UIPath1);
@@ -72,10 +55,7 @@ void cUIInfo::Setup(tagTextPack* _tagTextPack, tagUIInfo* _UI)
 		}
 	}
 
-	if(_tagTextPack)
-	{ 
-		m_parentName = _tagTextPack->_textParentName;
-	}
+
 
 	// UI
 	ZeroMemory(&m_stImageInfo, sizeof(D3DXIMAGE_INFO));
@@ -98,6 +78,5 @@ void cUIInfo::ConnectNode(cUIObject* pParent)
 {
 if(m_pUIImage)pParent->AddChild(m_pUIImage);
 else if(m_pUIButtonImage)pParent->AddChild(m_pUIButtonImage);
-else if(m_pText)pParent->AddChild(m_pText);
 
 }

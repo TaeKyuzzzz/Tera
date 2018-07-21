@@ -21,6 +21,8 @@ void cSceneLobbyLoading::Setup()
 	// 여기서 레퍼런스 카운트가 증가
 	m_pLoading->Setup("Texture/SceneTexture/LoadingTexture/LoadingImage_TIA_1.png");
 	this->TotalLoading();
+
+	isOptionMode = false;
 }
 
 void cSceneLobbyLoading::Release()

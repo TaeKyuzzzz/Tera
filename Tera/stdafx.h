@@ -51,6 +51,7 @@ extern D3DXVECTOR3* g_vPlayerPos;
 extern HINSTANCE hInst;
 extern HWND g_hWnd;
 extern D3DXVECTOR3 g_vCamera;
+extern bool isOptionMode;
 
 //#define WINSIZEX 1920 // 1600
 //#define WINSIZEY 1080 // 900

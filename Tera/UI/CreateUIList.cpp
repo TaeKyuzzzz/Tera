@@ -17,7 +17,7 @@ void cUIManager::CreateUIList()
 	CreateUI(WINDOW, "ConsumablesIcon", "Texture/UIIcon/ConsumablesShopIcon.png", D3DXVECTOR3(m_vShopPos.x - 20, m_vShopPos.y - 20, 0), { -1,-1 }, "ConsumablesShop");
 	CreateUI(BUTTON, "closeIdleC", "Texture/UIIcon/closeIdle.png", "Texture/UIIcon/closeOver.png", "Texture/UIIcon/closeDown.png",
 		D3DXVECTOR3(m_vShopPos.x + 340, m_vShopPos.y + 5, 0), "ConsumablesShop");
-	CreateUI(BUTTON, "TotalSalesAmount", "Texture/UIIcon/TotalSalesAmountIdle.png", "Texture/UIIcon/Texture/UIIcon/TotalSalesAmountOver.png"
+	CreateUI(BUTTON, "SaleBT", "Texture/UIIcon/TotalSalesAmountIdle.png", "Texture/UIIcon/Texture/UIIcon/TotalSalesAmountOver.png"
 		, "Texture/UIIcon/Texture/UIIcon/TotalSalesAmountDown.png", D3DXVECTOR3(m_vShopPos.x + 300, m_vShopPos.y + 255, 0), "ConsumablesShop");
 
 	//¿Â∫Ò√¢
@@ -26,7 +26,6 @@ void cUIManager::CreateUIList()
 		D3DXVECTOR3(m_vShopPos.x + 255, m_vShopPos.y + 3, 0), "Status");
 	CreateUI(WINDOW, "EquipmentPort", "Texture/UIIcon/EquipmentPort.png", D3DXVECTOR3(-50, -50, 0), { -1,-1 }, "Status");
 
-	CreateUI(WINDOW, "ItemInfoWindow", "Texture/UIIcon/ItemInfoWindow.png", D3DXVECTOR3(800, 800, 0));
 
 }
 

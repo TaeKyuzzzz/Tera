@@ -38,6 +38,7 @@ void cBoundingBox::Render()
 	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	if(m_pBoundBox)
 	m_pBoundBox->Render();
 	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);

@@ -2,6 +2,7 @@
 #include "cItemInfo.h"
 #include"UI\cUIObject.h"
 #include"UI\cUIImageView.h"
+#include"UI\cUITextView.h"
 
 
 cItemInfo::cItemInfo()
@@ -11,22 +12,48 @@ cItemInfo::cItemInfo()
 
 cItemInfo::~cItemInfo()
 {
-	SAFE_DELETE(m_pUIImage);
-	m_pSprite->Release();
+	SAFE_DELETE(m_pUIRoot);
+
+
+	//m_pSprite->Release();
+	//g_pD3DDevice->Release();
 }
 
-void cItemInfo::Setup(tagItemInfo* _item)
+void cItemInfo::Setup(tagTextPack* _tagTextPack, tagItemInfo* _item)
 {
-	m_pUIImage = new cUIImageView;
-	m_pUIImage->SetTexture(_item->_itemPath);
-	m_pUIImage->SetPosition(D3DXVECTOR3(0, 0, 0));
-	m_szName = _item->_itemName;
+	if (_tagTextPack != NULL)
+	{
+		m_pText = new cUITextView;
+		m_pText->SetText(_tagTextPack);
+		if (_tagTextPack->_textType == VARIABLEVALUE)m_nIdentify = _tagTextPack->_vTextIContents[0];
+		if (_tagTextPack->_textType == CONSTCHAR)m_szIdentify = _tagTextPack->_vTextCContents[0];
+		m_szParentName = _tagTextPack->_textParentName;
+	}
+	//텍스트팩이 없을땐 아이템이므로 아이템정보를 작성
+	else
+	{
+		if (_item->_itemKind == NOTANITEM)
+		{
+			m_pUIImage = new cUIImageView;
+			m_pUIImage->SetTexture(_item->_itemPath);
+			m_pUIImage->SetPosition(D3DXVECTOR3(0, 0, 0));
+			m_szName = _item->_itemName;
+			m_pUIRoot = m_pUIImage;
 
 
-
-	m_stAbility.abilityValue = _item->_itemAbilityValue;
-	m_stAbility._tagItemKind = _item->_itemKind;
-	m_pUIRoot = m_pUIImage;
+		}
+		else
+		{
+			m_pUIImage = new cUIImageView;
+			m_pUIImage->SetTexture(_item->_itemPath);
+			m_pUIImage->SetPosition(D3DXVECTOR3(0, 0, 0));
+			m_szName = _item->_itemName;
+			m_nSalePrice = _item->_itemSalePrice;
+			m_nAbilityValue = _item->_itemAbilityValue;
+			m_stItemKind = _item->_itemKind;
+			m_pUIRoot = m_pUIImage;
+		}
+	}
 	
 	// UI
 	ZeroMemory(&m_stImageInfo, sizeof(D3DXIMAGE_INFO));
@@ -37,7 +64,7 @@ void cItemInfo::Update()
 {
 
 	if (m_pUIRoot)	m_pUIRoot->Update();
-	
+	if (m_pUIImage)m_pUIImage->Update();
 
 	
 	
@@ -46,7 +73,13 @@ void cItemInfo::Render()
 {
 
 	if (m_pUIRoot)m_pUIRoot->Render(m_pSprite);
+	if (m_pUIImage)m_pUIImage->Render(m_pSprite);
 
+}
+
+void cItemInfo::ConnectNode(cUIObject* pParent)
+{
+	if (m_pText)pParent->AddChild(m_pText);
 }
 
 void cItemInfo::TransPos(D3DXVECTOR3 vec3Pos)

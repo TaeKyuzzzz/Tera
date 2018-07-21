@@ -48,8 +48,6 @@ void cCameraManager::Update()
 		else
 			m_pCamera->UpdateFix(D3DXVECTOR3(0, 0, 0));
 		break;
-	default:
-		break;
 	}
 }
 
@@ -61,4 +59,14 @@ void cCameraManager::Shaking(float time)
 void cCameraManager::Destroy()
 {
 	SAFE_DELETE(m_pCamera);
+}
+
+void cCameraManager::SetType(CAMERA_TYPE type)
+{
+	m_type = type;
+	if (m_type == CAMERA_FREE)
+	{
+		m_pCamera->SetBeforePT(POINT{ 0,0 });
+		m_pCamera->SetCurrentPT(POINT{ 0,0 });
+	}
 }
