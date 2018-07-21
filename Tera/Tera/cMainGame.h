@@ -26,7 +26,8 @@ private :
 	cSceneBossLoading*		m_pSceneBossLoading;
 
 	LPDIRECT3DSURFACE9 surfcursor;
-	LPDIRECT3DTEXTURE9 m_cursortex;
+	LPDIRECT3DTEXTURE9 m_cursorArrow;
+	LPDIRECT3DTEXTURE9 m_cursorEmpty;
 
 public:
 	cMainGame();

@@ -55,7 +55,7 @@ void cParticleSet::Setup(PARTICLE_TYPE type,float time, float speed,
 
 	m_pTexture = TEXTUREMANAGER->GetTexture(szFile);
 
-	m_vecParticle.resize(1000);
+	m_vecParticle.resize(300);
 	for (int i = 0; i < m_vecParticle.size(); i++)
 	{
 		// 위치 방향 렌덤하게, 속도 가속도 타임 전달받은데로
@@ -193,6 +193,16 @@ void cParticleSet::Render()
 	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 
 	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+}
+
+void cParticleSet::RenderOnce()
+{
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+	g_pD3DDevice->SetTexture(0, m_pTexture);
+
+	for (int i = 0; i < m_vecParticle.size(); i++)
+		m_vecParticle[i]->Render();
+
 }
 
 void cParticleSet::Start()

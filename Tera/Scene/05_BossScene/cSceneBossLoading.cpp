@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "cSceneBossLoading.h"
 
-#include "Scene\05_BossScene\cBossRomm_Wall.h"
+#include "Scene\05_BossScene\cBossRoom_Wall.h"
 #include "XMesh\cXLoader.h"
 #include "XMesh\cXMesh.h"
 
@@ -21,7 +21,7 @@ void cSceneBossLoading::Setup()
 {
 	Roader_WallGate();
 
-	m_pBossRoomWall = new cBossRomm_Wall;
+	m_pBossRoomWall = new cBossRoom_Wall;
 	m_pBossRoomWall->Setup();
 }
 

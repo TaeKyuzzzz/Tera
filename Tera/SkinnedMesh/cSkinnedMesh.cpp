@@ -266,6 +266,77 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame)
 		Render(pFrame->pFrameSibling);
 }
 
+void cSkinnedMesh::Render(LPD3DXFRAME pFrame, LPD3DXEFFECT shader)
+{
+	UINT numPasses = 0;
+	shader->Begin(&numPasses, NULL);
+
+	D3DXMATRIX   matView, matProj, matViewProj;
+	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+	matViewProj = matView * matProj;
+
+	shader->SetMatrix("matViewProjection", &matViewProj);
+
+	if (pFrame == NULL)
+		pFrame = m_pRoot;
+
+	ST_BONE* pBone = (ST_BONE*)pFrame;
+
+	if (pBone->pMeshContainer)
+	{
+		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
+
+		// 스킨 인포가 존재하는 메시
+		if (pBoneMesh->pSkinInfo != NULL)
+		{
+			if (pBoneMesh->MeshData.pMesh)
+			{
+				//g_pD3DDevice->SetTransform(D3DTS_WORLD, &(pBone->CombinedTransformationMatrix * m_matWorld));
+
+				for (DWORD i = 0; i < pBoneMesh->vecMtl.size(); i++)
+				{
+					g_pD3DDevice->SetTexture(0, pBoneMesh->vecTex[i]);
+					g_pD3DDevice->SetMaterial(&pBoneMesh->vecMtl[i]);
+					pBoneMesh->MeshData.pMesh->DrawSubset(i);
+				}
+				
+				for (UINT i = 0; i < numPasses; i++)
+				{
+					shader->BeginPass(i);
+					pBoneMesh->MeshData.pMesh->DrawSubset(0);
+					shader->EndPass();
+				}
+
+			}
+		}
+		else
+		{
+			for (DWORD i = 0; i < pBoneMesh->vecMtl.size(); i++)
+			{
+				g_pD3DDevice->SetTexture(0, pBoneMesh->vecTex[i]);
+				g_pD3DDevice->SetMaterial(&pBoneMesh->vecMtl[i]);
+				pBoneMesh->pOrigMesh->DrawSubset(i);
+			}
+			for (UINT i = 0; i < numPasses; i++)
+			{
+				shader->BeginPass(i);
+				pBoneMesh->pOrigMesh->DrawSubset(0);
+				shader->EndPass();
+			}
+		}
+	}
+
+	shader->End();
+
+
+	if (pFrame->pFrameFirstChild)
+		Render(pFrame->pFrameFirstChild, shader);
+
+	if (pFrame->pFrameSibling)
+		Render(pFrame->pFrameSibling, shader);
+}
+
 void cSkinnedMesh::Render(LPD3DXFRAME pFrame, char * key, ST_BONE_MESH * equit)
 {
 	if (pFrame == NULL)
@@ -440,4 +511,9 @@ void cSkinnedMesh::SetAnimPosition(float pos)
 void cSkinnedMesh::AnimAdvanceTime()
 {
 	m_pAnimController->AdvanceTime(TIMEMANAGER->GetEllapsedTime(), NULL);
+}
+
+void cSkinnedMesh::AnimAdvanceTimeDouble()
+{
+	m_pAnimController->AdvanceTime(TIMEMANAGER->GetEllapsedTime() * 2, NULL);
 }

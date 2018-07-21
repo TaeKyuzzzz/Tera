@@ -51,6 +51,15 @@ HRESULT LoadItem::IniteForSound(string KeyName, const char* fileName, bool bgm, 
 	return S_OK;
 }
 
+HRESULT LoadItem::IniteForParticle(string key, const char * fileName)
+{
+	_kind = LOAD_KIND_PARTICLE;
+	memset(&_particleResource, 0, sizeof(tagParticleResource));
+	_particleResource.key = (string)key;
+	_particleResource.fileName = fileName;
+	return S_OK;
+}
+
 cLoading::cLoading()
 	: m_pBackGround(NULL)
 	, _loadingBar(NULL)
@@ -128,6 +137,15 @@ HRESULT cLoading::InitForStaticMesh(const char * szFileName)
 	return S_OK;
 }
 
+HRESULT cLoading::IniteForParticle(string key, const char * fileName)
+{
+	LoadItem * item = new LoadItem;
+	item->IniteForParticle(key, fileName);
+	_vLoadItem.push_back(item);
+
+	return S_OK;
+}
+
 HRESULT cLoading::InitForSound(string keyName, const char * fileName, bool bgm, bool loop)
 {
 	LoadItem * item = new LoadItem;
@@ -154,6 +172,7 @@ BOOL  cLoading::LoadingDone()
 	tagStaticMeshResouce staticMesh;
 	tagSkinnedMeshResouce skinnedMesh;
 	tagSoundResouce sound;
+	tagParticleResource particle;
 
 	switch (item->GetLoadingKind())
 	{
@@ -173,6 +192,9 @@ BOOL  cLoading::LoadingDone()
 		staticMesh = item->GetStaticMeshResource();
 		STATICMESHMANAGER->AddStaticMesh(staticMesh.fileName);
 		break;
+	case LOAD_KIND_PARTICLE :
+		particle = item->GetParticleResource();
+		PARTICLEMANAGER->AddParticle(particle.key, particle.fileName);
 	}
 
 	//// 로딩바 이미지 변경

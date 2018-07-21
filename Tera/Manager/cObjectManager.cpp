@@ -24,6 +24,11 @@ void cObjectManager::AddCharaObject(cGameObject * obj)
 	m_vecCharacter.push_back(obj);
 }
 
+void cObjectManager::AddMonsterObject(cGameObject * obj)
+{
+	m_vecMonster.push_back(obj);
+}
+
 bool cObjectManager::IsCollision(cGameObject * obj1, cGameObject * obj2)
 {
 	// 구 충돌 여부 부터
@@ -55,7 +60,7 @@ bool cObjectManager::IsCollision(cGameObject * obj1)
 	//
 }
 
-bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage)
+bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage, D3DXVECTOR3 pos)
 {
 	for (int i = 0; i < m_vecCharacter.size(); i++)
 	{
@@ -67,7 +72,24 @@ bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage)
 	
 		if (lengh < distance)
 		{
-			obj1->Damaged(Damage, spere->GetPosition());
+			obj1->Damaged(Damage, pos);
+			return true;
+		}
+	}
+	return false;
+}
+
+bool cObjectManager::GiveDamagedMonster(cBoundingBox * box, float Damage)
+{
+	for (int i = 0; i < m_vecMonster.size(); i++)
+	{
+
+		cGameObject * obj1 = m_vecMonster[i];
+
+		if (OBBCollision(&(obj1->GetBoundingBox()->GetOBB()), &(box->GetOBB())))
+		{
+			//몬스터에서는 넉백을 고려안했으므로 그냥 일단 벡터값 아무거나 줬엉.
+			obj1->Damaged(Damage, D3DXVECTOR3(0,0,0));
 			return true;
 		}
 	}

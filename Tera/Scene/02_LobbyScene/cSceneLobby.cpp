@@ -15,6 +15,10 @@ void cSceneLobby::Setup()
 {
 }
 
+void cSceneLobby::Release()
+{
+}
+
 void cSceneLobby::Update()
 {
 }

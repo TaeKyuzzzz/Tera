@@ -9,9 +9,12 @@ public:
 	{
 		FT_DEFAULT,
 		FT_QUEST,
+		FT_GA,
 		TF_UI_TEXT,
 		TF_UI_NUMBER,
-		TF_UI_NUMBER2
+		TF_UI_NUMBER2,
+		TF_MAIN
+
 	};
 
 	SINGLETONE(cFontManager);
@@ -20,7 +23,7 @@ public:
 
 public:
 	// 만들거나 만들어져 있으면 리턴을 (타입에 따라 )
-	LPD3DXFONT GetFont(eFontType type);
+	LPD3DXFONT GetFont(eFontType type, D3DXVECTOR2 textSize = D3DXVECTOR2(0, 0));
 	void Destroy();
 };
 

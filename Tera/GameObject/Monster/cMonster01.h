@@ -2,7 +2,7 @@
 #include "cMonster.h"
 
 class cSkinnedMesh;
-
+class cParticleSet;
 
 class cMonster01 : public cMonster
 {
@@ -60,15 +60,20 @@ private:
 
 	//행동패턴 디자인에 쓰인 임시변수
 	D3DXVECTOR3			temp;
+	D3DXVECTOR2			tt;
 
 	//공격에 쓰이는 본
 
-	ST_BONE*				m_pHandR;
-	ST_BONE*				m_pHandL;
-	cSpere*					m_pSphereR;
-	cSpere*					m_pSphereL;
+	ST_BONE*			m_pHandR;
+	ST_BONE*			m_pHandL;
+	cSpere*				m_pSphereR;
+	cSpere*				m_pSphereL;
 
-	float					m_fFightZone;
+	float				m_fFightZone;
+
+
+	cParticleSet*		m_pParticleBleeding;
+
 
 public:
 	cMonster01();
@@ -81,6 +86,7 @@ public:
 	void Setup();
 	void Update();
 	void Render();
+	void SetupBehaviorSpot(D3DXVECTOR3	v) { m_vBehaviorSpot = v; }
 
 
 	//--------------------------옵션설정
@@ -113,7 +119,12 @@ public:
 	void Die();
 
 	void MonoBehavior(void);
+	void Roaming(void);
 
+	//몬스터가 캐릭터를 공격하는 함수
 	virtual bool Attack(float damage);
+
+	//몬스터가 캐릭터에게 피해를 받는 함수
+	void Damaged(float damage, D3DXVECTOR3 pos);
 };
 

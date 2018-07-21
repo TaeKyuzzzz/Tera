@@ -10,6 +10,8 @@
 #include "BoundingBox\cBoundingBox.h"
 #include "Spere\cSpere.h"
 
+#include "GameObject\Item\cItem.h"
+
 cCharaPopori::cCharaPopori()
 	: m_pBody(NULL)
 	, m_currState(CH_STATE_AdvLeap)
@@ -30,6 +32,8 @@ void cCharaPopori::Setup()
 
 	cSkinnedMesh * pSkinnedMesh;
 
+	m_pWeapon = new cWeapon00;
+	m_pWeapon->Setup();
 
 	m_pHair = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Head", "Hair01.X");
 	m_pBody = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_00.X");
@@ -65,17 +69,11 @@ void cCharaPopori::Setup()
 
 void cCharaPopori::Update()
 {
+	// 옷갈아입기
+	ChangeEquit();
+	
+	// 애니메이션의 높이에 높이맵 적용
 	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
-
-	if (KEYMANAGER->IsOnceKeyDown('5'))
-	{
-		int a = 1;
-	}
-
-	ChangeWeapon();
-	ChangeBody();
-	ChangeHand();
-	ChangeLeg();
 
 	// 카메라 보는 각도 설정
 	D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
@@ -162,10 +160,24 @@ void cCharaPopori::Update()
 	if (m_pWeapon)
 		m_pWeapon->Update();
 
+	// 공격 ( 무기의 바운딩박스를 여기서밖에 못구함.. 플젝 끝나고 리펙토링하며 공부하자
+	if (m_state == CH_STATE_combo1 ||
+		m_state == CH_STATE_combo2 ||
+		m_state == CH_STATE_combo3 ||
+		m_state == CH_STATE_combo4)
+		Attack(m_fAttack);
+	else if (m_state == CH_STATE_CutHead)
+		if (Attack(m_fAttack * 2.0f))
+			CAMERAMANAGER->Shaking(0.275f);
+	else if (m_state == CH_STATE_StingerBlade)
+		if(Attack(m_fAttack * 2.0f))
+			CAMERAMANAGER->Shaking(0.275f);
+	
 	// 조작
 	cCharacterClass03::Update();
 
 	cGameObject::Update();
+
 }
 
 void cCharaPopori::Render()
@@ -191,6 +203,16 @@ void cCharaPopori::Render()
 	SetRect(&rc, 0, 500, 500, 700);
 
 	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
+	pFont->DrawTextA(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_VCENTER,
+		D3DCOLOR_XRGB(255, 255, 0));
+	sprintf_s(szTemp, 1024, "%.1f %.1f %.1f", m_matWorld._41, m_matWorld._42, m_matWorld._43);
+
+	SetRect(&rc, 0, 700, 500, 900);
+
 	pFont->DrawTextA(NULL,
 		szTemp,
 		strlen(szTemp),
@@ -233,65 +255,58 @@ bool cCharaPopori::isUseLocalAnim()
 
 void cCharaPopori::ChangeWeapon()
 {
-	if (KEYMANAGER->IsOnceKeyDown('Z'))
-	{
-		m_nWeaponNum = (m_nWeaponNum + 1) % 4;
-
+		
 		if (m_pWeapon)
 			SAFE_DELETE(m_pWeapon);
 
-		switch (m_nWeaponNum)
+		if (m_pEquitWeapon->GetName() == "대검")
 		{
-		case 0:
 			m_pWeapon = new cWeapon00;
 			m_pWeapon->Setup();
-			break;
-		case 1:
+		}
+		else if (m_pEquitWeapon->GetName()=="스카이소드")
+		{
 			m_pWeapon = new cWeapon01;
 			m_pWeapon->Setup();
-			break;
-		case 2:
+		}
+		else if (m_pEquitWeapon->GetName()== "고등어")
+		{
 			m_pWeapon = new cWeapon02;
 			m_pWeapon->Setup();
-			break;
-		case 3:
+
+		}
+		else if (m_pEquitWeapon->GetName()== "아이스소드")
+		{
 			m_pWeapon = new cWeapon03;
 			m_pWeapon->Setup();
-			break;
-		default:
-			break;
 		}
-	}
 }
 
 void cCharaPopori::ChangeBody()
 {
-	if (KEYMANAGER->IsOnceKeyDown('X'))
-	{
-		m_nBodyNum = (m_nBodyNum + 1) % 4;
-
+	
 		float position = m_pBody->GetAnimPosition();
+		//m_pEquitBody->GetName();
 
-		switch (m_nBodyNum)
+		if (m_pEquitBody == NULL)
 		{
-		case 0:
 			m_pBody = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_00.X");
 			m_pBody->SetAnimationIndex(m_currState);
-			break;
-		case 1:
+		}
+		else if(m_pEquitBody->GetName() == "레더아머")
+		{
 			m_pBody = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_01.X");
 			m_pBody->SetAnimationIndex(m_currState);
-			break;
-		case 2:
+		}
+		else if (m_pEquitBody->GetName() == "검은마력의옷")
+		{
 			m_pBody = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_02.X");
 			m_pBody->SetAnimationIndex(m_currState);
-			break;
-		case 3:
+		}
+		else if (m_pEquitBody->GetName() == "스카이아머")
+		{
 			m_pBody = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_03.X");
 			m_pBody->SetAnimationIndex(m_currState);
-			break;
-		default:
-			break;
 		}
 
 		m_pWeaponHand = (ST_BONE*)D3DXFrameFind(m_pBody->GetFrame(), "R_Sword");
@@ -299,71 +314,97 @@ void cCharaPopori::ChangeBody()
 		m_pHead = (ST_BONE*)D3DXFrameFind(m_pBody->GetFrame(), "Bip01-Head");
 
 		m_pBody->SetAnimPosition(position);
-	}
 }
 
 void cCharaPopori::ChangeHand()
 {
-	if (KEYMANAGER->IsOnceKeyDown('C'))
-	{
-		m_nHandNum = (m_nHandNum + 1) % 4;
-
+	
 		float position = m_pHand->GetAnimPosition();
 
-		switch (m_nHandNum)
+		if (m_pEquitHand == NULL)
 		{
-		case 0:
 			m_pHand = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_00.X");
 			m_pHand->SetAnimationIndex(m_currState);
-			break;
-		case 1:
+		}
+		else if (m_pEquitHand->GetName() == "레더글러브")
+		{
 			m_pHand = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_01.X");
 			m_pHand->SetAnimationIndex(m_currState);
-			break;
-		case 2:
+		}
+		else if (m_pEquitHand->GetName() == "검은마력의장갑")
+		{
 			m_pHand = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_02.X");
 			m_pHand->SetAnimationIndex(m_currState);
-			break;
-		case 3:
+		}
+		else if (m_pEquitHand->GetName() == "스카이글러브")
+		{
 			m_pHand = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_03.X");
 			m_pHand->SetAnimationIndex(m_currState);
-			break;
-		default:
-			break;
 		}
+
 		m_pHand->SetAnimPosition(position);
-	}
 }
 
 void cCharaPopori::ChangeLeg()
 {
-	if (KEYMANAGER->IsOnceKeyDown('V'))
-	{
-		m_nLegNum = (m_nLegNum + 1) % 4;
-		float position = m_pLeg->GetAnimPosition();
+	float position = m_pLeg->GetAnimPosition();
 
-		switch (m_nLegNum)
+	if (m_pEquitLeg == NULL)
+	{
+		m_pLeg = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Leg", "Leg_00.X");
+		m_pLeg->SetAnimationIndex(m_currState);
+	}
+	else if (m_pEquitLeg->GetName() == "레더슈즈")
+	{
+		m_pLeg = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Leg", "Leg_01.X");
+		m_pLeg->SetAnimationIndex(m_currState);
+	}
+	else if (m_pEquitLeg->GetName() == "검은마력의신발")
+	{
+		m_pLeg = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Leg", "Leg_02.X");
+		m_pLeg->SetAnimationIndex(m_currState);
+	}
+	else if (m_pEquitLeg->GetName() == "스카이슈즈")
+	{
+		m_pLeg = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Leg", "Leg_03.X");
+		m_pLeg->SetAnimationIndex(m_currState);
+	}
+
+	m_pLeg->SetAnimPosition(position);
+}
+
+bool cCharaPopori::Attack(float damage)
+{
+	if (OBJECTMANAGER->GiveDamagedMonster(m_pWeapon->GetBoundingBox(), damage))
+		return true;
+	return false;
+}
+
+int cCharaPopori::ChangeEquit()
+{
+	int n = 0;
+	n = cCharacter::ChangeEquit();
+
+	if (n)
+	{
+		switch (n)
 		{
-		case 0:
-			m_pLeg = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Leg", "Leg_00.X");
-			m_pLeg->SetAnimationIndex(m_currState);
+		case 1 :
+			ChangeWeapon();
 			break;
-		case 1:
-			m_pLeg = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Leg", "Leg_01.X");
-			m_pLeg->SetAnimationIndex(m_currState);
-			break;
-		case 2:
-			m_pLeg = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Leg", "Leg_02.X");
-			m_pLeg->SetAnimationIndex(m_currState);
+		case 2 :
+			ChangeBody();
 			break;
 		case 3:
-			m_pLeg = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Leg", "Leg_03.X");
-			m_pLeg->SetAnimationIndex(m_currState);
+			ChangeHand();
 			break;
-		default:
+		case 4 :
+			ChangeLeg();
 			break;
 		}
-		m_pLeg->SetAnimPosition(position);
 	}
+
+
+	return 0;
 }
 

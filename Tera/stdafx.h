@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <cstdio>
 #include <cstdlib>
+#include <time.h>
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
 
 #include <cstring>
@@ -50,6 +51,7 @@ extern D3DXVECTOR3* g_vPlayerPos;
 extern HINSTANCE hInst;
 extern HWND g_hWnd;
 extern D3DXVECTOR3 g_vCamera;
+extern bool isOptionMode;
 
 //#define WINSIZEX 1920 // 1600
 //#define WINSIZEY 1080 // 900
@@ -164,12 +166,12 @@ struct ST_BONE_MESH : public D3DXMESHCONTAINER
 
 struct ST_UI_SIZE
 {
-	int nWidth;
-	int nHeight;
+	float fWidth;
+	float fHeight;
 
-	ST_UI_SIZE() : nWidth(0), nHeight(0) {}
+	ST_UI_SIZE() : fWidth(0), fHeight(0) {}
 	ST_UI_SIZE(int w, int h)
-		: nWidth(w), nHeight(h) {}
+		: fWidth(w), fHeight(h) {}
 };
 
 struct ST_OBB // OBB구조체
@@ -200,3 +202,7 @@ struct ST_OBB // OBB구조체
 #include "Manager/cSkinnedMeshManager.h"
 #include "Manager/cStaticMeshManager.h"
 #include "Manager/cParticleManager.h"
+#include "Manager/cCameraManager.h"
+#include "ItemUI.h"
+#include "Manager/cUIManager.h"
+#include "Manager/cItemManager.h"

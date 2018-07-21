@@ -15,6 +15,10 @@ void cGameNode::Setup()
 {
 }
 
+void cGameNode::Release()
+{
+}
+
 void cGameNode::Update()
 {
 }

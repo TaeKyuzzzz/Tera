@@ -3,7 +3,7 @@
 
 class iMap;
 class cProgressBar;
-
+class vItem;
 
 class cCharacter : public cGameObject
 {
@@ -31,10 +31,24 @@ public:
 	float				m_fMpCur;
 	float				m_fMpUI;
 
+	float				m_fAttack;
+	float				m_fDefense;
+
 	// 프로그래스 바
 	cProgressBar*		m_pHpBar;
 	cProgressBar*		m_pMpBar;
 	cSprite*			m_BackBar;
+
+
+	cSprite*			m_pBleeding;
+	int					m_pBleedingAlpha;
+
+	// 장비 관련 변수...
+
+	cItemInfo*			m_pEquitWeapon;
+	cItemInfo*			m_pEquitBody;
+	cItemInfo*			m_pEquitHand;
+	cItemInfo*			m_pEquitLeg;
 
 public:
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
@@ -52,5 +66,13 @@ public:
 	void SetUpStateBar();
 	void UpdateUpStateBar();
 	void RenderUpStateBar();
+
+	virtual void Damaged();
+
+	// 캐릭터 공격
+	virtual bool Attack(float damage);
+
+	// 장비 바꾸기
+	virtual int ChangeEquit();
 };
 

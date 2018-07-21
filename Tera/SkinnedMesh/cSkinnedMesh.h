@@ -1,4 +1,5 @@
 #pragma once
+
 class cSkinnedMesh
 {
 private:
@@ -29,6 +30,8 @@ public:
 	void UpdateSkinnedMesh(LPD3DXFRAME pFrame);
 
 	void Render(LPD3DXFRAME pFrame);
+	void Render(LPD3DXFRAME pFrame, LPD3DXEFFECT shader);
+
 	void Render(LPD3DXFRAME pFrame, char * key, ST_BONE_MESH* equit);
 
 
@@ -45,5 +48,6 @@ public:
 	void SetAnimPosition(float pos);
 
 	void AnimAdvanceTime();
+	void AnimAdvanceTimeDouble();
 };
 

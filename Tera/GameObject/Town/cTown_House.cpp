@@ -43,15 +43,19 @@ void cTown_House::Setup()
 	D3DXMatrixTranslation(&mat, 969, -406, 4157);
 	m_pParticleWarp->SetWorld(mat);
 	m_pParticleWarp->Start();
+
+	PARTICLEMANAGER->AddChild(m_pParticleWarp);
 }
 
 void cTown_House::Update()
 {
-	m_pParticleWarp->Update();
+	//m_pParticleWarp->Update();
 }
 
 void cTown_House::Render()
 {
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+
 	D3DXMATRIX matWorld, matS;
 	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);  // 1/256 = 0.00390625
 												 //D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0f);
@@ -66,7 +70,7 @@ void cTown_House::Render()
 		}
 	}
 
-	m_pParticleWarp->Render();
+	//m_pParticleWarp->Render();
 
 }
 

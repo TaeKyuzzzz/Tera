@@ -10,6 +10,7 @@ public:
 	virtual~cSceneLobby();
 
 	void Setup();
+	void Release();
 	void Update();
 	void Render();
 };

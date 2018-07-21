@@ -86,8 +86,10 @@ protected:
 
 	cParticleSet*		m_pParticleSet;
 	cParticleSet*		m_pParticleAura;
-	
+	cParticleSet*		m_pParticleHeal;
+
 	bool				m_isDoEffect;
+
 
 public:
 	cCharacterClass03();
@@ -115,7 +117,10 @@ public:
 	void Die();
 
 	// 스킬 이펙트 처리.. 나중에 리펙토링 하자
-	void SkillEffect();
+	void SkillProcess();
+
+	// 키 입력에 따른 각도 구하기
+	void GetAngle();
 
 };
 

@@ -2,13 +2,13 @@
 #include "cGameNode.h"
 
 class cXMesh;
-class cBossRomm_Wall;
+class cBossRoom_Wall;
 
 class cSceneBossLoading : public cGameNode
 {
 private:
 	vector<cXMesh*> m_vGroundMap;
-	cBossRomm_Wall* m_pBossRoomWall;
+	cBossRoom_Wall* m_pBossRoomWall;
 
 public:
 	cSceneBossLoading();
