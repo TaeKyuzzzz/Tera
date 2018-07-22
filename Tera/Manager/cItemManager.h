@@ -49,7 +49,8 @@ private:
 	SYNTHESIZE(vItem, m_vShopItem, ShopItem);
 	SYNTHESIZE(vItem, m_vStatusItem, StatusItem);
 	SYNTHESIZE(vItem, m_vAllItem, AllItem);
-	SYNTHESIZE(vItem, m_vItemExplaneWindow, ItemExplaneWindow)
+	SYNTHESIZE(vItem, m_vItemAssistant, Assistant);
+	SYNTHESIZE(vItem, m_vItemImitation, ItemImitation)
 
 
 	SYNTHESIZE(vector<tagItemPos>, m_vInvenSlot, VInvenSlot);
@@ -79,6 +80,9 @@ private:
 	SYNTHESIZE(int, m_nitemArrNum, IterArrNum);
 	SYNTHESIZE(int, m_nUINum, UINum);
 	SYNTHESIZE(int, m_nSlotArrNum, SlotArrNum);
+
+	SYNTHESIZE(int, m_nAttackValue, AttackValue);
+	SYNTHESIZE(int, m_nDefenceValue, DefenceValue);
 
 	cItemInfo* m_pItemInfo;
 
@@ -139,7 +143,11 @@ public:
 	void TextExplane();
 	int FindAbilityValue();
 	int FindItemExplaneWndIndex(const char* szItemExplaneName);
-	void ItemExplaneWindowRender(vItem vPlaceItem);
+	int FindSalePriceValue();
+	const char* FindItemPos();
+	void ItemExplaneUpdate();
+	void ItemExplaneRender();
+	void ImitationIconRender();
 
 #pragma endregion
 
@@ -147,7 +155,7 @@ public:
 	
 
 	inline void GetMemoryLinkUI(cUIManager* UI) { _UI = UI; }
-	void CreateItem(const char* itemName, const char* filePath, tagItemKindAndETC itemType, int itemAbility, int itemSalePrice, vItem& vPlaceItem);
+	void CreateItem(const char* itemName, const char* filePath, tagItemKindAndETC itemType, int itemAbility, int itemSalePrice, vItem& vPlaceItem, const char* szParrentName = NULL);
 	//아이템생성 리스트
 	void CreateItemList();
 	//아이템이 위치할 슬롯 생성
@@ -167,7 +175,6 @@ public:
 	void ItemRenewalThisPlace(vItem& _vVectorName);
 	void EquipmentWearBack(cItemInfo* _placeItem);
 	void SalesItemCalculator();
-	void ItemExplaneRendingCondition(vItem vPlaceItem);
 
 };
 

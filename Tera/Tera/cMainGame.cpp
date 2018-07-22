@@ -9,6 +9,7 @@
 
 #include "Scene\02_LobbyScene\cSceneLobbyLoading.h"
 #include "Scene\06_PaticleEdit\cScenePaticleEdit.h"
+#include "Scene\05_BossScene\cSceneBossLoading.h"
 
 cMainGame::cMainGame()
 	: m_pCamera(NULL)
@@ -55,10 +56,18 @@ void cMainGame::Setup()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
 
-	SCENEMANAGER->AddScene("Test", new cSceneTest);
-	SCENEMANAGER->AddScene("LobbyLoading", new cSceneLobbyLoading);
-	SCENEMANAGER->AddScene("Main", new cSceneMain);
-	SCENEMANAGER->AddScene("PaticleEdit", new cScenePaticleEdit);
+	m_pSceneTest = new cSceneTest;
+	m_pSceneMain = new cSceneMain;
+	m_pSceneLobbyLoading = new cSceneLobbyLoading;
+	m_pScenePaticleEdit = new cScenePaticleEdit;
+	m_pSceneBossLoading = new cSceneBossLoading;
+
+	SCENEMANAGER->AddScene("Test", m_pSceneTest);
+	SCENEMANAGER->AddScene("LobbyLoading", m_pSceneLobbyLoading);
+	SCENEMANAGER->AddScene("Main", m_pSceneMain);
+	SCENEMANAGER->AddScene("Boss", m_pSceneBossLoading);
+	SCENEMANAGER->AddScene("PaticleEdit", m_pScenePaticleEdit);
+
 
 	SCENEMANAGER->ChangeScene("Main");
 	

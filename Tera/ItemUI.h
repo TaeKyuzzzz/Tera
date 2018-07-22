@@ -85,6 +85,7 @@ struct tagItemInfo
 	int					 _itemSalePrice;
 	int					 _itemBuyPrice;
 	const char*			 _itemExplain;
+	const char*			 _itemParentName;
 };
 
 

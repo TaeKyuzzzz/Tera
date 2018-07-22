@@ -30,5 +30,5 @@ public:
 	void Update(D3DXVECTOR3 target);
 	void UpdateFix(D3DXVECTOR3 target);
 
-};
+};// 커밋을 위한 수정
 

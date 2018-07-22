@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoundingBox\cBoundingBox.h" />
+    <ClInclude Include="Scene\05_BossScene\cBossRoom_Wall.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="BoundingBox\Cube\cCube.h" />
     <ClInclude Include="GameObject\Monster\cKelsaik.h" />
@@ -230,6 +231,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoundingBox\cBoundingBox.cpp" />
+    <ClCompile Include="Scene\05_BossScene\cBossRoom_Wall.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="BoundingBox\Cube\cCube.cpp" />
     <ClCompile Include="GameObject\Monster\cKelsaik.cpp" />

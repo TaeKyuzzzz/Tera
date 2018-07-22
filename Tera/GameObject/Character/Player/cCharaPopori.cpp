@@ -326,7 +326,7 @@ void cCharaPopori::ChangeHand()
 			m_pHand = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_00.X");
 			m_pHand->SetAnimationIndex(m_currState);
 		}
-		else if (m_pEquitHand->GetName() == "레더글로브")
+		else if (m_pEquitHand->GetName() == "레더글러브")
 		{
 			m_pHand = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_01.X");
 			m_pHand->SetAnimationIndex(m_currState);
@@ -336,7 +336,7 @@ void cCharaPopori::ChangeHand()
 			m_pHand = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_02.X");
 			m_pHand->SetAnimationIndex(m_currState);
 		}
-		else if (m_pEquitHand->GetName() == "스카이글로브")
+		else if (m_pEquitHand->GetName() == "스카이글러브")
 		{
 			m_pHand = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_03.X");
 			m_pHand->SetAnimationIndex(m_currState);

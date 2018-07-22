@@ -101,7 +101,7 @@ void cCharacterClass03::Update()
 	// 버튼 조작
 	if (!isOptionMode)
 	{
-		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+		if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 		{
 			// 일반 연격 시작
 			if (m_state == CH_STATE_combo1 ||
