@@ -122,16 +122,29 @@ void cKelsaik::Update()
 	switch (MODE)
 	{
 	case IDLE:
+		Idle_Update();
 		break;
 	case AWAKE:
+		Awake_Update();
 		break;
 	case DEATH:
+		Death_Update();
 		break;
 	}
 }
 
 void cKelsaik::Idle_Update()
 {
+	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
+	if (Distance_Player_Monster < m_fAreaRadius)
+		MODE = AWAKE;
+	else
+	{
+		if (D3DXVec3Length(&(m_vPosition - m_vBehaviorSpot)) > m_fTracableArea)
+			Idle_Back_to_SquareOne();
+		else
+			Idle_Roaming();
+	}
 }
 
 void cKelsaik::Idle_Roaming()
@@ -183,7 +196,7 @@ bool cKelsaik::isUseLocalAnim()
 		)
 		return true;
 
-	//이게 진짜 중요!!!
+	//이게 진짜 중요!!! 애니메이션 자체에 움직임이 심한경우 이처리를 해준다.
 	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x > 10.0f)
 	{
 		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
