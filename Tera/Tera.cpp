@@ -96,6 +96,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
+			SOUNDMANAGER->Update();
 			TIMEMANAGER->Update();
 			g_pMainGame->Update();
 			KEYMANAGER->Update();
