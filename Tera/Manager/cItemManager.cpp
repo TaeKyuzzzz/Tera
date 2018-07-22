@@ -1074,11 +1074,13 @@ void cItemManager::SalesItemCalculator()
 		{
 			int saleSlot = 8;
 
-			for (int i = saleSlot; i < m_vShopItem.size(); i++)
+			int countItem = m_vShopItem.size();
+
+			for (int i = saleSlot; i < countItem; i++)
 			{
-				CalculatorGold(m_vShopItem[i]->GetSalePrice());
-				m_vShopItem.erase(m_vShopItem.begin() + 8, m_vShopItem.end());
+				CalculatorGold(m_vShopItem[i]->GetSalePrice());				
 			}
+			m_vShopItem.erase(m_vShopItem.begin() + 8, m_vShopItem.end());
 		}
 	}
 }
