@@ -40,7 +40,9 @@ cCharacterClass03::cCharacterClass03()
 	PARTICLEMANAGER->AddChild(m_pParticleSet);
 	PARTICLEMANAGER->AddChild(m_pParticleAura);
 	PARTICLEMANAGER->AddChild(m_pParticleHeal);
+
 	m_isDoEffect = false;
+	m_isDoSkiilSound = false;
 }
 
 
@@ -96,6 +98,7 @@ void cCharacterClass03::Update()
 		}
 		
 		SkillProcess(); // 스킬 이펙트, 타격 처리
+		AttSound(); // 공격 사운드 처리
 	}
 	
 	// 버튼 조작
@@ -122,6 +125,7 @@ void cCharacterClass03::Update()
 			// 첫타
 			else if (m_state == CH_STATE_Wait || m_state == CH_STATE_run)
 			{
+				m_isDoSkiilSound = false;
 				// 정면 카메라 방향 위치 이동 애니메이션 시 해야되는 작업
 				m_fRotY = m_fCosVal;
 				// 위치 이동 애니메이션 시 해야되는 작업
@@ -169,6 +173,7 @@ void cCharacterClass03::Update()
 			m_fTime = 0.0f;
 			m_bIsDone = false;
 			m_isDoEffect = false;
+			m_isDoSkiilSound = false;
 		}
 		else if (KEYMANAGER->IsOnceKeyDown('2') && m_state == CH_STATE_Wait)
 		{
@@ -182,6 +187,7 @@ void cCharacterClass03::Update()
 			m_fTime = 0.0f;
 			m_bIsDone = false;
 			m_isDoEffect = false;
+			m_isDoSkiilSound = false;
 		}
 		else if (KEYMANAGER->IsOnceKeyDown('3') && m_state == CH_STATE_Wait)
 		{
@@ -195,6 +201,7 @@ void cCharacterClass03::Update()
 			m_fTime = 0.0f;
 			m_bIsDone = false;
 			m_isDoEffect = false;
+			m_isDoSkiilSound = false;
 		}
 		else if (KEYMANAGER->IsOnceKeyDown('4') && m_state == CH_STATE_Wait)
 		{
@@ -206,6 +213,7 @@ void cCharacterClass03::Update()
 			m_fTime = 0.0f;
 			m_bIsDone = false;
 			m_isDoEffect = false;
+			m_isDoSkiilSound = false;
 		}
 
 		// 스킬 셋에 따른 스킬을 나가게 해야해 ( 포션 사용도 )
@@ -313,6 +321,7 @@ void cCharacterClass03::ProcessCombo()
 			m_fCurAnimTime = m_fAnimTime[CH_STATE_combo2];
 			m_bIsDone = false;
 			m_bIsBlend = false;
+			m_isDoSkiilSound = false;
 		}
 		else
 		{
@@ -337,6 +346,7 @@ void cCharacterClass03::ProcessCombo()
 			m_fCurAnimTime = m_fAnimTime[CH_STATE_combo3];
 			m_bIsDone = false;
 			m_bIsBlend = false;
+			m_isDoSkiilSound = false;
 		}
 		else
 		{
@@ -361,6 +371,7 @@ void cCharacterClass03::ProcessCombo()
 			m_fCurAnimTime = m_fAnimTime[CH_STATE_combo4];
 			m_bIsDone = false;
 			m_bIsBlend = false;
+			m_isDoSkiilSound = false;
 		}
 		else
 		{
@@ -628,25 +639,29 @@ void cCharacterClass03::SkillProcess()
 {
 	D3DXMATRIX matR, matT;
 
-	// 이펙트 있는 스킬의 타격, 파티클 처리
+	// 이펙트 있는 스킬의 타격, 파티클, 사운드 처리
 	if(!m_isDoEffect)
 	{
 		D3DXMatrixRotationY(&matR, m_fRotY);
 		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 
-		if (m_state == CH_STATE_gaiaCrush02 &&  m_fTime >= m_fAnimTime[CH_STATE_gaiaCrush02] - 0.85f)
+		if (m_state == CH_STATE_gaiaCrush02 )
 		{
-			m_isDoEffect = true;
-			m_pParticleSet->SetWorld(matR * matT);
-			m_pParticleSet->Start();
+			if (m_fTime >= m_fAnimTime[CH_STATE_gaiaCrush02] - 0.85f)
+			{
+				m_isDoEffect = true;
+				m_pParticleSet->SetWorld(matR * matT);
+				m_pParticleSet->Start();
 
-			// 바운딩 박스 만들어서 몹과 충돌
-			cBoundingBox hitBox;
-			hitBox.Setup(D3DXVECTOR3(0,0,-60), D3DXVECTOR3(100,10,60));
-			hitBox.SetWorld(matR * matT);
-			OBJECTMANAGER->GiveDamagedMonster(&hitBox, m_fAttack * 3.0f);
-			CAMERAMANAGER->Shaking(0.275f);
-
+				// 바운딩 박스 만들어서 몹과 충돌
+				cBoundingBox hitBox;
+				hitBox.Setup(D3DXVECTOR3(0,0,-60), D3DXVECTOR3(100,10,60));
+				hitBox.SetWorld(matR * matT);
+				OBJECTMANAGER->GiveDamagedMonster(&hitBox, m_fAttack * 3.0f);
+				CAMERAMANAGER->Shaking(0.275f);
+				//SOUNDMANAGER->Play("PCSkill01");
+			}
+	
 		}
 		else if (m_state == CH_STATE_CuttingSlash && m_fTime >= m_fAnimTime[CH_STATE_CuttingSlash] - 1.1f)
 		{
@@ -662,6 +677,47 @@ void cCharacterClass03::SkillProcess()
 			CAMERAMANAGER->Shaking(0.275f);
 
 		}
+	}
+}
+
+void cCharacterClass03::AttSound()
+{
+	if (!m_isDoSkiilSound)
+	{
+		if (m_state == CH_STATE_combo1 && m_fTime >= m_fAnimTime[CH_STATE_combo1] - 0.5f)
+		{
+			m_isDoSkiilSound = true;
+			SOUNDMANAGER->Play("PCAtt01");
+		}
+		else if (m_state == CH_STATE_combo2 && m_fTime >= m_fAnimTime[CH_STATE_combo2] - 0.5f)
+		{
+			m_isDoSkiilSound = true;
+			SOUNDMANAGER->Play("PCAtt02");
+		}
+		else if (m_state == CH_STATE_combo3 && m_fTime >= m_fAnimTime[CH_STATE_combo3] - 0.4f)
+		{
+			m_isDoSkiilSound = true;
+			SOUNDMANAGER->Play("PCAtt03");
+		}
+		else if (m_state == CH_STATE_combo4 && m_fTime >= m_fAnimTime[CH_STATE_combo4] - 1.2f)
+		{
+			m_isDoSkiilSound = true;
+			SOUNDMANAGER->Play("PCAtt04");
+		}
+		else if (m_state == CH_STATE_gaiaCrush02 && m_fTime >= m_fAnimTime[CH_STATE_gaiaCrush02] - 1.6f)
+		{
+			m_isDoSkiilSound = true;
+			SOUNDMANAGER->Play("PCSkill01");
+		}
+		else if(m_state == CH_STATE_CuttingSlash && m_fTime >= m_fAnimTime[CH_STATE_CuttingSlash] - 1.5f)
+		{
+			m_isDoSkiilSound = true;
+			SOUNDMANAGER->Play("PCSkill01");
+		}
+		//else if ()
+		//{		  
+		//		  
+		//}		  
 	}
 }
 

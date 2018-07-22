@@ -15,7 +15,6 @@ private:
 
 
 
-
 protected:
 	LPDIRECT3DTEXTURE9		m_pTexture;
 

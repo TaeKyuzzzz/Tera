@@ -40,6 +40,10 @@ void cSceneMain::Setup()
 	m_colorOver = D3DCOLOR_ARGB(255, 255, 255, 0);
 	m_colorDefault = D3DCOLOR_ARGB(255, 0, 0, 0);
 
+	// 메인 씬 사운드 등록
+	SOUNDMANAGER->AddSound("Main", "Sound/Main/ServerTheme.ogg", true,true);
+	SOUNDMANAGER->Play("Main");
+
 }
 
 void cSceneMain::Release()
@@ -88,6 +92,7 @@ void cSceneMain::Update()
 
 		if (m_nBGBlackAlpha > 255)
 		{
+			SOUNDMANAGER->Stop("Main");
 			SCENEMANAGER->ChangeScene(m_sNextScene.c_str());
 		}
 	}
