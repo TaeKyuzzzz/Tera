@@ -53,14 +53,6 @@ void cSceneLobbyLoading::Render()
 
 void cSceneLobbyLoading::TotalLoading()
 {
-	
-	// ÆÄÆ¼Å¬
-	//PARTICLEMANAGER->AddParticle("explosion", "Texture/Particle/explosion.txt");
-	//PARTICLEMANAGER->AddParticle("iceExplosion", "Texture/Particle/iceExplosion.txt");
-	//PARTICLEMANAGER->AddParticle("aura", "Texture/Particle/aura1.txt");
-	//PARTICLEMANAGER->AddParticle("gaiaCrash", "Texture/Particle/gaiaCrash.txt");
-	//PARTICLEMANAGER->AddParticle("PortalEffect", "Texture/Particle/PortalEffect.txt");
-
 	m_pLoading->IniteForParticle("explosion", "Texture/Particle/explosion.txt");
 	m_pLoading->IniteForParticle("iceExplosion", "Texture/Particle/iceExplosion.txt");
 	m_pLoading->IniteForParticle("aura", "Texture/Particle/aura1.txt");
@@ -102,8 +94,10 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("PCAtt03", "Sound/Chara/PCAtt03.ogg");
 	m_pLoading->InitForSound("PCAtt04", "Sound/Chara/PCAtt04.ogg");
 	m_pLoading->InitForSound("PCSkill01", "Sound/Chara/PCSkill01.ogg");
-
+	
 	m_pLoading->InitForSound("EquitArmor", "Sound/Chara/EquitArmor.ogg");
 	m_pLoading->InitForSound("EquitWeapon", "Sound/Chara/EquitWeapon.ogg");
-
+	m_pLoading->InitForSound("PCDamaged", "Sound/Chara/PCDamaged.ogg");
+	m_pLoading->InitForSound("PCBigDamaged", "Sound/Chara/PCBigDamaged.ogg");
+	m_pLoading->InitForSound("PCDie", "Sound/Chara/PCDie.ogg");
 }

@@ -1,95 +1,65 @@
 #include "stdafx.h"
 #include "cSceneBossLoading.h"
-
-#include "Scene\05_BossScene\cBossRoom_Wall.h"
-#include "XMesh\cXLoader.h"
-#include "XMesh\cXMesh.h"
-
+#include "Loading\cLoading.h"
 
 cSceneBossLoading::cSceneBossLoading()
+	: m_pLoading(NULL)
 {
 }
 
 
 cSceneBossLoading::~cSceneBossLoading()
 {
-	SAFE_DELETE(m_pBossRoomWall);
-	this->Destroy();
+	SAFE_DELETE(m_pLoading);
 }
 
 void cSceneBossLoading::Setup()
 {
-	Roader_WallGate();
+	m_pLoading = new cLoading;
 
-	m_pBossRoomWall = new cBossRoom_Wall;
-	m_pBossRoomWall->Setup();
+	// 여기서 레퍼런스 카운트가 증가
+	m_pLoading->Setup("Texture/SceneTexture/LoadingTexture/LoadingImage_Awaken_02.png");
+	this->TotalLoading();
+
+	isOptionMode = false;
+
+	SOUNDMANAGER->AddSound("Loading", "Sound/Loading/LoadingSound.mp3", true, true);
+	//SOUNDMANAGER->Play("Loading");
+}
+
+void cSceneBossLoading::Release()
+{
+	SAFE_DELETE(m_pLoading);
 }
 
 void cSceneBossLoading::Update()
 {
+	m_pLoading->Update();
+
+	if (m_pLoading->LoadingDone())
+	{
+		//SOUNDMANAGER->Stop("Loading");
+		//TEXTUREMANAGER->Destroy();
+		CAMERAMANAGER->SetType(CAMERA_FREE);
+		SCENEMANAGER->ChangeScene("Boss");
+	}
 }
 
 void cSceneBossLoading::Render()
 {
-	Render_Wall();
+	m_pLoading->Render();
 }
 
-void cSceneBossLoading::Render_Wall()
+void cSceneBossLoading::TotalLoading()
 {
-	if (!m_vGroundMap.empty())
-	{
-		for (auto p : m_vGroundMap)
-		{
-			p->Render();
-		}
-	}
+	// 보스룸에 필요한 리소스들 가져오기
 
-	for (auto p : m_pBossRoomWall->m_vecBossRoomWall)
-	{
-		for (auto p : m_pBossRoomWall->m_vecBossRoomWall)
-		{
-			p.Render();
-		}
-	}
-}
-
-void cSceneBossLoading::Roader_WallGate()
-{
-	const int size = 4;
-
-	char fileName[size][256] = {
-		"XFile/Boss_Room/ARG_Room_A_Enter_SM_P1.X",
-		"XFile/Boss_Room/ARG_Room_A_Enter_SM_P2.X",
-		"XFile/Boss_Room/ARG_Room_A_Enter_SM_P3.X",
-		"XFile/Boss_Room/ARG_Room_A_Enter_SM_P4.X"
-		//"XFile\Boss_Room\ARG_Room_A_Enter_SM_P5.X",
-	};
-
-	for (int i = 0; i < size; i++)
-	{
-		cXLoader  ground_meshX;
-		m_vGroundMap.push_back(ground_meshX.xFimeLoad(fileName[i]));
-	}
-}
-
-void cSceneBossLoading::Destroy()
-{
-	if (!m_vGroundMap.empty())
-	{
-		for (auto p : m_vGroundMap)
-		{
-			SAFE_DELETE(p);
-		}
-		delete this;
-	}
-
-	for (auto p : m_pBossRoomWall->m_vecBossRoomWall)
-	{
-		for (auto p : m_pBossRoomWall->m_vecBossRoomWall)
-		{
-			p.Destroy();
-		}
-	}
-
-
+	m_pLoading->InitForSound("BossBGM","Sound/BossRoom/Boss_Battle.ogg");
+	
+	// 맵에 쓰이는 스태틱 메시를 불러옵시다
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_Enter_SM_P1.X");
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_Enter_SM_P2.X");
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_Enter_SM_P3.X");
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_Enter_SM_P4.X");
+	
 }

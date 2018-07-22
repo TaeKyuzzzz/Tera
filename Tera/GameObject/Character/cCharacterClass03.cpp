@@ -586,6 +586,8 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 		m_fCurAnimTime = 0.5f;
 		m_bIsBlend = true;
 		m_bIsDone = false;
+
+		SOUNDMANAGER->Play("PCDamaged");
 	}
 	else if (damage < m_fHpMax / 6.0f)
 	{
@@ -594,6 +596,7 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 		m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart];
 		m_bIsDone = false;
 		m_bIsBlend = false;
+		SOUNDMANAGER->Play("PCBigDamaged");
 	}
 	else
 	{
@@ -602,10 +605,12 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 		m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart3];
 		m_bIsDone = false;
 		m_bIsBlend = false;
+		SOUNDMANAGER->Play("PCBigDamaged");
 	}
 
 	if (m_fHpCur < 0)
 	{
+		SOUNDMANAGER->Play("PCDie");
 		Die();
 	}
 	
@@ -714,10 +719,16 @@ void cCharacterClass03::AttSound()
 			m_isDoSkiilSound = true;
 			SOUNDMANAGER->Play("PCSkill01");
 		}
-		//else if ()
-		//{		  
-		//		  
-		//}		  
+		else if (m_state == CH_STATE_CutHead && m_fTime >= m_fAnimTime[CH_STATE_CutHead] - 1.5f)
+		{
+			m_isDoSkiilSound = true;
+			SOUNDMANAGER->Play("PCSkill01");
+		}
+		else if (m_state == CH_STATE_StingerBlade && m_fTime >= m_fAnimTime[CH_STATE_StingerBlade] - 1.5f)
+		{
+			m_isDoSkiilSound = true;
+			SOUNDMANAGER->Play("PCSkill01");
+		}
 	}
 }
 
