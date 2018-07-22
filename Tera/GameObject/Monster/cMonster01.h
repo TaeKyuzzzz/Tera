@@ -86,7 +86,6 @@ public:
 	void Setup();
 	void Update();
 	void Render();
-	void SetupBehaviorSpot(D3DXVECTOR3	v) { m_vBehaviorSpot = v; }
 
 
 	//--------------------------옵션설정

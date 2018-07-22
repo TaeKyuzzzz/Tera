@@ -54,6 +54,10 @@ void cMonster::PlusMapHeight()
 		m_pMap->GetHeight(m_vPosition.x, m_vPosition.y, m_vPosition.z);
 }
 
+void cMonster::MonoBehavior(void)
+{
+}
+
 bool cMonster::Attack(float damage)
 {
 

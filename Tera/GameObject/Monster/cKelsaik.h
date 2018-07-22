@@ -11,8 +11,6 @@ protected:
 	{
 		IDLE,
 		AWAKE,
-		ATTACK,
-		DAMAGED,
 		DEATH
 	};
 	enum MON_STATE
@@ -48,14 +46,40 @@ protected:
 		MON_STATE_COUNT
 	};
 
+	MON_MODE			MODE;	//얘에 따라서 호출하는 하위업데이트가 다르다.
 
-	/////////Update Function//////////
+	cSkinnedMesh*		m_pMonster;
+	ST_BONE*			m_pDummyRoot;
 
-	MON_STATE Status;	//얘에 따라서 호출하는 하위업데이트가 다르다.
+	MON_STATE			m_state;
+	MON_STATE			m_currState;
 
-	/////////////////////////////////
+	bool				m_bIsDone;
+
+	float				m_fCurAnimTime;
+	float				m_fAnimTime[MON_STATE_COUNT];
+
+	float				m_fTime;
+
+	bool				m_bIsBlend;
+
+	float				m_fCosVal;
+
+	//행동패턴 디자인에 쓰인 임시변수
+	D3DXVECTOR3			temp;
+	D3DXVECTOR2			tt;
+
+	//공격에 쓰이는 본
+
+	ST_BONE*			m_pHandR;
+	ST_BONE*			m_pHandL;
+	cSpere*				m_pSphereR;
+	cSpere*				m_pSphereL;
+
+	float				m_fFightZone;
 
 
+	cParticleSet*		m_pParticleBleeding;
 
 public:
 	cKelsaik();
@@ -66,13 +90,20 @@ public:
 	/////////Update Function//////////
 	void Update();
 	void Idle_Update();
+	void Idle_Roaming();
+	void Idle_Back_to_SquareOne();
 	void Awake_Update();
-	void Attack_Update();
-	void Damaged_Update();
+	void Awake_Chase();
+	void Awake_Battle();
 	void Death_Update();
 	//////////////////////////////////
 
 	void Render();
+
+	////////Rendering Function///////
+
+	void SetAnimWorld();
+	bool isUseLocalAnim();
 
 
 
