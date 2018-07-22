@@ -26,6 +26,7 @@ void cUIImageView::SetTexture(const char * szFullPath)
 
 	m_enClickState = NON;
 
+	m_nAlpha = UIMANAGER->GetAlpha();
 
 }
 
@@ -65,9 +66,11 @@ void cUIImageView::Render(LPD3DXSPRITE pSprite)
 		&rc,
 		&D3DXVECTOR3(0, 0, 0),
 		&D3DXVECTOR3(0, 0, 0),
-		D3DCOLOR_ARGB(200, 255, 255, 255)
+		D3DCOLOR_ARGB(m_nAlpha, 255, 255, 255)
 	);
 	
+
+		
 	pSprite->End();
 	
 	cUIObject::Render(pSprite);	

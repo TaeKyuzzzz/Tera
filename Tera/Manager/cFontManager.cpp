@@ -11,7 +11,7 @@ cFontManager::~cFontManager()
 {
 }
 
-LPD3DXFONT cFontManager::GetFont(eFontType type, D3DXVECTOR2 textSize)
+LPD3DXFONT cFontManager::GetFont(eFontType type)
 {
 	if (m_mapFont.find(type) != m_mapFont.end())
 		return m_mapFont[type];
@@ -86,10 +86,24 @@ LPD3DXFONT cFontManager::GetFont(eFontType type, D3DXVECTOR2 textSize)
 		char str[] = "배달의민족 주아";
 		wcsncpy_s(fd.FaceName, L"배달의민족 주아", sizeof(str));
 	}
-	else if (type == FT_GA)
+	else if (type == FT_GA_BIG)
 	{
-		fd.Height = textSize.x;
-		fd.Width = textSize.y;
+		fd.Height = 25;
+		fd.Width = 15;
+		fd.Weight = FW_MEDIUM;
+		fd.Italic = false;
+		fd.CharSet = DEFAULT_CHARSET;
+		fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+		fd.PitchAndFamily = FF_DONTCARE;
+		AddFontResourceExA("Font/GA.ttf", FR_PRIVATE, 0);
+		char str[] = "DS가변 교양있는글씨 M";
+		wcsncpy_s(fd.FaceName, L"DS가변 교양있는글씨 M", sizeof(str));
+		
+	}
+	else if (type == FT_GA_MID)
+	{
+		fd.Height = 20;
+		fd.Width = 11;
 		fd.Weight = FW_MEDIUM;
 		fd.Italic = false;
 		fd.CharSet = DEFAULT_CHARSET;
@@ -99,15 +113,26 @@ LPD3DXFONT cFontManager::GetFont(eFontType type, D3DXVECTOR2 textSize)
 		char str[] = "DS가변 교양있는글씨 M";
 		wcsncpy_s(fd.FaceName, L"DS가변 교양있는글씨 M", sizeof(str));
 
-		D3DXCreateFontIndirect(g_pD3DDevice, &fd, &pont);
-		return pont;
 	}
-	if(type != FT_GA)
+	else if (type == FT_GA_SMALL)
 	{
+		fd.Height = 15;
+		fd.Width = 9;
+		fd.Weight = FW_MEDIUM;
+		fd.Italic = false;
+		fd.CharSet = DEFAULT_CHARSET;
+		fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+		fd.PitchAndFamily = FF_DONTCARE;
+		AddFontResourceExA("Font/GA.ttf", FR_PRIVATE, 0);
+		char str[] = "DS가변 교양있는글씨 M";
+		wcsncpy_s(fd.FaceName, L"DS가변 교양있는글씨 M", sizeof(str));
+
+	}
+
 		D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_mapFont[type]);
 
 		return m_mapFont[type];
-	}
+	
 }
 
 void cFontManager::Destroy()

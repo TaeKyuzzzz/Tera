@@ -9,7 +9,9 @@ protected :
 	cFontManager::eFontType		m_fontType;
 	string						m_sText;
 	D3DCOLOR					m_dwColor;
-	LPD3DXFONT m_pFont;
+	LPD3DXFONT					m_pFont;
+	D3DXFONT_DESC				m_pFontDesc;
+
 	
 	// 정렬 방식
 	enum TextSortType
