@@ -76,7 +76,7 @@ void cItemInfo::Render()
 {
 
 	if (m_pUIRoot)m_pUIRoot->Render(m_pSprite);
-	//if (m_pUIImage)m_pUIImage->Render(m_pSprite);
+	if (m_pUIImage)m_pUIImage->Render(m_pSprite);
 
 }
 

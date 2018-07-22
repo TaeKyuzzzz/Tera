@@ -57,12 +57,7 @@ void cItemManager::Update()
 	//드래그하는 동안의 예외설정
 	ExceptionsWhileDragging();
 
-	//슬롯 내 정렬
-	SortInSlot();
 
-
-	//각자 장소에 있는 아이템 모두 업데이트
-	ItemUpdate();
 
 	//MoveFromAToB(m_vInvenItem, m_vShopSlot);
 	//MoveFromAToB(m_vShopItem, m_vInvenSlot);
@@ -75,28 +70,17 @@ void cItemManager::Update()
 
 	SalesItemCalculator();
 
-
-	m_vItemAssistant[0]->Update();
-	m_vItemAssistant[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x, ptMouse.y + 20, 0));
-	m_vItemAssistant[1]->GetUIImage()->SetPosition(D3DXVECTOR3(110, 200, 0));
+	//아이템 설명창 업데이트
+	ItemExplaneUpdate();
 	
+	//슬롯 내 정렬
+	SortInSlot();
 
-	//아이템 정보창
-	for (int i = 0; i < m_vItemImitation.size(); i++)
-	{
-		m_vItemImitation[i]->Update();		
-	}
-	for (int i = 0; i < m_vItemImitation.size(); i++)
-	{
-		m_vItemImitation[i]->GetUIImage()->SetPosition(D3DXVECTOR3(ptMouse.x + 5, ptMouse.y + 33, 0));
-	}
-
-
-
-
-
+	//각자 장소에 있는 아이템 모두 업데이트
+	ItemUpdate();
+	
+	//char텍스트와 int텍스트 로드
 	ItemInfoCTextRenewal("아이템정보");
-
 	for (int i = 1; i < 4; i++)
 	{
 		ItemInfoITextRenewal(i);
@@ -109,42 +93,7 @@ void cItemManager::Render()
 {
 	ItemRender();	
 
-	ItemExplaneRendingCondition(m_vInvenItem);
-	ItemExplaneRendingCondition(m_vStatusItem);
-	ItemExplaneRendingCondition(m_vShopItem);
-
-	//if (isPlaceItemCollision)
-	//{
-	//	//아이템 정보창
-	//	for (int i = 0; i < m_vItemImitation.size(); i++)
-	//	{
-	//		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
-	//		{
-	//			m_vItemImitation[i]->Render();
-	//		}
-	//	}
-	//}
-
-	if (isPlaceItemCollision)
-	{
-
-		//아이템 정보창
-		for (int i = 0; i < m_vItemImitation.size(); i++)
-		{
-			for (int j = 0; j < m_vAllItem.size(); j++)
-			{
-				if (m_vAllItem[j]->GetUIRoot()->GetIsCollision())
-				{
-					if (m_vItemImitation[i]->GetName() == m_vAllItem[j]->GetName())
-						m_vItemImitation[i]->Render();
-				}
-			}
-		}
-		
-	}
-
-
-
+	ItemExplaneRender();	
 
 	for (int i = 0; i < m_vText.size(); i++)
 	{
@@ -172,12 +121,6 @@ void cItemManager::Render()
 void cItemManager::Destroy()
 {
 	SAFE_DELETE(m_pItemInfo);
-	//safe
-	//for (auto p : m_vAllItem)
-	//{
-	//	SAFE_DELETE(p);
-	//}
-
 }
 
 void cItemManager::CreateText(tagText _tagText)
@@ -457,19 +400,18 @@ const char * cItemManager::FindItemKind()
 	
 }
 
-void cItemManager::ItemExplaneWindowRender(vItem vPlaceItem)
+void cItemManager::ItemExplaneUpdate()
 {
-	for (int i = 0; i < vPlaceItem.size(); i++)
+	//툴팁창
+	m_vItemAssistant[0]->Update();
+	m_vItemAssistant[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x, ptMouse.y + 20, 0));
+	m_vItemAssistant[1]->GetUIImage()->SetPosition(D3DXVECTOR3(110, 200, 0));
+
+	for (int i = 0; i < m_vItemImitation.size(); i++)
 	{
-		if (vPlaceItem[i]->GetUIRoot()->GetIsCollision())
-		{
-			if (vPlaceItem == m_vStatusItem && _UI->GetIsCallStatus())	
-			if (vPlaceItem == m_vInvenItem && _UI->GetIsCallInven())	
-			if (vPlaceItem == m_vShopItem && _UI->GetIsCallShop())		
-				
-			m_vItemAssistant[0]->Render();
-		
-		}
+		m_vItemImitation[i]->Update();	
+		m_vItemImitation[i]->GetUIImage()->SetPosition(D3DXVECTOR3(7, 15, 0));
+	
 	}
 }
 
@@ -863,7 +805,7 @@ void cItemManager::ConnectNodeCommand()
 		}
 	}
 
-	//itemAssistant와 UI의 연결
+	//itemAssistant끼리의 연결
 	for (int i = 0; i < m_vItemAssistant.size(); i++)
 	{
 		for (int j = 0; j < m_vItemAssistant.size(); j++)
@@ -871,6 +813,17 @@ void cItemManager::ConnectNodeCommand()
 			if (m_vItemAssistant[i]->GetParentName() == m_vItemAssistant[j]->GetName())
 			{
 				m_vItemAssistant[i]->ConnectNode(m_vItemAssistant[j]->GetUIRoot());
+			}
+		}
+	}
+
+	for (int i = 0; i < m_vItemImitation.size(); i++)
+	{
+		for (int j = 0; j < m_vItemAssistant.size(); j++)
+		{
+			if (m_vItemImitation[i]->GetParentName() == m_vItemAssistant[j]->GetName())
+			{
+				m_vItemImitation[i]->ConnectNode(m_vItemAssistant[j]->GetUIRoot());
 			}
 		}
 	}
@@ -1107,20 +1060,52 @@ void cItemManager::SalesItemCalculator()
 	}
 }
 
-void cItemManager::ItemExplaneRendingCondition(vItem vPlaceItem)
+void cItemManager::ItemExplaneRender()
 {
-	for (int i = 0; i < vPlaceItem.size(); i++)
+
+	int ShopIdx = _UI->FindUIIndex("ConsumablesShop");
+	int StatusIdx = _UI->FindUIIndex("Status");
+	int InventoryIdx = _UI->FindUIIndex("Inventory");
+
+	for (int i = 0; i < m_vAllItem.size(); i++)
 	{
-		if (vPlaceItem[i]->GetUIRoot()->GetIsCollision())
+		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
 		{
-			if (vPlaceItem == m_vInvenItem && _UI->GetIsCallInven() ||
-				vPlaceItem == m_vStatusItem && _UI->GetIsCallStatus() ||
-				vPlaceItem == m_vShopItem && _UI->GetIsCallShop())
+			RECT itemRc = m_vAllItem[i]->GetUIRoot()->GetCollisionRect();
+			RECT tempRc;
+			RECT shopRc = _UI->GetVUI()[ShopIdx]->GetUIRoot()->GetCollisionRect();
+			RECT invenRc = _UI->GetVUI()[InventoryIdx]->GetUIRoot()->GetCollisionRect();
+			RECT statusRc = _UI->GetVUI()[StatusIdx]->GetUIRoot()->GetCollisionRect();
+
+			if (_UI->GetIsCallShop() && IntersectRect(&tempRc, &itemRc, &shopRc)||
+				_UI->GetIsCallInven() && IntersectRect(&tempRc, &itemRc, &invenRc)||
+				_UI->GetIsCallStatus() && IntersectRect(&tempRc, &itemRc, &statusRc))
 			{
 				isPlaceItemCollision = true;
 				m_vItemAssistant[0]->Render();
 			}
 			else isPlaceItemCollision = false;
+	
+		}
+		
+	}	
+
+	ImitationIconRender();
+}
+
+void cItemManager::ImitationIconRender()
+{
+	for (int i = 0; i < m_vItemImitation.size(); i++)
+	{
+		for (int j = 0; j < m_vAllItem.size(); j++)
+		{
+			if (m_vAllItem[j]->GetUIRoot()->GetIsCollision())
+			{
+				if (m_vItemImitation[i]->GetName() == m_vAllItem[j]->GetName())
+				{
+					m_vItemImitation[i]->Render();
+				}
+			}
 		}
 	}
 }

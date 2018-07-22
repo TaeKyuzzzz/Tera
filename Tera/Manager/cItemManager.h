@@ -145,7 +145,9 @@ public:
 	int FindItemExplaneWndIndex(const char* szItemExplaneName);
 	int FindSalePriceValue();
 	const char* FindItemKind();
-	void ItemExplaneWindowRender(vItem vPlaceItem);
+	void ItemExplaneUpdate();
+	void ItemExplaneRender();
+	void ImitationIconRender();
 
 #pragma endregion
 
@@ -173,7 +175,6 @@ public:
 	void ItemRenewalThisPlace(vItem& _vVectorName);
 	void EquipmentWearBack(cItemInfo* _placeItem);
 	void SalesItemCalculator();
-	void ItemExplaneRendingCondition(vItem vPlaceItem);
 
 };
 
