@@ -305,7 +305,7 @@ void cItemManager::ItemInfoCTextRenewal(const char * szFindText)
 
 					vChar[3] = textExplane.find(m_vAllItem[i]->GetName())->second;
 
-					vChar[4] = FindItemKind();
+					vChar[4] = FindItemPos();
 				}
 
 
@@ -367,7 +367,14 @@ int cItemManager::FindSalePriceValue()
 			RECT shopUIRc = _UI->GetVUI()[shopIDX]->GetUIRoot()->GetCollisionRect();
 			RECT tempRc;
 
-			if (IntersectRect(&tempRc, &itemRc, &shopUIRc))
+			RECT shopUIRcResize;
+			SetRect(&shopUIRcResize,
+				shopUIRc.left,
+				shopUIRc.top,
+				shopUIRc.right,
+				shopUIRc.bottom * 3 / 4);
+
+			if (IntersectRect(&tempRc, &itemRc, &shopUIRcResize))
 			{
 				return m_vAllItem[i]->GetBuyPrice();
 			}
@@ -377,20 +384,32 @@ int cItemManager::FindSalePriceValue()
 
 }
 
-const char * cItemManager::FindItemKind()
+const char * cItemManager::FindItemPos()
 {
 	for (int i = 0; i < m_vAllItem.size(); i++)
 	{
+		
+		
+
 
 		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
 		{
 
 			int shopIDX = _UI->FindUIIndex("ConsumablesShop");
-			RECT itemRc = m_vAllItem[i]->GetUIRoot()->GetCollisionRect();
 			RECT shopUIRc = _UI->GetVUI()[shopIDX]->GetUIRoot()->GetCollisionRect();
+
+			RECT shopUIRcResize;
+			SetRect(&shopUIRcResize,
+				shopUIRc.left,
+				shopUIRc.top,
+				shopUIRc.right,
+				shopUIRc.bottom * 3 / 4);
+			
+			RECT itemRc = m_vAllItem[i]->GetUIRoot()->GetCollisionRect();
+			
 			RECT tempRc;
 
-			if (IntersectRect(&tempRc, &itemRc, &shopUIRc))
+			if (IntersectRect(&tempRc, &itemRc, &shopUIRcResize))
 			{
 				return "구입가격";
 			}

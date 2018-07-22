@@ -144,7 +144,7 @@ public:
 	int FindAbilityValue();
 	int FindItemExplaneWndIndex(const char* szItemExplaneName);
 	int FindSalePriceValue();
-	const char* FindItemKind();
+	const char* FindItemPos();
 	void ItemExplaneUpdate();
 	void ItemExplaneRender();
 	void ImitationIconRender();
