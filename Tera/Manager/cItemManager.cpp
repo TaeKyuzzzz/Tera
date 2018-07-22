@@ -1120,9 +1120,12 @@ void cItemManager::ImitationIconRender()
 		{
 			if (m_vAllItem[j]->GetUIRoot()->GetIsCollision())
 			{
-				if (m_vItemImitation[i]->GetName() == m_vAllItem[j]->GetName())
+				if (isPlaceItemCollision)
 				{
-					m_vItemImitation[i]->Render();
+					if (m_vItemImitation[i]->GetName() == m_vAllItem[j]->GetName())
+					{
+						m_vItemImitation[i]->Render();
+					}
 				}
 			}
 		}
