@@ -17,6 +17,7 @@ private :
 	cSprite*			m_pBackGroundBlack;
 	int					m_nBGBlackAlpha;
 	cCharaPopori*		m_pPopori;
+	
 	cDummyObj*			m_pDummy;
 
 	cMonster01*			m_pMonster01;
@@ -25,6 +26,7 @@ private :
 	cTown_House*		m_pTown_House;
 	cTestMap*			m_pMap;
 
+	bool				m_isGoBoss;
 public:
 	cSceneTest();
 	~cSceneTest();

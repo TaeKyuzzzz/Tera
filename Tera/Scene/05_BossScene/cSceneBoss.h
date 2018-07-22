@@ -1,9 +1,21 @@
 #pragma once
-#include "../../cGameNode.h"
+#include "cGameNode.h"
+
+class cMesh;
+class cBossRoom_Wall;
+class cCharaPopori;
+class cSprite;
 
 class cSceneBoss : public cGameNode
 {
 private:
+	vector<cXMesh*> m_vGroundMap;
+	cBossRoom_Wall* m_pBossRoomWall;
+
+	cSprite*			m_pBackGroundBlack;
+	int					m_nBGBlackAlpha;
+	cCharaPopori*		m_pPopori;
+
 
 public:
 	cSceneBoss();
@@ -13,4 +25,9 @@ public:
 	void Release();
 	void Update();
 	void Render();
+
+	void Render_Wall();
+	void Roader_WallGate();
+
+	void Destroy();
 };

@@ -26,16 +26,18 @@ void cDummyObj::Setup(D3DXVECTOR3 pos)
 
 	// 备 面倒 康开 积己
 	m_pSpere = new cSpere;
-	m_pSpere->Setup(D3DXVECTOR3(0, 0, 0), 20);
-}
+	m_pSpere->Setup(D3DXVECTOR3(0, 0, 0), 120);
 
-void cDummyObj::Update()
-{
 	D3DXMATRIX mat;
 	D3DXMatrixIdentity(&mat);
 	D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	m_pBoundingBox->SetWorld(mat);
 	m_pSpere->SetWorld(mat);
+}
+
+void cDummyObj::Update()
+{
+
 
 	cGameObject::Update();
 }
@@ -44,4 +46,18 @@ void cDummyObj::Render()
 {
 	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	cGameObject::Render();
+}
+
+bool cDummyObj::IsGoBossRoom()
+{
+	cGameObject*	player = OBJECTMANAGER->GetPlayer();
+	float lengh = D3DXVec3Length(&(this->GetSpere()->GetPosition() - player->GetSpere()->GetPosition()));
+	float distance = this->GetSpere()->GetRadius() + player->GetSpere()->GetRadius();
+
+	if (lengh < distance)
+	{
+		if (KEYMANAGER->IsOnceKeyDown('F'))
+			return true;
+	}
+	return false;
 }

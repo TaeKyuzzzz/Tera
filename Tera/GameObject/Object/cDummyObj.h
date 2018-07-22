@@ -15,5 +15,7 @@ public:
 	void Setup(D3DXVECTOR3	pos);
 	void Update();
 	void Render();
+
+	bool IsGoBossRoom();
 };
 

@@ -10,7 +10,7 @@
 #include "Scene\02_LobbyScene\cSceneLobbyLoading.h"
 #include "Scene\06_PaticleEdit\cScenePaticleEdit.h"
 #include "Scene\05_BossScene\cSceneBossLoading.h"
-
+#include "Scene\05_BossScene\cSceneBoss.h"
 cMainGame::cMainGame()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
@@ -56,11 +56,13 @@ void cMainGame::Setup()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
 
-	SCENEMANAGER->AddScene("Test", new cSceneTest);
-	SCENEMANAGER->AddScene("LobbyLoading", new cSceneLobbyLoading);
-	SCENEMANAGER->AddScene("Main", new cSceneMain);
-	SCENEMANAGER->AddScene("Boss", new cSceneBossLoading);
 	SCENEMANAGER->AddScene("PaticleEdit", new cScenePaticleEdit);
+
+	SCENEMANAGER->AddScene("Main", new cSceneMain);
+	SCENEMANAGER->AddScene("LobbyLoading", new cSceneLobbyLoading);
+	SCENEMANAGER->AddScene("Test", new cSceneTest);
+	SCENEMANAGER->AddScene("Boss", new cSceneBoss);
+	SCENEMANAGER->AddScene("BossLoading", new cSceneBossLoading);
 
 
 	SCENEMANAGER->ChangeScene("Main");
@@ -86,7 +88,7 @@ void cMainGame::Setup()
 void cMainGame::Update()
 {
 	SCENEMANAGER->Update();
-	
+
 	CAMERAMANAGER->Update();
 
 	RemoteMode();
@@ -109,7 +111,7 @@ void cMainGame::Render()
 	/////////////////////////////////////////////////////////////////
 	
 
-	m_pGrid->Render();
+	//m_pGrid->Render();
 	SCENEMANAGER->Render();
 
 	TIMEMANAGER->Render();

@@ -235,3 +235,10 @@ bool cObjectManager::OBBCollision(ST_OBB * Box1, ST_OBB * Box2)
 
 	return TRUE;
 }
+
+void cObjectManager::VecClear()
+{
+	m_vecObject.clear();
+	m_vecCharacter.clear();
+	m_vecMonster.clear();
+}

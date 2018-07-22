@@ -28,6 +28,8 @@ void cSoundManager::Setup()
 	memset(m_sound, 0, sizeof(Sound*)*(TOTALSOUNDBUFFER));
 	memset(m_channel, 0, sizeof(Channel*)*(TOTALSOUNDBUFFER));
 
+
+
 }
 
 void cSoundManager::Release()

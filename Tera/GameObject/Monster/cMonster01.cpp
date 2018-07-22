@@ -293,10 +293,6 @@ void cMonster01::Update()
 		Attack(m_fAttack);
 	if(m_state == MON_STATE_atk02)
 		Attack(m_fAttack * 3);
-
-
-	//파티클 처리
-	//m_pParticleBleeding->Update();
 }
 
 void cMonster01::Render()
@@ -304,30 +300,7 @@ void cMonster01::Render()
 	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	
 	if (m_bIsGen)
-	{
 		m_pMonster->Render(NULL);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		m_pMonster->Render(NULL);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	}
-
-
-	
-	// 
-	//m_pParticleBleeding->Render();
-
-	char szTemp[1024];
-	sprintf_s(szTemp, 1024, "State : %d", m_state);
-	RECT rc;
-	SetRect(&rc, 0, 100, 200, 200);
-
-	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
-	pFont->DrawTextA(NULL,
-		szTemp,
-		strlen(szTemp),
-		&rc,
-		DT_LEFT | DT_VCENTER,
-		D3DCOLOR_XRGB(255, 255, 0));
 
 	cGameObject::Render();
 
@@ -335,19 +308,6 @@ void cMonster01::Render()
 		m_pSphereR->Render();
 	if (SightSpere && m_pSphereL)
 		m_pSphereL->Render();
-
-	
-	sprintf_s(szTemp, 1024, "Distance %.1f", D3DXVec2Length(&tt));
-	
-	SetRect(&rc, 0, 400, 200, 500);
-
-	 pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
-	pFont->DrawTextA(NULL,
-		szTemp,
-		strlen(szTemp),
-		&rc,
-		DT_LEFT | DT_VCENTER,
-		D3DCOLOR_XRGB(255, 255, 0));
 }
 
 bool cMonster01::isUseLocalAnim()
