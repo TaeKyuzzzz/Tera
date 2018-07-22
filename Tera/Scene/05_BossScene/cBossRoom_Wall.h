@@ -7,8 +7,8 @@ public:
 	cBossRoom_Wall();
 	~cBossRoom_Wall();
 
-	vector<cBossRoom_Wall> m_vecBossRoomWall;
-	vector<cXMesh*> m_vecBossRoom;
+	vector<cBossRoom_Wall> m_vecBossRoom_Wall;
+	vector<cXMesh*> m_vecWallParts;
 	D3DXMATRIX matWorld;
 
 	float rotY;
