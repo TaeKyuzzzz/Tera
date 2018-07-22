@@ -23,6 +23,9 @@ void cSceneLobbyLoading::Setup()
 	this->TotalLoading();
 
 	isOptionMode = false;
+
+	SOUNDMANAGER->AddSound("Loading", "Sound/Loading/LoadingSound.mp3",true,true);
+	//SOUNDMANAGER->Play("Loading");
 }
 
 void cSceneLobbyLoading::Release()
@@ -36,6 +39,7 @@ void cSceneLobbyLoading::Update()
 
 	if (m_pLoading->LoadingDone())
 	{
+		//SOUNDMANAGER->Stop("Loading");
 		//TEXTUREMANAGER->Destroy();
 		CAMERAMANAGER->SetType(CAMERA_FREE);
 		SCENEMANAGER->ChangeScene("Test");
@@ -91,5 +95,15 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForStaticMesh("XFile/Item/Weapon/TwoHandSword_03.X");
 	m_pLoading->InitForStaticMesh("XFile/Item/Weapon/TwoHandSword_04.X");
 
+	m_pLoading->InitForSound("Field", "Sound/Field/Ambience_Field26.ogg",true, true);
+
+	m_pLoading->InitForSound("PCAtt01", "Sound/Chara/PCAtt01.ogg");
+	m_pLoading->InitForSound("PCAtt02", "Sound/Chara/PCAtt02.ogg");
+	m_pLoading->InitForSound("PCAtt03", "Sound/Chara/PCAtt03.ogg");
+	m_pLoading->InitForSound("PCAtt04", "Sound/Chara/PCAtt04.ogg");
+	m_pLoading->InitForSound("PCSkill01", "Sound/Chara/PCSkill01.ogg");
+
+	m_pLoading->InitForSound("EquitArmor", "Sound/Chara/EquitArmor.ogg");
+	m_pLoading->InitForSound("EquitWeapon", "Sound/Chara/EquitWeapon.ogg");
 
 }

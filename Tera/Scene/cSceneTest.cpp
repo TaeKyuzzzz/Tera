@@ -57,6 +57,8 @@ void cSceneTest::Setup()
 	m_pMonster01->SetMap(m_pMap);
 	
 	OBJECTMANAGER->AddObject(m_pDummy);
+	//SOUNDMANAGER->Stop("Loading");
+	SOUNDMANAGER->Play("Field");
 }
 
 void cSceneTest::Release()

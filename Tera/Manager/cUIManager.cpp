@@ -24,7 +24,11 @@ void cUIManager::Setup()
 	CreateUIList();
 	ConnectNode();
 
-
+	SOUNDMANAGER->AddSound("CloseInterface", "Sound/Interface/CloseInterface.ogg");
+	SOUNDMANAGER->AddSound("EquitArmor", "Sound/Interface/EquitArmor.ogg");
+	SOUNDMANAGER->AddSound("EquitWeapon", "Sound/Interface/EquitWeapon.ogg");
+	SOUNDMANAGER->AddSound("OpenInterface", "Sound/Interface/OpenInterface.ogg");
+	SOUNDMANAGER->AddSound("Trade", "Sound/Interface/Trade.ogg");
 	
 }
 
@@ -157,6 +161,8 @@ void cUIManager::CallKeyInput()
 	{
 		if (isOptionMode)
 		{
+			if(m_isCallInven || m_isCallStatus)
+				SOUNDMANAGER->Play("CloseInterface");
 			isOptionMode = false;
 			CAMERAMANAGER->SetType(CAMERA_FREE);
 			m_isCallInven = false;
@@ -175,24 +181,37 @@ void cUIManager::CallKeyInput()
 		m_isCallInven = true;
 		isOptionMode = true;
 		CAMERAMANAGER->SetType(CAMERA_FIX);
+		SOUNDMANAGER->Play("OpenInterface");
 	}
-	else if (m_isCallInven && KEYMANAGER->IsOnceKeyDown('I')) m_isCallInven = false;
-
+	else if (m_isCallInven && KEYMANAGER->IsOnceKeyDown('I'))
+	{
+		m_isCallInven = false;
+		SOUNDMANAGER->Play("CloseInterface");
+	}
 	if (!m_isCallShop && KEYMANAGER->IsOnceKeyDown('Q'))
 	{
 		m_isCallShop = true;
 		isOptionMode = true;
 		CAMERAMANAGER->SetType(CAMERA_FIX);
+		SOUNDMANAGER->Play("OpenInterface");
 	}
-	else if (m_isCallShop && KEYMANAGER->IsOnceKeyDown('Q')) m_isCallShop = false;
-
+	else if (m_isCallShop && KEYMANAGER->IsOnceKeyDown('Q'))
+	{
+		m_isCallShop = false;
+		SOUNDMANAGER->Play("CloseInterface");
+	}
 	if (!m_isCallStatus && KEYMANAGER->IsOnceKeyDown('E'))
 	{
 		m_isCallStatus = true;
 		isOptionMode = true;
 		CAMERAMANAGER->SetType(CAMERA_FIX);
+		SOUNDMANAGER->Play("OpenInterface");
 	}
-	else if (m_isCallStatus && KEYMANAGER->IsOnceKeyDown('E')) m_isCallStatus = false;
+	else if (m_isCallStatus && KEYMANAGER->IsOnceKeyDown('E'))
+	{
+		m_isCallStatus = false;
+		SOUNDMANAGER->Play("CloseInterface");
+	}
 }
 
 void cUIManager::CloseUI(const char* szUIName)
