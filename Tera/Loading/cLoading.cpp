@@ -43,7 +43,7 @@ HRESULT LoadItem::IniteForSound(string KeyName, const char* fileName, bool bgm, 
 	_kind = LOAD_KIND_SOUND;
 
 	memset(&_soundResource, 0, sizeof(tagSoundResouce));
-	_soundResource.keyName = KeyName;
+	_soundResource.keyName = (string)KeyName;
 	_soundResource.fileName = fileName;
 	_soundResource.bgm = bgm;
 	_soundResource.loop = Loop;

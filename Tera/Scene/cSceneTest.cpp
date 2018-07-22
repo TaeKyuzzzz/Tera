@@ -12,6 +12,7 @@ cSceneTest::cSceneTest()
 	: m_pBackGroundBlack(NULL)
 	, m_pPopori(NULL)
 	, m_pDummy(NULL)
+	, m_pMonster01(NULL)
 	, m_nBGBlackAlpha(255)
 {
 }
@@ -23,6 +24,7 @@ cSceneTest::~cSceneTest()
 	SAFE_DELETE(m_pPopori);
 	SAFE_DELETE(m_pDummy);
 	SAFE_DELETE(m_pMonster01);
+	SAFE_DELETE(m_pKelsaik);
 	SAFE_DELETE(m_pMap);
 
 

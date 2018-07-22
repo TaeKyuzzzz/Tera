@@ -13,6 +13,28 @@ protected:
 		AWAKE,
 		DEATH
 	};
+	
+
+
+	enum MON_IDLE
+	{
+		ROAMING,
+		COMEBACK
+	};
+	enum MON_AWAKE
+	{
+		CHASE,
+		BATTLE
+	};
+	enum MON_DEATH
+	{
+		DIE,
+		REBIRTH
+	};
+
+
+
+
 	enum MON_STATE
 	{
 		MON_STATE_Walk,
@@ -47,6 +69,9 @@ protected:
 	};
 
 	MON_MODE			MODE;	//얘에 따라서 호출하는 하위업데이트가 다르다.
+	MON_IDLE			eIDLE;
+	MON_AWAKE			eAWAKE;
+	MON_DEATH			eDEATH;
 
 	cSkinnedMesh*		m_pMonster;
 	ST_BONE*			m_pDummyRoot;
@@ -96,6 +121,8 @@ public:
 	void Awake_Chase();
 	void Awake_Battle();
 	void Death_Update();
+	void Death_Die();
+	void Death_Rebirth();
 	//////////////////////////////////
 
 	void Render();
