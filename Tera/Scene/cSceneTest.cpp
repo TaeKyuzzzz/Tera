@@ -13,6 +13,7 @@ cSceneTest::cSceneTest()
 	, m_pPopori(NULL)
 	, m_pDummy(NULL)
 	, m_pMonster01(NULL)
+	, m_pKelsaik(NULL)
 	, m_nBGBlackAlpha(255)
 {
 }

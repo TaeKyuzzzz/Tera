@@ -7,6 +7,7 @@
 
 #include "GameObject\Character\Player\cCharaPopori.h"
 #include "Sprite\cSprite.h"
+#include "GameObject/Monster/cKelsaik.h"
 
 cSceneBoss::cSceneBoss()
 {
@@ -19,6 +20,7 @@ cSceneBoss::~cSceneBoss()
 	//this->Destroy();
 	SAFE_DELETE(m_pBackGroundBlack);
 	SAFE_DELETE(m_pPopori);
+	SAFE_DELETE(m_pKelsaik);
 
 }
 
@@ -33,6 +35,11 @@ void cSceneBoss::Setup()
 	m_pPopori->Setup();
 	m_pPopori->SetPosition(D3DXVECTOR3(0, 0, 1162));
 	OBJECTMANAGER->AddCharaObject(m_pPopori);
+
+	m_pKelsaik = new cKelsaik;
+	m_pKelsaik->Setup();
+	m_pKelsaik->SetPosition(D3DXVECTOR3(0, 0, 0));
+	OBJECTMANAGER->AddMonsterObject(m_pKelsaik);
 
 	m_pBackGroundBlack = TEXTUREMANAGER->GetSprite("Texture/SceneTexture/BGBlack.png");
 
@@ -49,6 +56,8 @@ void cSceneBoss::Update()
 {
 	m_pPopori->Update();
 
+	m_pKelsaik->Update();
+
 	PARTICLEMANAGER->Update();
 
 	//////////
@@ -64,6 +73,8 @@ void cSceneBoss::Render()
 	Render_Wall();
 	
 	m_pPopori->Render();
+
+	m_pKelsaik->Render();
 
 	/////////////
 

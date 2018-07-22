@@ -89,6 +89,9 @@ void cKelsaik::Setup()
 	m_pDummyRoot = (ST_BONE*)D3DXFrameFind(m_pMonster->GetFrame(),
 		"Dummy_root");
 
+	m_pBIP = (ST_BONE*)D3DXFrameFind(m_pMonster->GetFrame(),
+		"Bip01");
+
 	// 싸대기 때릴 양손 본
 	m_pHandR = (ST_BONE*)D3DXFrameFind(m_pMonster->GetFrame(),
 		"Bip01-R-Hand");

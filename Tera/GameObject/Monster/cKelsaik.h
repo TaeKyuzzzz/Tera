@@ -75,6 +75,7 @@ protected:
 
 	cSkinnedMesh*		m_pMonster;
 	ST_BONE*			m_pDummyRoot;
+	ST_BONE*			m_pBIP;
 
 	MON_STATE			m_state;
 	MON_STATE			m_currState;
