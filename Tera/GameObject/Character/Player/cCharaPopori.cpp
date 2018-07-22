@@ -255,7 +255,6 @@ bool cCharaPopori::isUseLocalAnim()
 
 void cCharaPopori::ChangeWeapon()
 {
-		
 		if (m_pWeapon)
 			SAFE_DELETE(m_pWeapon);
 
@@ -303,7 +302,7 @@ void cCharaPopori::ChangeBody()
 			m_pBody = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_02.X");
 			m_pBody->SetAnimationIndex(m_currState);
 		}
-		else if (m_pEquitBody->GetName() == "스카이아머")
+		else if (m_pEquitBody->GetName() == "퍼플플랫아머")
 		{
 			m_pBody = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_03.X");
 			m_pBody->SetAnimationIndex(m_currState);
@@ -336,7 +335,7 @@ void cCharaPopori::ChangeHand()
 			m_pHand = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_02.X");
 			m_pHand->SetAnimationIndex(m_currState);
 		}
-		else if (m_pEquitHand->GetName() == "스카이글러브")
+		else if (m_pEquitHand->GetName() == "퍼플플랫글러브")
 		{
 			m_pHand = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_03.X");
 			m_pHand->SetAnimationIndex(m_currState);
@@ -364,7 +363,7 @@ void cCharaPopori::ChangeLeg()
 		m_pLeg = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Leg", "Leg_02.X");
 		m_pLeg->SetAnimationIndex(m_currState);
 	}
-	else if (m_pEquitLeg->GetName() == "스카이슈즈")
+	else if (m_pEquitLeg->GetName() == "퍼플플랫슈즈")
 	{
 		m_pLeg = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Character/poporiClass03/Armor/Leg", "Leg_03.X");
 		m_pLeg->SetAnimationIndex(m_currState);
@@ -390,15 +389,19 @@ int cCharaPopori::ChangeEquit()
 		switch (n)
 		{
 		case 1 :
+			SOUNDMANAGER->Play("EquitWeapon");
 			ChangeWeapon();
 			break;
 		case 2 :
+			SOUNDMANAGER->Play("EquitArmor");
 			ChangeBody();
 			break;
 		case 3:
+			SOUNDMANAGER->Play("EquitArmor");
 			ChangeHand();
 			break;
 		case 4 :
+			SOUNDMANAGER->Play("EquitArmor");
 			ChangeLeg();
 			break;
 		}

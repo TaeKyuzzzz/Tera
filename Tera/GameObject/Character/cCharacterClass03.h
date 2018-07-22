@@ -89,7 +89,7 @@ protected:
 	cParticleSet*		m_pParticleHeal;
 
 	bool				m_isDoEffect;
-
+	bool				m_isDoSkiilSound;
 
 public:
 	cCharacterClass03();
@@ -118,7 +118,8 @@ public:
 
 	// 스킬 이펙트 처리.. 나중에 리펙토링 하자
 	void SkillProcess();
-
+	// 평타, 스킬 사운드 처리
+	void AttSound(); 
 	// 키 입력에 따른 각도 구하기
 	void GetAngle();
 
