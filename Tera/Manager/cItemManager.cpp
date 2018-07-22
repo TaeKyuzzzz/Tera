@@ -95,6 +95,8 @@ void cItemManager::Render()
 
 	ItemExplaneRender();	
 
+	ImitationIconRender();
+
 	for (int i = 0; i < m_vText.size(); i++)
 	{
 		m_vText[i]->Render();
@@ -421,10 +423,7 @@ const char * cItemManager::FindItemPos()
 
 void cItemManager::ItemExplaneUpdate()
 {
-	//ÅøÆÁÃ¢
-	m_vItemAssistant[0]->Update();
-	m_vItemAssistant[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x, ptMouse.y + 20, 0));
-	m_vItemAssistant[1]->GetUIImage()->SetPosition(D3DXVECTOR3(110, 200, 0));
+
 
 	for (int i = 0; i < m_vItemImitation.size(); i++)
 	{
@@ -432,6 +431,11 @@ void cItemManager::ItemExplaneUpdate()
 		m_vItemImitation[i]->GetUIImage()->SetPosition(D3DXVECTOR3(7, 15, 0));
 	
 	}
+
+	//ÅøÆÁÃ¢
+	m_vItemAssistant[0]->Update();
+	m_vItemAssistant[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x + 20, ptMouse.y + 20, 0));
+	m_vItemAssistant[1]->GetUIImage()->SetPosition(D3DXVECTOR3(110, 200, 0));
 }
 
 void cItemManager::CreateItem(const char* itemName, const char* filePath, tagItemKindAndETC itemType, int itemAbility, int itemSalePrice, vItem& vPlaceItem, const char* szParrentName)
@@ -1086,15 +1090,17 @@ void cItemManager::ItemExplaneRender()
 	int StatusIdx = _UI->FindUIIndex("Status");
 	int InventoryIdx = _UI->FindUIIndex("Inventory");
 
+	
+	RECT tempRc;
+	RECT shopRc = _UI->GetVUI()[ShopIdx]->GetUIRoot()->GetCollisionRect();
+	RECT invenRc = _UI->GetVUI()[InventoryIdx]->GetUIRoot()->GetCollisionRect();
+	RECT statusRc = _UI->GetVUI()[StatusIdx]->GetUIRoot()->GetCollisionRect();
+
 	for (int i = 0; i < m_vAllItem.size(); i++)
 	{
 		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
 		{
 			RECT itemRc = m_vAllItem[i]->GetUIRoot()->GetCollisionRect();
-			RECT tempRc;
-			RECT shopRc = _UI->GetVUI()[ShopIdx]->GetUIRoot()->GetCollisionRect();
-			RECT invenRc = _UI->GetVUI()[InventoryIdx]->GetUIRoot()->GetCollisionRect();
-			RECT statusRc = _UI->GetVUI()[StatusIdx]->GetUIRoot()->GetCollisionRect();
 
 			if (_UI->GetIsCallShop() && IntersectRect(&tempRc, &itemRc, &shopRc)||
 				_UI->GetIsCallInven() && IntersectRect(&tempRc, &itemRc, &invenRc)||
@@ -1108,8 +1114,6 @@ void cItemManager::ItemExplaneRender()
 		}
 		
 	}	
-
-	ImitationIconRender();
 }
 
 void cItemManager::ImitationIconRender()

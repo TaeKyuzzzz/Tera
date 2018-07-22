@@ -90,9 +90,12 @@ public:
 	void PlusMapHeight();
 
 	//몬스터 어슬렁거리는것 구현
-	virtual void MonoBehavior(void) = 0;
+	virtual void MonoBehavior(void);
 
 	// 공격
 	virtual bool Attack(float damage);
+
+	//몬스터 서식지 적용.
+	virtual void SetupBehaviorSpot(D3DXVECTOR3	v) { m_vBehaviorSpot = v; }
 };
 

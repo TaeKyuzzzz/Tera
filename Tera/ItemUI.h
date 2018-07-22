@@ -3,6 +3,12 @@
 #define NONEINDEX -1
 #define ZEROVALUE 0
 
+enum eTextSize
+{
+	BIG,
+	MID,
+	SMALL
+};
 
 
 enum enTextType
@@ -48,7 +54,7 @@ struct tagUIInfo
 typedef vector<const char*> vTextCContents;
 typedef vector<int>			vTextIContents;
 typedef vector<D3DXVECTOR3> vTextPos;
-typedef vector<D3DXVECTOR2> vTextSize;
+typedef vector<eTextSize>	vTextSize;
 typedef vector<D3DXVECTOR3> vTextColor;
 
 struct tagTextPack

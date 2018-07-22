@@ -47,12 +47,15 @@ void cUIManager::Update()
 	if (m_isCallShop)		CallUIUpdate("ConsumablesShop");
 
 	//UIInfoTextPopUp("Inventory");
+
+	m_vUI[11]->Update();
+	m_vUI[11]->GetUIRoot()->SetAlpha(255);
 }
 
 void cUIManager::Render()
 {
 
-
+	
 
 
 	if (m_isCallInven)CallUIRender("Inventory");
@@ -60,7 +63,7 @@ void cUIManager::Render()
 	if (m_isCallShop)CallUIRender("ConsumablesShop");
 
 
-
+	m_vUI[11]->Render();
 
 	UIInfoTextPopUp("Status");
 
@@ -270,13 +273,13 @@ void cUIManager::UIInfoTextPopUp(const char* szFindIndex)
 	RECT rc2;
 	SetRect(&rc2, 100, 100, 800, 200);
 	
-	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA, { 30, 20 });
+	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA_BIG);
 	pFont->DrawTextA(NULL,
 		szTemp,
 		strlen(szTemp),
 		&rc2,
 		DT_LEFT | DT_TOP,
 		D3DCOLOR_XRGB(255, 255, 0));
-	pFont->Release();
+	
 }
 

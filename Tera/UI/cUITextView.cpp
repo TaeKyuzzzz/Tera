@@ -57,7 +57,10 @@ void cUITextView::Render(LPD3DXSPRITE pSprite)
 		if (_enTextType == VARIABLEVALUE && i == 0)continue;
 		if (_enTextType == VARIABLEVALUE && m_vTextIContents[i] == 0) continue;
 
-		m_pFont = FONTMANAGER->GetFont(cFontManager::FT_GA, m_vTextSize[i]);
+		if(m_vTextSize[i] == BIG)m_pFont = FONTMANAGER->GetFont(FONTMANAGER->FT_GA_BIG);
+		else if (m_vTextSize[i] == MID)m_pFont = FONTMANAGER->GetFont(FONTMANAGER->FT_GA_MID);
+		else if (m_vTextSize[i] == SMALL)m_pFont = FONTMANAGER->GetFont(FONTMANAGER->FT_GA_SMALL);
+		
 
 
 		//문자일땐 CContents를 변수일땐 IContents의 넣었던걸 꺼내쓴다.
@@ -76,7 +79,7 @@ void cUITextView::Render(LPD3DXSPRITE pSprite)
 			, DT_LEFT | DT_TOP | DT_NOCLIP
 			, D3DCOLOR_XRGB((int)m_vTextColor[i].x, (int)m_vTextColor[i].y, (int)m_vTextColor[i].z)
 			);
-		m_pFont->Release();
+		
 	}
 
 

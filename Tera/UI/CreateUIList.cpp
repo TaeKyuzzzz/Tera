@@ -26,6 +26,8 @@ void cUIManager::CreateUIList()
 		D3DXVECTOR3(m_vShopPos.x + 255, m_vShopPos.y + 3, 0), "Status");
 	CreateUI(WINDOW, "EquipmentPort", "Texture/UIIcon/EquipmentPort.png", D3DXVECTOR3(-50, -50, 0), { -1,-1 }, "Status");
 
+	//½ºÅ³Ã¢
+	CreateUI(WINDOW, "sstest", "Texture/UIIcon/sstest.png", D3DXVECTOR3(200, 200, 0), D3DXVECTOR2(0.8, 0.1));
 
 }
 
