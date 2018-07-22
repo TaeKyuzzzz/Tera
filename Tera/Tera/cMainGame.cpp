@@ -64,6 +64,7 @@ void cMainGame::Setup()
 	SCENEMANAGER->AddScene("Boss", new cSceneBoss);
 	SCENEMANAGER->AddScene("BossLoading", new cSceneBossLoading);
 
+
 	SCENEMANAGER->ChangeScene("Main");
 	
 	// 커서 설정하는 부분
@@ -87,7 +88,7 @@ void cMainGame::Setup()
 void cMainGame::Update()
 {
 	SCENEMANAGER->Update();
-	
+
 	CAMERAMANAGER->Update();
 
 	RemoteMode();
