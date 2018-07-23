@@ -134,12 +134,12 @@ void cSceneBoss::Destroy()
 		delete this;
 	}
 
-	if (!(m_pBossRoom_Wall->m_vecBossRoom_Wall.empty()))
-	{
-		for (auto p : m_pBossRoom_Wall->m_vecBossRoom_Wall)
-		{
-			p.Destroy();
-		}
-		delete this;
-	}
+	//if (!(m_pBossRoom_Wall->m_vecBossRoom_Wall.empty()))
+	//{
+	//	for (auto p : m_pBossRoom_Wall->m_vecBossRoom_Wall)
+	//	{
+	//		p.Destroy();
+	//	}
+	//	delete this;
+	//}
 }
