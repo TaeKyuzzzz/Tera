@@ -10,8 +10,10 @@ class cKelsaik;
 class cSceneBoss : public cGameNode
 {
 private:
+	
 	vector<cXMesh*> m_vBossRoom_SingObj;
 	cBossRoom_Wall* m_pBossRoom_Wall;
+
 
 	cSprite*			m_pBackGroundBlack;
 	int					m_nBGBlackAlpha;

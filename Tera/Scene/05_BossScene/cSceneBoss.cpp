@@ -33,14 +33,14 @@ void cSceneBoss::Setup()
 
 	m_pPopori = new cCharaPopori;
 	m_pPopori->Setup();
-	m_pPopori->SetPosition(D3DXVECTOR3(0, 0, 1162));
-//	m_pPopori->SetMap(m_pBossRoom_Wall);
+	m_pPopori->SetPosition(D3DXVECTOR3(0, 0, 850));// 1162
+	m_pPopori->SetMap(m_pBossRoom_Wall);
 	OBJECTMANAGER->AddCharaObject(m_pPopori);
 
 	m_pKelsaik = new cKelsaik;
 	m_pKelsaik->Setup();
 	m_pKelsaik->SetPosition(D3DXVECTOR3(0, 0, 0));
-	//m_pKelsaik->SetMap(m_pBossRoom_Wall);
+	m_pKelsaik->SetMap(m_pBossRoom_Wall);
 	OBJECTMANAGER->AddMonsterObject(m_pKelsaik);
 
 	m_pBackGroundBlack = TEXTUREMANAGER->GetSprite("Texture/SceneTexture/BGBlack.png");
@@ -77,6 +77,7 @@ void cSceneBoss::Render()
 
 	m_pKelsaik->Render();
 
+	PARTICLEMANAGER->Render();
 	m_pPopori->Render();
 
 
@@ -84,7 +85,6 @@ void cSceneBoss::Render()
 	UIMANAGER->Render();
 	ITEMMANAGER->Render();
 
-	PARTICLEMANAGER->Render();
 
 	if (m_nBGBlackAlpha>0)
 		m_pBackGroundBlack->AlphaRender(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), m_nBGBlackAlpha);
@@ -99,11 +99,13 @@ void cSceneBoss::Render_Wall()
 			p->Render();
 		}
 	}
-
+	
 	for (auto p : m_pBossRoom_Wall->m_vecBossRoom_Wall)
 	{
 		p.Render();
 	}
+
+	//m_pBossRoom_Wall->m_pFloor->Render();
 }
 
 void cSceneBoss::Roader_WallGate()

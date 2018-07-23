@@ -46,7 +46,7 @@ cKelsaik::cKelsaik()
 	//Monster01은 이런 특성을 가지고 있다.
 	m_fAreaRadius = 300.0f;
 	m_fTracableArea = 1000.0f;
-	m_fRunSpeed = 1.0f;
+	m_fRunSpeed = 1.5f;
 	m_fFightZone = 100.0f;
 	m_fHpCur = 50000.0f;
 
@@ -54,7 +54,7 @@ cKelsaik::cKelsaik()
 
 	// 패턴의 가짓 수
 	m_nNumofPattern = 4;
-	
+	m_fPatternCostTime = 0.0f;
 	
 	// 사용하는 파티클 등록
 	m_pParticleBleeding = PARTICLEMANAGER->GetParticle("Bleeding");
@@ -123,11 +123,14 @@ void cKelsaik::Setup()
 	m_pSpere->Setup(m_vPosition, m_fFightZone);
 
 	STATE = IDLE;
+	m_isDoingPattern = false;
+	m_partternCost = true;
 }
 
 void cKelsaik::Update()
 {
 	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
+	//m_pBIP->TransformationMatrix._42 = m_matWorld._42;
 
 	AnimUpdate();				// 애니메이션 진행
 	
@@ -142,6 +145,9 @@ void cKelsaik::Update()
 	case BATTLE:
 		Battle_Update();
 		break;
+	case WALK :
+		Walk_Update();
+		break;
 	case DIE :
 		Death_Update();
 	}
@@ -149,45 +155,27 @@ void cKelsaik::Update()
 
 	UpdateWorld();				// 월드 갱신
 	ParticleUpdate();			// 파티클 업데이트
-
+	CreatePatternCost();
 	
 	cMonster::Update();
+
 	cGameObject::Update();
 }
 
 void cKelsaik::Idle_Update()
 {
-	//switch (eIDLE)
-	//{
-	//case ROAMING:
-	//	Idle_Roaming();
-	//	break;
-	//case COMEBACK:
-	//	//Idle_Back_to_SquareOne();
-	//	break;
-	//}
-	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
-	if (Distance_Player_Monster < m_fAreaRadius)
-		STATE = AWAKE;
+	if(isPlayerInDistance())
+		ChangeState(BATTLE);
 }
 
 void cKelsaik::Awake_Update()
 {
-	
+	if (isPlayerInDistance())
+		ChangeState(WALK);
 }
 
 void cKelsaik::Awake_Chase()
 {
-	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
-	
-	//if (Distance_Player_Monster < m_fFightZone)
-	//	eAWAKE = BATTLE;
-	//
-	//else if (D3DXVec3Length(&(m_vPosition - m_vBehaviorSpot)) > m_fTracableArea)
-	//{
-	//	MODE = IDLE;
-	//	eIDLE = COMEBACK;
-	//}
 
 	m_Anim = MON_Anim_Walk;
 	// u벡터 -> 기준벡터
@@ -219,6 +207,62 @@ void cKelsaik::Awake_Battle()
 
 void cKelsaik::Battle_Update()
 {
+
+	// 플레이어가 공격범위 밖으로 나가면 추적시작
+	if (!isPlayerInDistance() && !m_isDoingPattern)
+	{
+		ChangeState(WALK);
+		return;
+	}
+	else if(!m_isDoingPattern)
+		ChangeAnim(MON_Anim_Wait, true);
+	
+	// 플레이어가 공격범위 안쪽이면 공격
+	
+	if (m_partternCost)
+	{
+		m_nPatternNum = 0;
+		m_partternCost = false;
+		m_isDoingPattern = true;
+	}
+
+	if (m_isDoingPattern)
+	{
+		switch (m_nPatternNum)
+		{
+		case 0	:
+			AttackPattern01();
+			break;
+		case 1 :
+			AttackPattern02();
+			break;
+		case 2:
+			AttackPattern03();
+			break;
+		}
+	}
+}
+
+void cKelsaik::Walk_Update()
+{
+	if (isPlayerInDistance())
+	{
+		ChangeState(BATTLE);
+		return;
+	}
+
+	ChangeAnim(MON_Anim_Walk,true);
+	
+	D3DXVECTOR3 TargetPos = *g_vPlayerPos - m_vPosition;
+	D3DXVec3Normalize(&TargetPos, &TargetPos);
+	m_fCosVal = D3DXVec3Dot(&TargetPos, &D3DXVECTOR3(1,0,0));
+	m_fCosVal = acosf(m_fCosVal);
+
+	if (m_vPosition.z < g_vPlayerPos->z)
+		m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+
+	m_vPosition += (m_fRunSpeed * TargetPos);
+	m_fRotY = m_fCosVal;
 }
 
 void cKelsaik::Death_Update()
@@ -262,7 +306,7 @@ void cKelsaik::AnimUpdate()
 		m_pMonster->Update(m_matAnimWorld);
 	else
 		m_pMonster->Update(m_matWorld);
-
+	m_fTime += TIMEMANAGER->GetEllapsedTime();
 	// 로컬에서 위치의 변화량이 있는 애니메이션을 위한 처리
 	m_vBeforeAnimPos = m_vCurAnimPos;
 	m_vCurAnimPos = D3DXVECTOR3(m_pDummyRoot->TransformationMatrix._41, 0, 0);
@@ -376,3 +420,58 @@ void cKelsaik::ChangeAnim(MON_Anim anim, bool isBlend)
 	m_fCurAnimTime = m_fAnimTime[anim];
 
 }
+
+bool cKelsaik::isPlayerInDistance()
+{
+	if (KEYMANAGER->IsOnceKeyDown('B'))
+		int a = 10;
+	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
+	if (Distance_Player_Monster < m_fAreaRadius)
+		return true;
+	return false;
+}
+
+bool cKelsaik::isEndPattern()
+{
+	return (m_fCurAnimTime - 0.05 <= m_fTime);
+}
+
+void cKelsaik::CreatePatternCost()
+{
+	if (!m_partternCost)
+	{
+		m_fPatternCostTime += TIMEMANAGER->GetEllapsedTime();
+		if (m_fPatternCostTime >= 10.0f)
+		{
+			m_partternCost = true;
+			m_fPatternCostTime = 0.0f;
+		}
+	}
+}
+
+void cKelsaik::AttackPattern01()
+{
+	if (m_Anim != MON_Anim_atk01)
+	{
+		// 패턴 처음 시작
+		ChangeAnim(MON_Anim_atk01,true);
+		SetAnimWorld();
+	}
+	else
+	{
+		if (isEndPattern())
+		{
+			ChangeAnim(MON_Anim_Wait, true);
+			m_isDoingPattern = false;
+		}
+	}
+}
+
+void cKelsaik::AttackPattern02()
+{
+}
+
+void cKelsaik::AttackPattern03()
+{
+}
+

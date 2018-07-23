@@ -12,6 +12,7 @@ protected:
 	{
 		IDLE,
 		AWAKE,
+		WALK,
 		BATTLE,
 		DIE
 	};
@@ -66,6 +67,11 @@ protected:
 	bool				m_bIsBlend;						// 애니 블렌딩 처리여부
 	float				m_fCosVal;						// 봐야할 각도
 
+	bool				m_isDoingPattern;
+	bool				m_partternCost;
+
+	int					m_nPatternNum;
+	float				m_fPatternCostTime;
 	//행동패턴 디자인에 쓰인 임시변수
 	D3DXVECTOR3			temp;
 	D3DXVECTOR2			tt;
@@ -97,6 +103,7 @@ public:
 	void Awake_Chase();
 	void Awake_Battle();
 	void Battle_Update();
+	void Walk_Update();
 	void Death_Update();
 	void Death_Die();
 
@@ -116,6 +123,16 @@ public:
 	////// etc ////////////////////////
 	void ChangeState(MON_STATE state);
 	void ChangeAnim(MON_Anim anim, bool isBlend);
+	
+	bool isPlayerInDistance();
+	bool isEndPattern();
+	void CreatePatternCost();
 	///////////////////////////////////
+
+	////// 몬스터 공격 패턴 /////
+	void AttackPattern01();
+	void AttackPattern02();
+	void AttackPattern03();
+
 };
 

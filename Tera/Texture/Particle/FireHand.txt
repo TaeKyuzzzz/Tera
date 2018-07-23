@@ -22,8 +22,8 @@
 0
 0
 0
-107
+45
 255
 160
 153
-C:\Users\shin\ProjectTera\Tera\Tera\Texture\Particle\fire_01.png
+C:\Users\shin\Source\Repos\Tera\Tera\Texture\Particle\fire_01.png
