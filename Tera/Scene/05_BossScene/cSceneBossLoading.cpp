@@ -74,6 +74,12 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->IniteForParticle("Heal", "Texture/Particle/heal.txt");
 	m_pLoading->IniteForParticle("Bleeding", "Texture/Particle/Bleeding.txt");
 
+	// 보스가 사용하는 파티클
+	m_pLoading->IniteForParticle("IceHand2", "Texture/Particle/IceHand2.txt");
+	m_pLoading->IniteForParticle("FireHand", "Texture/Particle/FireHand.txt");
+//	m_pLoading->IniteForParticle("explosion", "Texture/Particle/explosion.txt");
+//	m_pLoading->IniteForParticle("explosion", "Texture/Particle/explosion.txt");
+
 	// x 파일
 	m_pLoading->InitForStaticMesh("XFile/Map/Field/ANC_B_4858_SL.X"); //무거운 파일을 먼저 로딩한다. 늦게하면 메모리에 안올라간다.
 

@@ -111,7 +111,7 @@ void cMainGame::Render()
 	/////////////////////////////////////////////////////////////////
 	
 
-	//m_pGrid->Render();
+	m_pGrid->Render();
 	SCENEMANAGER->Render();
 
 	TIMEMANAGER->Render();
