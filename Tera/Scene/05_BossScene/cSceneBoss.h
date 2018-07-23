@@ -19,6 +19,7 @@ private:
 	cBossRoom_Doll* m_pBossRoom_Doll;
 
 
+
 	cSprite*			m_pBackGroundBlack;
 	int					m_nBGBlackAlpha;
 	cCharaPopori*		m_pPopori;
