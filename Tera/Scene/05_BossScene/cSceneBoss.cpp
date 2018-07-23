@@ -34,11 +34,13 @@ void cSceneBoss::Setup()
 	m_pPopori = new cCharaPopori;
 	m_pPopori->Setup();
 	m_pPopori->SetPosition(D3DXVECTOR3(0, 0, 1162));
+//	m_pPopori->SetMap(m_pBossRoom_Wall);
 	OBJECTMANAGER->AddCharaObject(m_pPopori);
 
 	m_pKelsaik = new cKelsaik;
 	m_pKelsaik->Setup();
 	m_pKelsaik->SetPosition(D3DXVECTOR3(0, 0, 0));
+	//m_pKelsaik->SetMap(m_pBossRoom_Wall);
 	OBJECTMANAGER->AddMonsterObject(m_pKelsaik);
 
 	m_pBackGroundBlack = TEXTUREMANAGER->GetSprite("Texture/SceneTexture/BGBlack.png");
@@ -54,10 +56,10 @@ void cSceneBoss::Release()
 
 void cSceneBoss::Update()
 {
-	m_pPopori->Update();
-
 	m_pKelsaik->Update();
 
+	m_pPopori->Update();
+	
 	PARTICLEMANAGER->Update();
 
 	//////////
@@ -72,12 +74,13 @@ void cSceneBoss::Render()
 {
 	Render_Wall();
 	
-	m_pPopori->Render();
 
 	m_pKelsaik->Render();
 
-	/////////////
+	m_pPopori->Render();
 
+
+	/////////////
 	UIMANAGER->Render();
 	ITEMMANAGER->Render();
 

@@ -64,9 +64,6 @@ void cSkinnedMesh::Setup(const char* szFolder, const char* szFile)
 
 void cSkinnedMesh::Update(D3DXMATRIX world)
 {
-	//int n = m_pAnimController->GetTime();
-	//m_pAnimController->GetTrackAnimationSet();
-
 	if (m_bBlend)
 	{
 		m_fPassedBlendTime += TIMEMANAGER->GetEllapsedTime();
@@ -84,7 +81,6 @@ void cSkinnedMesh::Update(D3DXMATRIX world)
 		}
 	}
 	
-	//if (g_pKeyManager->IsOnceKeyDown('2'))
 	if(m_pAnimController)
 		m_pAnimController->AdvanceTime(TIMEMANAGER->GetEllapsedTime(), NULL);
 	
