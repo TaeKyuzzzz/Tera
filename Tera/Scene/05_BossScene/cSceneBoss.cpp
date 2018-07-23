@@ -16,7 +16,7 @@ cSceneBoss::cSceneBoss()
 
 cSceneBoss::~cSceneBoss()
 {
-	SAFE_DELETE(m_pBossRoomWall);
+	SAFE_DELETE(m_pBossRoom_Wall);
 	//this->Destroy();
 	SAFE_DELETE(m_pBackGroundBlack);
 	SAFE_DELETE(m_pPopori);
@@ -28,8 +28,8 @@ void cSceneBoss::Setup()
 {
 	Roader_WallGate();
 
-	m_pBossRoomWall = new cBossRoom_Wall;
-	m_pBossRoomWall->Setup();
+	m_pBossRoom_Wall = new cBossRoom_Wall;
+	m_pBossRoom_Wall->Setup();
 
 	m_pPopori = new cCharaPopori;
 	m_pPopori->Setup();
@@ -45,7 +45,7 @@ void cSceneBoss::Setup()
 
 	isOptionMode = false;
 
-	SOUNDMANAGER->Play("BossBGM");
+	//SOUNDMANAGER->Play("BossBGM");
 }
 
 void cSceneBoss::Release()
@@ -89,16 +89,15 @@ void cSceneBoss::Render()
 
 void cSceneBoss::Render_Wall()
 {
-	if (!m_vGroundMap.empty())
+	if (!m_vBossRoom_SingObj.empty())
 	{
-		for (auto p : m_vGroundMap)
+		for (auto p : m_vBossRoom_SingObj)
 		{
 			p->Render();
 		}
 	}
 
-
-	for (auto p : m_pBossRoomWall->m_vecBossRoomWall)
+	for (auto p : m_pBossRoom_Wall->m_vecBossRoom_Wall)
 	{
 		p.Render();
 	}
@@ -119,27 +118,28 @@ void cSceneBoss::Roader_WallGate()
 	for (int i = 0; i < size; i++)
 	{
 		//cXLoader  ground_meshX;
-		//m_vGroundMap.push_back(ground_meshX.xFimeLoad(fileName[i]));
-		m_vGroundMap.push_back(STATICMESHMANAGER->GetStaticMesh(fileName[i]));
+		//m_vBossRoom_SingObj.push_back(ground_meshX.xFimeLoad(fileName[i]));
+		m_vBossRoom_SingObj.push_back(STATICMESHMANAGER->GetStaticMesh(fileName[i]));
 	}
 }
 
 void cSceneBoss::Destroy()
 {
-	if (!m_vGroundMap.empty())
+	if (!m_vBossRoom_SingObj.empty())
 	{
-		for (auto p : m_vGroundMap)
+		for (auto p : m_vBossRoom_SingObj)
 		{
 			SAFE_DELETE(p);
 		}
 		delete this;
 	}
 
-	for (auto p : m_pBossRoomWall->m_vecBossRoomWall)
-	{
-		for (auto p : m_pBossRoomWall->m_vecBossRoomWall)
-		{
-			p.Destroy();
-		}
-	}
+	//if (!(m_pBossRoom_Wall->m_vecBossRoom_Wall.empty()))
+	//{
+	//	for (auto p : m_pBossRoom_Wall->m_vecBossRoom_Wall)
+	//	{
+	//		p.Destroy();
+	//	}
+	//	delete this;
+	//}
 }

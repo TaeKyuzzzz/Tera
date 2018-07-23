@@ -11,9 +11,9 @@
 
 cKelsaik::cKelsaik()
 	: m_pMonster(NULL)
-	, m_currState(MON_STATE_unarmedwait)
+	, m_currState(MON_Anim_unarmedwait)
 {
-	m_state = MON_STATE_unarmedwait;
+	m_state = MON_Anim_unarmedwait;
 
 
 
@@ -22,7 +22,7 @@ cKelsaik::cKelsaik()
 
 	m_fCurAnimTime = 0.0f;
 	m_fTime = 0.0f;
-	float animTime[MON_STATE_COUNT] =
+	float animTime[MON_Anim_COUNT] =
 	{
 		61, 61, 1, 401, 31,
 		51, 51, 116, 116, 31,
@@ -34,9 +34,9 @@ cKelsaik::cKelsaik()
 
 	memcpy(m_fAnimTime, animTime, sizeof(animTime));
 
-	for (int i = 0; i < MON_STATE_COUNT; i++)
+	for (int i = 0; i < MON_Anim_COUNT; i++)
 		m_fAnimTime[i] -= 1.0f;
-	for (int i = 0; i < MON_STATE_COUNT; i++)
+	for (int i = 0; i < MON_Anim_COUNT; i++)
 		m_fAnimTime[i] /= 30.0f;
 
 	// 블랜딩 처리 할거니
@@ -58,7 +58,7 @@ cKelsaik::cKelsaik()
 	// 패턴의 가짓 수
 	m_nNumofPattern = 4;
 	//처음에 얘로 셋팅해놓는다.
-	m_vBehaviorSpot = D3DXVECTOR3(1247, 0, 1000);
+	m_vBehaviorSpot = D3DXVECTOR3(0, 0, 1162);
 
 	m_pParticleBleeding = PARTICLEMANAGER->GetParticle("Bleeding");
 	PARTICLEMANAGER->AddChild(m_pParticleBleeding);
@@ -140,61 +140,7 @@ void cKelsaik::Update()
 		break;
 	}
 
-	// 애니메이션 진행
-	if (m_currState != m_state)
-	{
-		if (m_bIsBlend)
-		{
-			m_pMonster->SetAnimationIndexBlend(m_state);
-
-		}
-		else
-		{
-			m_pMonster->SetAnimationIndex(m_state);
-
-		}
-
-		m_currState = m_state;
-
-		m_pMonster->AnimAdvanceTime();
-		//m_fTime += TIMEMANAGER->GetEllapsedTime();
-	}
-
-	// 이동값이 있는 애니메이션의 업데이트면
-	// 애니메이션 스타트 지점의 월드에서 부터 업데이트
-	// 아니면 평소처럼 적용된 월드에서 업데이트
-	if (isUseLocalAnim())
-	{
-		m_pMonster->Update(m_matAnimWorld);
-
-	}
-	else
-	{
-		m_pMonster->Update(m_matWorld);
-
-	}
-	m_vBeforeAnimPos = m_vCurAnimPos;
-	m_vCurAnimPos = D3DXVECTOR3(m_pDummyRoot->TransformationMatrix._41, 0, 0);
-
-
-
-	m_pSphereR->SetWorld(m_pHandR->CombinedTransformationMatrix);
-	m_pSphereL->SetWorld(m_pHandL->CombinedTransformationMatrix);
-
-	//이거 안해주면 몬스터 이상한데 보면서 간다~
-	m_fRotY = m_fCosVal;
-
-	// 이동값이 있는 애니메이션 적용 시
-	// 애니메이션 로컬을 현재 포지션으로 적용시키는 증가량을 계산 
-	//D3DXMATRIX matR, matT;
-
-	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x < 30.f)
-		m_vPosition += (m_vDirection * (m_vCurAnimPos.x - m_vBeforeAnimPos.x));
-	else
-	{
-		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
-		m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
-	}
+	AnimUpdate();
 
 
 	D3DXMATRIX mat, matR, matT;
@@ -227,72 +173,72 @@ void cKelsaik::Idle_Update()
 
 void cKelsaik::Idle_Roaming()
 {
-	//기다리는과정(첫세팅)
-	if (!m_bWalkOnOff && !m_bStart)
-	{
-		m_bStart = true;
-		m_state = MON_STATE_unarmedwait;
-		m_fStopTime = (float)GetTickCount();
-	}
-	//기다리는 과정
-	else if (!m_bWalkOnOff)
-	{
-		if (GetTickCount() - m_fStopTime > 4000.0f)
-		{
-			m_bWalkOnOff = true;
-			m_bStart = false;
-		}
-	}
-	//걷는과정.처음셋팅할때
-	else if (m_bWalkOnOff && !m_bStart)
-	{
-		m_bStart = true;
-		//시간없어서 패트롤 영역을 사각형으로 처리했어요 미안해 ㅠㅠ
-		int plusminus = rand() % 2;
-		int plusminus2 = rand() % 2;
-
-		if (plusminus)
-			plusminus = 1;
-		else
-			plusminus = -1;
-
-		if (plusminus2)
-			plusminus2 = 1;
-		else
-			plusminus2 = -1;
-
-		int AreaX = rand() % (int)(m_fAreaRadius / 5.0f);
-		int AreaZ = rand() % (int)(m_fAreaRadius / 5.0f);
-
-		NextSpot = m_vBehaviorSpot + D3DXVECTOR3(plusminus*AreaX, 0, plusminus2*AreaZ);
-	}
-	//임의의 지점까지 걷는 모션.
-	else if (m_bWalkOnOff)
-	{
-		m_state = MON_STATE_Walk;
-		// u벡터 -> 기준벡터
-		D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
-		D3DXVECTOR3 v, v2;
-		v2 = NextSpot - m_vPosition;
-		//이거안해주면 높이맵인식되서 문워크한다.
-		v2.y = 0;
-		D3DXVec3Normalize(&v, &v2);
-
-		m_fCosVal = D3DXVec3Dot(&v, &u);
-		m_fCosVal = acosf(m_fCosVal);
-
-		if (m_vPosition.z < NextSpot.z)
-			m_fCosVal = D3DX_PI * 2 - m_fCosVal;
-
-		m_vPosition += (0.3f*m_fRunSpeed * v);
-
-		//이거 오차범위 넉넉하게 줘야 한다. 안그러면 정확하게 맞추려고 부르르르르 떤다. 
-		if (D3DXVec3Length(&v2) < 1.0f)
-		{
-			m_bWalkOnOff = false;
-			m_bStart = false;
-		}
-	}
+	////기다리는과정(첫세팅)
+	//if (!m_bWalkOnOff && !m_bStart)
+	//{
+	//	m_bStart = true;
+	//	m_state = MON_Anim_unarmedwait;
+	//	m_fStopTime = (float)GetTickCount();
+	//}
+	////기다리는 과정
+	//else if (!m_bWalkOnOff)
+	//{
+	//	if (GetTickCount() - m_fStopTime > 4000.0f)
+	//	{
+	//		m_bWalkOnOff = true;
+	//		m_bStart = false;
+	//	}
+	//}
+	////걷는과정.처음셋팅할때
+	//else if (m_bWalkOnOff && !m_bStart)
+	//{
+	//	m_bStart = true;
+	//	//시간없어서 패트롤 영역을 사각형으로 처리했어요 미안해 ㅠㅠ
+	//	int plusminus = rand() % 2;
+	//	int plusminus2 = rand() % 2;
+	//
+	//	if (plusminus)
+	//		plusminus = 1;
+	//	else
+	//		plusminus = -1;
+	//
+	//	if (plusminus2)
+	//		plusminus2 = 1;
+	//	else
+	//		plusminus2 = -1;
+	//
+	//	int AreaX = rand() % (int)(m_fAreaRadius / 5.0f);
+	//	int AreaZ = rand() % (int)(m_fAreaRadius / 5.0f);
+	//
+	//	NextSpot = m_vBehaviorSpot + D3DXVECTOR3(plusminus*AreaX, 0, plusminus2*AreaZ);
+	//}
+	////임의의 지점까지 걷는 모션.
+	//else if (m_bWalkOnOff)
+	//{
+	//	m_state = MON_Anim_Walk;
+	//	// u벡터 -> 기준벡터
+	//	D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
+	//	D3DXVECTOR3 v, v2;
+	//	v2 = NextSpot - m_vPosition;
+	//	//이거안해주면 높이맵인식되서 문워크한다.
+	//	v2.y = 0;
+	//	D3DXVec3Normalize(&v, &v2);
+	//
+	//	m_fCosVal = D3DXVec3Dot(&v, &u);
+	//	m_fCosVal = acosf(m_fCosVal);
+	//
+	//	if (m_vPosition.z < NextSpot.z)
+	//		m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+	//
+	//	m_vPosition += (0.3f*m_fRunSpeed * v);
+	//
+	//	//이거 오차범위 넉넉하게 줘야 한다. 안그러면 정확하게 맞추려고 부르르르르 떤다. 
+	//	if (D3DXVec3Length(&v2) < 1.0f)
+	//	{
+	//		m_bWalkOnOff = false;
+	//		m_bStart = false;
+	//	}
+	//}
 
 	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
 	if (Distance_Player_Monster < m_fAreaRadius)
@@ -314,7 +260,7 @@ void cKelsaik::Idle_Back_to_SquareOne()
 		eIDLE = ROAMING;
 	else
 	{
-		m_state = MON_STATE_run;
+		m_state = MON_Anim_run;
 		// u벡터 -> 기준벡터
 		D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
 		D3DXVECTOR3 v;
@@ -358,7 +304,7 @@ void cKelsaik::Awake_Chase()
 		eIDLE = COMEBACK;
 	}
 
-	m_state = MON_STATE_Walk;
+	m_state = MON_Anim_Walk;
 	// u벡터 -> 기준벡터
 	D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
 	D3DXVECTOR3 v;
@@ -401,8 +347,8 @@ void cKelsaik::Death_Die()
 {
 	m_fHpCur = 0.0f;
 
-	m_state = MON_STATE_Death;
-	m_fCurAnimTime = m_fAnimTime[MON_STATE_Death];
+	m_state = MON_Anim_Death;
+	m_fCurAnimTime = m_fAnimTime[MON_Anim_Death];
 	m_bIsBlend = false;
 	//애니메이션을 처리해야 하므로 시간을 잴 변수가 필요하다.
 	m_fTime += TIMEMANAGER->GetEllapsedTime();
@@ -424,7 +370,7 @@ void cKelsaik::Death_Die()
 void cKelsaik::Death_Rebirth()
 {
 	m_vPosition = m_vBehaviorSpot;
-	m_state = MON_STATE_unarmedwait;
+	m_state = MON_Anim_unarmedwait;
 	//m_currState = MON_STATE_unarmedwait;
 	m_fRotY = 0.0f;
 	m_vDirection = D3DXVECTOR3(1, 0, 0);
@@ -437,6 +383,62 @@ void cKelsaik::Death_Rebirth()
 		MODE = IDLE;
 		eIDLE = ROAMING;
 		m_pMonster->AnimAdvanceTime();
+	}
+}
+
+void cKelsaik::AnimUpdate()
+{
+	// 애니메이션 진행
+	if (m_currState != m_state)
+	{
+		if (m_bIsBlend)
+		{
+			m_pMonster->SetAnimationIndexBlend(m_state);
+
+		}
+		else
+		{
+			m_pMonster->SetAnimationIndex(m_state);
+
+		}
+
+		m_currState = m_state;
+
+		m_pMonster->AnimAdvanceTime();
+		//m_fTime += TIMEMANAGER->GetEllapsedTime();
+	}
+
+	// 이동값이 있는 애니메이션의 업데이트면
+	// 애니메이션 스타트 지점의 월드에서 부터 업데이트
+	// 아니면 평소처럼 적용된 월드에서 업데이트
+	if (isUseLocalAnim())
+	{
+		m_pMonster->Update(m_matAnimWorld);
+
+	}
+	else
+	{
+		m_pMonster->Update(m_matWorld);
+
+	}
+	m_vBeforeAnimPos = m_vCurAnimPos;
+	m_vCurAnimPos = D3DXVECTOR3(m_pDummyRoot->TransformationMatrix._41, 0, 0);
+
+
+
+	m_pSphereR->SetWorld(m_pHandR->CombinedTransformationMatrix);
+	m_pSphereL->SetWorld(m_pHandL->CombinedTransformationMatrix);
+
+	// 이동값이 있는 애니메이션 적용 시
+	// 애니메이션 로컬을 현재 포지션으로 적용시키는 증가량을 계산 
+	//D3DXMATRIX matR, matT;
+
+	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x < 30.f)
+		m_vPosition += (m_vDirection * (m_vCurAnimPos.x - m_vBeforeAnimPos.x));
+	else
+	{
+		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
+		m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
 	}
 }
 
@@ -474,8 +476,8 @@ bool cKelsaik::isUseLocalAnim()
 {
 
 	if (
-		m_state == MON_STATE_atk02 ||
-		m_state == MON_STATE_atk01
+		m_state == MON_Anim_atk02 ||
+		m_state == MON_Anim_atk01
 		)
 		return true;
 
