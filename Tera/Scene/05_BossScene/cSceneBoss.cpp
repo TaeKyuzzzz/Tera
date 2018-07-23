@@ -2,6 +2,8 @@
 #include "cSceneBoss.h"
 
 #include "Scene\05_BossScene\cBossRoom_Wall.h"
+#include "Scene\05_BossScene\cBossRoom_Road.h"
+#include "Scene\05_BossScene\cBossRoom_Doll.h"
 #include "XMesh\cXLoader.h"
 #include "XMesh\cXMesh.h"
 
@@ -17,11 +19,13 @@ cSceneBoss::cSceneBoss()
 cSceneBoss::~cSceneBoss()
 {
 	SAFE_DELETE(m_pBossRoom_Wall);
-	//this->Destroy();
+	SAFE_DELETE(m_pBossRoom_Road);
+	SAFE_DELETE(m_pBossRoom_Doll);
 	SAFE_DELETE(m_pBackGroundBlack);
 	SAFE_DELETE(m_pPopori);
 	SAFE_DELETE(m_pKelsaik);
 
+	Destroy();
 }
 
 void cSceneBoss::Setup()
@@ -30,6 +34,10 @@ void cSceneBoss::Setup()
 
 	m_pBossRoom_Wall = new cBossRoom_Wall;
 	m_pBossRoom_Wall->Setup();
+	m_pBossRoom_Road = new cBossRoom_Road;
+	m_pBossRoom_Road->Setup();
+	m_pBossRoom_Doll = new cBossRoom_Doll;
+	m_pBossRoom_Doll->Setup();
 
 	m_pPopori = new cCharaPopori;
 	m_pPopori->Setup();
@@ -101,18 +109,30 @@ void cSceneBoss::Render_Wall()
 	{
 		p.Render();
 	}
+
+	for (auto p : m_pBossRoom_Road->m_vecBossRoom_Road)
+	{
+		p.Render();
+	}
+
+	for (auto p : m_pBossRoom_Doll->m_vecBossRoom_Doll)
+	{
+		p.Render();
+	}
 }
 
 void cSceneBoss::Roader_WallGate()
 {
-	const int size = 4;
+	const int size = 6;
 
 	char fileName[size][256] = {
 		"XFile/Boss_Room/ARG_Room_A_Enter_SM_P1.X",
 		"XFile/Boss_Room/ARG_Room_A_Enter_SM_P2.X",
 		"XFile/Boss_Room/ARG_Room_A_Enter_SM_P3.X",
-		"XFile/Boss_Room/ARG_Room_A_Enter_SM_P4.X"
+		"XFile/Boss_Room/ARG_Room_A_Enter_SM_P4.X",
 		//"XFile\Boss_Room\ARG_Room_A_Enter_SM_P5.X",
+		"XFile/Boss_Room/GilMark.X",
+		"XFile/Boss_Room/GateLock.X" // ¹®
 	};
 
 	for (int i = 0; i < size; i++)
@@ -134,12 +154,22 @@ void cSceneBoss::Destroy()
 		delete this;
 	}
 
-	//if (!(m_pBossRoom_Wall->m_vecBossRoom_Wall.empty()))
-	//{
-	//	for (auto p : m_pBossRoom_Wall->m_vecBossRoom_Wall)
-	//	{
-	//		p.Destroy();
-	//	}
-	//	delete this;
-	//}
+	for (auto p : m_pBossRoom_Wall->m_vecBossRoom_Wall)
+	{
+		p.Destroy();
+	}
+	//delete this;
+
+
+	for (auto p : m_pBossRoom_Road->m_vecBossRoom_Road)
+	{
+		p.Destroy();
+	}
+	//delete this;
+
+	for (auto p : m_pBossRoom_Doll->m_vecBossRoom_Doll)
+	{
+		p.Destroy();
+	}
+	//delete this;
 }
