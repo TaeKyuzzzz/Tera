@@ -11,18 +11,18 @@
 
 cKelsaik::cKelsaik()
 	: m_pMonster(NULL)
-	, m_currState(MON_STATE_unarmedwait)
+	, m_currAnim(MON_Anim_Walk)
 {
-	m_state = MON_STATE_unarmedwait;
-
-
+	D3DXMatrixIdentity(&m_matWorld);
+	
+	m_Anim = MON_Anim_Wait;
 
 	//루프애니메이션이 아닐때, 동작이 끝난걸 알려주는 변수.
 	m_bIsDone = true;
 
 	m_fCurAnimTime = 0.0f;
 	m_fTime = 0.0f;
-	float animTime[MON_STATE_COUNT] =
+	float animTime[MON_Anim_COUNT] =
 	{
 		61, 61, 1, 401, 31,
 		51, 51, 116, 116, 31,
@@ -34,9 +34,9 @@ cKelsaik::cKelsaik()
 
 	memcpy(m_fAnimTime, animTime, sizeof(animTime));
 
-	for (int i = 0; i < MON_STATE_COUNT; i++)
+	for (int i = 0; i < MON_Anim_COUNT; i++)
 		m_fAnimTime[i] -= 1.0f;
-	for (int i = 0; i < MON_STATE_COUNT; i++)
+	for (int i = 0; i < MON_Anim_COUNT; i++)
 		m_fAnimTime[i] /= 30.0f;
 
 	// 블랜딩 처리 할거니
@@ -48,17 +48,22 @@ cKelsaik::cKelsaik()
 	m_fTracableArea = 1000.0f;
 	m_fRunSpeed = 1.0f;
 	m_fFightZone = 100.0f;
-	m_fHpCur = 500.0f;
+	m_fHpCur = 50000.0f;
 
-	MODE = IDLE;
+	STATE = IDLE;
 
 	// 패턴의 가짓 수
 	m_nNumofPattern = 4;
-	//처음에 얘로 셋팅해놓는다.
-	m_vBehaviorSpot = D3DXVECTOR3(1247, 0, 1000);
-
+	
+	
+	// 사용하는 파티클 등록
 	m_pParticleBleeding = PARTICLEMANAGER->GetParticle("Bleeding");
 	PARTICLEMANAGER->AddChild(m_pParticleBleeding);
+	m_pIceHand = PARTICLEMANAGER->GetParticle("IceHand2");
+	PARTICLEMANAGER->AddChild(m_pIceHand);
+	m_pFireHand = PARTICLEMANAGER->GetParticle("FireHand");
+	PARTICLEMANAGER->AddChild(m_pFireHand);
+
 }
 
 
@@ -73,18 +78,21 @@ void cKelsaik::Setup()
 {
 	cMonster::Setup();
 
-	m_fMaxHp = 500.0f;
-	m_fCurHp = 500.0f;
+	m_fMaxHp = 50000.0f;
+	m_fCurHp = 50000.0f;
 	m_fAttack = 20.0f;
 	m_fDefense = 10.0f;
 
 	m_pMonster = new cSkinnedMesh;
 	m_pMonster->Setup("XFile/Monster", "Kelsaik.X");
-	m_pMonster->SetAnimationIndexBlend(m_currState);
+	m_pMonster->SetAnimationIndexBlend(m_currAnim);
 
 	// 위치를 가진 루트 본
 	m_pDummyRoot = (ST_BONE*)D3DXFrameFind(m_pMonster->GetFrame(),
 		"Dummy_root");
+
+	m_pBIP = (ST_BONE*)D3DXFrameFind(m_pMonster->GetFrame(),
+		"Bip01");
 
 	// 싸대기 때릴 양손 본
 	m_pHandR = (ST_BONE*)D3DXFrameFind(m_pMonster->GetFrame(),
@@ -103,8 +111,8 @@ void cKelsaik::Setup()
 
 
 	//처음 젠되는 위치 설정
-
-	m_vPosition = m_vBehaviorSpot;
+	
+	m_fRotY = 4.7f;
 
 	// 바운딩 박스 생성
 	m_pBoundingBox = new cBoundingBox;
@@ -114,12 +122,16 @@ void cKelsaik::Setup()
 	m_pSpere = new cSpere;
 	m_pSpere->Setup(m_vPosition, m_fFightZone);
 
-	MODE = IDLE;
+	STATE = IDLE;
 }
 
 void cKelsaik::Update()
 {
-	switch (MODE)
+	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
+
+	AnimUpdate();				// 애니메이션 진행
+	
+	switch (STATE)
 	{
 	case IDLE:
 		Idle_Update();
@@ -127,54 +139,194 @@ void cKelsaik::Update()
 	case AWAKE:
 		Awake_Update();
 		break;
-	case DEATH:
-		Death_Update();
+	case BATTLE:
+		Battle_Update();
 		break;
+	case DIE :
+		Death_Update();
 	}
+
+
+	UpdateWorld();				// 월드 갱신
+	ParticleUpdate();			// 파티클 업데이트
+
+	
+	cMonster::Update();
+	cGameObject::Update();
 }
 
 void cKelsaik::Idle_Update()
 {
+	//switch (eIDLE)
+	//{
+	//case ROAMING:
+	//	Idle_Roaming();
+	//	break;
+	//case COMEBACK:
+	//	//Idle_Back_to_SquareOne();
+	//	break;
+	//}
 	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
 	if (Distance_Player_Monster < m_fAreaRadius)
-		MODE = AWAKE;
-	else
-	{
-		if (D3DXVec3Length(&(m_vPosition - m_vBehaviorSpot)) > m_fTracableArea)
-			Idle_Back_to_SquareOne();
-		else
-			Idle_Roaming();
-	}
-}
-
-void cKelsaik::Idle_Roaming()
-{
-}
-
-void cKelsaik::Idle_Back_to_SquareOne()
-{
+		STATE = AWAKE;
 }
 
 void cKelsaik::Awake_Update()
 {
+	
 }
 
 void cKelsaik::Awake_Chase()
 {
+	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
+	
+	//if (Distance_Player_Monster < m_fFightZone)
+	//	eAWAKE = BATTLE;
+	//
+	//else if (D3DXVec3Length(&(m_vPosition - m_vBehaviorSpot)) > m_fTracableArea)
+	//{
+	//	MODE = IDLE;
+	//	eIDLE = COMEBACK;
+	//}
+
+	m_Anim = MON_Anim_Walk;
+	// u벡터 -> 기준벡터
+	D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
+	D3DXVECTOR3 v;
+	D3DXVec3Normalize(&v, &temp);
+
+	m_fCosVal = D3DXVec3Dot(&v, &u);
+	m_fCosVal = acosf(m_fCosVal);
+
+	if (m_vPosition.z < g_vPlayerPos->z)
+		m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+
+	m_vPosition += (m_fRunSpeed * v);
+
+	m_fRotY = m_fCosVal;
 }
 
 void cKelsaik::Awake_Battle()
+{
+	//몬스터 죽는거
+	if (m_fHpCur <= 0)
+		STATE = DIE;
+
+	//나머지를 부타캐~~~~
+
+
+}
+
+void cKelsaik::Battle_Update()
 {
 }
 
 void cKelsaik::Death_Update()
 {
+
 }
 
+void cKelsaik::Death_Die()
+{
+	m_fHpCur = 0.0f;
+
+	m_Anim = MON_Anim_Death;
+	m_fCurAnimTime = m_fAnimTime[MON_Anim_Death];
+	m_bIsBlend = false;
+	
+}
+
+
+void cKelsaik::AnimUpdate()
+{
+	// 애니메이션 진행
+
+	// 만약 현재 진행중인 애니와 진행해야될 애니가 다르다면 교체해야함
+	if (m_currAnim != m_Anim)
+	{
+		if (m_bIsBlend) // 블렌드 처리를 해야 한다면
+			m_pMonster->SetAnimationIndexBlend(m_Anim);
+		else
+			m_pMonster->SetAnimationIndex(m_Anim);
+
+		m_currAnim = m_Anim;						// 현재 애니를 바뀔 애니로
+
+		m_pMonster->AnimAdvanceTime();				// 한번 애니메이션을 진행시켜야함;
+		m_fTime += TIMEMANAGER->GetEllapsedTime();	// 진행했으니 시간도 올려야지
+	}
+
+	// 이동값이 있는 애니메이션의 업데이트면
+	// 애니메이션 스타트 지점의 월드에서 부터 업데이트
+	// 아니면 평소처럼 적용된 월드에서 업데이트
+	if (isUseLocalAnim())
+		m_pMonster->Update(m_matAnimWorld);
+	else
+		m_pMonster->Update(m_matWorld);
+
+	// 로컬에서 위치의 변화량이 있는 애니메이션을 위한 처리
+	m_vBeforeAnimPos = m_vCurAnimPos;
+	m_vCurAnimPos = D3DXVECTOR3(m_pDummyRoot->TransformationMatrix._41, 0, 0);
+
+
+	m_pSphereR->SetWorld(m_pHandR->CombinedTransformationMatrix);
+	m_pSphereL->SetWorld(m_pHandL->CombinedTransformationMatrix);
+
+	// 이동값이 있는 애니메이션 적용 시
+	// 애니메이션 로컬을 현재 포지션으로 적용시키는 증가량을 계산 
+
+	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x < 30.f)
+		m_vPosition += (m_vDirection * (m_vCurAnimPos.x - m_vBeforeAnimPos.x));
+	else
+	{
+		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
+		m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
+	}
+}
+
+// 현재 위치, 각도 정보를 통해 월드를 갱신하는 함수
+void cKelsaik::UpdateWorld()
+{
+	D3DXMATRIX mat, matR, matT;
+	D3DXMatrixRotationY(&matR, m_fRotY);
+	D3DXVec3TransformNormal(&m_vDirection, &D3DXVECTOR3(1, 0, 0), &matR);
+	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+
+	m_matWorld = matR * matT;
+	m_pBoundingBox->SetWorld(m_matWorld);
+	m_pSpere->SetWorld(m_matWorld);
+}
+
+void cKelsaik::ParticleUpdate()
+{
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	mat._41 = m_pHandL->CombinedTransformationMatrix._41;
+	mat._42 = m_pHandL->CombinedTransformationMatrix._42;
+	mat._43 = m_pHandL->CombinedTransformationMatrix._43;
+	m_pIceHand->SetWorld(mat);
+	mat._41 = m_pHandR->CombinedTransformationMatrix._41;
+	mat._42 = m_pHandR->CombinedTransformationMatrix._42;
+	mat._43 = m_pHandR->CombinedTransformationMatrix._43;
+	m_pFireHand->SetWorld(mat);
+}
+
+// 렌더
 void cKelsaik::Render()
 {
-}
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 
+	m_pMonster->Render(NULL);
+	
+	cGameObject::Render();
+
+	if (SightSpere && m_pSphereR)
+		m_pSphereR->Render();
+	if (SightSpere && m_pSphereL)
+		m_pSphereL->Render();
+}
 
 // 이동값이 있는 애니메이션의 스타트 월드 매트릭스를 세팅
 void cKelsaik::SetAnimWorld()
@@ -187,12 +339,13 @@ void cKelsaik::SetAnimWorld()
 	m_matWorld = matR * matT;
 }
 
+// 로컬에서 위치 변화가 있는 애니메이션은 변화량을 따로 빼놔야함
 bool cKelsaik::isUseLocalAnim()
 {
 
 	if (
-		m_state == MON_STATE_atk02 ||
-		m_state == MON_STATE_atk01
+		m_Anim == MON_Anim_atk02 ||
+		m_Anim == MON_Anim_atk01
 		)
 		return true;
 
@@ -206,4 +359,20 @@ bool cKelsaik::isUseLocalAnim()
 
 
 	return false;
+}
+
+void cKelsaik::ChangeState(MON_STATE state)
+{
+	STATE = state;
+}
+
+void cKelsaik::ChangeAnim(MON_Anim anim, bool isBlend)
+{
+	m_fTime = 0.0f;
+
+	m_bIsBlend = isBlend;
+
+	m_Anim = anim;
+	m_fCurAnimTime = m_fAnimTime[anim];
+
 }
