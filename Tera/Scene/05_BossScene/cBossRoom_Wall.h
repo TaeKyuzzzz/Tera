@@ -7,7 +7,7 @@ public:
 	cBossRoom_Wall();
 	~cBossRoom_Wall();
 
-	SYNTHESIZE(vector<cBossRoom_Wall>, m_vecBossRoom_Wall, BossRoom_Wall);
+	vector<cBossRoom_Wall> m_vecBossRoom_Wall;
 	vector<cXMesh*> m_vecWallParts;
 	D3DXMATRIX matWorld;
 
