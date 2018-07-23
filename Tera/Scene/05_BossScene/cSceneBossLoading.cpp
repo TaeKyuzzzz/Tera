@@ -57,6 +57,8 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->InitForSound("BossBGM","Sound/BossRoom/Boss_Battle.ogg");
 	
 	// 맵에 쓰이는 스태틱 메시를 불러옵시다
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/Bottom_ray.X");
+
 	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_Enter_SM_P1.X");
 	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_Enter_SM_P2.X");
 	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_Enter_SM_P3.X");
