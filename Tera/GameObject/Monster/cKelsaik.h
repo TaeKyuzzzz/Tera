@@ -14,8 +14,6 @@ protected:
 		DEATH
 	};
 	
-
-
 	enum MON_IDLE
 	{
 		ROAMING,
@@ -32,40 +30,37 @@ protected:
 		REBIRTH
 	};
 
-
-
-
 	enum MON_STATE
 	{
-		MON_STATE_Walk,
-		MON_STATE_Wait,
-		MON_STATE_unarmedwait,
-		MON_STATE_Spawn,
-		MON_STATE_run,
-		MON_STATE_roundmove02,
-		MON_STATE_roundmove01,
-		MON_STATE_roundAtk02,
-		MON_STATE_roundAtk01,
-		MON_STATE_ReactionStart,
-		MON_STATE_ReactionLoop,
-		MON_STATE_ReactionEnd,
-		MON_STATE_ReactonAtk,
-		MON_STATE_ReactionAdd,
-		MON_STATE_moveAtk,
-		MON_STATE_modeAlarm,
-		MON_STATE_jumpevasion02,
-		MON_STATE_jumpevasion01,
-		MON_STATE_heavyatk02,
-		MON_STATE_heavyatk01,
-		MON_STATE_groggy,
-		MON_STATE_flinch,
-		MON_STATE_deathwait,
-		MON_STATE_Death,
-		MON_STATE_backAtk,
-		MON_STATE_atk02,
-		MON_STATE_atk01,
-		MON_STATE_aggrochange,
-		MON_STATE_COUNT
+		MON_Anim_Walk,
+		MON_Anim_Wait,
+		MON_Anim_unarmedwait,
+		MON_Anim_Spawn,
+		MON_Anim_run,
+		MON_Anim_roundmove02,
+		MON_Anim_roundmove01,
+		MON_Anim_roundAtk02,
+		MON_Anim_roundAtk01,
+		MON_Anim_ReactionStart,
+		MON_Anim_ReactionLoop,
+		MON_Anim_ReactionEnd,
+		MON_Anim_ReactonAtk,
+		MON_Anim_ReactionAdd,
+		MON_Anim_moveAtk,
+		MON_Anim_modeAlarm,
+		MON_Anim_jumpevasion02,
+		MON_Anim_jumpevasion01,
+		MON_Anim_heavyatk02,
+		MON_Anim_heavyatk01,
+		MON_Anim_groggy,
+		MON_Anim_flinch,
+		MON_Anim_deathwait,
+		MON_Anim_Death,
+		MON_Anim_backAtk,
+		MON_Anim_atk02,
+		MON_Anim_atk01,
+		MON_Anim_aggrochange,
+		MON_Anim_COUNT
 	};
 
 	MON_MODE			MODE;	//얘에 따라서 호출하는 하위업데이트가 다르다.
@@ -83,7 +78,7 @@ protected:
 	bool				m_bIsDone;
 
 	float				m_fCurAnimTime;
-	float				m_fAnimTime[MON_STATE_COUNT];
+	float				m_fAnimTime[MON_Anim_COUNT];
 
 	float				m_fTime;
 
@@ -124,6 +119,8 @@ public:
 	void Death_Update();
 	void Death_Die();
 	void Death_Rebirth();
+
+	void AnimUpdate();
 	//////////////////////////////////
 
 	void Render();

@@ -45,7 +45,7 @@ void cSceneBoss::Setup()
 
 	isOptionMode = false;
 
-	SOUNDMANAGER->Play("BossBGM");
+	//SOUNDMANAGER->Play("BossBGM");
 }
 
 void cSceneBoss::Release()
@@ -140,6 +140,6 @@ void cSceneBoss::Destroy()
 		{
 			p.Destroy();
 		}
-		delete this
+		delete this;
 	}
 }
