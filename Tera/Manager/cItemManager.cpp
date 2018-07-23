@@ -390,10 +390,6 @@ const char * cItemManager::FindItemPos()
 {
 	for (int i = 0; i < m_vAllItem.size(); i++)
 	{
-		
-		
-
-
 		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
 		{
 
@@ -410,8 +406,9 @@ const char * cItemManager::FindItemPos()
 			RECT itemRc = m_vAllItem[i]->GetUIRoot()->GetCollisionRect();
 			
 			RECT tempRc;
+			
 
-			if (IntersectRect(&tempRc, &itemRc, &shopUIRcResize))
+			if (_UI->GetIsCallShop() && IntersectRect(&tempRc, &itemRc, &shopUIRcResize))
 			{
 				return "구입가격";
 			}
@@ -755,8 +752,8 @@ void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPla
 							if (i % 8 == 3 && m_nGold > 300 )CreateItem("하급마나물약", "Texture/ItemIcon/MPSmall.png", POTION, 50, 60, m_vInvenItem), CalculatorGold(-300);
 							if (i % 8 == 4 && m_nGold > 600)CreateItem("중급마나물약", "Texture/ItemIcon/MPMid.png", POTION, 100, 120, m_vInvenItem), CalculatorGold(-600);
 							if (i % 8 == 5 && m_nGold > 1200)CreateItem("상급마나물약", "Texture/ItemIcon/MPBig.png", POTION, 150, 240, m_vInvenItem), CalculatorGold(-1200);
-							if (i % 8 == 6 && m_nGold > 1000)CreateItem("미스테리부적", "Texture/ItemIcon/MysteryPaper.png", POTION, 0, 200, m_vInvenItem), CalculatorGold(-1000);
-							if (i % 8 == 7 && m_nGold > 2000)CreateItem("마을귀환서", "Texture/ItemIcon/CityRecall.png", POTION, 0, 400, m_vInvenItem), CalculatorGold(-2000);
+							if (i % 8 == 6 && m_nGold > 1000)CreateItem("미스테리부적", "Texture/ItemIcon/MysteryPaper.png", ETCCONSUMABLES, 0, 200, m_vInvenItem), CalculatorGold(-1000);
+							if (i % 8 == 7 && m_nGold > 2000)CreateItem("마을귀환서", "Texture/ItemIcon/CityRecall.png", ETCCONSUMABLES, 0, 400, m_vInvenItem), CalculatorGold(-2000);
 						}
 						else
 						{
@@ -885,7 +882,7 @@ void cItemManager::ExceptionsWhileDragging()
 
 				else
 				{
-					m_vInvenItem[i]->GetUIImage()->SetClickState(NOTCLICKABLE);
+					m_vInvenItem[i]->GetUIImage()->SetClickState(UNMOVABLE);
 
 
 					//UI와의 충돌
@@ -906,7 +903,7 @@ void cItemManager::ExceptionsWhileDragging()
 
 				else
 				{
-					m_vShopItem[i]->GetUIImage()->SetClickState(NOTCLICKABLE);
+					m_vShopItem[i]->GetUIImage()->SetClickState(UNMOVABLE);
 
 
 					//UI와의 충돌

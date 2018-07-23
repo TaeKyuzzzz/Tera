@@ -24,7 +24,7 @@ void cUIButton::SetTexture(const char * szUp, const char * szOver, const char * 
 	
 	D3DXIMAGE_INFO stImageInfo;
 
-	
+	m_enClickState = UNMOVABLE;
 	
 	m_arrTexture[BT_UP] = TEXTUREMANAGER->GetTexture(szUp,&stImageInfo);
 	m_stSize.fHeight = stImageInfo.Height;
@@ -70,9 +70,17 @@ void cUIButton::Update(ST_UI_SIZE dragSize)
 		m_buttonState = BT_UP;
 	}
 
-	m_move.x = 0;
+	
+
+	//D3DXMatrixIdentity(&m_matWorld);
+	//m_matWorld._41 = m_vPosition.x;
+	//m_matWorld._42 = m_vPosition.y;
+	//m_matWorld._43 = m_vPosition.z;
+
+
+	/*m_move.x = 0;
 	m_move.y = 0;
-	m_beforeMousePT = { 0, 0 };
+	m_beforeMousePT = { 0, 0 };*/
 
 }
 

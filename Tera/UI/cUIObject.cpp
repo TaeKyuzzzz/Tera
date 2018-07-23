@@ -24,9 +24,13 @@ void cUIObject::AddChild(cUIObject * pChild)
 {
 	m_vecChild.push_back(pChild);
 	pChild->SetParent(this);
-
-
 }
+
+void cUIObject::DelChild(int index)
+{
+	m_vecChild.erase(m_vecChild.begin() + index);
+}
+
 void cUIObject::Destroy()
 {
 	for (auto p : m_vecChild)
@@ -78,7 +82,7 @@ void cUIObject::Render(LPD3DXSPRITE pSprite)
 
 void cUIObject::ImageDrag(D3DXVECTOR2 vec2ReduceDragRange)
 {
-	if (m_enClickState != NOTCLICKABLE && m_isCollision)
+	if (m_enClickState != UNMOVABLE && m_isCollision)
 	{
 		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON) || KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
 		{

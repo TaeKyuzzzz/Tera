@@ -42,6 +42,7 @@ public:
 	void Update();
 	void Render();
 	void ConnectNode(cUIObject* pParent);
+	void Disconnect(cUIObject* parentUI, int index);
 
 
 };
