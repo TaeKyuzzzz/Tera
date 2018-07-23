@@ -21,11 +21,12 @@ void cBossRoom_Wall::Setup()
 	const int size = 5;
 
 	char fileName[size][256] = {
+		"XFile/Boss_Room/ARG_Room_A_SM_P4.X",
 		"XFile/Boss_Room/ARG_Room_A_SM_P5.X",
 		"XFile/Boss_Room/ARG_Room_A_SM_P1.X",
 		"XFile/Boss_Room/ARG_Room_A_SM_P2.X",
-		"XFile/Boss_Room/ARG_Room_A_SM_P3.X",
-		"XFile/Boss_Room/ARG_Room_A_SM_P4.X"
+		"XFile/Boss_Room/ARG_Room_A_SM_P3.X"
+
 	};
 
 	for (int i = 0; i < size; i++)
