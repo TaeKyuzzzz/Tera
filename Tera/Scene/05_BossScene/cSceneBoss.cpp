@@ -140,6 +140,6 @@ void cSceneBoss::Destroy()
 		{
 			p.Destroy();
 		}
-		delete this
-	}
+		delete this;
+	} 
 }
