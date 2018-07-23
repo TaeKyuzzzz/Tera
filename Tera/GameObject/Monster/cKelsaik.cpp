@@ -181,6 +181,9 @@ void cKelsaik::Update()
 	m_pSphereR->SetWorld(m_pHandR->CombinedTransformationMatrix);
 	m_pSphereL->SetWorld(m_pHandL->CombinedTransformationMatrix);
 
+	//이거 안해주면 몬스터 이상한데 보면서 간다~
+	m_fRotY = m_fCosVal;
+
 	// 이동값이 있는 애니메이션 적용 시
 	// 애니메이션 로컬을 현재 포지션으로 적용시키는 증가량을 계산 
 	//D3DXMATRIX matR, matT;
