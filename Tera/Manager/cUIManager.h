@@ -16,6 +16,7 @@ class cItemManager;
 class cUIObject;
 class cUIButton;
 class cItemInfo;
+class cUIImageView;
 
 class cUIManager
 {
@@ -27,6 +28,8 @@ private:
 
 	SYNTHESIZE(vUI, m_vUI, VUI);
 
+	SYNTHESIZE(vUI, m_vSkillUI, VSkillUI);
+
 	SYNTHESIZE(D3DXVECTOR3, m_vInventoryPos, InventoryPos);
 	SYNTHESIZE(D3DXVECTOR3, m_vShopPos, ShopPos);
 	SYNTHESIZE(int, m_nAlpha, Alpha);
@@ -36,11 +39,12 @@ private:
 	SYNTHESIZE(bool, m_isCallStatus, IsCallStatus);
 
 
-	
+	HDC hdc;
 
 	cUIInfo* m_pUIInfo;
 	cItemManager* _IM;
 
+	int Index = 0;
 
 
 
@@ -78,7 +82,7 @@ public:
 	int FindUIIndex(const char* szFindIndex);
 	
 
-	void UIInfoTextPopUp(const char* szFindIndex = NULL);
+	void UIInfoTextPopUp(int oneValue, const char* szNecessaryPlace = NULL);
 	
 
 
