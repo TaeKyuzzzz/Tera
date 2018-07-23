@@ -26,4 +26,4 @@
 255
 255
 255
-C:\Users\shin\Tera\Tera\Texture\Particle\c96ec0e8d84c1e4d0fc68a2b88c506a2.png
+Texture\Particle\c96ec0e8d84c1e4d0fc68a2b88c506a2.png

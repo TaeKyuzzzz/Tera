@@ -7,30 +7,17 @@ class cParticleSet;
 class cKelsaik : public cMonster
 {
 protected:
-	enum MON_MODE
+
+	enum MON_STATE
 	{
 		IDLE,
 		AWAKE,
-		DEATH
-	};
-	
-	enum MON_IDLE
-	{
-		ROAMING,
-		COMEBACK
-	};
-	enum MON_AWAKE
-	{
-		CHASE,
-		BATTLE
-	};
-	enum MON_DEATH
-	{
-		DIE,
-		REBIRTH
+		WALK,
+		BATTLE,
+		DIE
 	};
 
-	enum MON_STATE
+	enum MON_Anim
 	{
 		MON_Anim_Walk,
 		MON_Anim_Wait,
@@ -63,44 +50,45 @@ protected:
 		MON_Anim_COUNT
 	};
 
-	MON_MODE			MODE;	//얘에 따라서 호출하는 하위업데이트가 다르다.
-	MON_IDLE			eIDLE;
-	MON_AWAKE			eAWAKE;
-	MON_DEATH			eDEATH;
+	MON_STATE			STATE;	//얘에 따라서 호출하는 하위업데이트가 다르다.
 
-	cSkinnedMesh*		m_pMonster;
-	ST_BONE*			m_pDummyRoot;
-	ST_BONE*			m_pBIP;
+	cSkinnedMesh*		m_pMonster;						// 몬스터 스켈레톤 메시
+	ST_BONE*			m_pDummyRoot;					// 루트 본
+	ST_BONE*			m_pBIP;							// 고정된 본
 
-	MON_STATE			m_state;
-	MON_STATE			m_currState;
+	MON_Anim			m_Anim;							// 재생중 애니메이션
+	MON_Anim			m_currAnim;						// 바뀔 애니메이션
 
-	bool				m_bIsDone;
+	bool				m_bIsDone;						// 애니메이션이 끝났니?
+		
+	float				m_fCurAnimTime;					// 재생된 시간 애니메이션
+	float				m_fAnimTime[MON_Anim_COUNT];	// 재생돼야할 총 시간
+	float				m_fTime;						// 애니 걸린시간
+	bool				m_bIsBlend;						// 애니 블렌딩 처리여부
+	float				m_fCosVal;						// 봐야할 각도
 
-	float				m_fCurAnimTime;
-	float				m_fAnimTime[MON_Anim_COUNT];
+	bool				m_isDoingPattern;
+	bool				m_partternCost;
 
-	float				m_fTime;
-
-	bool				m_bIsBlend;
-
-	float				m_fCosVal;
-
+	int					m_nPatternNum;
+	float				m_fPatternCostTime;
 	//행동패턴 디자인에 쓰인 임시변수
 	D3DXVECTOR3			temp;
 	D3DXVECTOR2			tt;
 
 	//공격에 쓰이는 본
 
-	ST_BONE*			m_pHandR;
-	ST_BONE*			m_pHandL;
-	cSpere*				m_pSphereR;
-	cSpere*				m_pSphereL;
+	ST_BONE*			m_pHandR;						// 오른팔 (파이어
+	ST_BONE*			m_pHandL;						// 왼팔	 (아이스
+	cSpere*				m_pSphereR;						// 오른팔 구 (충돌용
+	cSpere*				m_pSphereL;						// 왼팔 구 (충돌용
 
 	float				m_fFightZone;
 
 
-	cParticleSet*		m_pParticleBleeding;
+	cParticleSet*		m_pParticleBleeding;			// 출혈 파티클
+	cParticleSet*		m_pIceHand;			//IceHand2			// 왼손 아이스 파티클
+	cParticleSet*		m_pFireHand;		// FireHand			// 오른손 파이어 파티클
 
 public:
 	cKelsaik();
@@ -111,16 +99,17 @@ public:
 	/////////Update Function//////////
 	void Update();
 	void Idle_Update();
-	void Idle_Roaming();
-	void Idle_Back_to_SquareOne();
 	void Awake_Update();
 	void Awake_Chase();
 	void Awake_Battle();
+	void Battle_Update();
+	void Walk_Update();
 	void Death_Update();
 	void Death_Die();
-	void Death_Rebirth();
 
 	void AnimUpdate();
+	void UpdateWorld();
+	void ParticleUpdate();
 	//////////////////////////////////
 
 	void Render();
@@ -131,6 +120,19 @@ public:
 	bool isUseLocalAnim();
 
 
+	////// etc ////////////////////////
+	void ChangeState(MON_STATE state);
+	void ChangeAnim(MON_Anim anim, bool isBlend);
+	
+	bool isPlayerInDistance();
+	bool isEndPattern();
+	void CreatePatternCost();
+	///////////////////////////////////
+
+	////// 몬스터 공격 패턴 /////
+	void AttackPattern01();
+	void AttackPattern02();
+	void AttackPattern03();
 
 };
 

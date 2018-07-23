@@ -7,7 +7,7 @@ enum tagClicked
 	NON,
 	CLICKING,
 	CLICK,
-	NOTCLICKABLE,
+	UNMOVABLE,
 	NEVERCLICKED
 
 
@@ -46,6 +46,7 @@ public:
 	
 
 	virtual void AddChild(cUIObject * pChild);
+	virtual void DelChild(int index);
 	virtual void Destroy();
 	virtual void Update(ST_UI_SIZE dragSize = { 1,1 });
 	virtual void Render(LPD3DXSPRITE pSprite);

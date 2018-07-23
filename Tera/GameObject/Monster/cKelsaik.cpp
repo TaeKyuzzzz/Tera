@@ -11,11 +11,11 @@
 
 cKelsaik::cKelsaik()
 	: m_pMonster(NULL)
-	, m_currState(MON_Anim_unarmedwait)
+	, m_currAnim(MON_Anim_Walk)
 {
-	m_state = MON_Anim_unarmedwait;
-
-
+	D3DXMatrixIdentity(&m_matWorld);
+	
+	m_Anim = MON_Anim_Wait;
 
 	//루프애니메이션이 아닐때, 동작이 끝난걸 알려주는 변수.
 	m_bIsDone = true;
@@ -46,22 +46,24 @@ cKelsaik::cKelsaik()
 	//Monster01은 이런 특성을 가지고 있다.
 	m_fAreaRadius = 300.0f;
 	m_fTracableArea = 1000.0f;
-	m_fRunSpeed = 1.0f;
+	m_fRunSpeed = 1.5f;
 	m_fFightZone = 100.0f;
 	m_fHpCur = 50000.0f;
 
-	MODE = IDLE;
-	eIDLE = ROAMING;
-	eAWAKE = CHASE;
-	eDEATH = DIE;
+	STATE = IDLE;
 
 	// 패턴의 가짓 수
 	m_nNumofPattern = 4;
-	//처음에 얘로 셋팅해놓는다.
-	m_vBehaviorSpot = D3DXVECTOR3(0, 0, 1162);
-
+	m_fPatternCostTime = 0.0f;
+	
+	// 사용하는 파티클 등록
 	m_pParticleBleeding = PARTICLEMANAGER->GetParticle("Bleeding");
 	PARTICLEMANAGER->AddChild(m_pParticleBleeding);
+	m_pIceHand = PARTICLEMANAGER->GetParticle("IceHand2");
+	PARTICLEMANAGER->AddChild(m_pIceHand);
+	m_pFireHand = PARTICLEMANAGER->GetParticle("FireHand");
+	PARTICLEMANAGER->AddChild(m_pFireHand);
+
 }
 
 
@@ -83,7 +85,7 @@ void cKelsaik::Setup()
 
 	m_pMonster = new cSkinnedMesh;
 	m_pMonster->Setup("XFile/Monster", "Kelsaik.X");
-	m_pMonster->SetAnimationIndexBlend(m_currState);
+	m_pMonster->SetAnimationIndexBlend(m_currAnim);
 
 	// 위치를 가진 루트 본
 	m_pDummyRoot = (ST_BONE*)D3DXFrameFind(m_pMonster->GetFrame(),
@@ -109,8 +111,8 @@ void cKelsaik::Setup()
 
 
 	//처음 젠되는 위치 설정
-
-	m_vPosition = m_vBehaviorSpot;
+	
+	m_fRotY = 4.7f;
 
 	// 바운딩 박스 생성
 	m_pBoundingBox = new cBoundingBox;
@@ -120,14 +122,19 @@ void cKelsaik::Setup()
 	m_pSpere = new cSpere;
 	m_pSpere->Setup(m_vPosition, m_fFightZone);
 
-	MODE = IDLE;
+	STATE = IDLE;
+	m_isDoingPattern = false;
+	m_partternCost = true;
 }
 
 void cKelsaik::Update()
 {
 	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
+	//m_pBIP->TransformationMatrix._42 = m_matWorld._42;
 
-	switch (MODE)
+	AnimUpdate();				// 애니메이션 진행
+	
+	switch (STATE)
 	{
 	case IDLE:
 		Idle_Update();
@@ -135,24 +142,21 @@ void cKelsaik::Update()
 	case AWAKE:
 		Awake_Update();
 		break;
-	case DEATH:
-		Death_Update();
+	case BATTLE:
+		Battle_Update();
 		break;
+	case WALK :
+		Walk_Update();
+		break;
+	case DIE :
+		Death_Update();
 	}
 
-	AnimUpdate();
 
-
-	D3DXMATRIX mat, matR, matT;
-	D3DXMatrixRotationY(&matR, m_fRotY);
-	D3DXVec3TransformNormal(&m_vDirection, &D3DXVECTOR3(1, 0, 0), &matR);
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-
-
-	m_matWorld = matR * matT;
-	m_pBoundingBox->SetWorld(m_matWorld);
-	m_pSpere->SetWorld(m_matWorld);
-
+	UpdateWorld();				// 월드 갱신
+	ParticleUpdate();			// 파티클 업데이트
+	CreatePatternCost();
+	
 	cMonster::Update();
 
 	cGameObject::Update();
@@ -160,151 +164,20 @@ void cKelsaik::Update()
 
 void cKelsaik::Idle_Update()
 {
-	switch (eIDLE)
-	{
-	case ROAMING:
-		Idle_Roaming();
-		break;
-	case COMEBACK:
-		Idle_Back_to_SquareOne();
-		break;
-	}
-}
-
-void cKelsaik::Idle_Roaming()
-{
-	////기다리는과정(첫세팅)
-	//if (!m_bWalkOnOff && !m_bStart)
-	//{
-	//	m_bStart = true;
-	//	m_state = MON_Anim_unarmedwait;
-	//	m_fStopTime = (float)GetTickCount();
-	//}
-	////기다리는 과정
-	//else if (!m_bWalkOnOff)
-	//{
-	//	if (GetTickCount() - m_fStopTime > 4000.0f)
-	//	{
-	//		m_bWalkOnOff = true;
-	//		m_bStart = false;
-	//	}
-	//}
-	////걷는과정.처음셋팅할때
-	//else if (m_bWalkOnOff && !m_bStart)
-	//{
-	//	m_bStart = true;
-	//	//시간없어서 패트롤 영역을 사각형으로 처리했어요 미안해 ㅠㅠ
-	//	int plusminus = rand() % 2;
-	//	int plusminus2 = rand() % 2;
-	//
-	//	if (plusminus)
-	//		plusminus = 1;
-	//	else
-	//		plusminus = -1;
-	//
-	//	if (plusminus2)
-	//		plusminus2 = 1;
-	//	else
-	//		plusminus2 = -1;
-	//
-	//	int AreaX = rand() % (int)(m_fAreaRadius / 5.0f);
-	//	int AreaZ = rand() % (int)(m_fAreaRadius / 5.0f);
-	//
-	//	NextSpot = m_vBehaviorSpot + D3DXVECTOR3(plusminus*AreaX, 0, plusminus2*AreaZ);
-	//}
-	////임의의 지점까지 걷는 모션.
-	//else if (m_bWalkOnOff)
-	//{
-	//	m_state = MON_Anim_Walk;
-	//	// u벡터 -> 기준벡터
-	//	D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
-	//	D3DXVECTOR3 v, v2;
-	//	v2 = NextSpot - m_vPosition;
-	//	//이거안해주면 높이맵인식되서 문워크한다.
-	//	v2.y = 0;
-	//	D3DXVec3Normalize(&v, &v2);
-	//
-	//	m_fCosVal = D3DXVec3Dot(&v, &u);
-	//	m_fCosVal = acosf(m_fCosVal);
-	//
-	//	if (m_vPosition.z < NextSpot.z)
-	//		m_fCosVal = D3DX_PI * 2 - m_fCosVal;
-	//
-	//	m_vPosition += (0.3f*m_fRunSpeed * v);
-	//
-	//	//이거 오차범위 넉넉하게 줘야 한다. 안그러면 정확하게 맞추려고 부르르르르 떤다. 
-	//	if (D3DXVec3Length(&v2) < 1.0f)
-	//	{
-	//		m_bWalkOnOff = false;
-	//		m_bStart = false;
-	//	}
-	//}
-
-	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
-	if (Distance_Player_Monster < m_fAreaRadius)
-		MODE = AWAKE;
-
-}
-
-void cKelsaik::Idle_Back_to_SquareOne()
-{
-	//혹시모르니깐 어슬렁패턴에 쓰인 불변수는 모두 초기화 시켜주자.
-	{
-		m_bStart = false;
-		m_bWalkOnOff = false;
-	}
-	
-	D3DXVECTOR3 tempV = m_vPosition - m_vBehaviorSpot;
-	tempV.y = 0;
-	if (D3DXVec3Length(&tempV) < 1.0f)
-		eIDLE = ROAMING;
-	else
-	{
-		m_state = MON_Anim_run;
-		// u벡터 -> 기준벡터
-		D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
-		D3DXVECTOR3 v;
-		D3DXVECTOR3 t;
-		t = m_vBehaviorSpot - m_vPosition;
-		D3DXVec3Normalize(&v, &t);
-
-		m_fCosVal = D3DXVec3Dot(&v, &u);
-		m_fCosVal = acosf(m_fCosVal);
-
-		if (m_vPosition.z < m_vBehaviorSpot.z)
-			m_fCosVal = D3DX_PI * 2 - m_fCosVal;
-
-		m_vPosition += (1.5f * m_fRunSpeed * v);
-	}
+	if(isPlayerInDistance())
+		ChangeState(BATTLE);
 }
 
 void cKelsaik::Awake_Update()
 {
-	switch (eAWAKE)
-	{
-	case CHASE:
-		Awake_Chase();
-		break;
-	case BATTLE:
-		Awake_Battle();
-		break;
-	}
+	if (isPlayerInDistance())
+		ChangeState(WALK);
 }
 
 void cKelsaik::Awake_Chase()
 {
-	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
-	
-	if (Distance_Player_Monster < m_fFightZone)
-		eAWAKE = BATTLE;
 
-	else if (D3DXVec3Length(&(m_vPosition - m_vBehaviorSpot)) > m_fTracableArea)
-	{
-		MODE = IDLE;
-		eIDLE = COMEBACK;
-	}
-
-	m_state = MON_Anim_Walk;
+	m_Anim = MON_Anim_Walk;
 	// u벡터 -> 기준벡터
 	D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
 	D3DXVECTOR3 v;
@@ -317,113 +190,126 @@ void cKelsaik::Awake_Chase()
 		m_fCosVal = D3DX_PI * 2 - m_fCosVal;
 
 	m_vPosition += (m_fRunSpeed * v);
+
+	m_fRotY = m_fCosVal;
 }
 
 void cKelsaik::Awake_Battle()
 {
 	//몬스터 죽는거
 	if (m_fHpCur <= 0)
-		MODE = DEATH;
+		STATE = DIE;
 
 	//나머지를 부타캐~~~~
 
 
 }
 
+void cKelsaik::Battle_Update()
+{
+
+	// 플레이어가 공격범위 밖으로 나가면 추적시작
+	if (!isPlayerInDistance() && !m_isDoingPattern)
+	{
+		ChangeState(WALK);
+		return;
+	}
+	else if(!m_isDoingPattern)
+		ChangeAnim(MON_Anim_Wait, true);
+	
+	// 플레이어가 공격범위 안쪽이면 공격
+	
+	if (m_partternCost)
+	{
+		m_nPatternNum = 0;
+		m_partternCost = false;
+		m_isDoingPattern = true;
+	}
+
+	if (m_isDoingPattern)
+	{
+		switch (m_nPatternNum)
+		{
+		case 0	:
+			AttackPattern01();
+			break;
+		case 1 :
+			AttackPattern02();
+			break;
+		case 2:
+			AttackPattern03();
+			break;
+		}
+	}
+}
+
+void cKelsaik::Walk_Update()
+{
+	if (isPlayerInDistance())
+	{
+		ChangeState(BATTLE);
+		return;
+	}
+
+	ChangeAnim(MON_Anim_Walk,true);
+	
+	D3DXVECTOR3 TargetPos = *g_vPlayerPos - m_vPosition;
+	D3DXVec3Normalize(&TargetPos, &TargetPos);
+	m_fCosVal = D3DXVec3Dot(&TargetPos, &D3DXVECTOR3(1,0,0));
+	m_fCosVal = acosf(m_fCosVal);
+
+	if (m_vPosition.z < g_vPlayerPos->z)
+		m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+
+	m_vPosition += (m_fRunSpeed * TargetPos);
+	m_fRotY = m_fCosVal;
+}
+
 void cKelsaik::Death_Update()
 {
-	switch (eDEATH)
-	{
-	case DIE:
-		Death_Die();
-		break;
-	case REBIRTH:
-		Death_Rebirth();
-		break;
-	}
+
 }
 
 void cKelsaik::Death_Die()
 {
 	m_fHpCur = 0.0f;
 
-	m_state = MON_Anim_Death;
+	m_Anim = MON_Anim_Death;
 	m_fCurAnimTime = m_fAnimTime[MON_Anim_Death];
 	m_bIsBlend = false;
-	//애니메이션을 처리해야 하므로 시간을 잴 변수가 필요하다.
-	m_fTime += TIMEMANAGER->GetEllapsedTime();
-
-	if (m_fCurAnimTime - 0.05 <= m_fTime)
-	{
-		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
-		m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
-		m_fTime = 0.0f;
-		m_bAnimation = false;
-		m_bAngleLock = false;
-		m_bAtkTerm = !m_bAtkTerm;
-		m_bIsGen = false;
-		//완전히 사라진 시점 기록
-		m_fTimeofDeath = (float)GetTickCount();
-	}
+	
 }
 
-void cKelsaik::Death_Rebirth()
-{
-	m_vPosition = m_vBehaviorSpot;
-	m_state = MON_Anim_unarmedwait;
-	//m_currState = MON_STATE_unarmedwait;
-	m_fRotY = 0.0f;
-	m_vDirection = D3DXVECTOR3(1, 0, 0);
-	m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
-	m_fHpCur = 50000.0f;
-
-	//5초뒤에 부활.
-	if (GetTickCount() - m_fTimeofDeath >= 5000.0f)
-	{
-		MODE = IDLE;
-		eIDLE = ROAMING;
-		m_pMonster->AnimAdvanceTime();
-	}
-}
 
 void cKelsaik::AnimUpdate()
 {
 	// 애니메이션 진행
-	if (m_currState != m_state)
+
+	// 만약 현재 진행중인 애니와 진행해야될 애니가 다르다면 교체해야함
+	if (m_currAnim != m_Anim)
 	{
-		if (m_bIsBlend)
-		{
-			m_pMonster->SetAnimationIndexBlend(m_state);
-
-		}
+		if (m_bIsBlend) // 블렌드 처리를 해야 한다면
+			m_pMonster->SetAnimationIndexBlend(m_Anim);
 		else
-		{
-			m_pMonster->SetAnimationIndex(m_state);
+			m_pMonster->SetAnimationIndex(m_Anim);
 
-		}
+		m_currAnim = m_Anim;						// 현재 애니를 바뀔 애니로
 
-		m_currState = m_state;
-
-		m_pMonster->AnimAdvanceTime();
-		//m_fTime += TIMEMANAGER->GetEllapsedTime();
+		m_pMonster->AnimAdvanceTime();				// 한번 애니메이션을 진행시켜야함;
+		m_fTime += TIMEMANAGER->GetEllapsedTime();	// 진행했으니 시간도 올려야지
 	}
 
 	// 이동값이 있는 애니메이션의 업데이트면
 	// 애니메이션 스타트 지점의 월드에서 부터 업데이트
 	// 아니면 평소처럼 적용된 월드에서 업데이트
 	if (isUseLocalAnim())
-	{
 		m_pMonster->Update(m_matAnimWorld);
-
-	}
 	else
-	{
 		m_pMonster->Update(m_matWorld);
-
-	}
+	m_fTime += TIMEMANAGER->GetEllapsedTime();
+	// 로컬에서 위치의 변화량이 있는 애니메이션을 위한 처리
 	m_vBeforeAnimPos = m_vCurAnimPos;
 	m_vCurAnimPos = D3DXVECTOR3(m_pDummyRoot->TransformationMatrix._41, 0, 0);
-
 
 
 	m_pSphereR->SetWorld(m_pHandR->CombinedTransformationMatrix);
@@ -431,7 +317,6 @@ void cKelsaik::AnimUpdate()
 
 	// 이동값이 있는 애니메이션 적용 시
 	// 애니메이션 로컬을 현재 포지션으로 적용시키는 증가량을 계산 
-	//D3DXMATRIX matR, matT;
 
 	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x < 30.f)
 		m_vPosition += (m_vDirection * (m_vCurAnimPos.x - m_vBeforeAnimPos.x));
@@ -442,16 +327,43 @@ void cKelsaik::AnimUpdate()
 	}
 }
 
+// 현재 위치, 각도 정보를 통해 월드를 갱신하는 함수
+void cKelsaik::UpdateWorld()
+{
+	D3DXMATRIX mat, matR, matT;
+	D3DXMatrixRotationY(&matR, m_fRotY);
+	D3DXVec3TransformNormal(&m_vDirection, &D3DXVECTOR3(1, 0, 0), &matR);
+	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+
+	m_matWorld = matR * matT;
+	m_pBoundingBox->SetWorld(m_matWorld);
+	m_pSpere->SetWorld(m_matWorld);
+}
+
+void cKelsaik::ParticleUpdate()
+{
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	mat._41 = m_pHandL->CombinedTransformationMatrix._41;
+	mat._42 = m_pHandL->CombinedTransformationMatrix._42;
+	mat._43 = m_pHandL->CombinedTransformationMatrix._43;
+	m_pIceHand->SetWorld(mat);
+	mat._41 = m_pHandR->CombinedTransformationMatrix._41;
+	mat._42 = m_pHandR->CombinedTransformationMatrix._42;
+	mat._43 = m_pHandR->CombinedTransformationMatrix._43;
+	m_pFireHand->SetWorld(mat);
+}
+
+// 렌더
 void cKelsaik::Render()
 {
-	if (m_bIsGen)
-	{
-		m_pMonster->Render(NULL);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		m_pMonster->Render(NULL);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	}
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 
+	m_pMonster->Render(NULL);
+	
 	cGameObject::Render();
 
 	if (SightSpere && m_pSphereR)
@@ -459,7 +371,6 @@ void cKelsaik::Render()
 	if (SightSpere && m_pSphereL)
 		m_pSphereL->Render();
 }
-
 
 // 이동값이 있는 애니메이션의 스타트 월드 매트릭스를 세팅
 void cKelsaik::SetAnimWorld()
@@ -472,12 +383,13 @@ void cKelsaik::SetAnimWorld()
 	m_matWorld = matR * matT;
 }
 
+// 로컬에서 위치 변화가 있는 애니메이션은 변화량을 따로 빼놔야함
 bool cKelsaik::isUseLocalAnim()
 {
 
 	if (
-		m_state == MON_Anim_atk02 ||
-		m_state == MON_Anim_atk01
+		m_Anim == MON_Anim_atk02 ||
+		m_Anim == MON_Anim_atk01
 		)
 		return true;
 
@@ -492,3 +404,74 @@ bool cKelsaik::isUseLocalAnim()
 
 	return false;
 }
+
+void cKelsaik::ChangeState(MON_STATE state)
+{
+	STATE = state;
+}
+
+void cKelsaik::ChangeAnim(MON_Anim anim, bool isBlend)
+{
+	m_fTime = 0.0f;
+
+	m_bIsBlend = isBlend;
+
+	m_Anim = anim;
+	m_fCurAnimTime = m_fAnimTime[anim];
+
+}
+
+bool cKelsaik::isPlayerInDistance()
+{
+	if (KEYMANAGER->IsOnceKeyDown('B'))
+		int a = 10;
+	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
+	if (Distance_Player_Monster < m_fAreaRadius)
+		return true;
+	return false;
+}
+
+bool cKelsaik::isEndPattern()
+{
+	return (m_fCurAnimTime - 0.05 <= m_fTime);
+}
+
+void cKelsaik::CreatePatternCost()
+{
+	if (!m_partternCost)
+	{
+		m_fPatternCostTime += TIMEMANAGER->GetEllapsedTime();
+		if (m_fPatternCostTime >= 10.0f)
+		{
+			m_partternCost = true;
+			m_fPatternCostTime = 0.0f;
+		}
+	}
+}
+
+void cKelsaik::AttackPattern01()
+{
+	if (m_Anim != MON_Anim_atk01)
+	{
+		// 패턴 처음 시작
+		ChangeAnim(MON_Anim_atk01,true);
+		SetAnimWorld();
+	}
+	else
+	{
+		if (isEndPattern())
+		{
+			ChangeAnim(MON_Anim_Wait, true);
+			m_isDoingPattern = false;
+		}
+	}
+}
+
+void cKelsaik::AttackPattern02()
+{
+}
+
+void cKelsaik::AttackPattern03()
+{
+}
+

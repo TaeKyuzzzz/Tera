@@ -172,40 +172,6 @@ void cMonster01::Update()
 		m_vBeforeAnimPos = m_vCurAnimPos;
 		m_vCurAnimPos = D3DXVECTOR3(m_pDummyRoot->TransformationMatrix._41, 0, 0);
 
-
-
-		// 이동처리!!
-		//D3DXVECTOR3 beforePos = m_vPosition;
-		//float		beforeRot = m_fRotY;
-		//
-		//if (m_fRotY <= 0.0f)
-		//	m_fRotY += D3DX_PI * 2;
-		//else if (m_fRotY >= D3DX_PI * 2)
-		//	m_fRotY -= D3DX_PI * 2;
-		//
-		//D3DXMATRIX mat, matR, matT;
-		//D3DXMatrixRotationY(&matR, m_fRotY);
-		//
-		//D3DXMatrixIdentity(&mat);
-		//D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y + 55, m_vPosition.z);
-		//m_pBoundingBox->SetWorld(matR * mat);
-		//
-		//m_pSpere->SetWorld(mat);
-
-		/*	if (OBJECTMANAGER->IsCollision(this))
-		{
-		m_fRotY = beforeRot;
-		m_vPosition = beforePos;
-		D3DXMATRIX mat, matR, matT;
-		D3DXMatrixRotationY(&matR, m_fRotY);
-
-		D3DXMatrixIdentity(&mat);
-		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y + 55, m_vPosition.z);
-		m_pBoundingBox->SetWorld(matR * mat);
-
-		m_pSpere->SetWorld(mat);
-		}*/
-
 		m_pSphereR->SetWorld(m_pHandR->CombinedTransformationMatrix);
 		m_pSphereL->SetWorld(m_pHandL->CombinedTransformationMatrix);
 

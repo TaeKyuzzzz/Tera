@@ -76,7 +76,12 @@ void cUIInfo::Render()
 
 void cUIInfo::ConnectNode(cUIObject* pParent)
 {
-if(m_pUIImage)pParent->AddChild(m_pUIImage);
-else if(m_pUIButtonImage)pParent->AddChild(m_pUIButtonImage);
+	if(m_pUIImage)pParent->AddChild(m_pUIImage);
+	else if(m_pUIButtonImage)pParent->AddChild(m_pUIButtonImage);
 
+}
+
+void cUIInfo::Disconnect(cUIObject* parentUI, int index)
+{
+	parentUI->DelChild(index);
 }

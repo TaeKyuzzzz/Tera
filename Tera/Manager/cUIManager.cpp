@@ -5,6 +5,7 @@
 #include "UI\cUIObject.h"
 #include "UI\cUIButton.h"
 #include "GameObject\Item\cItemInfo.h"
+#include "UI/cUIImageView.h"
 
 
 cUIManager::cUIManager()
@@ -21,6 +22,8 @@ cUIManager::~cUIManager()
 
 void cUIManager::Setup()
 {
+	hdc = GetDC(g_hWnd);
+
 	CreateUIList();
 	ConnectNode();
 
@@ -48,14 +51,47 @@ void cUIManager::Update()
 
 	//UIInfoTextPopUp("Inventory");
 
-	m_vUI[11]->Update();
-	m_vUI[11]->GetUIRoot()->SetAlpha(255);
+	for (int i = 11; i < m_vUI.size(); i++)
+	{
+		m_vUI[i]->Update();
+
+
+	}
+	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+	{
+		for (int i = 0; i < m_vUI.size(); i++)
+		{
+			if (m_vUI[i]->GetName() == "SkillLock")
+			{
+				if (m_vUI[i]->GetUIButtonImage()->GetIsCollision())
+				{
+					for (int j = 2; j < m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild().size(); j++)
+					{
+						m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild()[j]->
+							SetMove({ 0,0 });
+					}
+				}
+			}
+			else if (m_vUI[i]->GetName() == "SkillLockL2")
+			{
+				if (m_vUI[i]->GetUIButtonImage()->GetIsCollision())
+				{
+					for (int j = 2; j < m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild().size(); j++)
+					{
+						m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild()[j]->
+							SetMove({ 0,0 });
+					}
+				}
+
+			}
+		}
+	}
 }
 
 void cUIManager::Render()
 {
 
-	
+	//m_vUI[11]->GetUIRoot()->GetVecChild()[0]->
 
 
 	if (m_isCallInven)CallUIRender("Inventory");
@@ -63,10 +99,20 @@ void cUIManager::Render()
 	if (m_isCallShop)CallUIRender("ConsumablesShop");
 
 
-	m_vUI[11]->Render();
+	//RECT rc = m_vUI[11]->GetUIImage()->GetCollisionRect();
+	//
+	//Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
 
-	UIInfoTextPopUp("Status");
+	for (int i = 11; i < m_vUI.size(); i++)
+	{
+		
+		m_vUI[i]->Render();
+	
+	}
 
+	UIInfoTextPopUp(NULL, "Status");
+
+	UIInfoTextPopUp(m_vUI.size());
 
 }
 
@@ -122,8 +168,9 @@ void cUIManager::ConnectNode()
 			//부모이름과 같은 네임을 가진 녀석을 찾고
 			//부모이름 가진녀석에게 루트를 설정해줌
 			if (m_vUI[i]->GetParentName() == m_vUI[j]->GetName())
-			{
-				m_vUI[i]->ConnectNode(m_vUI[j]->GetUIRoot());
+			{				
+				if(!m_vUI[j]->GetParentName())m_vUI[i]->ConnectNode(m_vUI[j]->GetUIRoot());
+				else m_vUI[i]->ConnectNode(m_vUI[j]->GetUIImage());
 			}
 		}
 	}
@@ -259,25 +306,31 @@ int cUIManager::FindUIIndex(const char* szFindIndex)
 	}
 }
 
-void cUIManager::UIInfoTextPopUp(const char* szFindIndex)
+void cUIManager::UIInfoTextPopUp(int oneValue, const char* szNecessaryPlace)
 {
 	char szTemp[1024];
 	
+	if (szNecessaryPlace != NULL)
+	{
+		int FindIndex = FindUIIndex(szNecessaryPlace);
+		sprintf_s(szTemp, 1024, "x = %d \t y = %d", (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._41 - ptMouse.x
+			, (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._42 - ptMouse.y);
+	}
+	
+	else
+	{
+		sprintf_s(szTemp, 1024, "%d", oneValue);
+	}
 
-	int FindIndex = FindUIIndex(szFindIndex);
-	sprintf_s(szTemp, 1024, "x = %d \t y = %d", (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._41 - ptMouse.x
-		, (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._42 - ptMouse.y);
-	
-	
-	
-	RECT rc2;
-	SetRect(&rc2, 100, 100, 800, 200);
+
+	RECT rc;
+	SetRect(&rc, 100, 100, 800, 200);
 	
 	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA_BIG);
 	pFont->DrawTextA(NULL,
 		szTemp,
 		strlen(szTemp),
-		&rc2,
+		&rc,
 		DT_LEFT | DT_TOP,
 		D3DCOLOR_XRGB(255, 255, 0));
 	
