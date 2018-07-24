@@ -65,7 +65,7 @@ void cMainGame::Setup()
 	SCENEMANAGER->AddScene("BossLoading", new cSceneBossLoading);
 
 
-	SCENEMANAGER->ChangeScene("BossLoading");
+	SCENEMANAGER->ChangeScene("LobbyLoading");
 	
 	// 커서 설정하는 부분
 	//m_cursorArrow = TEXTUREMANAGER->GetTexture("Texture/Cursor/Arrow.png");
