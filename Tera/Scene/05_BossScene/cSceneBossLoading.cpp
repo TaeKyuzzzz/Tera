@@ -63,6 +63,8 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_Enter_SM_P2.X");
 	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_Enter_SM_P3.X");
 	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_Enter_SM_P4.X");
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/GilMark.X");
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/GateLock.X");  // ¹®
 
 	/////
 
