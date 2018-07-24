@@ -694,7 +694,7 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 	RECT statusRc = _UI->GetVUI()[statusIndex]->GetUIRoot()->GetCollisionRect();
 	
 	
-	RECT quickRc;
+	
 	RECT itemRc;
 	RECT temp;
 	RECT temp2;
@@ -705,7 +705,7 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 		{
 			if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollision())
 			{
-				quickRc = _UI->GetVQuickSlot()[i]->GetUIImage()->GetCollisionRect();
+				RECT quickRc = _UI->GetVQuickSlot()[i]->GetUIImage()->GetCollisionRect();
 
 				itemRc = (*vPlaceItem)[i]->GetUIRoot()->GetCollisionRect();
 
@@ -737,7 +737,7 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 		{
 			if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollision())
 			{
-				quickRc = _UI->GetVQuickSlot()[i]->GetUIImage()->GetCollisionRect();
+				RECT quickRc = _UI->GetVQuickSlot()[i]->GetUIImage()->GetCollisionRect();
 
 				itemRc = (*vPlaceItem)[i]->GetUIRoot()->GetCollisionRect();
 

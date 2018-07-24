@@ -45,10 +45,6 @@ void cUIManager::Update()
 
 	CallKeyInput();
 
-	m_isCallInven = true;
-	m_isCallStatus = true;
-	m_isCallShop = true;
-
 	if (m_isCallInven)		CallUIUpdate("Inventory");
 	if (m_isCallStatus)		CallUIUpdate("Status");
 	if (m_isCallShop)		CallUIUpdate("ConsumablesShop");
