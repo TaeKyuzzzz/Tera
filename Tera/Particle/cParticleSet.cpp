@@ -6,6 +6,7 @@ cParticleSet::cParticleSet()
 	: m_fCurTime(0.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
+	m_isStart = false;
 }
 
 
@@ -130,6 +131,8 @@ void cParticleSet::Update()
 {
 	m_fCurTime += TIMEMANAGER->GetEllapsedTime();
 	
+	if (m_fCurTime >= m_fTime)
+		m_isStart = false;
 
 	if (m_type == PTC_TYPE_LOOP)
 	{
@@ -207,6 +210,9 @@ void cParticleSet::RenderOnce()
 
 void cParticleSet::Start()
 {
+	if (m_isStart)
+		return;
+
 	for (int i = 0; i < m_vecParticle.size(); i++)
 	{
 		if (m_vecParticle[i]->GetIsUse() == false)

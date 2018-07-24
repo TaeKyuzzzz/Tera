@@ -112,12 +112,12 @@ void cSceneBoss::Render_Wall()
 	{
 		p.Render();
 	}
-
+	
 	for (auto p : m_pBossRoom_Road->m_vecBossRoom_Road)
 	{
 		p.Render();
 	}
-
+	
 	for (auto p : m_pBossRoom_Doll->m_vecBossRoom_Doll)
 	{
 		p.Render();

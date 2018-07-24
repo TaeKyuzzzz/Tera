@@ -36,8 +36,8 @@ void cBossRoom_Wall::Setup()
 
 	for (int i = 0; i < size; i++)
 	{
-		cXLoader  ground_meshX;
-		m_vecWallParts.push_back(ground_meshX.xFimeLoad(fileName[i]));
+		//cXLoader  ground_meshX;
+		m_vecWallParts.push_back(STATICMESHMANAGER->GetStaticMesh(fileName[i]));
 	}
 
 	for (int i = 0; i < 8; i++)
