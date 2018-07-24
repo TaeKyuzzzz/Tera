@@ -60,6 +60,14 @@ void cUIManager::Update()
 
 	}
 	QuickSlotFunc();
+
+	for (int i = 0; i < m_vQuickSlotItem.size(); i++)
+	{
+		RECT rc = m_vQuickSlotItem[i]->GetUIImage()->GetCollisionRect();
+
+		m_vQuickSlotItem[i]->GetUIImage()->SetCollisionRect({ rc.left + 11, rc.top + 11, rc.right - 11, rc.bottom - 11 });
+	}
+
 }
 
 void cUIManager::Render()
@@ -123,7 +131,7 @@ void cUIManager::CreateUI(UIType _UIType, const char* UIName, const char* filePa
 	_tagUIInfo._UIReduceDragSize = vec2ReduceDragSize;
 
 	if (strncmp(UIName, "Skill", 5) == 0)
-		m_vQuickSlot.push_back(m_pUIInfo);
+		m_vQuickSlotItem.push_back(m_pUIInfo);
 
 
 

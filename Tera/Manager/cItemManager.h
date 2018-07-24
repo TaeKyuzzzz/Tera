@@ -5,7 +5,7 @@
 enum eSlotType
 {
 	INVENTORY,
-	CONSUMABLESSHOP,
+	CONSHOP,
 	STATUSSLOT,
 	QUICKSLOT
 
@@ -188,6 +188,7 @@ public:
 	void BuyConsumables(int collisionNum);
 	void SetSkillSlot();
 	RECT FindCollisionQuickSlot();
+	void RegistQuickSlot();
 
 
 };
