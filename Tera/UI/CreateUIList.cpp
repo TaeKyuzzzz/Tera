@@ -31,7 +31,7 @@ void cUIManager::CreateUIList()
 	string szDragZone[11];
 	string szSkillSlot[11]; 
 
-	CreateUI(WINDOW, "DRAGZONE", "Texture/UIIcon/DragZone.png", D3DXVECTOR3(600, 630, 0), { 1,1 });
+	CreateUI(WINDOW, "DRAGZONE", "Texture/UIIcon/DragZone.png", D3DXVECTOR3(300, 730, 0), { 1,1 });
 	CreateUI(BUTTON, "SKILLLOCK", "Texture/UIIcon/SkillLock.png", "Texture/UIIcon/SkillLockUp.png", "Texture/UIIcon/SkillKey.png"
 		, D3DXVECTOR3(-16, 17, 0), "DRAGZONE");
 
@@ -55,13 +55,13 @@ void cUIManager::CreateUIList()
 			"Texture/UIIcon/KeyChangeOver.png", D3DXVECTOR3(22, 0, 0), szDragZoneC);
 
 	}
-
+	//630 700
 
 	char szNum2[3];
 	string szDragZone2[11];
 	string szSkillSlot2[11];
 
-	CreateUI(WINDOW, "DRAGZONE2", "Texture/UIIcon/DragZone.png", D3DXVECTOR3(600, 700, 0), { 1,1 });
+	CreateUI(WINDOW, "DRAGZONE2", "Texture/UIIcon/DragZone.png", D3DXVECTOR3(750, 730, 0), { 1,1 });
 	CreateUI(BUTTON, "SKILLLOCK2", "Texture/UIIcon/SkillLock.png", "Texture/UIIcon/SkillLockUp.png", "Texture/UIIcon/SkillKey.png"
 		, D3DXVECTOR3(-16, 17, 0), "DRAGZONE2");
 	
