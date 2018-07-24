@@ -249,6 +249,12 @@
     <ClInclude Include="UI\cUIInfo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\Monster\cMonster02.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\NPC\cPoalong.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -477,6 +483,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="UI\TextList.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Monster\cMonster02.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\NPC\cPoalong.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

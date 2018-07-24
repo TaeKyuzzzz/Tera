@@ -3,6 +3,7 @@
 #include "GameObject\Character\Player/cCharaPopori.h"
 #include "GameObject\Object\cDummyObj.h"
 #include "GameObject/Monster/cMonster01.h"
+#include "GameObject/NPC/cPoalong.h"
 #include "Sprite\cSprite.h"
 
 #include "GameObject/Town/cTown_House.h"
@@ -14,6 +15,7 @@ cSceneTest::cSceneTest()
 	, m_pDummy(NULL)
 	, m_pMonster01(NULL)
 	, m_pKelsaik(NULL)
+	, m_pPoalong(NULL)
 	, m_nBGBlackAlpha(255)
 {
 }
@@ -26,6 +28,7 @@ cSceneTest::~cSceneTest()
 	SAFE_DELETE(m_pDummy);
 	SAFE_DELETE(m_pMonster01);
 	SAFE_DELETE(m_pKelsaik);
+	SAFE_DELETE(m_pPoalong);
 	SAFE_DELETE(m_pMap);
 
 
@@ -51,6 +54,9 @@ void cSceneTest::Setup()
 	m_pMonster01->SetPosition(m_pMonster01->GetSpot());
 	OBJECTMANAGER->AddMonsterObject(m_pMonster01);
 
+	m_pPoalong = new cPoalong;
+	m_pPoalong->Setup();
+
 	m_pTown_House = new cTown_House;
 	m_pTown_House->Setup();
 
@@ -59,6 +65,7 @@ void cSceneTest::Setup()
 
 	m_pPopori->SetMap(m_pMap);
 	m_pMonster01->SetMap(m_pMap);
+	m_pPoalong->SetMap(m_pMap);
 	
 	OBJECTMANAGER->AddObject(m_pDummy);
 	//SOUNDMANAGER->Stop("Loading");
@@ -73,6 +80,7 @@ void cSceneTest::Release()
 	SAFE_DELETE(m_pPopori);
 	SAFE_DELETE(m_pDummy);
 	SAFE_DELETE(m_pMonster01);
+	SAFE_DELETE(m_pPoalong);
 	SAFE_DELETE(m_pMap);
 
 
@@ -93,6 +101,8 @@ void cSceneTest::Update()
 
 	//if (KEYMANAGER->IsOnceKeyDown('U'))
 	m_pMonster01->Update();
+
+	m_pPoalong->Update();
 
 	PARTICLEMANAGER->Update();
 
@@ -120,8 +130,10 @@ void cSceneTest::Render()
 	//m_pMap->Render(); //Ground Map Rendering은 GameObject/Town에서 한다.
 	m_pTown_House->Render();
 
-	
+	m_pPoalong->Render();
 	m_pMonster01->Render();
+
+	//포포리가 제일 나중에 렌더되어야 한다.
 	m_pPopori->Render();
 	
 	PARTICLEMANAGER->Render();
