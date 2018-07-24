@@ -66,6 +66,16 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->InitForStaticMesh("XFile/Boss_Room/GilMark.X");
 	m_pLoading->InitForStaticMesh("XFile/Boss_Room/GateLock.X");  // 문
 
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_SM_P4.X");
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_SM_P1.X");
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_SM_P2.X");
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_SM_P5.X");
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Room_A_SM_P3.X");
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Cor02_A_02_Floor_SM.X");
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Cor02_A_02_SM.X");
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_TES_RCELV02_SM_1.X");
+	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_TES_RCELV02_SM_2.X");
+	
 	/////
 
 	m_pLoading->IniteForParticle("explosion", "Texture/Particle/explosion.txt");
@@ -79,11 +89,12 @@ void cSceneBossLoading::TotalLoading()
 	// 보스가 사용하는 파티클
 	m_pLoading->IniteForParticle("IceHand2", "Texture/Particle/IceHand2.txt");
 	m_pLoading->IniteForParticle("FireHand", "Texture/Particle/FireHand.txt");
-//	m_pLoading->IniteForParticle("explosion", "Texture/Particle/explosion.txt");
-//	m_pLoading->IniteForParticle("explosion", "Texture/Particle/explosion.txt");
+	m_pLoading->IniteForParticle("FireEffect", "Texture/Particle/Boss_FireEffect.txt");
+	m_pLoading->IniteForParticle("IceEffect", "Texture/Particle/Boss_IceEffect.txt");
 
 	// x 파일
-	m_pLoading->InitForStaticMesh("XFile/Map/Field/ANC_B_4858_SL.X"); //무거운 파일을 먼저 로딩한다. 늦게하면 메모리에 안올라간다.
+
+	m_pLoading->InitForSkinnedMesh("XFile/Monster", "kelsaik3.X");
 
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Head", "Hair01.X");
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Armor/Body", "Body_00.X");

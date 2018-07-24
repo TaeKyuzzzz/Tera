@@ -14,6 +14,7 @@ private :
 
 	SYNTHESIZE(D3DXMATRIX, m_matWorld, World);
 
+	bool					m_isStart;
 
 	vector<cParticle*>		m_vecParticle;
 	PARTICLE_TYPE			m_type;

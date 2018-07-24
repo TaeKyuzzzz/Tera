@@ -23,9 +23,9 @@ cSceneBoss::~cSceneBoss()
 	SAFE_DELETE(m_pBossRoom_Doll);
 	SAFE_DELETE(m_pBackGroundBlack);
 	SAFE_DELETE(m_pPopori);
-	SAFE_DELETE(m_pKelsaik);
+	//SAFE_DELETE(m_pKelsaik);
 
-	Destroy();
+	//Destroy();
 }
 
 void cSceneBoss::Setup()
@@ -112,12 +112,12 @@ void cSceneBoss::Render_Wall()
 	{
 		p.Render();
 	}
-
+	
 	for (auto p : m_pBossRoom_Road->m_vecBossRoom_Road)
 	{
 		p.Render();
 	}
-
+	
 	for (auto p : m_pBossRoom_Doll->m_vecBossRoom_Doll)
 	{
 		p.Render();
