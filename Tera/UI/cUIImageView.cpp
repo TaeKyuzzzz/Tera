@@ -24,7 +24,7 @@ void cUIImageView::SetTexture(const char * szFullPath)
 	m_stSize.fHeight = stImageInfo.Height;
 	m_stSize.fWidth = stImageInfo.Width;
 
-	m_enClickState = NON;
+	m_enClickState = NEVERCLICKED;
 
 	m_nAlpha = UIMANAGER->GetAlpha();
 

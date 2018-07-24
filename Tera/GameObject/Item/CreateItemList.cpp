@@ -4,8 +4,12 @@
 void cItemManager::CreateItemList()
 {
 	//아이템 설명창
-	CreateItem("ItemExplaneWindow", "Texture/UIIcon/ItemInfoWindow.png", NOTANITEM, NULL, NULL, m_vItemAssistant);
-	CreateItem("Gold", "Texture/UIIcon/Gold.png", NOTANITEM, NULL, NULL, m_vItemAssistant, "ItemExplaneWindow");
+	CreateItem("ItemExplaneWindow", "Texture/UIIcon/ItemInfoWindow.png", NOTANITEM, NULL, NULL, m_vEtcIcon);
+	CreateItem("Gold", "Texture/UIIcon/Gold.png", NOTANITEM, NULL, NULL, m_vEtcIcon, "ItemExplaneWindow");
+	CreateItem("SwordDance", "Texture/ItemIcon/SwordDance.png", SKILLICON, NULL, NULL, m_vEtcIcon);
+	CreateItem("HitDown", "Texture/ItemIcon/HitDown.png", SKILLICON, NULL, NULL, m_vEtcIcon);
+	CreateItem("SideSlash", "Texture/ItemIcon/SideSlash.png", SKILLICON, NULL, NULL, m_vEtcIcon);
+	CreateItem("Piercing", "Texture/ItemIcon/Piercing.png", SKILLICON, NULL, NULL, m_vEtcIcon);
 
 #pragma region copyItem
 	CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", NOTANITEM, 50, 50, m_vItemImitation, "ItemExplaneWindow");
@@ -52,12 +56,12 @@ void cItemManager::CreateItemList()
 	
 	
 	CreateItem("대검", "Texture/ItemIcon/Claymore.png", WEAPON, 15, 200, m_vStatusItem);
-	CreateItem("아이스소드", "Texture/ItemIcon/TwohandIce.png", WEAPON, 150, 4000, m_vInvenItem);
+	CreateItem("아이스소드", "Texture/ItemIcon/TwohandIce.png", WEAPON, 150, 4000, m_vShopItem);
 	CreateItem("스카이소드", "Texture/ItemIcon/TwohandSky.png", WEAPON, 100, 3000, m_vInvenItem);
 	CreateItem("고등어", "Texture/ItemIcon/TwohandFish.png", WEAPON, 50,2000, m_vInvenItem);
 	//
 	//블랙셋트
-	CreateItem("검은마력의옷", "Texture/ItemIcon/BlackClothes.png", ARMOR, 75, 3600, m_vInvenItem);
+	CreateItem("검은마력의옷", "Texture/ItemIcon/BlackClothes.png", ARMOR, 75, 3600, m_vShopItem);
 	CreateItem("검은마력의신발", "Texture/ItemIcon/BlackShoes.png", SHOES, 25 , 1400, m_vInvenItem);
 	CreateItem("검은마력의장갑", "Texture/ItemIcon/BlackGlove.png", GLOVES, 20, 1100, m_vInvenItem);
 	

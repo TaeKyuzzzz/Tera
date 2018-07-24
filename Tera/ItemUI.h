@@ -78,7 +78,8 @@ enum tagItemKindAndETC
 	SHOES,
 	POTION,
 	ETCCONSUMABLES,
-	NOTANITEM
+	NOTANITEM,
+	SKILLICON
 };
 
 struct tagItemInfo

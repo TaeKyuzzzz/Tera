@@ -21,18 +21,18 @@ cItemManager::cItemManager()
 
 cItemManager::~cItemManager()
 {
-	//SAFE_DELETE(m_pItemInfo);
+	
 }
 
 void cItemManager::Setup()
 {
 	UITextList();
 	
-	hdc = GetDC(g_hWnd);
 	//슬롯만들기
 	SetItemSlot(INVENTORY);
 	SetItemSlot(CONSUMABLESSHOP);
 	SetItemSlot(STATUSSLOT);
+	//SetItemSlot(QUICKSLOT);
 
 	//아이템목록에 있는 아이템 생성하기
 	CreateItemList();
@@ -43,8 +43,7 @@ void cItemManager::Setup()
 
 void cItemManager::Update()
 {
-
-
+	
 	//슬롯을 가지고 있는 UI의 위치를 갱신하여
 	//슬롯의 위치도 갱신시켜준다.
 	UIPosRenewal("Inventory");
@@ -57,13 +56,6 @@ void cItemManager::Update()
 	//드래그하는 동안의 예외설정
 	ExceptionsWhileDragging();
 
-
-
-	//MoveFromAToB(m_vInvenItem, m_vShopSlot);
-	//MoveFromAToB(m_vShopItem, m_vInvenSlot);
-	//MoveFromAToB(m_vInvenItem, m_vStatusSlot);
-
-	
 	ClickUseItemThisPlace(m_vInvenItem, "Inventory");
 	ClickUseItemThisPlace(m_vStatusItem, "Status");
 	ClickUseItemThisPlace(m_vShopItem, "ConsumablesShop");
@@ -73,11 +65,22 @@ void cItemManager::Update()
 	//아이템 설명창 업데이트
 	ItemExplaneUpdate();
 	
+	for (int i = 0; i < SLOTTYPEMAX; i++)
+	{
+		MoveFromAToB(i);
+	}
+
+	SetSkillSlot();
+
 	//슬롯 내 정렬
 	SortInSlot();
 
+
+
 	//각자 장소에 있는 아이템 모두 업데이트
 	ItemUpdate();
+
+
 	
 	//char텍스트와 int텍스트 로드
 	ItemInfoCTextRenewal("아이템정보");
@@ -102,27 +105,35 @@ void cItemManager::Render()
 		m_vText[i]->Render();
 	}
 
-	//값 찍어보기
+	
+
+	
+
+
+	////값 찍어보기
 	//char szTemp[1024];	
-	//sprintf_s(szTemp, 1024, "인벤아이템갯수 : %d, \n 장비창아이템갯수 : %d"
-	//	, m_vInvenItem.size(), m_vStatusItem.size());
+	//sprintf_s(szTemp, 1024, 
+	//	"인벤아이템갯수 : %d, \n 장비창아이템갯수 : %d, \n 샵아이템갯수 : %d, \n 퀵슬롯 아이콘갯수 : %d, \n 좌표 x,y %d \t %d"
+	//	, m_vInvenItem.size(), m_vStatusItem.size(), m_vShopItem.size(), m_vQuickItem.size(), 
+	//	(int)m_vInvenItem[0]->GetUIRoot()->GetPosition().x, (int)m_vInvenItem[0]->GetUIRoot()->GetPosition().y);
 	//RECT rc2;
 	//SetRect(&rc2, 100, 200, 800, 400);
-	//LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA, { 30, 20 });
+	//LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA_BIG);
 	//pFont->DrawTextA(NULL,
 	//	szTemp,
 	//	strlen(szTemp),
 	//	&rc2,
 	//	DT_LEFT | DT_TOP,
 	//	D3DCOLOR_XRGB(255, 255, 0));
-	//pFont->Release();
+	////pFont->Release();
 
-
+	//Rectangle(hdc, tempRc.left, tempRc.top, tempRc.right, tempRc.bottom);
 }
 
 void cItemManager::Destroy()
 {
-	SAFE_DELETE(m_pItemInfo);
+	SAFE_DELETE(m_pItemTextInfo);
+
 }
 
 void cItemManager::CreateText(tagText _tagText)
@@ -364,7 +375,7 @@ int cItemManager::FindSalePriceValue()
 		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
 		{
 
-			int shopIDX = _UI->FindUIIndex("ConsumablesShop");
+			int shopIDX = _UI->FindUIRootIndex("ConsumablesShop");
 			RECT itemRc = m_vAllItem[i]->GetUIRoot()->GetCollisionRect();
 			RECT shopUIRc = _UI->GetVUI()[shopIDX]->GetUIRoot()->GetCollisionRect();
 			RECT tempRc;
@@ -393,7 +404,7 @@ const char * cItemManager::FindItemPos()
 		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
 		{
 
-			int shopIDX = _UI->FindUIIndex("ConsumablesShop");
+			int shopIDX = _UI->FindUIRootIndex("ConsumablesShop");
 			RECT shopUIRc = _UI->GetVUI()[shopIDX]->GetUIRoot()->GetCollisionRect();
 
 			RECT shopUIRcResize;
@@ -430,9 +441,9 @@ void cItemManager::ItemExplaneUpdate()
 	}
 
 	//툴팁창
-	m_vItemAssistant[0]->Update();
-	m_vItemAssistant[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x + 20, ptMouse.y + 20, 0));
-	m_vItemAssistant[1]->GetUIImage()->SetPosition(D3DXVECTOR3(110, 200, 0));
+	m_vEtcIcon[0]->Update();
+	m_vEtcIcon[0]->GetUIRoot()->SetPosition(D3DXVECTOR3(ptMouse.x + 20, ptMouse.y + 20, 0));
+	m_vEtcIcon[1]->GetUIImage()->SetPosition(D3DXVECTOR3(110, 200, 0));
 }
 
 void cItemManager::CreateItem(const char* itemName, const char* filePath, tagItemKindAndETC itemType, int itemAbility, int itemSalePrice, vItem& vPlaceItem, const char* szParrentName)
@@ -458,7 +469,7 @@ void cItemManager::CreateItem(const char* itemName, const char* filePath, tagIte
 	//this클래스의 벡터에 포인터로 저장
 	vPlaceItem.push_back(m_pItemInfo);
 
-	//아이템의 종류가 아닐땐 아이템설명창 정보에 넣어준다.
+	//아이템의 종류가 아닐땐 관리벡터에 넣지 않는다.
 	if (itemType != NOTANITEM) 
 	{
 
@@ -471,7 +482,7 @@ void cItemManager::CreateItem(const char* itemName, const char* filePath, tagIte
 
 }
 
-void cItemManager::SetItemSlot(enumSlotType itemSlotType)
+void cItemManager::SetItemSlot(eSlotType itemSlotType)
 {	
 
 	if (itemSlotType == STATUSSLOT)
@@ -496,6 +507,13 @@ void cItemManager::SetItemSlot(enumSlotType itemSlotType)
 			m_vStatusSlot.push_back(_tagItemPos);
 		}
 	}
+
+	//else if (itemSlotType == QUICKSLOT)
+	//{
+	//	tagItemPos _tagItemPos;
+
+
+	//}
 
 	else
 	{
@@ -564,7 +582,7 @@ void cItemManager::SetItemSlot(enumSlotType itemSlotType)
 }
 
 
-void cItemManager::ItemSlotPosRenewal(enumSlotType itemSlotType, D3DXVECTOR3 placePos)
+void cItemManager::ItemSlotPosRenewal(eSlotType itemSlotType, D3DXVECTOR3 placePos)
 {
 	if (itemSlotType == INVENTORY)
 	{
@@ -654,63 +672,119 @@ void cItemManager::ItemSlotPosRenewal(enumSlotType itemSlotType, D3DXVECTOR3 pla
 	}
 }
 
-void cItemManager::MoveFromAToB(vItem& sendItem, vector<tagItemPos>& receivePlace)
+void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 {
-	
+
+	vector<cItemInfo*>* vPlaceItem = NULL;
+
+	if (_eSlotTypeNum == INVENTORY) vPlaceItem = &m_vInvenItem;
+	else if (_eSlotTypeNum == CONSUMABLESSHOP)vPlaceItem = &m_vShopItem;
+	else if (_eSlotTypeNum == STATUSSLOT) vPlaceItem = &m_vStatusItem;
+	else if (_eSlotTypeNum == QUICKSLOT)vPlaceItem = &m_vQuickItem;
+
+	int invenIndex = _UI->FindUIRootIndex("Inventory");
+	int statusIndex = _UI->FindUIRootIndex("Status");
+	int conShopIndex = _UI->FindUIRootIndex("ConsumablesShop");
+	int itemColIndex = 0;
+	int prevPlace = 0;
+	int newPlace = 0;
+
+	RECT invenRc = _UI->GetVUI()[invenIndex]->GetUIRoot()->GetCollisionRect();
+	RECT conShopRc = _UI->GetVUI()[conShopIndex]->GetUIRoot()->GetCollisionRect();
+	RECT statusRc = _UI->GetVUI()[statusIndex]->GetUIRoot()->GetCollisionRect();
+	RECT quickRc[16]; 
+	for (int i = 0; i < 16; i++)
+	{
+		quickRc[i] = _UI->GetVQuickSlot()[i]->GetUIImage()->GetCollisionRect();
+	}
+
+	RECT itemRc;
+	RECT temp;
+	RECT temp2;
+
 	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 	{
-
-		for (int i = 0; i < sendItem.size(); i++)
+		for (int i = 0; i < (*vPlaceItem).size(); i++)
 		{
-			if (sendItem[i]->GetUIRoot()->GetClickState() == CLICK)
+			if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollision())
 			{
-				m_vClickedIndex = i;
+				itemRc = (*vPlaceItem)[i]->GetUIRoot()->GetCollisionRect();
+
+				if (IntersectRect(&temp, &invenRc, &itemRc))
+				{
+					prevPlace = INVENTORY;
+				}
+				else if (IntersectRect(&temp, &conShopRc, &itemRc))
+				{
+					prevPlace = CONSUMABLESSHOP;
+
+				}
+				else if (IntersectRect(&temp, &statusRc, &itemRc))
+				{
+					prevPlace = STATUSSLOT;
+				}
+				else if (IntersectRect(&temp, &quickRc[i], &itemRc))
+				{
+					prevPlace = QUICKSLOT;
+				}
+		
 			}
-			//else if(sendItem[i]->GetUIRoot()->GetClickState() == NON)
-			//{
-			//	m_vClickedIndex = NONEINDEX;
-			//}
+
 		}
 	}
-
-
 	if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 	{
-		for (int i = 0; i < receivePlace.size(); i++)
+		for (int i = 0; i < (*vPlaceItem).size(); i++)
 		{
-			if (PtInRect(&receivePlace[i].rc, ptMouse))
+			if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollision())
 			{
-				//if (m_vClickedIndex != NONEINDEX)
-				//{
-					//샵에 보낼때
-					if (receivePlace[i].GetSlotType() == CONSUMABLESSHOP)
-					{					
-						m_vShopItem.push_back(sendItem[m_vClickedIndex]);
-						//보낸거 지워줌
-						sendItem.erase(sendItem.begin() + m_vClickedIndex);
-					}
+				itemRc = (*vPlaceItem)[i]->GetUIRoot()->GetCollisionRect();
 
-					//인벤에 받을때
-					else if (receivePlace[i].GetSlotType() == INVENTORY)
-					{
-						m_vInvenItem.push_back(sendItem[m_vClickedIndex]);
-						sendItem.erase(sendItem.begin() + m_vClickedIndex);
+				if (IntersectRect(&temp, &invenRc, &itemRc))
+				{			
+					if (_eSlotTypeNum != INVENTORY)
+					{ 
+						if (i < 8)BuyConsumables(i);
+						else
+						{
+							m_vInvenItem.push_back((*vPlaceItem)[i]);
+							(*vPlaceItem).erase((*vPlaceItem).begin() + i);
+						}
 					}
-
-					//장비창에 받을때
-					else if (receivePlace[i].GetSlotType() == STATUSSLOT)
+				}
+				else if (IntersectRect(&temp, &conShopRc, &itemRc))
+				{
+					if (_eSlotTypeNum != CONSUMABLESSHOP)
 					{
-						m_vStatusItem.push_back(sendItem[m_vClickedIndex]);
-						sendItem.erase(sendItem.begin() + m_vClickedIndex);
+						m_vShopItem.push_back((*vPlaceItem)[i]);
+						(*vPlaceItem).erase((*vPlaceItem).begin() + i);
 					}
-				//}
-				
+				}
+				else if (IntersectRect(&temp, &statusRc, &itemRc))
+				{
+					if (_eSlotTypeNum != STATUSSLOT)
+					{
+						m_vStatusItem.push_back((*vPlaceItem)[i]);
+						(*vPlaceItem).erase((*vPlaceItem).begin() + i);
+					}
+				}
+				else if (IntersectRect(&temp, &quickRc[i], &itemRc))
+				{
+					if (_eSlotTypeNum != QUICKSLOT)
+					{
+						m_vQuickItem.push_back((*vPlaceItem)[i]);
+						(*vPlaceItem).erase((*vPlaceItem).begin() + i);
+					}
+				}
 
 			}
 		}
 	}
-
 }
+
+
+
+
 
 void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPlaceName)
 {
@@ -744,16 +818,7 @@ void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPla
 						
 						if (i < 8)
 						{
-							if (m_vInvenItem.size() > 39) continue;
-							
-							if (i % 8 == 0 && m_nGold > 250 )CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", POTION, 50, 50, m_vInvenItem), CalculatorGold(-250);
-							if (i % 8 == 1 && m_nGold > 500 )CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", POTION, 100, 100, m_vInvenItem), CalculatorGold(-500);
-							if (i % 8 == 2 && m_nGold > 1000 )CreateItem("상급회복물약", "Texture/ItemIcon/HPBig.png", POTION, 150, 200, m_vInvenItem), CalculatorGold(-1000);
-							if (i % 8 == 3 && m_nGold > 300 )CreateItem("하급마나물약", "Texture/ItemIcon/MPSmall.png", POTION, 50, 60, m_vInvenItem), CalculatorGold(-300);
-							if (i % 8 == 4 && m_nGold > 600)CreateItem("중급마나물약", "Texture/ItemIcon/MPMid.png", POTION, 100, 120, m_vInvenItem), CalculatorGold(-600);
-							if (i % 8 == 5 && m_nGold > 1200)CreateItem("상급마나물약", "Texture/ItemIcon/MPBig.png", POTION, 150, 240, m_vInvenItem), CalculatorGold(-1200);
-							if (i % 8 == 6 && m_nGold > 1000)CreateItem("미스테리부적", "Texture/ItemIcon/MysteryPaper.png", ETCCONSUMABLES, 0, 200, m_vInvenItem), CalculatorGold(-1000);
-							if (i % 8 == 7 && m_nGold > 2000)CreateItem("마을귀환서", "Texture/ItemIcon/CityRecall.png", ETCCONSUMABLES, 0, 400, m_vInvenItem), CalculatorGold(-2000);
+							BuyConsumables(i);
 						}
 						else
 						{
@@ -808,7 +873,7 @@ void cItemManager::ConnectNodeCommand()
 	{
 		if (m_vText[i]->GetParentName() == "ItemExplaneWindow")
 		{
-			m_vText[i]->ConnectNode(m_vItemAssistant[0]->GetUIRoot());
+			m_vText[i]->ConnectNode(m_vEtcIcon[0]->GetUIRoot());
 		}
 	}
 
@@ -826,24 +891,24 @@ void cItemManager::ConnectNodeCommand()
 	}
 
 	//itemAssistant끼리의 연결
-	for (int i = 0; i < m_vItemAssistant.size(); i++)
+	for (int i = 0; i < m_vEtcIcon.size(); i++)
 	{
-		for (int j = 0; j < m_vItemAssistant.size(); j++)
+		for (int j = 0; j < m_vEtcIcon.size(); j++)
 		{
-			if (m_vItemAssistant[i]->GetParentName() == m_vItemAssistant[j]->GetName())
+			if (m_vEtcIcon[i]->GetParentName() == m_vEtcIcon[j]->GetName())
 			{
-				m_vItemAssistant[i]->ConnectNode(m_vItemAssistant[j]->GetUIRoot());
+				m_vEtcIcon[i]->ConnectNode(m_vEtcIcon[j]->GetUIRoot());
 			}
 		}
 	}
 
 	for (int i = 0; i < m_vItemImitation.size(); i++)
 	{
-		for (int j = 0; j < m_vItemAssistant.size(); j++)
+		for (int j = 0; j < m_vEtcIcon.size(); j++)
 		{
-			if (m_vItemImitation[i]->GetParentName() == m_vItemAssistant[j]->GetName())
+			if (m_vItemImitation[i]->GetParentName() == m_vEtcIcon[j]->GetName())
 			{
-				m_vItemImitation[i]->ConnectNode(m_vItemAssistant[j]->GetUIRoot());
+				m_vItemImitation[i]->ConnectNode(m_vEtcIcon[j]->GetUIRoot());
 			}
 		}
 	}
@@ -854,85 +919,28 @@ void cItemManager::ConnectNodeCommand()
 void cItemManager::ExceptionsWhileDragging()
 {
 
-	for (int i = 0; i < m_vInvenItem.size(); i++)
+
+
+	for (int i = 0; i < m_vAllItem.size(); i++)
 	{
-		m_vInvenItem[i]->GetUIImage()->SetIsMove(false);
-	}
-
-	for (int i = 0; i < m_vShopItem.size(); i++)
-	{
-		m_vShopItem[i]->GetUIImage()->SetIsMove(false);
-	}
-
-	for (int i = 0; i < m_vStatusItem.size(); i++)
-	{
-		m_vStatusItem[i]->GetUIImage()->SetIsMove(false);
-	}
-
-	int clickedIndex = INDEXOUTOFRANGE;
-
-		if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
+		for (int j = 0; j < m_vAllItem.size(); j++)
 		{
+			m_vAllItem[i]->GetUIRoot()->SetIsMove(false);
 
-			//Inven
-			for (int i = 0; i < m_vInvenItem.size(); i++)
+			if (m_vAllItem[i]->GetUIRoot()->GetClickState() == CLICK)
 			{
-				//클릭중인 녀석만 clicking
-				if (m_vInvenItem[i]->GetUIImage()->GetClickState() == CLICK)clickedIndex = i;
-
-				else
-				{
-					m_vInvenItem[i]->GetUIImage()->SetClickState(UNMOVABLE);
-
-
-					//UI와의 충돌
-					for (int j = 0; j < _UI->GetVUI().size(); j++)
-					{
-
-
-					}
-				}
-
+				if(i != j)m_vAllItem[j]->GetUIRoot()->SetClickState(UNMOVABLE);
 			}
+		}
+	}
 
-			//Shop
-			for (int i = 0; i < m_vShopItem.size(); i++)
-			{
-				//클릭중인 녀석만 clicking
-				if (m_vShopItem[i]->GetUIImage()->GetClickState() == CLICK)clickedIndex = i;
-
-				else
-				{
-					m_vShopItem[i]->GetUIImage()->SetClickState(UNMOVABLE);
-
-
-					//UI와의 충돌
-					for (int j = 0; j < _UI->GetVUI().size(); j++)
-					{
-
-
-					}
-				}
-
-			}
-
+	if(KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
+		for (int i = 0; i < m_vAllItem.size(); i++)
+		{
+			m_vAllItem[i]->GetUIRoot()->SetClickState(NON);
 		}
 
 
-		if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
-		{
-			//Inven
-			//키 해제시 키 상태 모두 NON으로 셋팅
-			for (int i = 0; i < m_vInvenItem.size(); i++)
-			{
-				m_vInvenItem[i]->GetUIImage()->SetClickState(NON);
-			}
-			//Shop
-			for (int i = 0; i < m_vShopItem.size(); i++)
-			{
-				m_vShopItem[i]->GetUIImage()->SetClickState(NON);			
-		}
-	}		
 }
 
 void cItemManager::SortInSlot()
@@ -961,6 +969,11 @@ void cItemManager::SortInSlot()
 	for (int i = 0; i < m_vInvenItem.size(); i++)
 	{
 		m_vInvenItem[i]->TransPos(m_vInvenSlot[i].vec3Pos);
+	}
+
+	for (int i = 0; i < m_vQuickItem.size(); i++)
+	{
+		m_vQuickItem[i]->TransPos(m_pVec3SlotPos[i]);
 	}
 
 
@@ -1000,6 +1013,11 @@ void cItemManager::ItemUpdate()
 		}
 	}
 
+	for (int i = 0; i < m_vQuickItem.size(); i++)
+	{
+		m_vQuickItem[i]->Update();
+	}
+
 
 
 }
@@ -1032,6 +1050,11 @@ void cItemManager::ItemRender()
 			m_vStatusItem[i]->Render();
 		}
 	}
+
+	for (int i = 0; i < m_vQuickItem.size(); i++)
+	{
+		m_vQuickItem[i]->Render();
+	}
 }
 
 void cItemManager::ItemRenewalThisPlace(vItem& _vVectorName)
@@ -1061,7 +1084,7 @@ void cItemManager::EquipmentWearBack(cItemInfo* _placeItem)
 
 void cItemManager::SalesItemCalculator()
 {
-	int saleBT = _UI->FindUIIndex("SaleBT");
+	int saleBT = _UI->FindUIRootIndex("SaleBT");
 	
 
 	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
@@ -1082,12 +1105,57 @@ void cItemManager::SalesItemCalculator()
 	}
 }
 
+void cItemManager::BuyConsumables(int collisionNum)
+{
+	if (m_vInvenItem.size() <= 39)
+	{
+		if (collisionNum % 8 == 0 && m_nGold > 250)CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", POTION, 50, 50, m_vInvenItem), CalculatorGold(-250);
+		if (collisionNum % 8 == 1 && m_nGold > 500)CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", POTION, 100, 100, m_vInvenItem), CalculatorGold(-500);
+		if (collisionNum % 8 == 2 && m_nGold > 1000)CreateItem("상급회복물약", "Texture/ItemIcon/HPBig.png", POTION, 150, 200, m_vInvenItem), CalculatorGold(-1000);
+		if (collisionNum % 8 == 3 && m_nGold > 300)CreateItem("하급마나물약", "Texture/ItemIcon/MPSmall.png", POTION, 50, 60, m_vInvenItem), CalculatorGold(-300);
+		if (collisionNum % 8 == 4 && m_nGold > 600)CreateItem("중급마나물약", "Texture/ItemIcon/MPMid.png", POTION, 100, 120, m_vInvenItem), CalculatorGold(-600);
+		if (collisionNum % 8 == 5 && m_nGold > 1200)CreateItem("상급마나물약", "Texture/ItemIcon/MPBig.png", POTION, 150, 240, m_vInvenItem), CalculatorGold(-1200);
+		if (collisionNum % 8 == 6 && m_nGold > 1000)CreateItem("미스테리부적", "Texture/ItemIcon/MysteryPaper.png", ETCCONSUMABLES, 0, 200, m_vInvenItem), CalculatorGold(-1000);
+		if (collisionNum % 8 == 7 && m_nGold > 2000)CreateItem("마을귀환서", "Texture/ItemIcon/CityRecall.png", ETCCONSUMABLES, 0, 400, m_vInvenItem), CalculatorGold(-2000);
+	}
+}
+
+void cItemManager::SetSkillSlot()
+{
+	//m_pVec3SlotPos = new D3DXVECTOR3[_UI->GetVQuickSlot().size()];
+	
+	//int dragZoneIndex = _UI->FindUIRootIndex("DRAGZONE");
+
+	//_UI->GetVQuickSlot()[0]->GetUIImage()->GetMatWorld()._41;
+
+	//RECT dragZone = _UI->GetVUI()[dragZoneIndex]->GetUIRoot()->GetCollisionRect();
+
+	for (int i = 0; i < _UI->GetVQuickSlot().size(); i++)
+	{
+		quickRc[i] = _UI->GetVQuickSlot()[i]->GetUIImage()->GetCollisionRect();
+
+		m_pVec3SlotPos[i].x = quickRc[i].left + 11;
+		m_pVec3SlotPos[i].y = quickRc[i].top + 11;
+		m_pVec3SlotPos[i].z = 0;
+	}
+	
+	
+
+	
+	
+	
+
+
+
+
+}
+
 void cItemManager::ItemExplaneRender()
 {
 
-	int ShopIdx = _UI->FindUIIndex("ConsumablesShop");
-	int StatusIdx = _UI->FindUIIndex("Status");
-	int InventoryIdx = _UI->FindUIIndex("Inventory");
+	int ShopIdx = _UI->FindUIRootIndex("ConsumablesShop");
+	int StatusIdx = _UI->FindUIRootIndex("Status");
+	int InventoryIdx = _UI->FindUIRootIndex("Inventory");
 
 	
 	RECT tempRc;
@@ -1106,7 +1174,7 @@ void cItemManager::ItemExplaneRender()
 				_UI->GetIsCallStatus() && IntersectRect(&tempRc, &itemRc, &statusRc))
 			{
 				isPlaceItemCollision = true;
-				m_vItemAssistant[0]->Render();
+				m_vEtcIcon[0]->Render();
 			}
 			else isPlaceItemCollision = false;
 	

@@ -9,20 +9,19 @@
 
 
 cUIManager::cUIManager()
-	:m_nAlpha(200)
+	:m_nAlpha(100)
 {
 }
 
 
 cUIManager::~cUIManager()
 {
-	//SAFE_DELETE(m_pUIInfo);
-	//m_pUIInfo->
+	
 }
 
 void cUIManager::Setup()
 {
-	hdc = GetDC(g_hWnd);
+	
 
 	CreateUIList();
 	ConnectNode();
@@ -37,6 +36,8 @@ void cUIManager::Setup()
 
 void cUIManager::Update()
 {
+
+
 	//closeIdel µÚÀÇ I = Inventory S = Status C = ConsumablesShop
 	CloseUI("closeIdleI");
 	CloseUI("closeIdleS");
@@ -44,10 +45,15 @@ void cUIManager::Update()
 
 	CallKeyInput();
 
+	m_isCallInven = true;
+	m_isCallStatus = true;
+	m_isCallShop = true;
 
 	if (m_isCallInven)		CallUIUpdate("Inventory");
 	if (m_isCallStatus)		CallUIUpdate("Status");
 	if (m_isCallShop)		CallUIUpdate("ConsumablesShop");
+
+
 
 	//UIInfoTextPopUp("Inventory");
 
@@ -57,35 +63,7 @@ void cUIManager::Update()
 
 
 	}
-	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
-	{
-		for (int i = 0; i < m_vUI.size(); i++)
-		{
-			if (m_vUI[i]->GetName() == "SkillLock")
-			{
-				if (m_vUI[i]->GetUIButtonImage()->GetIsCollision())
-				{
-					for (int j = 2; j < m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild().size(); j++)
-					{
-						m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild()[j]->
-							SetMove({ 0,0 });
-					}
-				}
-			}
-			else if (m_vUI[i]->GetName() == "SkillLockL2")
-			{
-				if (m_vUI[i]->GetUIButtonImage()->GetIsCollision())
-				{
-					for (int j = 2; j < m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild().size(); j++)
-					{
-						m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild()[j]->
-							SetMove({ 0,0 });
-					}
-				}
-
-			}
-		}
-	}
+	QuickSlotFunc();
 }
 
 void cUIManager::Render()
@@ -94,14 +72,23 @@ void cUIManager::Render()
 	//m_vUI[11]->GetUIRoot()->GetVecChild()[0]->
 
 
+
+
 	if (m_isCallInven)CallUIRender("Inventory");
 	if (m_isCallStatus)CallUIRender("Status");
 	if (m_isCallShop)CallUIRender("ConsumablesShop");
 
 
-	//RECT rc = m_vUI[11]->GetUIImage()->GetCollisionRect();
-	//
-	//Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
+	//for (int i = 0; i < m_vUI.size(); i++)
+	//{
+
+	//	if (m_vUI[i]->GetUIImage() && m_vUI[i]->GetUIImage()->)
+	//	{
+	//		RECT rc = m_vUI[i]->GetUIImage()->GetCollisionRect();
+
+	//		Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
+	//	}
+	//}
 
 	for (int i = 11; i < m_vUI.size(); i++)
 	{
@@ -114,11 +101,16 @@ void cUIManager::Render()
 
 	UIInfoTextPopUp(m_vUI.size());
 
+
+
 }
 
 void cUIManager::Destroy()
 {
-	SAFE_DELETE(m_pUIInfo);
+	for (auto p : m_vUI)
+	{
+		SAFE_DELETE(p);
+	}
 }
 
 void cUIManager::CreateUI(UIType _UIType, const char* UIName, const char* filePath, D3DXVECTOR3 vec3Pos, D3DXVECTOR2 vec2ReduceDragSize, const char* UIParentName)
@@ -133,6 +125,11 @@ void cUIManager::CreateUI(UIType _UIType, const char* UIName, const char* filePa
 	_tagUIInfo._UIPos = vec3Pos;
 	_tagUIInfo._UIParentName = UIParentName;
 	_tagUIInfo._UIReduceDragSize = vec2ReduceDragSize;
+
+	if (strncmp(UIName, "Skill", 5) == 0)
+		m_vQuickSlot.push_back(m_pUIInfo);
+
+
 
 	m_pUIInfo->Setup(&_tagUIInfo);
 	m_vUI.push_back(m_pUIInfo);
@@ -263,7 +260,7 @@ void cUIManager::CallKeyInput()
 
 void cUIManager::CloseUI(const char* szUIName)
 {
-	int Index = FindUIIndex(szUIName);
+	int Index = FindUIRootIndex(szUIName);
 
 	RECT rc = m_vUI[Index]->GetUIButtonImage()->GetCollisionRect();
 
@@ -293,13 +290,46 @@ void cUIManager::CloseUI(const char* szUIName)
 	
 }
 
-int cUIManager::FindUIIndex(const char* szFindIndex)
+void cUIManager::QuickSlotFunc()
+{
+	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
+	{
+		for (int i = 0; i < m_vUI.size(); i++)
+		{
+			if (m_vUI[i]->GetName() == "SKILLLOCK")
+			{
+				if (m_vUI[i]->GetUIButtonImage()->GetIsCollision())
+				{
+					for (int j = 1; j < m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild().size(); j++)
+					{
+						m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild()[j]->
+							SetMove({ 0,0 });
+					}
+				}
+			}
+			else if (m_vUI[i]->GetName() == "SKILLLOCK2")
+			{
+				if (m_vUI[i]->GetUIButtonImage()->GetIsCollision())
+				{
+					for (int j = 1; j < m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild().size(); j++)
+					{
+						m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild()[j]->
+							SetMove({ 0,0 });
+					}
+				}
+
+			}
+		}
+	}
+}
+
+int cUIManager::FindUIRootIndex(const char* szFindIndex)
 {
 	
 
 	for (int i = 0; i < m_vUI.size(); i++)
 	{
-		if (m_vUI[i]->GetName() == szFindIndex)
+		if (strcmp(m_vUI[i]->GetName(), szFindIndex) == 0)
 		{
 			return i;
 		}
@@ -312,7 +342,7 @@ void cUIManager::UIInfoTextPopUp(int oneValue, const char* szNecessaryPlace)
 	
 	if (szNecessaryPlace != NULL)
 	{
-		int FindIndex = FindUIIndex(szNecessaryPlace);
+		int FindIndex = FindUIRootIndex(szNecessaryPlace);
 		sprintf_s(szTemp, 1024, "x = %d \t y = %d", (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._41 - ptMouse.x
 			, (int)m_vUI[FindIndex]->GetUIRoot()->GetMatWorld()._42 - ptMouse.y);
 	}

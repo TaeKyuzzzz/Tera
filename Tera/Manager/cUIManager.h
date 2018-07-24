@@ -28,7 +28,7 @@ private:
 
 	SYNTHESIZE(vUI, m_vUI, VUI);
 
-	SYNTHESIZE(vUI, m_vSkillUI, VSkillUI);
+	SYNTHESIZE(vUI, m_vQuickSlot, VQuickSlot);
 
 	SYNTHESIZE(D3DXVECTOR3, m_vInventoryPos, InventoryPos);
 	SYNTHESIZE(D3DXVECTOR3, m_vShopPos, ShopPos);
@@ -76,10 +76,10 @@ public:
 	void CloseUI(const char* szUIName);
 
 
+	void QuickSlotFunc();
 
 
-
-	int FindUIIndex(const char* szFindIndex);
+	int FindUIRootIndex(const char* szFindIndex);
 	
 
 	void UIInfoTextPopUp(int oneValue, const char* szNecessaryPlace = NULL);
