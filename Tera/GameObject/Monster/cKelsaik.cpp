@@ -24,12 +24,10 @@ cKelsaik::cKelsaik()
 	m_fTime = 0.0f;
 	float animTime[MON_Anim_COUNT] =
 	{
-		61, 61, 1, 401, 31,
-		51, 51, 116, 116, 31,
-		85, 51, 175, 85, 181,
-		131, 111, 111, 171, 256,
-		196, 61, 1, 191, 71,
-		141, 131, 61
+		61, 131, 141, 71, 191, 1, 61,
+		196, 256, 171, 111, 111,
+		131, 181, 85, 175, 51, 85, 31, 116,
+		116, 51, 51, 31, 401, 1, 61, 61
 	};
 
 	memcpy(m_fAnimTime, animTime, sizeof(animTime));
@@ -44,9 +42,9 @@ cKelsaik::cKelsaik()
 	m_bIsBlend = false;
 
 	//Monster01은 이런 특성을 가지고 있다.
-	m_fAreaRadius = 300.0f;
+	m_fAreaRadius = 200.0f;
 	m_fTracableArea = 1000.0f;
-	m_fRunSpeed = 1.0f;
+	m_fRunSpeed = 1.5f;
 	m_fFightZone = 100.0f;
 	m_fHpCur = 50000.0f;
 
@@ -54,8 +52,9 @@ cKelsaik::cKelsaik()
 
 	// 패턴의 가짓 수
 	m_nNumofPattern = 4;
-	
-	
+	m_fPatternCostTime = 0.0f;
+
+	m_pEffectCost = true;
 	// 사용하는 파티클 등록
 	m_pParticleBleeding = PARTICLEMANAGER->GetParticle("Bleeding");
 	PARTICLEMANAGER->AddChild(m_pParticleBleeding);
@@ -63,7 +62,11 @@ cKelsaik::cKelsaik()
 	PARTICLEMANAGER->AddChild(m_pIceHand);
 	m_pFireHand = PARTICLEMANAGER->GetParticle("FireHand");
 	PARTICLEMANAGER->AddChild(m_pFireHand);
-
+	m_pIceEffect = PARTICLEMANAGER->GetParticle("IceEffect");
+	PARTICLEMANAGER->AddChild(m_pIceEffect);
+	m_pFireEffect = PARTICLEMANAGER->GetParticle("FireEffect");
+	PARTICLEMANAGER->AddChild(m_pFireEffect);
+	
 }
 
 
@@ -84,8 +87,10 @@ void cKelsaik::Setup()
 	m_fDefense = 10.0f;
 
 	m_pMonster = new cSkinnedMesh;
-	m_pMonster->Setup("XFile/Monster", "Kelsaik.X");
+	//m_pMonster->Setup("XFile/Monster", "Kelsaik.X"); // Kelsaik2 Kelsaik
+	m_pMonster = SKINNEDMESHMANAGER->GetSkinnedMesh("XFile/Monster", "kelsaik3.X");
 	m_pMonster->SetAnimationIndexBlend(m_currAnim);
+
 
 	// 위치를 가진 루트 본
 	m_pDummyRoot = (ST_BONE*)D3DXFrameFind(m_pMonster->GetFrame(),
@@ -123,11 +128,14 @@ void cKelsaik::Setup()
 	m_pSpere->Setup(m_vPosition, m_fFightZone);
 
 	STATE = IDLE;
+	m_isDoingPattern = false;
+	m_partternCost = true;
 }
 
 void cKelsaik::Update()
 {
 	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
+	//m_pBIP->TransformationMatrix._42 = m_matWorld._42;
 
 	AnimUpdate();				// 애니메이션 진행
 	
@@ -142,52 +150,54 @@ void cKelsaik::Update()
 	case BATTLE:
 		Battle_Update();
 		break;
+	case TURN :
+		break;
+	case WALK :
+		Walk_Update();
+		break;
 	case DIE :
 		Death_Update();
 	}
 
 
 	UpdateWorld();				// 월드 갱신
-	ParticleUpdate();			// 파티클 업데이트
-
+	ParticleUpdate();			// 파티클 위치 업데이트
+	CreatePatternCost();
 	
 	cMonster::Update();
+
 	cGameObject::Update();
 }
 
 void cKelsaik::Idle_Update()
 {
-	//switch (eIDLE)
-	//{
-	//case ROAMING:
-	//	Idle_Roaming();
-	//	break;
-	//case COMEBACK:
-	//	//Idle_Back_to_SquareOne();
-	//	break;
-	//}
-	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
-	if (Distance_Player_Monster < m_fAreaRadius)
-		STATE = AWAKE;
+	if (isPlayerInDistance(650.f))
+	{
+		ChangeState(AWAKE);
+	}
 }
 
 void cKelsaik::Awake_Update()
 {
-	
+	if (m_Anim != MON_Anim_modeAlarm)
+	{
+		ChangeAnim(MON_Anim_modeAlarm, true);
+	}
+	else if(isEndPattern())
+	{
+		ChangeState(BATTLE);
+	}
+	else if(m_fTime > 0.8f)
+	{
+		CAMERAMANAGER->Shaking(0.06f);
+	}
+
+	//if (isPlayerInDistance())
+	//	ChangeState(WALK);
 }
 
 void cKelsaik::Awake_Chase()
 {
-	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
-	
-	//if (Distance_Player_Monster < m_fFightZone)
-	//	eAWAKE = BATTLE;
-	//
-	//else if (D3DXVec3Length(&(m_vPosition - m_vBehaviorSpot)) > m_fTracableArea)
-	//{
-	//	MODE = IDLE;
-	//	eIDLE = COMEBACK;
-	//}
 
 	m_Anim = MON_Anim_Walk;
 	// u벡터 -> 기준벡터
@@ -219,6 +229,88 @@ void cKelsaik::Awake_Battle()
 
 void cKelsaik::Battle_Update()
 {
+
+	// 플레이어가 공격범위 밖으로 나가면 추적시작
+	if (!isPlayerInDistance(m_fAreaRadius) && !m_isDoingPattern)
+	{
+		ChangeState(WALK);
+		return;
+	}
+	else if (!m_isDoingPattern)
+	{
+		// 여기서 자연스럽게 각도를 바꾸면 좋겟다..
+		SetTargetAngle();
+		if (m_fRotY != m_fTargetAngle)
+		{
+			ChangeState(TURN);
+			//SetAngleWithPlayer();
+			//ChangeAnim(MON_Anim_Wait, true);
+		}
+	}
+	
+	// 플레이어가 공격범위 안쪽이면 공격
+	
+	if (m_partternCost)
+	{
+		m_nPatternNum = rand() % NUMOFPATTERN;
+		m_partternCost = false;
+		m_isDoingPattern = true;
+		m_pEffectCost = true;
+	}
+
+	if (m_isDoingPattern)
+	{
+		switch (m_nPatternNum)
+		{
+		case 0	:	AttackPattern01();	break;
+		case 1	:	AttackPattern02();	break;
+		case 2	:	AttackPattern03();	break;
+		}
+	}
+}
+
+void cKelsaik::Turn_Update()
+{
+	// 회전 무브 == 51 프레임 -> 51 / 30 초 걸림
+	if (m_Anim != MON_Anim_roundmove01 || m_Anim != MON_Anim_roundmove02)
+	{
+		if (m_vPosition.z < (*g_vPlayerPos).z)
+			m_Anim = MON_Anim_roundmove02;
+		else
+			m_Anim = MON_Anim_roundmove01;
+
+		SetTargetAngle();
+	}
+	else
+	{
+		// 매 시간마다 월드 로테이트를 거꾸로 돌려야 될거같은데..
+
+		m_fRotY += D3DX_PI / (51.0f / 30.0f);
+		if (m_fRotY == m_fTargetAngle)
+		{
+			ChangeState(BATTLE);
+			ChangeAnim(MON_Anim_Wait, true);
+		}
+	}
+
+}
+
+void cKelsaik::Walk_Update()
+{
+	if (isPlayerInDistance(m_fAreaRadius))
+	{
+		ChangeState(BATTLE);
+		return;
+	}
+
+	ChangeAnim(MON_Anim_Walk,true);
+	
+	SetAngleWithPlayer();
+	
+	D3DXVECTOR3 TargetPos = *g_vPlayerPos - m_vPosition;
+	D3DXVec3Normalize(&TargetPos, &TargetPos);
+	
+	m_vPosition += (m_fRunSpeed * TargetPos);
 }
 
 void cKelsaik::Death_Update()
@@ -262,7 +354,7 @@ void cKelsaik::AnimUpdate()
 		m_pMonster->Update(m_matAnimWorld);
 	else
 		m_pMonster->Update(m_matWorld);
-
+	m_fTime += TIMEMANAGER->GetEllapsedTime();
 	// 로컬에서 위치의 변화량이 있는 애니메이션을 위한 처리
 	m_vBeforeAnimPos = m_vCurAnimPos;
 	m_vCurAnimPos = D3DXVECTOR3(m_pDummyRoot->TransformationMatrix._41, 0, 0);
@@ -273,7 +365,8 @@ void cKelsaik::AnimUpdate()
 
 	// 이동값이 있는 애니메이션 적용 시
 	// 애니메이션 로컬을 현재 포지션으로 적용시키는 증가량을 계산 
-
+	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x != 0.0f)
+		int a = 10;
 	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x < 30.f)
 		m_vPosition += (m_vDirection * (m_vCurAnimPos.x - m_vBeforeAnimPos.x));
 	else
@@ -344,13 +437,13 @@ bool cKelsaik::isUseLocalAnim()
 {
 
 	if (
-		m_Anim == MON_Anim_atk02 ||
-		m_Anim == MON_Anim_atk01
+		m_Anim == MON_Anim_atk01 ||
+		m_Anim == MON_Anim_atk02
 		)
 		return true;
 
 	//이게 진짜 중요!!! 애니메이션 자체에 움직임이 심한경우 이처리를 해준다.
-	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x > 10.0f)
+	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x > 30.0f)
 	{
 		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
 		m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
@@ -376,3 +469,173 @@ void cKelsaik::ChangeAnim(MON_Anim anim, bool isBlend)
 	m_fCurAnimTime = m_fAnimTime[anim];
 
 }
+
+bool cKelsaik::isPlayerInDistance(float distance)
+{
+	if (KEYMANAGER->IsOnceKeyDown('B'))
+		int a = 10;
+	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
+	if (Distance_Player_Monster < distance)
+		return true;
+	return false;
+}
+
+bool cKelsaik::isEndPattern()
+{
+	if ((m_fCurAnimTime - 0.05 <= m_fTime))
+	{
+		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
+		m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
+		return true;
+	}
+	return false;
+}
+
+void cKelsaik::CreatePatternCost()
+{
+	if (!m_partternCost)
+	{
+		m_fPatternCostTime += TIMEMANAGER->GetEllapsedTime();
+		if (m_fPatternCostTime >= 10.0f)
+		{
+			m_partternCost = true;
+			m_fPatternCostTime = 0.0f;
+		}
+	}
+}
+
+void cKelsaik::SetAngleWithPlayer()
+{
+	D3DXVECTOR3 TargetPos = *g_vPlayerPos - m_vPosition;
+	TargetPos.y = 0;
+	D3DXVec3Normalize(&TargetPos, &TargetPos);
+	m_fCosVal = D3DXVec3Dot(&TargetPos, &D3DXVECTOR3(1, 0, 0));
+	m_fCosVal = acosf(m_fCosVal);
+
+	if (m_vPosition.z < g_vPlayerPos->z)
+		m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+
+	m_fRotY = m_fCosVal;
+}
+
+void cKelsaik::SetTargetAngle()
+{
+	D3DXVECTOR3 TargetPos = *g_vPlayerPos - m_vPosition;
+	TargetPos.y = 0;
+	D3DXVec3Normalize(&TargetPos, &TargetPos);
+	m_fTargetAngle = D3DXVec3Dot(&TargetPos, &D3DXVECTOR3(1, 0, 0));
+	m_fTargetAngle = acosf(m_fTargetAngle);
+
+	if (m_vPosition.z < g_vPlayerPos->z)
+		m_fTargetAngle = D3DX_PI * 2 - m_fTargetAngle;
+
+}
+
+void cKelsaik::AttackPattern01()
+{
+	if (m_Anim != MON_Anim_atk01)
+	{
+		// 패턴 처음 시작
+		ChangeAnim(MON_Anim_atk01,true);
+		SetAngleWithPlayer();
+		SetAnimWorld();
+	}
+	else
+	{
+		// 패턴이 끝났다면
+		if (isEndPattern())
+		{
+			ChangeAnim(MON_Anim_Wait, false);
+			m_isDoingPattern = false;
+		}
+		else // 파티클 출력과 함께 데미지를 주자!
+		{
+			if (m_fTime >= 2.28f && m_pEffectCost)
+			{
+				m_pEffectCost = false;
+				D3DXMATRIX mat;
+				D3DXMatrixIdentity(&mat);
+				mat._41 = m_pHandR->CombinedTransformationMatrix._41;
+				mat._42 = m_vPosition.y;
+				mat._43 = m_pHandR->CombinedTransformationMatrix._43;
+				m_pFireEffect->SetWorld(mat);
+				m_pFireEffect->Start();
+			}
+		}
+	}
+}
+
+void cKelsaik::AttackPattern02()
+{
+	if (m_Anim != MON_Anim_atk02)
+	{
+		// 패턴 처음 시작
+		ChangeAnim(MON_Anim_atk02, true);
+		SetAngleWithPlayer();
+		SetAnimWorld();
+	}
+	else
+	{
+		// 패턴이 끝났다면
+		if (isEndPattern())
+		{
+			ChangeAnim(MON_Anim_Wait, false);
+			m_isDoingPattern = false;
+		}
+		else // 파티클 출력과 함께 데미지를 주자!
+		{
+			if (m_fTime >= 2.3f && m_pEffectCost)
+			{
+				m_pEffectCost = false;
+				D3DXMATRIX mat;
+				D3DXMatrixIdentity(&mat);
+				mat._41 = m_pHandL->CombinedTransformationMatrix._41;
+				mat._42 = m_vPosition.y;
+				mat._43 = m_pHandL->CombinedTransformationMatrix._43;
+				m_pIceEffect->SetWorld(mat);
+				m_pIceEffect->Start();
+			}
+		}
+	}
+}
+
+void cKelsaik::AttackPattern03()
+{
+	if (m_Anim != MON_Anim_ReactonAtk)
+	{
+		// 패턴 처음 시작
+		ChangeAnim(MON_Anim_ReactonAtk, true);
+		SetAngleWithPlayer();
+		SetAnimWorld();
+	}
+	else
+	{
+		// 패턴이 끝났다면
+		if (isEndPattern())
+		{
+			ChangeAnim(MON_Anim_Wait, false);
+			m_isDoingPattern = false;
+		}
+		else // 파티클 출력과 함께 데미지를 주자!
+		{
+			if (m_fTime >= 2.0f && m_pEffectCost)
+			{
+				m_pEffectCost = false;
+				D3DXMATRIX mat;
+				D3DXMatrixIdentity(&mat);
+				mat._41 = m_pHandL->CombinedTransformationMatrix._41;
+				mat._42 = m_vPosition.y;
+				mat._43 = m_pHandL->CombinedTransformationMatrix._43;
+				m_pIceEffect->SetWorld(mat);
+				m_pIceEffect->Start();
+
+				mat._41 = m_pHandR->CombinedTransformationMatrix._41;
+				mat._42 = m_vPosition.y;
+				mat._43 = m_pHandR->CombinedTransformationMatrix._43;
+				m_pFireEffect->SetWorld(mat);
+				m_pFireEffect->Start();
+			}
+		}
+	}
+}
+

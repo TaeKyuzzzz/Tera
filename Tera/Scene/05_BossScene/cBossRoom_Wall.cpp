@@ -9,6 +9,8 @@ cBossRoom_Wall::cBossRoom_Wall()
 	: rotY(D3DX_PI / 4)
 {
 	D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixIdentity(&m_matWorld);
+	m_matWorld._42 = -48;
 }
 
 
@@ -18,7 +20,9 @@ cBossRoom_Wall::~cBossRoom_Wall()
 
 void cBossRoom_Wall::Setup()
 {
-	D3DXMatrixIdentity(&m_matWorld);
+	//D3DXMatrixIdentity(&m_matWorld);
+
+	m_pFloor = STATICMESHMANAGER->GetStaticMesh("XFile/Boss_Room/Bottom_ray.X");
 
 	const int size = 5;
 
@@ -32,8 +36,8 @@ void cBossRoom_Wall::Setup()
 
 	for (int i = 0; i < size; i++)
 	{
-		cXLoader  ground_meshX;
-		m_vecWallParts.push_back(ground_meshX.xFimeLoad(fileName[i]));
+		//cXLoader  ground_meshX;
+		m_vecWallParts.push_back(STATICMESHMANAGER->GetStaticMesh(fileName[i]));
 	}
 
 	for (int i = 0; i < 8; i++)
@@ -59,19 +63,20 @@ void cBossRoom_Wall::Setup()
 
 	// 높이 맵을 위한 값들 가져오기
 
-	cXMesh * floor = m_vecWallParts[0];
-	floor = m_vecBossRoom_Wall[0].m_vecWallParts[0];
-	numOfVertex = floor->GetMesh()->GetNumVertices();
+	//cXMesh * floor = m_vecWallParts[0];
+	//m_pFloor = m_vecBossRoom_Wall[0].m_vecWallParts[0];
+	
+	numOfVertex = m_pFloor->GetMesh()->GetNumVertices();
 
-	numOfIndex = floor->GetMesh()->GetNumFaces() * 3;
+	numOfIndex = m_pFloor->GetMesh()->GetNumFaces() * 3;
 
 	LPDIRECT3DVERTEXBUFFER9 pVB;
 
-	floor->GetMesh()->GetVertexBuffer(&pVB);
+	m_pFloor->GetMesh()->GetVertexBuffer(&pVB);
 
 	LPDIRECT3DINDEXBUFFER9	pIB;
 	void* pIndex;
-	floor->GetMesh()->GetIndexBuffer(&pIB);
+	m_pFloor->GetMesh()->GetIndexBuffer(&pIB);
 	pIB->Lock(0, sizeof(WORD) * numOfIndex, (void**)&pIndex, 0);
 
 	m_pIndex = (WORD*)pIndex;
@@ -84,14 +89,14 @@ void cBossRoom_Wall::Setup()
 	pVB->Lock(0, sizeof(ST_PNT_VERTEX) * numOfVertex, (void**)&pVertices, 0);
 	m_pVertex = (ST_PNT_VERTEX*)pVertices;
 
-	for (DWORD i = 0; i < numOfVertex; i++)
-		D3DXVec3TransformCoord(&m_pVertex[i].p, &m_pVertex[i].p, &m_matWorld);
+	//for (DWORD i = 0; i < numOfVertex; i++)
+	//	D3DXVec3TransformCoord(&m_pVertex[i].p, &m_pVertex[i].p, &m_matWorld);
 
 
 	pVB->Unlock();
 	pVB->Release();
 
-	D3DXMatrixIdentity(&m_matWorld);
+	//D3DXMatrixIdentity(&m_matWorld);
 }
 
 void cBossRoom_Wall::Render()
@@ -128,12 +133,18 @@ bool cBossRoom_Wall::GetHeight(IN float x, OUT float & y, IN float z)
 	D3DXVECTOR3 vRayPos(x, rayHeight, z);
 	D3DXVECTOR3 vRayDir(0, -1, 0);
 
+	D3DXVECTOR3 v0,v1, v2;
 	for (int i = 0; i <numOfIndex; i += 3)
 	{
 		float u, v, f;
-		if (D3DXIntersectTri(&m_pVertex[m_pIndex[i + 0]].p,
-			&m_pVertex[m_pIndex[i + 1]].p,
-			&m_pVertex[m_pIndex[i + 2]].p,
+
+		D3DXVec3TransformCoord(&v0, &m_pVertex[m_pIndex[i + 0]].p, &m_matWorld);
+		D3DXVec3TransformCoord(&v1, &m_pVertex[m_pIndex[i + 1]].p,&m_matWorld);
+		D3DXVec3TransformCoord(&v2, &m_pVertex[m_pIndex[i + 2]].p, &m_matWorld);
+
+		if (D3DXIntersectTri(&v0,
+			&v1,
+			&v2,
 			&vRayPos,
 			&vRayDir,
 			&u, &v, &f))

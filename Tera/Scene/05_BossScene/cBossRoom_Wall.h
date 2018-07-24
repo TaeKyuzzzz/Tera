@@ -12,9 +12,12 @@ private :
 	DWORD					numOfVertex;	// 버텍스 개수
 	DWORD					numOfIndex;		// 인덱스 개수 
 
+
 public:
 	cBossRoom_Wall();
 	~cBossRoom_Wall();
+
+	cXMesh*					m_pFloor;
 
 	vector<cBossRoom_Wall> m_vecBossRoom_Wall;
 	vector<cXMesh*> m_vecWallParts;

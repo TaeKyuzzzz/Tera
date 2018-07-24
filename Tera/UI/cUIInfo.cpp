@@ -41,6 +41,8 @@ void cUIInfo::Setup(tagUIInfo* _UI)
 	{
 		m_Name = _UI->_UIName;
 
+
+
 		//부모이름을 안가지고 있을때(루트로쓸 노드) 루트로등록
 		if (!_UI->_UIParentName)
 		{

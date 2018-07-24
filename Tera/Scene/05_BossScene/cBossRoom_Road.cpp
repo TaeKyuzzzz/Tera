@@ -21,36 +21,39 @@ void cBossRoom_Road::Setup()
 	const int size = 2;
 
 	char fileName[size][256] = {
-		"XFile/Boss_Room/ARG_Cor02_A_02_Floor_SM_1.X",
-		"XFile/Boss_Room/ARG_Cor02_A_02_Floor_SM_2.X"
+		"XFile/Boss_Room/ARG_Cor02_A_02_Floor_SM.X",
+		"XFile/Boss_Room/ARG_Cor02_A_02_SM.X"
 	};
 
 	for (int i = 0; i < size; i++)
 	{
-		cXLoader  ground_meshX;
-		m_vecBossRoomParts.push_back(ground_meshX.xFimeLoad(fileName[i]));
+		//cXLoader  ground_meshX;
+		//m_vecRoadParts.push_back(ground_meshX.xFimeLoad(fileName[i]));
+		m_vecRoadParts.push_back(STATICMESHMANAGER->GetStaticMesh(fileName[i]));
 	}
 
+	for (int i = 0; i < 5; i++)
+	{
+		D3DXMATRIX matPos, world;
+		D3DXMatrixIdentity(&matPos);
+		D3DXMatrixTranslation(&matPos, pos.x, pos.y, pos.z);
+		world = matPos;
+		matWorld = world;
 
-	pos = D3DXVECTOR3(-1600.f, 0, 0);
+		m_vecBossRoom_Road.push_back(*this);
 
-	D3DXMATRIX matPos, world;
-	D3DXMatrixIdentity(&matPos);
-	D3DXMatrixTranslation(&matPos, pos.x, pos.y, pos.z);
-	world = matPos;
-	matWorld = world;
-
-	m_vecBossRoomRoad.push_back(*this);
+		pos.z += 512.0f;
+	}
 
 }
 
 void cBossRoom_Road::Render()
 {
-	if (!m_vecBossRoomParts.empty())
+	if (!m_vecRoadParts.empty())
 	{
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-		for (auto p : m_vecBossRoomParts)
+		for (auto p : m_vecRoadParts)
 		{
 			p->Render();
 		}
@@ -59,9 +62,9 @@ void cBossRoom_Road::Render()
 
 void cBossRoom_Road::Destroy()
 {
-	if (!m_vecBossRoomParts.empty())
+	if (!m_vecRoadParts.empty())
 	{
-		for (auto p : m_vecBossRoomParts)
+		for (auto p : m_vecRoadParts)
 		{
 			SAFE_DELETE(p);
 		}

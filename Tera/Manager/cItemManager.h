@@ -1,10 +1,13 @@
 #pragma once
 
-enum enumSlotType
+#define SLOTTYPEMAX 4
+
+enum eSlotType
 {
 	INVENTORY,
 	CONSUMABLESSHOP,
-	STATUSSLOT
+	STATUSSLOT,
+	QUICKSLOT
 
 };
 
@@ -38,7 +41,7 @@ private:
 		D3DXVECTOR3 vec3Pos;
 		D3DXVECTOR2 vec2Vertex;
 		D3DXVECTOR2 vec2interval;
-		SYNTHESIZE(enumSlotType, tagM_SlotType, SlotType);
+		SYNTHESIZE(eSlotType, tagM_SlotType, SlotType);
 		
 	};
 
@@ -48,15 +51,18 @@ private:
 	SYNTHESIZE(vItem, m_vInvenItem, InvenItem);
 	SYNTHESIZE(vItem, m_vShopItem, ShopItem);
 	SYNTHESIZE(vItem, m_vStatusItem, StatusItem);
+	SYNTHESIZE(vItem, m_vQuickItem, QuickItem);
+
 	SYNTHESIZE(vItem, m_vAllItem, AllItem);
-	SYNTHESIZE(vItem, m_vItemAssistant, Assistant);
-	SYNTHESIZE(vItem, m_vItemImitation, ItemImitation)
+	SYNTHESIZE(vItem, m_vEtcIcon, EtcIcon);
+	SYNTHESIZE(vItem, m_vItemImitation, ItemImitation);
+	
 
 
 	SYNTHESIZE(vector<tagItemPos>, m_vInvenSlot, VInvenSlot);
 	SYNTHESIZE(vector<tagItemPos>, m_vShopSlot, VShopSlot);	
 	SYNTHESIZE(vector<tagItemPos>, m_vStatusSlot, VStatusSlot);
-
+	SYNTHESIZE(vector<tagItemPos>, m_vQuickSlot, QuickSlot);
 
 	SYNTHESIZE(vector<D3DXVECTOR3>, m_vec3StatusPos, Vec3StatusPos);
 
@@ -76,6 +82,10 @@ private:
 	int m_vClickedIndex;
 	int m_nWearingIndex;
 	HDC hdc;
+	RECT tempRc;
+	RECT quickRc[16];
+
+	D3DXVECTOR3 m_pVec3SlotPos[16];
 
 	SYNTHESIZE(int, m_nitemArrNum, IterArrNum);
 	SYNTHESIZE(int, m_nUINum, UINum);
@@ -159,11 +169,11 @@ public:
 	//아이템생성 리스트
 	void CreateItemList();
 	//아이템이 위치할 슬롯 생성
-	void SetItemSlot(enumSlotType itemSlotType);
+	void SetItemSlot(eSlotType itemSlotType);
 	//슬롯 위치 갱신
 	void UIPosRenewal(const char* placeName);
-	void ItemSlotPosRenewal(enumSlotType itemSlotType, D3DXVECTOR3 placePos);
-	void MoveFromAToB(vItem& sendItem, vector<tagItemPos>& receivePlace);
+	void ItemSlotPosRenewal(eSlotType itemSlotType, D3DXVECTOR3 placePos);
+	void MoveFromAToB(int _eSlotTypeNum);
 	void ClickUseItemThisPlace(vItem& sendItem, const char* currentPlaceName);
 	void ConnectNodeCommand();
 	
@@ -175,6 +185,10 @@ public:
 	void ItemRenewalThisPlace(vItem& _vVectorName);
 	void EquipmentWearBack(cItemInfo* _placeItem);
 	void SalesItemCalculator();
+	void BuyConsumables(int collisionNum);
+	void SetSkillSlot();
+	RECT FindCollisionQuickSlot();
+
 
 };
 
