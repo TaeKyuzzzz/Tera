@@ -187,6 +187,7 @@ public:
 	void SalesItemCalculator();
 	void BuyConsumables(int collisionNum);
 	void SetSkillSlot();
+	RECT FindCollisionQuickSlot();
 
 
 };

@@ -1,46 +1,388 @@
-﻿cCharacterClass03.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
+﻿  stdafx.cpp
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2662): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2663): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2664): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2665): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2666): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2667): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2668): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2689): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2690): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2691): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2694): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2695): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2698): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2702): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2712): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2713): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2715): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2716): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2717): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2727): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2728): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2729): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2730): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2731): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2732): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2742): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2743): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2754): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(2254): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4523): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4577): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4639): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4707): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4770): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4832): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathvector.inl(1269): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(518): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(519): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\users\korea\desktop\2\tera\tera\stdafx.h(174): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cBoundingBox.cpp
+  cBossRoom_Doll.cpp
+  cBossRoom_Road.cpp
+  cBossRoom_Wall.cpp
+c:\users\korea\desktop\2\tera\tera\scene\05_bossscene\cbossroom_wall.cpp(137): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  cCamera.cpp
+c:\users\korea\desktop\2\tera\tera\ccamera.cpp(58): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ccamera.cpp(147): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cCube.cpp
+c:\users\korea\desktop\2\tera\tera\boundingbox\cube\ccube.cpp(94): warning C4267: '인수': 'size_t'에서 'UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cKelsaik.cpp
+  cShader.cpp
+  cItem.cpp
+  cItemInfo.cpp
+  CreateItemList.cpp
+  cCameraManager.cpp
+c:\users\korea\desktop\2\tera\tera\manager\ccameramanager.cpp(31): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\ccameramanager.cpp(32): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\ccameramanager.cpp(33): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cItemManager.cpp
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(445): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(505): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(503): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(531): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(532): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(546): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(545): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(544): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(543): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(604): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(603): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(602): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(601): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(628): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(627): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(626): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(625): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(653): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(652): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(651): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(650): warning C4244: '인수': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(669): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(668): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(667): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(666): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(700): warning C4101: 'temp2' :참조되지 않은 지역 변수입니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(1098): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(1138): warning C4244: '=': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(1139): warning C4244: '=': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cParticleManager.cpp
+c:\users\korea\desktop\2\tera\tera\manager\cparticlemanager.cpp(44): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\cparticlemanager.cpp(46): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\cparticlemanager.cpp(48): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\cparticlemanager.cpp(88): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cUIManager.cpp
+c:\users\korea\desktop\2\tera\tera\manager\cuimanager.cpp(98): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\manager\cuimanager.cpp(361): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cParticleSet.cpp
+c:\users\korea\desktop\2\tera\tera\particle\cparticleset.cpp(31): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\particle\cparticleset.cpp(70): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\particle\cparticleset.cpp(72): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\particle\cparticleset.cpp(75): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\particle\cparticleset.cpp(77): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\particle\cparticleset.cpp(80): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\particle\cparticleset.cpp(82): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cParticle.cpp
+  cScenePaticleEdit.cpp
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(396): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(399): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(405): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(407): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(410): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(412): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(414): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(417): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(419): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(421): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(424): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(426): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(428): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(431): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(433): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(435): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(438): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(440): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(442): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(445): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(447): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(449): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(452): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(454): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(456): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(459): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(462): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(464): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(466): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(468): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(515): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(534): warning C4101: 'file' :참조되지 않은 지역 변수입니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(638): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(640): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(642): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\06_paticleedit\cscenepaticleedit.cpp(682): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cMonsterManager.cpp
+  cTestMap.cpp
+c:\users\korea\desktop\2\tera\tera\ctestmap.cpp(81): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  코드를 생성하고 있습니다...
+c:\users\korea\desktop\2\tera\tera\manager\cuimanager.cpp(333): warning C4715: 'cUIManager::FindUIRootIndex': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(209): warning C4715: 'cItemManager::UICTextDataIndex': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(227): warning C4715: 'cItemManager::UIITextDataIndex': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(347): warning C4715: 'cItemManager::FindAbilityValue': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(358): warning C4715: 'cItemManager::FindItemExplaneWndIndex': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(430): warning C4715: 'cItemManager::FindItemPos': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\korea\desktop\2\tera\tera\manager\citemmanager.cpp(398): warning C4715: 'cItemManager::FindSalePriceValue': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  컴파일하고 있습니다...
+  cMonster.cpp
+  cMonster01.cpp
+c:\users\korea\desktop\2\tera\tera\gameobject\monster\cmonster01.cpp(567): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  iMap.cpp
+  cTown_House.cpp
+  cPlayerHpBar.cpp
+  cStaticMeshManager.cpp
+  cSceneBossLoading.cpp
+  cSceneDGLoading.cpp
+  cSceneLobbyLoading.cpp
+  cSceneTownLoading.cpp
+  cImageManager.cpp
+  cSprite.cpp
+c:\users\korea\desktop\2\tera\tera\sprite\csprite.cpp(44): warning C4244: '인수': 'UINT'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\sprite\csprite.cpp(107): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cProgressBar.cpp
+c:\users\korea\desktop\2\tera\tera\progressbar\cprogressbar.cpp(20): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\progressbar\cprogressbar.cpp(21): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\progressbar\cprogressbar.cpp(23): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\progressbar\cprogressbar.cpp(50): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\progressbar\cprogressbar.cpp(53): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\progressbar\cprogressbar.cpp(60): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cSceneDG.cpp
+  cLoading.cpp
+c:\users\korea\desktop\2\tera\tera\loading\cloading.cpp(91): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\loading\cloading.cpp(107): warning C4244: '인수': 'UINT'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\loading\cloading.cpp(201): warning C4244: '인수': 'unsigned __int64'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\loading\cloading.cpp(201): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\loading\cloading.cpp(170): warning C4101: 'img' :참조되지 않은 지역 변수입니다.
+  cSceneBoss.cpp
+  cSceneLobby.cpp
+  cSceneMain.cpp
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(32): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(33): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(34): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(35): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(36): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(103): warning C4244: '인수': 'UINT'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(107): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(115): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(117): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(121): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(123): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(127): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(129): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(133): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(135): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\scene\01_mainscene\cscenemain.cpp(137): warning C4244: '인수': 'UINT'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cSceneTown.cpp
+  cSkinnedMeshManager.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  cDummyObj.cpp
+  cObjectManager.cpp
+  cSpere.cpp
+  cWeapon01.cpp
+  cWeapon02.cpp
+  cWeapon03.cpp
+  CreateUIList.cpp
+c:\users\korea\desktop\2\tera\tera\ui\createuilist.cpp(9): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
+c:\users\korea\desktop\2\tera\tera\ui\createuilist.cpp(16): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
+c:\users\korea\desktop\2\tera\tera\ui\createuilist.cpp(24): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
+c:\users\korea\desktop\2\tera\tera\ui\createuilist.cpp(52): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\createuilist.cpp(81): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cUI.cpp
+  cUIInfo.cpp
+  TextList.cpp
+  cMemoryLeak.cpp
+  cUIImageView.cpp
+c:\users\korea\desktop\2\tera\tera\ui\cuiimageview.cpp(24): warning C4244: '=': 'UINT'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuiimageview.cpp(25): warning C4244: '=': 'UINT'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuiimageview.cpp(43): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuiimageview.cpp(42): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuiimageview.cpp(41): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuiimageview.cpp(40): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuiimageview.cpp(60): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cUITextView.cpp
+c:\users\korea\desktop\2\tera\tera\ui\cuitextview.cpp(22): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuitextview.cpp(30): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuitextview.cpp(74): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuitextview.cpp(73): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuitextview.cpp(72): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuitextview.cpp(71): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuitextview.cpp(81): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cUIButton.cpp
+c:\users\korea\desktop\2\tera\tera\ui\cuibutton.cpp(30): warning C4244: '=': 'UINT'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuibutton.cpp(31): warning C4244: '=': 'UINT'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuibutton.cpp(48): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuibutton.cpp(47): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuibutton.cpp(46): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuibutton.cpp(45): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuibutton.cpp(96): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cUIObject.cpp
+c:\users\korea\desktop\2\tera\tera\ui\cuiobject.cpp(118): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuiobject.cpp(117): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuiobject.cpp(116): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuiobject.cpp(115): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuiobject.cpp(125): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuiobject.cpp(124): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuiobject.cpp(123): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\ui\cuiobject.cpp(122): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cItemBase.cpp
+c:\users\korea\desktop\2\tera\tera\gameobject\item\citembase.cpp(214): warning C4267: '인수': 'size_t'에서 'UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cWeapon00.cpp
+  cXLoader.cpp
+c:\users\korea\desktop\2\tera\tera\xmesh\cxloader.cpp(54): warning C4474: 'sprintf_s' : 서식 문자열에 전달된 인수가 너무 많습니다.
+  c:\users\korea\desktop\2\tera\tera\xmesh\cxloader.cpp(54): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 2개 필요하지만 3개가 제공되었습니다.
+  cXMesh.cpp
+c:\users\korea\desktop\2\tera\tera\xmesh\cxmesh.cpp(25): warning C4267: '인수': 'size_t'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cCharacterClass03.cpp
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacterclass03.cpp(420): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacterclass03.cpp(467): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacterclass03.cpp(480): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacterclass03.cpp(499): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacterclass03.cpp(575): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacterclass03.cpp(743): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacterclass03.cpp(753): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacterclass03.cpp(768): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  cGameObject.cpp
+  cCharacter.cpp
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacter.cpp(62): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacter.cpp(63): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacter.cpp(89): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacter.cpp(96): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacter.cpp(125): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacter.cpp(135): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacter.cpp(148): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacter.cpp(158): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacter.cpp(140): warning C4474: 'sprintf_s' : 서식 문자열에 전달된 인수가 너무 많습니다.
+  c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacter.cpp(140): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 0개 필요하지만 2개가 제공되었습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacter.cpp(150): warning C4474: 'sprintf_s' : 서식 문자열에 전달된 인수가 너무 많습니다.
+  c:\users\korea\desktop\2\tera\tera\gameobject\character\ccharacter.cpp(150): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 0개 필요하지만 2개가 제공되었습니다.
+  cGrid.cpp
+c:\users\korea\desktop\2\tera\tera\cgrid.cpp(29): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\cgrid.cpp(31): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\cgrid.cpp(34): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\cgrid.cpp(36): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\cgrid.cpp(39): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\cgrid.cpp(41): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\cgrid.cpp(44): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\cgrid.cpp(46): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\cgrid.cpp(69): warning C4267: '인수': 'size_t'에서 'UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cCharaPopori.cpp
+c:\users\korea\desktop\2\tera\tera\gameobject\character\player\ccharapopori.cpp(33): warning C4101: 'pSkinnedMesh' :참조되지 않은 지역 변수입니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\player\ccharapopori.cpp(86): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\player\ccharapopori.cpp(211): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\gameobject\character\player\ccharapopori.cpp(221): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cAllocateHierarchy.cpp
+c:\users\korea\desktop\2\tera\tera\skinnedmesh\callocatehierarchy.cpp(27): warning C4267: '초기화 중': 'size_t'에서 'UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\skinnedmesh\callocatehierarchy.cpp(148): warning C4267: '=': 'size_t'에서 'UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cSkinnedMesh.cpp
+c:\users\korea\desktop\2\tera\tera\skinnedmesh\cskinnedmesh.cpp(479): warning C4244: '초기화 중': 'DOUBLE'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\skinnedmesh\cskinnedmesh.cpp(480): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\skinnedmesh\cskinnedmesh.cpp(484): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\skinnedmesh\cskinnedmesh.cpp(485): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\korea\desktop\2\tera\tera\skinnedmesh\cskinnedmesh.cpp(499): warning C4244: 'return': 'DOUBLE'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cSceneTest.cpp
+c:\users\korea\desktop\2\tera\tera\scene\cscenetest.cpp(28): warning C4150: 불완전한 형식 'cKelsaik'에 대한 포인터를 삭제했습니다. 소멸자가 호출되지 않습니다.
+  c:\users\korea\desktop\2\tera\tera\scene\cscenetest.h(8): note: 'cKelsaik' 선언을 참조하십시오.
+  cKeyManager.cpp
+  cSceneManager.cpp
+  cSoundManager.cpp
+  cTextureManager.cpp
+  cTimeManager.cpp
+c:\users\korea\desktop\2\tera\tera\manager\ctimemanager.cpp(61): warning C4267: '인수': 'size_t'에서 'INT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cDeviceManager.cpp
+  cFontManager.cpp
+c:\users\korea\desktop\2\tera\tera\manager\cfontmanager.cpp(22): warning C4101: 'pont' :참조되지 않은 지역 변수입니다.
+  cGameNode.cpp
+  cMainGame.cpp
+  Tera.cpp
+c:\users\korea\desktop\2\tera\tera\tera.cpp(70): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+cMonster01.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
+cCharacterClass03.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
 cMainGame.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
 cBoundingBox.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
 cCamera.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
+cKelsaik.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
 cParticleSet.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
-cMonster01.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
+cTestMap.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
+cDummyObj.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
 cObjectManager.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
 cItemBase.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
 cBoundingBox.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
+cBossRoom_Wall.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
 cCamera.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
 cParticle.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
-cTestMap.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
-cTown_House.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cDummyObj.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cCharacterClass03.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cCamera.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cParticle.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cTestMap.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cMonster01.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cCamera.obj : error LNK2019: D3DXMatrixRotationX 외부 기호(참조 위치: "public: void __cdecl cCamera::UpdateFix(struct D3DXVECTOR3)" (?UpdateFix@cCamera@@QEAAXUD3DXVECTOR3@@@Z) 함수)에서 확인하지 못했습니다.
-cCamera.obj : error LNK2019: D3DXMatrixRotationY 외부 기호(참조 위치: "public: void __cdecl cCamera::Update(struct D3DXVECTOR3)" (?Update@cCamera@@QEAAXUD3DXVECTOR3@@@Z) 함수)에서 확인하지 못했습니다.
 cMonster01.obj : error LNK2001: D3DXMatrixRotationY 외부 기호를 확인할 수 없습니다.
 cCharacterClass03.obj : error LNK2001: D3DXMatrixRotationY 외부 기호를 확인할 수 없습니다.
+cBossRoom_Doll.obj : error LNK2001: D3DXMatrixRotationY 외부 기호를 확인할 수 없습니다.
+cBossRoom_Wall.obj : error LNK2001: D3DXMatrixRotationY 외부 기호를 확인할 수 없습니다.
+cCamera.obj : error LNK2001: D3DXMatrixRotationY 외부 기호를 확인할 수 없습니다.
+cKelsaik.obj : error LNK2001: D3DXMatrixRotationY 외부 기호를 확인할 수 없습니다.
+cCharacterClass03.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
+cTestMap.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
+cMonster01.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
+cTown_House.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
+cDummyObj.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
+cBossRoom_Road.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
+cCamera.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
+cKelsaik.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
+cParticle.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
+cBossRoom_Wall.obj : error LNK2019: D3DXIntersectTri 외부 기호(참조 위치: "public: virtual bool __cdecl cBossRoom_Wall::GetHeight(float,float &,float)" (?GetHeight@cBossRoom_Wall@@UEAA_NMAEAMM@Z) 함수)에서 확인하지 못했습니다.
+cTestMap.obj : error LNK2001: D3DXIntersectTri 외부 기호를 확인할 수 없습니다.
+cCamera.obj : error LNK2019: D3DXMatrixRotationX 외부 기호(참조 위치: "public: void __cdecl cCamera::UpdateFix(struct D3DXVECTOR3)" (?UpdateFix@cCamera@@QEAAXUD3DXVECTOR3@@@Z) 함수)에서 확인하지 못했습니다.
 cCamera.obj : error LNK2019: D3DXMatrixLookAtLH 외부 기호(참조 위치: "public: void __cdecl cCamera::Update(struct D3DXVECTOR3)" (?Update@cCamera@@QEAAXUD3DXVECTOR3@@@Z) 함수)에서 확인하지 못했습니다.
 cCamera.obj : error LNK2019: D3DXMatrixPerspectiveFovLH 외부 기호(참조 위치: "public: void __cdecl cCamera::Setup(void)" (?Setup@cCamera@@QEAAXXZ) 함수)에서 확인하지 못했습니다.
+cKelsaik.obj : error LNK2019: D3DXVec3TransformNormal 외부 기호(참조 위치: "public: void __cdecl cKelsaik::SetAnimWorld(void)" (?SetAnimWorld@cKelsaik@@QEAAXXZ) 함수)에서 확인하지 못했습니다.
+cMonster01.obj : error LNK2001: D3DXVec3TransformNormal 외부 기호를 확인할 수 없습니다.
+cCharacterClass03.obj : error LNK2001: D3DXVec3TransformNormal 외부 기호를 확인할 수 없습니다.
+cKelsaik.obj : error LNK2019: D3DXMatrixMultiply 외부 기호(참조 위치: "public: struct D3DXMATRIX __cdecl D3DXMATRIX::operator*(struct D3DXMATRIX const &)const " (??DD3DXMATRIX@@QEBA?AU0@AEBU0@@Z) 함수)에서 확인하지 못했습니다.
+cMonster01.obj : error LNK2001: D3DXMatrixMultiply 외부 기호를 확인할 수 없습니다.
+cCharacterClass03.obj : error LNK2001: D3DXMatrixMultiply 외부 기호를 확인할 수 없습니다.
+cSkinnedMesh.obj : error LNK2001: D3DXMatrixMultiply 외부 기호를 확인할 수 없습니다.
+cKelsaik.obj : error LNK2019: D3DXFrameFind 외부 기호(참조 위치: "public: virtual void __cdecl cKelsaik::Setup(void)" (?Setup@cKelsaik@@UEAAXXZ) 함수)에서 확인하지 못했습니다.
+cMonster01.obj : error LNK2001: D3DXFrameFind 외부 기호를 확인할 수 없습니다.
+cCharaPopori.obj : error LNK2001: D3DXFrameFind 외부 기호를 확인할 수 없습니다.
+cSkinnedMesh.obj : error LNK2001: D3DXFrameFind 외부 기호를 확인할 수 없습니다.
 cShader.obj : error LNK2019: D3DXLoadMeshFromXW 외부 기호(참조 위치: "public: static struct ID3DXMesh * __cdecl cShader::LoadModel(char const *,char const *)" (?LoadModel@cShader@@SAPEAUID3DXMesh@@PEBD0@Z) 함수)에서 확인하지 못했습니다.
 cXLoader.obj : error LNK2001: D3DXLoadMeshFromXW 외부 기호를 확인할 수 없습니다.
 cShader.obj : error LNK2019: D3DXCreateEffectFromFileW 외부 기호(참조 위치: "public: static struct ID3DXEffect * __cdecl cShader::LoadShader(char const *,char const *)" (?LoadShader@cShader@@SAPEAUID3DXEffect@@PEBD0@Z) 함수)에서 확인하지 못했습니다.
-cItemInfo.obj : error LNK2019: D3DXCreateSprite 외부 기호(참조 위치: "public: void __cdecl cItemInfo::Setup(struct tagItemInfo *)" (?Setup@cItemInfo@@QEAAXPEAUtagItemInfo@@@Z) 함수)에서 확인하지 못했습니다.
+cItemInfo.obj : error LNK2019: D3DXCreateSprite 외부 기호(참조 위치: "public: void __cdecl cItemInfo::Setup(struct tagTextPack *,struct tagItemInfo *)" (?Setup@cItemInfo@@QEAAXPEAUtagTextPack@@PEAUtagItemInfo@@@Z) 함수)에서 확인하지 못했습니다.
 cSprite.obj : error LNK2001: D3DXCreateSprite 외부 기호를 확인할 수 없습니다.
 cUIInfo.obj : error LNK2001: D3DXCreateSprite 외부 기호를 확인할 수 없습니다.
 cParticle.obj : error LNK2019: D3DXMatrixScaling 외부 기호(참조 위치: "public: void __cdecl cParticle::Update(struct D3DXMATRIX)" (?Update@cParticle@@QEAAXUD3DXMATRIX@@@Z) 함수)에서 확인하지 못했습니다.
 cTown_House.obj : error LNK2001: D3DXMatrixScaling 외부 기호를 확인할 수 없습니다.
 cCharacter.obj : error LNK2001: D3DXMatrixScaling 외부 기호를 확인할 수 없습니다.
-cTestMap.obj : error LNK2019: D3DXIntersectTri 외부 기호(참조 위치: "public: virtual bool __cdecl cTestMap::GetHeight(float,float &,float)" (?GetHeight@cTestMap@@UEAA_NMAEAMM@Z) 함수)에서 확인하지 못했습니다.
-cMonster01.obj : error LNK2019: D3DXVec3TransformNormal 외부 기호(참조 위치: "public: void __cdecl cMonster01::SetAnimWorld(void)" (?SetAnimWorld@cMonster01@@QEAAXXZ) 함수)에서 확인하지 못했습니다.
-cCharacterClass03.obj : error LNK2001: D3DXVec3TransformNormal 외부 기호를 확인할 수 없습니다.
-cMonster01.obj : error LNK2019: D3DXMatrixMultiply 외부 기호(참조 위치: "public: struct D3DXMATRIX __cdecl D3DXMATRIX::operator*(struct D3DXMATRIX const &)const " (??DD3DXMATRIX@@QEBA?AU0@AEBU0@@Z) 함수)에서 확인하지 못했습니다.
-cCharacterClass03.obj : error LNK2001: D3DXMatrixMultiply 외부 기호를 확인할 수 없습니다.
-cSkinnedMesh.obj : error LNK2001: D3DXMatrixMultiply 외부 기호를 확인할 수 없습니다.
-cMonster01.obj : error LNK2019: D3DXFrameFind 외부 기호(참조 위치: "public: virtual void __cdecl cMonster01::Setup(void)" (?Setup@cMonster01@@UEAAXXZ) 함수)에서 확인하지 못했습니다.
-cCharaPopori.obj : error LNK2001: D3DXFrameFind 외부 기호를 확인할 수 없습니다.
-cSkinnedMesh.obj : error LNK2001: D3DXFrameFind 외부 기호를 확인할 수 없습니다.
 cSpere.obj : error LNK2019: D3DXCreateSphere 외부 기호(참조 위치: "public: void __cdecl cSpere::Setup(struct D3DXVECTOR3,float)" (?Setup@cSpere@@QEAAXUD3DXVECTOR3@@M@Z) 함수)에서 확인하지 못했습니다.
 cItemBase.obj : error LNK2019: D3DXVec3CatmullRom 외부 기호(참조 위치: "public: virtual void __cdecl cItemBase::Update(void)" (?Update@cItemBase@@UEAAXXZ) 함수)에서 확인하지 못했습니다.
 cSkinnedMesh.obj : error LNK2019: D3DXLoadMeshHierarchyFromXW 외부 기호(참조 위치: "public: void __cdecl cSkinnedMesh::Setup(char const *,char const *)" (?Setup@cSkinnedMesh@@QEAAXPEBD0@Z) 함수)에서 확인하지 못했습니다.
@@ -61,9 +403,9 @@ cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::Chann
 cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::Channel::isPlaying(bool *)" (?isPlaying@Channel@FMOD@@QEAA?AW4FMOD_RESULT@@PEA_N@Z) 외부 기호(참조 위치: "public: bool __cdecl cSoundManager::isPlaySound(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?isPlaySound@cSoundManager@@QEAA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) 함수)에서 확인하지 못했습니다.
 cTextureManager.obj : error LNK2019: D3DXCreateTextureFromFileExW 외부 기호(참조 위치: "public: void __cdecl cTextureManager::AddTexture(char const *)" (?AddTexture@cTextureManager@@QEAAXPEBD@Z) 함수)에서 확인하지 못했습니다.
 cDeviceManager.obj : error LNK2019: Direct3DCreate9 외부 기호(참조 위치: "private: __cdecl cDeviceManager::cDeviceManager(void)" (??0cDeviceManager@@AEAA@XZ) 함수)에서 확인하지 못했습니다.
-cFontManager.obj : error LNK2019: D3DXCreateFontIndirectW 외부 기호(참조 위치: "public: struct ID3DXFont * __cdecl cFontManager::GetFont(enum cFontManager::eFontType,struct D3DXVECTOR2)" (?GetFont@cFontManager@@QEAAPEAUID3DXFont@@W4eFontType@1@UD3DXVECTOR2@@@Z) 함수)에서 확인하지 못했습니다.
+cFontManager.obj : error LNK2019: D3DXCreateFontIndirectW 외부 기호(참조 위치: "public: struct ID3DXFont * __cdecl cFontManager::GetFont(enum cFontManager::eFontType)" (?GetFont@cFontManager@@QEAAPEAUID3DXFont@@W4eFontType@1@@Z) 함수)에서 확인하지 못했습니다.
 cMainGame.obj : error LNK2019: D3DXCreateTextureFromFileW 외부 기호(참조 위치: "public: virtual void __cdecl cMainGame::Setup(void)" (?Setup@cMainGame@@UEAAXXZ) 함수)에서 확인하지 못했습니다.
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\d3d9.lib : warning LNK4272: 'X86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\d3dx9.lib : warning LNK4272: 'X86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
-lib/fmodex_vc.lib : warning LNK4272: 'X86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
-C:\Users\shin\ProjectTera\Tera\x64\Debug\Tera.exe : fatal error LNK1120: 37개의 확인할 수 없는 외부 참조입니다.
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\d3d9.lib : warning LNK4272: 'x86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\d3dx9.lib : warning LNK4272: 'x86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
+lib\fmodex_vc.lib : warning LNK4272: 'x86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
+C:\Users\korea\Desktop\2\Tera\x64\Debug\Tera.exe : fatal error LNK1120: 37개의 확인할 수 없는 외부 참조입니다.

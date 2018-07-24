@@ -23,9 +23,9 @@ cSceneBoss::~cSceneBoss()
 	SAFE_DELETE(m_pBossRoom_Doll);
 	SAFE_DELETE(m_pBackGroundBlack);
 	SAFE_DELETE(m_pPopori);
-	SAFE_DELETE(m_pKelsaik);
+	//SAFE_DELETE(m_pKelsaik);
 
-	Destroy();
+	//Destroy();
 }
 
 void cSceneBoss::Setup()

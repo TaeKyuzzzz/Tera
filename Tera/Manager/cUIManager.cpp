@@ -9,7 +9,7 @@
 
 
 cUIManager::cUIManager()
-	:m_nAlpha(100)
+	:m_nAlpha(200)
 {
 }
 
@@ -49,7 +49,7 @@ void cUIManager::Update()
 	if (m_isCallStatus)		CallUIUpdate("Status");
 	if (m_isCallShop)		CallUIUpdate("ConsumablesShop");
 
-
+	//UIMoveControl();
 
 	//UIInfoTextPopUp("Inventory");
 
@@ -360,5 +360,18 @@ void cUIManager::UIInfoTextPopUp(int oneValue, const char* szNecessaryPlace)
 		DT_LEFT | DT_TOP,
 		D3DCOLOR_XRGB(255, 255, 0));
 	
+}
+
+void cUIManager::UIMoveControl()
+{
+	for (int i = 0; i < m_vUI.size(); i++)
+	{
+		int InvenIndex = FindUIRootIndex("Inventory");
+		int StatusIndex = FindUIRootIndex("Status");
+		int ConShop = FindUIRootIndex("ConsumablesShop");
+
+		if (i == InvenIndex || i == StatusIndex || i == ConShop) continue;
+		m_vUI[i]->GetUIRoot()->SetIsMove(false);
+	}
 }
 
