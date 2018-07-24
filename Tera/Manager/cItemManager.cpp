@@ -692,12 +692,9 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 	RECT invenRc = _UI->GetVUI()[invenIndex]->GetUIRoot()->GetCollisionRect();
 	RECT conShopRc = _UI->GetVUI()[conShopIndex]->GetUIRoot()->GetCollisionRect();
 	RECT statusRc = _UI->GetVUI()[statusIndex]->GetUIRoot()->GetCollisionRect();
-	RECT quickRc[16]; 
-	for (int i = 0; i < 16; i++)
-	{
-		quickRc[i] = _UI->GetVQuickSlot()[i]->GetUIImage()->GetCollisionRect();
-	}
-
+	
+	
+	RECT quickRc;
 	RECT itemRc;
 	RECT temp;
 	RECT temp2;
@@ -708,6 +705,8 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 		{
 			if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollision())
 			{
+				quickRc = _UI->GetVQuickSlot()[i]->GetUIImage()->GetCollisionRect();
+
 				itemRc = (*vPlaceItem)[i]->GetUIRoot()->GetCollisionRect();
 
 				if (IntersectRect(&temp, &invenRc, &itemRc))
@@ -723,7 +722,7 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 				{
 					prevPlace = STATUSSLOT;
 				}
-				else if (IntersectRect(&temp, &quickRc[i], &itemRc))
+				else if (IntersectRect(&temp, &quickRc, &itemRc))
 				{
 					prevPlace = QUICKSLOT;
 				}
@@ -738,6 +737,8 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 		{
 			if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollision())
 			{
+				quickRc = _UI->GetVQuickSlot()[i]->GetUIImage()->GetCollisionRect();
+
 				itemRc = (*vPlaceItem)[i]->GetUIRoot()->GetCollisionRect();
 
 				if (IntersectRect(&temp, &invenRc, &itemRc))
@@ -768,7 +769,7 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 						(*vPlaceItem).erase((*vPlaceItem).begin() + i);
 					}
 				}
-				else if (IntersectRect(&temp, &quickRc[i], &itemRc))
+				else if (IntersectRect(&temp, &quickRc, &itemRc))
 				{
 					if (_eSlotTypeNum != QUICKSLOT)
 					{
