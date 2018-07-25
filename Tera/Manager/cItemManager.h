@@ -84,6 +84,8 @@ private:
 	HDC hdc;
 	RECT tempRc;
 	RECT quickRc[16];
+	int m_nItemNum[16];
+	int m_nSlotNum[16];
 
 	D3DXVECTOR3 m_pVec3SlotPos[16];
 
@@ -187,8 +189,8 @@ public:
 	void SalesItemCalculator();
 	void BuyConsumables(int collisionNum);
 	void SetSkillSlot();
-	RECT FindCollisionQuickSlot();
-	void RegistQuickSlot();
+	void QuickSlotItemPosRenewal();
+
 
 
 };

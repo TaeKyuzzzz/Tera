@@ -43,10 +43,7 @@ void cItemManager::Setup()
 
 void cItemManager::Update()
 {
-	for (int i = 0; i < SLOTTYPEMAX; i++)
-	{
-		MoveFromAToB(i);
-	}
+
 
 
 	//슬롯을 가지고 있는 UI의 위치를 갱신하여
@@ -70,7 +67,10 @@ void cItemManager::Update()
 	//아이템 설명창 업데이트
 	ItemExplaneUpdate();
 	
-
+	for (int i = 0; i < SLOTTYPEMAX; i++)
+	{
+		MoveFromAToB(i);
+	}
 
 	SetSkillSlot();
 
@@ -78,7 +78,8 @@ void cItemManager::Update()
 	SortInSlot();
 
 
-
+	ItemPosRenewal();
+	
 	//각자 장소에 있는 아이템 모두 업데이트
 	ItemUpdate();
 
@@ -717,14 +718,14 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 	{
 		for (int i = 0; i < (*vPlaceItem).size(); i++)
 		{
-			for (int j = 0; j < _UI->GetVQuickSlotItem().size(); j++)
+			for (int j = 0; j < _UI->GetVQuickSlotUI().size(); j++)
 			{
 				if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollision())
 				{
 
 				
 						
-					quickRc = _UI->GetVQuickSlotItem()[j]->GetUIImage()->GetCollisionRect();
+					quickRc = _UI->GetVQuickSlotUI()[j]->GetUIImage()->GetCollisionRect();
 					
 					itemRc = (*vPlaceItem)[i]->GetUIRoot()->GetCollisionRect();
 
@@ -755,13 +756,13 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 	{
 		for (int i = 0; i < (*vPlaceItem).size(); i++)
 		{
-			for (int j = 0; j < _UI->GetVQuickSlotItem().size(); j++)
+			for (int j = 0; j < _UI->GetVQuickSlotUI().size(); j++)
 			{
 				if ((*vPlaceItem).size() == 0) return;
 				if ((*vPlaceItem).size() <= i) return;
 				if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollision())
 				{
-					quickRc = _UI->GetVQuickSlotItem()[j]->GetUIImage()->GetCollisionRect();
+					quickRc = _UI->GetVQuickSlotUI()[j]->GetUIImage()->GetCollisionRect();
 
 					itemRc = (*vPlaceItem)[i]->GetUIRoot()->GetCollisionRect();
 
@@ -805,9 +806,10 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 					{
 						if (_eSlotTypeNum != QUICKSLOT)
 						{
-							//m_vQuickItem.resize(m_vQuickItem.size() + 1);
+						
 							m_vQuickItem.push_back((*vPlaceItem)[i]);
-							m_vQuickItem.back()->TransPos(m_pVec3SlotPos[j]);
+							m_vQuickItem.back()->SetQuickSlotNum(j);
+						
 							(*vPlaceItem).erase((*vPlaceItem).begin() + i);
 						}
 					}
@@ -1158,41 +1160,30 @@ void cItemManager::BuyConsumables(int collisionNum)
 
 void cItemManager::SetSkillSlot()
 {
-	//m_pVec3SlotPos = new D3DXVECTOR3[_UI->GetVQuickSlot().size()];
-	
-	//int dragZoneIndex = _UI->FindUIRootIndex("DRAGZONE");
-
-	//_UI->GetVQuickSlot()[0]->GetUIImage()->GetMatWorld()._41;
-
-	//RECT dragZone = _UI->GetVUI()[dragZoneIndex]->GetUIRoot()->GetCollisionRect();
-
-	for (int i = 0; i < _UI->GetVQuickSlotItem().size(); i++)
+	for (int i = 0; i < _UI->GetVQuickSlotUI().size(); i++)
 	{
-		quickRc[i] = _UI->GetVQuickSlotItem()[i]->GetUIImage()->GetCollisionRect();
+		//UI의 위치를 받아와서
+		quickRc[i] = _UI->GetVQuickSlotUI()[i]->GetUIImage()->GetCollisionRect();
 
+		//계속 갱신되는 위치
+		//16
 		m_pVec3SlotPos[i].x = quickRc[i].left;
 		m_pVec3SlotPos[i].y = quickRc[i].top;
 		m_pVec3SlotPos[i].z = 0;
 	}
-	
-	
-
-	
-	
-	
-
 
 
 
 }
 
-
-
-void cItemManager::RegistQuickSlot()
-
+void cItemManager::QuickSlotItemPosRenewal()
 {
-
+	for (int i = 0; i < m_vQuickItem.size(); i++)
+	{
+		m_vQuickItem[i]->TransPos(m_pVec3SlotPos[m_vQuickItem[i]->GetQuickSlotNum()]);
+	}
 }
+
 void cItemManager::ItemExplaneRender()
 {
 
