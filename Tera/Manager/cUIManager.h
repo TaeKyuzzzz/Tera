@@ -28,6 +28,7 @@ private:
 
 	SYNTHESIZE(vUI, m_vUI, VUI);
 
+	SYNTHESIZE(vUI, m_vQuickSlotAll, VQuickSlotUIAll);
 	SYNTHESIZE(vUI, m_vQuickSlotUI, VQuickSlotUI);
 
 	SYNTHESIZE(D3DXVECTOR3, m_vInventoryPos, InventoryPos);
@@ -35,8 +36,9 @@ private:
 	SYNTHESIZE(int, m_nAlpha, Alpha);
 
 	SYNTHESIZE(bool, m_isCallInven, IsCallInven);
-	SYNTHESIZE(bool, m_isCallShop, IsCallShop);
+	SYNTHESIZE(bool, m_isCallConShop, IsCallConShop);
 	SYNTHESIZE(bool, m_isCallStatus, IsCallStatus);
+	SYNTHESIZE(bool, m_isCallQuickSlot, QuickSlot);
 
 
 	HDC hdc;
@@ -77,6 +79,8 @@ public:
 
 
 	void QuickSlotFunc();
+	void QuickSlotResize();
+
 
 
 	int FindUIRootIndex(const char* szFindIndex);

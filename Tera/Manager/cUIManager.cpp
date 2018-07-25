@@ -45,64 +45,27 @@ void cUIManager::Update()
 
 	CallKeyInput();
 
+	if (m_isCallQuickSlot)	CallUIUpdate("QSDRAGZONE");
 	if (m_isCallInven)		CallUIUpdate("Inventory");
 	if (m_isCallStatus)		CallUIUpdate("Status");
-	if (m_isCallShop)		CallUIUpdate("ConsumablesShop");
+	if (m_isCallConShop)	CallUIUpdate("ConsumablesShop");
 
-	//UIMoveControl();
-
-	//UIInfoTextPopUp("Inventory");
-
-	for (int i = 11; i < m_vUI.size(); i++)
-	{
-		m_vUI[i]->Update();
-
-
-	}
 	QuickSlotFunc();
-
-	for (int i = 0; i < m_vQuickSlotUI.size(); i++)
-	{
-		RECT rc = m_vQuickSlotUI[i]->GetUIImage()->GetCollisionRect();
-
-		m_vQuickSlotUI[i]->GetUIImage()->SetCollisionRect({ rc.left + 11, rc.top + 11, rc.right - 11, rc.bottom - 11 });
-	}
+	QuickSlotResize();
+	
 
 }
 
 void cUIManager::Render()
 {
 
-	//m_vUI[11]->GetUIRoot()->GetVecChild()[0]->
-
-
-
-
+	if (m_isCallQuickSlot)CallUIRender("QSDR");
 	if (m_isCallInven)CallUIRender("Inventory");
 	if (m_isCallStatus)CallUIRender("Status");
-	if (m_isCallShop)CallUIRender("ConsumablesShop");
+	if (m_isCallConShop)CallUIRender("ConsumablesShop");
 
-
-	//for (int i = 0; i < m_vUI.size(); i++)
-	//{
-
-	//	if (m_vUI[i]->GetUIImage() && m_vUI[i]->GetUIImage()->)
-	//	{
-	//		RECT rc = m_vUI[i]->GetUIImage()->GetCollisionRect();
-
-	//		Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
-	//	}
-	//}
-
-	for (int i = 11; i < m_vUI.size(); i++)
-	{
-		
-		m_vUI[i]->Render();
-	
-	}
-
+	//텍스트정보보는함수
 	UIInfoTextPopUp(NULL, "Status");
-
 	UIInfoTextPopUp(m_vUI.size());
 
 
@@ -130,9 +93,8 @@ void cUIManager::CreateUI(UIType _UIType, const char* UIName, const char* filePa
 	_tagUIInfo._UIParentName = UIParentName;
 	_tagUIInfo._UIReduceDragSize = vec2ReduceDragSize;
 
-	if (strncmp(UIName, "Skill", 5) == 0)
+	if (strncmp(UIName, "QSSkill", 7) == 0)
 		m_vQuickSlotUI.push_back(m_pUIInfo);
-
 
 
 	m_pUIInfo->Setup(&_tagUIInfo);
@@ -182,7 +144,8 @@ void cUIManager::CallUIUpdate(const char* UIname)
 {	
 	for (int i = 0; i < m_vUI.size(); i++)
 	{
-		if (m_vUI[i]->GetName() == UIname)
+
+		if (strncmp(m_vUI[i]->GetName(), UIname, 4) == 0)
 		{
 			m_vUI[i]->Update();
 		}
@@ -195,11 +158,10 @@ void cUIManager::CallUIRender(const char* UIname)
 {
 	for (int i = 0; i < m_vUI.size(); i++)
 	{
-		if (m_vUI[i]->GetName() == UIname)
+		if (strncmp(m_vUI[i]->GetName(), UIname, 4) == 0)
 		{
 			m_vUI[i]->Render();
-		}
-
+		}	
 	}	
 }
 
@@ -214,8 +176,9 @@ void cUIManager::CallKeyInput()
 			isOptionMode = false;
 			CAMERAMANAGER->SetType(CAMERA_FREE);
 			m_isCallInven = false;
-			m_isCallShop = false;
+			m_isCallConShop = false;
 			m_isCallStatus = false;
+			m_isCallQuickSlot = false;
 		}
 		else
 		{
@@ -236,16 +199,16 @@ void cUIManager::CallKeyInput()
 		m_isCallInven = false;
 		SOUNDMANAGER->Play("CloseInterface");
 	}
-	if (!m_isCallShop && KEYMANAGER->IsOnceKeyDown('Q'))
+	if (!m_isCallConShop && KEYMANAGER->IsOnceKeyDown('C'))
 	{
-		m_isCallShop = true;
+		m_isCallConShop = true;
 		isOptionMode = true;
 		CAMERAMANAGER->SetType(CAMERA_FIX);
 		SOUNDMANAGER->Play("OpenInterface");
 	}
-	else if (m_isCallShop && KEYMANAGER->IsOnceKeyDown('Q'))
+	else if (m_isCallConShop && KEYMANAGER->IsOnceKeyDown('C'))
 	{
-		m_isCallShop = false;
+		m_isCallConShop = false;
 		SOUNDMANAGER->Play("CloseInterface");
 	}
 	if (!m_isCallStatus && KEYMANAGER->IsOnceKeyDown('E'))
@@ -258,6 +221,18 @@ void cUIManager::CallKeyInput()
 	else if (m_isCallStatus && KEYMANAGER->IsOnceKeyDown('E'))
 	{
 		m_isCallStatus = false;
+		SOUNDMANAGER->Play("CloseInterface");
+	}
+	if (!m_isCallQuickSlot && KEYMANAGER->IsOnceKeyDown('Q'))
+	{
+		m_isCallQuickSlot = true;
+		isOptionMode = true;
+		CAMERAMANAGER->SetType(CAMERA_FIX);
+		SOUNDMANAGER->Play("OpenInterface");
+	}
+	else if (m_isCallQuickSlot && KEYMANAGER->IsOnceKeyDown('Q'))
+	{
+		m_isCallQuickSlot = false;
 		SOUNDMANAGER->Play("CloseInterface");
 	}
 }
@@ -274,24 +249,15 @@ void cUIManager::CloseUI(const char* szUIName)
 		{
 			if(szUIName == "closeIdleI") m_isCallInven = false;
 			else if (szUIName == "closeIdleS") m_isCallStatus = false;
-			else if (szUIName == "closeIdleC") m_isCallShop = false;
+			else if (szUIName == "closeIdleC") m_isCallConShop = false;
 		}
 		else if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 		{
 			if (szUIName == "closeIdleI") m_isCallInven = true;
 			else if (szUIName == "closeIdleS") m_isCallStatus = true;
-			else if (szUIName == "closeIdleC") m_isCallShop = true;
+			else if (szUIName == "closeIdleC") m_isCallConShop = true;
 		}
 	}
-
-	//if(i == UIIndex.Inventory) 	m_isCallInven = false;
-	//else if (i = UIIndex.Status) m_isCallStatus = false;
-	//else if (i == UIIndex.ConsumablesShop) m_isCallShop = false;
-		
-
-		
-
-	
 }
 
 void cUIManager::QuickSlotFunc()
@@ -324,6 +290,7 @@ void cUIManager::QuickSlotFunc()
 
 			}
 		}
+	
 	}
 }
 
@@ -383,3 +350,12 @@ void cUIManager::UIMoveControl()
 	}
 }
 
+void cUIManager::QuickSlotResize()
+{
+	for (int i = 0; i < m_vQuickSlotUI.size(); i++)
+	{
+		RECT rc = m_vQuickSlotUI[i]->GetUIImage()->GetCollisionRect();
+
+		m_vQuickSlotUI[i]->GetUIImage()->SetCollisionRect({ rc.left + 11, rc.top + 11, rc.right - 11, rc.bottom - 11 });
+	}
+}

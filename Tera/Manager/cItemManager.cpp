@@ -26,6 +26,8 @@ cItemManager::~cItemManager()
 
 void cItemManager::Setup()
 {
+	hdc = GetDC(g_hWnd);
+
 	UITextList();
 	
 	//슬롯만들기
@@ -109,7 +111,9 @@ void cItemManager::Render()
 	}
 
 	
+	//RECT rc = _UI->GetVUI()[0]->GetUIRoot()->GetCollisionRect();
 
+	//Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
 	
 
 
@@ -422,7 +426,7 @@ const char * cItemManager::FindItemPos()
 			RECT tempRc;
 			
 
-			if (_UI->GetIsCallShop() && IntersectRect(&tempRc, &itemRc, &shopUIRcResize))
+			if (_UI->GetIsCallConShop() && IntersectRect(&tempRc, &itemRc, &shopUIRcResize))
 			{
 				return "구입가격";
 			}
@@ -868,7 +872,7 @@ void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPla
 					{
 						if (currentPlaceName == "Inventory")
 						{
-							if (_UI->GetIsCallShop())
+							if (_UI->GetIsCallConShop())
 							{
 								if (m_vShopItem.size() > 23) continue;
 								m_vShopItem.push_back(sendItem[i]);
@@ -1034,7 +1038,7 @@ void cItemManager::ItemUpdate()
 	}
 
 	//상점아이템 업데이트
-	if (_UI->GetIsCallShop())
+	if (_UI->GetIsCallConShop())
 	{
 		for (int i = 0; i < m_vShopItem.size(); i++)
 		{
@@ -1073,7 +1077,7 @@ void cItemManager::ItemRender()
 	}
 
 	//상점 아이템 렌더
-	if (_UI->GetIsCallShop())
+	if (_UI->GetIsCallConShop())
 	{
 		for (int i = 0; i < m_vShopItem.size(); i++)
 		{
@@ -1127,7 +1131,7 @@ void cItemManager::SalesItemCalculator()
 
 	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 	{
-		if (_UI->GetIsCallShop() && 
+		if (_UI->GetIsCallConShop() && 
 			_UI->GetVUI()[saleBT]->GetUIButtonImage()->GetIsCollisionPT())
 		{
 			int saleSlot = 8;
@@ -1203,7 +1207,7 @@ void cItemManager::ItemExplaneRender()
 		{
 			RECT itemRc = m_vAllItem[i]->GetUIRoot()->GetCollisionRect();
 
-			if (_UI->GetIsCallShop() && IntersectRect(&tempRc, &itemRc, &shopRc)||
+			if (_UI->GetIsCallConShop() && IntersectRect(&tempRc, &itemRc, &shopRc)||
 				_UI->GetIsCallInven() && IntersectRect(&tempRc, &itemRc, &invenRc)||
 				_UI->GetIsCallStatus() && IntersectRect(&tempRc, &itemRc, &statusRc))
 			{

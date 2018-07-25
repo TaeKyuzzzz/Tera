@@ -75,16 +75,16 @@ void cPoalong::Update()
 
 	///////////////////////////상점처리///////////////////////////////
 	
-	if (!UIMANAGER->GetIsCallShop() && KEYMANAGER->IsOnceKeyDown('F') && DialogZone < 40)
+	if (!UIMANAGER->GetIsCallConShop() && KEYMANAGER->IsOnceKeyDown('F') && DialogZone < 40)
 	{
-		UIMANAGER->SetIsCallShop(true);
+		UIMANAGER->SetIsCallConShop(true);
 		isOptionMode = true;
 		CAMERAMANAGER->SetType(CAMERA_FIX);
 		SOUNDMANAGER->Play("OpenInterface");
 	}
-	else if (UIMANAGER->GetIsCallShop() && KEYMANAGER->IsOnceKeyDown('F') && DialogZone < 40)
+	else if (UIMANAGER->GetIsCallConShop() && KEYMANAGER->IsOnceKeyDown('F') && DialogZone < 40)
 	{
-		UIMANAGER->SetIsCallShop(false);
+		UIMANAGER->SetIsCallConShop(false);
 		SOUNDMANAGER->Play("CloseInterface");
 	}
 	//////////////////////////////////////////////////////////////////
