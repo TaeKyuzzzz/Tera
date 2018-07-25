@@ -19,7 +19,7 @@ protected:
 		TURN,
 		DIE
 	};
-
+	// 
 	enum MON_Anim
 	{
 		MON_Anim_aggrochange,
