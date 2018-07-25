@@ -5,6 +5,9 @@ class cSkinnedMesh;
 class cParticleSet;
 
 #define NUMOFPATTERN	3
+#define LEFTTURN		(NUMOFPATTERN)
+#define RIGHTTURN		(NUMOFPATTERN+1)
+#define BACKTURN		(NUMOFPATTERN+2)
 
 class cKelsaik : public cMonster
 {
@@ -144,6 +147,8 @@ public:
 	void AttackPattern01();
 	void AttackPattern02();
 	void AttackPattern03();
-
+	void TurnLeft();
+	void TurnRight();
+	void TurnBack();
 };
 

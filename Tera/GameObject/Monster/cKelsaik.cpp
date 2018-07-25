@@ -240,13 +240,8 @@ void cKelsaik::Battle_Update()
 	else if (!m_isDoingPattern)
 	{
 		// 여기서 자연스럽게 각도를 바꾸면 좋겟다..
-		SetTargetAngle();
-		if (abs(m_fRotY - m_fTargetAngle) > 0.125f)
-		{
-			ChangeState(TURN);
-			//SetAngleWithPlayer();
-			//ChangeAnim(MON_Anim_Wait, true);
-		}
+		//SetAngleWithPlayer();
+		//ChangeAnim(MON_Anim_Wait, true);
 		//m_partternCost = false;
 	}
 	
@@ -254,27 +249,42 @@ void cKelsaik::Battle_Update()
 	
 	if (m_partternCost)
 	{
+		// 일단 패턴을 배치하고
 		m_nPatternNum = rand() % NUMOFPATTERN;
+		
+		SetTargetAngle(); // 타겟의 각도를 잰 뒤,
+
+		// 타겟의 위치에 따라 고개를 돌리는거임
+		if (m_fTargetAngle >= D3DX_PI * 0.25 && m_fTargetAngle < D3DX_PI * 0.75)
+			m_nPatternNum = RIGHTTURN;
+		else if (m_fTargetAngle >= D3DX_PI * 0.75 && m_fTargetAngle > D3DX_PI * 1.25)
+			m_nPatternNum = BACKTURN;
+		else if (m_fTargetAngle >= D3DX_PI * 1.25 && m_fTargetAngle > D3DX_PI * 1.75)
+			m_nPatternNum = LEFTTURN;
+
 		m_partternCost = false;
 		m_isDoingPattern = true;
 		m_pEffectCost = true;
+
 	}
 
 	if (m_isDoingPattern)
 	{
 		switch (m_nPatternNum)
 		{
-		case 0	:	AttackPattern01();	break;
-		case 1	:	AttackPattern02();	break;
-		case 2	:	AttackPattern03();	break;
+		case 0			:	AttackPattern01();	break;
+		case 1			:	AttackPattern02();	break;
+		case 2			:	AttackPattern03();	break;
+		case LEFTTURN	:	TurnLeft();			break;
+		case RIGHTTURN	:	TurnRight();		break;
+		case BACKTURN	:	TurnBack();			break;
+
 		}
 	}
 }
 
 void cKelsaik::Turn_Update()
 {
-	if (KEYMANAGER->IsOnceKeyDown('C'))
-		int a = 10;
 	// 회전 무브 == 51 프레임 -> 51 / 30 초 걸림
 	if (m_Anim != MON_Anim_roundmove01 && m_Anim != MON_Anim_roundmove02)
 	{
@@ -686,5 +696,17 @@ void cKelsaik::AttackPattern03()
 			}
 		}
 	}
+}
+
+void cKelsaik::TurnLeft()
+{
+}
+
+void cKelsaik::TurnRight()
+{
+}
+
+void cKelsaik::TurnBack()
+{
 }
 
