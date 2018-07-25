@@ -29,6 +29,7 @@ private:
 	SYNTHESIZE(const char*, m_szExplain, Explain);
 	SYNTHESIZE(int, m_nBuyPrice, BuyPrice);
 	SYNTHESIZE(int, m_nSalePrice, SalePrice);
+	SYNTHESIZE(int, m_nQuickSlotNum, QuickSlotNum);
 	
 	//텍스트관련
 	SYNTHESIZE(cUITextView*, m_pText, Text);
