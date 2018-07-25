@@ -6,10 +6,10 @@ cUIObject::cUIObject()
 	: m_vPosition(0,0,0)
 	, m_pParent(NULL)
 	, m_stSize(0,0)
-	, m_isCollision(false)
+	, m_isCollisionPT(false)
 	, m_nReduceDragRange{ 1,1 }
 	, m_isMove(true)
-	, m_nAlpha(200)
+	, m_nAlpha(UIMANAGER->GetAlpha())
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -82,7 +82,7 @@ void cUIObject::Render(LPD3DXSPRITE pSprite)
 
 void cUIObject::ImageDrag(D3DXVECTOR2 vec2ReduceDragRange)
 {
-	if (m_enClickState != UNMOVABLE && m_isCollision)
+	if (m_enClickState != UNMOVABLE && m_isCollisionPT)
 	{
 		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON) || KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
 		{
@@ -128,10 +128,10 @@ void cUIObject::ImageDrag(D3DXVECTOR2 vec2ReduceDragRange)
 	if (PtInRect(&m_DragRect, ptMouse))
 	{
 
-		m_isCollision = true;
+		m_isCollisionPT = true;
 
 	}
-	else m_isCollision = false;
+	else m_isCollisionPT = false;
 }
 
 

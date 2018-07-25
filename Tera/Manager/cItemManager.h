@@ -160,6 +160,7 @@ public:
 	void ItemExplaneUpdate();
 	void ItemExplaneRender();
 	void ImitationIconRender();
+	bool isDisplayItemInfo();
 
 #pragma endregion
 

@@ -302,7 +302,7 @@ void cUIManager::QuickSlotFunc()
 		{
 			if (m_vUI[i]->GetName() == "SKILLLOCK")
 			{
-				if (m_vUI[i]->GetUIButtonImage()->GetIsCollision())
+				if (m_vUI[i]->GetUIButtonImage()->GetIsCollisionPT())
 				{
 					for (int j = 1; j < m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild().size(); j++)
 					{
@@ -313,7 +313,7 @@ void cUIManager::QuickSlotFunc()
 			}
 			else if (m_vUI[i]->GetName() == "SKILLLOCK2")
 			{
-				if (m_vUI[i]->GetUIButtonImage()->GetIsCollision())
+				if (m_vUI[i]->GetUIButtonImage()->GetIsCollisionPT())
 				{
 					for (int j = 1; j < m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild().size(); j++)
 					{

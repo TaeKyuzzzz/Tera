@@ -290,7 +290,7 @@ void cItemManager::ItemInfoCTextRenewal(const char * szFindText)
 
 			for (int i = 0; i < m_vAllItem.size(); i++)
 			{
-				if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+				if (m_vAllItem[i]->GetUIRoot()->GetIsCollisionPT())
 				{
 
 					//m_vAllItem[i]->GetUIRoot()
@@ -340,7 +340,7 @@ int cItemManager::FindAbilityValue()
 	for (int i = 0; i < m_vAllItem.size(); i++)
 	{
 		//ºÎµúÇûÀ»¶§
-		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+		if (m_vAllItem[i]->GetUIRoot()->GetIsCollisionPT())
 		{
 			//ºÎµúÈù ³à¼®ÀÇ ¾îºô¸®Æ¼°ªÀ» ¸®ÅÏÇÑ´Ù.
 
@@ -375,7 +375,7 @@ int cItemManager::FindSalePriceValue()
 	for (int i = 0; i < m_vAllItem.size(); i++)
 	{
 
-		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+		if (m_vAllItem[i]->GetUIRoot()->GetIsCollisionPT())
 		{
 
 			int shopIDX = _UI->FindUIRootIndex("ConsumablesShop");
@@ -404,7 +404,7 @@ const char * cItemManager::FindItemPos()
 {
 	for (int i = 0; i < m_vAllItem.size(); i++)
 	{
-		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+		if (m_vAllItem[i]->GetUIRoot()->GetIsCollisionPT())
 		{
 
 			int shopIDX = _UI->FindUIRootIndex("ConsumablesShop");
@@ -439,7 +439,7 @@ void cItemManager::ItemExplaneUpdate()
 	for (int i = 0; i < m_vItemImitation.size(); i++)
 	{
 		m_vItemImitation[i]->Update();	
-		m_vItemImitation[i]->GetUIImage()->SetPosition(D3DXVECTOR3(7, 15, 0));
+		m_vItemImitation[i]->GetUIImage()->SetPosition(D3DXVECTOR3(ptMouse.x + 27, ptMouse.y + 35, 0));
 	
 	}
 
@@ -691,7 +691,7 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 	{
 		for (int i = 0; i < (*vPlaceItem).size(); i++)
 		{
-			if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollision())
+			if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollisionPT())
 				return;
 		}
 	}
@@ -720,7 +720,7 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 		{
 			for (int j = 0; j < _UI->GetVQuickSlotUI().size(); j++)
 			{
-				if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollision())
+				if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollisionPT())
 				{
 
 				
@@ -760,7 +760,7 @@ void cItemManager::MoveFromAToB(int _eSlotTypeNum)
 			{
 				if ((*vPlaceItem).size() == 0) return;
 				if ((*vPlaceItem).size() <= i) return;
-				if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollision())
+				if ((*vPlaceItem)[i]->GetUIRoot()->GetIsCollisionPT())
 				{
 					quickRc = _UI->GetVQuickSlotUI()[j]->GetUIImage()->GetCollisionRect();
 
@@ -1128,7 +1128,7 @@ void cItemManager::SalesItemCalculator()
 	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 	{
 		if (_UI->GetIsCallShop() && 
-			_UI->GetVUI()[saleBT]->GetUIButtonImage()->GetIsCollision())
+			_UI->GetVUI()[saleBT]->GetUIButtonImage()->GetIsCollisionPT())
 		{
 			int saleSlot = 8;
 
@@ -1199,7 +1199,7 @@ void cItemManager::ItemExplaneRender()
 
 	for (int i = 0; i < m_vAllItem.size(); i++)
 	{
-		if (m_vAllItem[i]->GetUIRoot()->GetIsCollision())
+		if (m_vAllItem[i]->GetUIRoot()->GetIsCollisionPT())
 		{
 			RECT itemRc = m_vAllItem[i]->GetUIRoot()->GetCollisionRect();
 
@@ -1223,7 +1223,7 @@ void cItemManager::ImitationIconRender()
 	{
 		for (int j = 0; j < m_vAllItem.size(); j++)
 		{
-			if (m_vAllItem[j]->GetUIRoot()->GetIsCollision())
+			if (m_vAllItem[j]->GetUIRoot()->GetIsCollisionPT())
 			{
 				if (isPlaceItemCollision)
 				{
@@ -1231,10 +1231,28 @@ void cItemManager::ImitationIconRender()
 					{
 						m_vItemImitation[i]->Render();
 					}
+					//else m_vItemImitation[i]->GetUIRoot()->SetAlpha(0);
 				}
 			}
 		}
 	}
+
+	//for (int i = 0; i < m_vItemImitation.size(); i++)
+	//{
+	//	for (int j = 0; j < m_vAllItem.size(); j++)
+	//	{
+
+	//		if (isPlaceItemCollision)
+	//		{
+	//			if (m_vItemImitation[i]->GetName() == m_vAllItem[j]->GetName())
+	//			{
+	//				//m_vItemImitation[i]->Render();
+	//			}
+	//		}
+
+	//	}
+	//}
+
 }
 
 
