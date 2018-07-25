@@ -78,7 +78,7 @@ void cItemManager::Update()
 	SortInSlot();
 
 
-	ItemPosRenewal();
+	QuickSlotItemPosRenewal();
 	
 	//각자 장소에 있는 아이템 모두 업데이트
 	ItemUpdate();
