@@ -25,7 +25,7 @@ protected :
 
 	SYNTHESIZE(bool, m_isItemInfoWnd, IsItemInfoWnd);
 
-	SYNTHESIZE(bool, m_isCollision, IsCollision);
+	SYNTHESIZE(bool, m_isCollisionPT, IsCollisionPT);
 	SYNTHESIZE(POINT, m_move, Move);
 	SYNTHESIZE(tagClicked, m_enClickState, ClickState);
 	SYNTHESIZE(bool, m_isMove, IsMove);
