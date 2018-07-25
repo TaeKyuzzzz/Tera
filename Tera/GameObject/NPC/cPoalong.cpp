@@ -51,10 +51,12 @@ void cPoalong::Setup()
 
 void cPoalong::Update()
 {
-	D3DXVECTOR2 temp1;
+	/*D3DXVECTOR2 temp1;
 	temp1.x = m_vWhere_To_Stay.x - g_vPlayerPos->x;
 	temp1.y = m_vWhere_To_Stay.z - g_vPlayerPos->z;
 	float DialogZone = D3DXVec2Length(&temp1);
+	*/
+	float DialogZone = DistanceXZ(m_vWhere_To_Stay, *g_vPlayerPos);
 
 	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
 	m_pPoalong->Update(m_matWorld);
@@ -77,6 +79,19 @@ void cPoalong::Update()
 	
 	if (!UIMANAGER->GetIsCallConShop() && KEYMANAGER->IsOnceKeyDown('F') && DialogZone < 40)
 	{
+		// 창 키면 플레이어를 쳐다본다.
+		{
+			D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
+			D3DXVECTOR3 v;
+			D3DXVec3Normalize(&v, &(*g_vPlayerPos - m_vWhere_To_Stay));
+
+			m_fCosVal = D3DXVec3Dot(&v, &u);
+			m_fCosVal = acosf(m_fCosVal);
+
+			if (m_vWhere_To_Stay.z < g_vPlayerPos->z)
+				m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+		}
+
 		UIMANAGER->SetIsCallConShop(true);
 		isOptionMode = true;
 		CAMERAMANAGER->SetType(CAMERA_FIX);
@@ -84,10 +99,17 @@ void cPoalong::Update()
 	}
 	else if (UIMANAGER->GetIsCallConShop() && KEYMANAGER->IsOnceKeyDown('F') && DialogZone < 40)
 	{
+		//창을 끄면 다시 원래 쳐다보던 곳으로.
+		{
+			m_fCosVal = 0.0f;
+			m_vDirection = D3DXVECTOR3(-1, 0, 0);
+		}
 		UIMANAGER->SetIsCallConShop(false);
 		SOUNDMANAGER->Play("CloseInterface");
 	}
 	//////////////////////////////////////////////////////////////////
+
+	m_fRotY = m_fCosVal;
 }
 
 void cPoalong::Render()

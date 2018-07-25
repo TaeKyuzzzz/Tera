@@ -59,3 +59,13 @@ inline bool IsEqualString(const char * c1, const char * c2)
 {
 	return strcmp(c1, c2) == 0;
 }
+
+//vector3의 y(높이)성분을 제외한 거리를 구할때 쓰세요.
+inline float DistanceXZ(D3DXVECTOR3 a, D3DXVECTOR3 b)
+{
+	D3DXVECTOR2 temp;
+	temp.x = a.x - b.x;
+	temp.y = a.z - b.z;
+
+	return D3DXVec2Length(&temp);
+}
