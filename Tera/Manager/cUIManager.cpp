@@ -10,6 +10,7 @@
 
 cUIManager::cUIManager()
 	:m_nAlpha(200)
+	,m_isCallQuickSlot(true)
 {
 }
 
@@ -178,7 +179,6 @@ void cUIManager::CallKeyInput()
 			m_isCallInven = false;
 			m_isCallConShop = false;
 			m_isCallStatus = false;
-			m_isCallQuickSlot = false;
 		}
 		else
 		{
@@ -266,7 +266,7 @@ void cUIManager::QuickSlotFunc()
 	{
 		for (int i = 0; i < m_vUI.size(); i++)
 		{
-			if (m_vUI[i]->GetName() == "SKILLLOCK")
+			if (m_vUI[i]->GetName() == "QSSKILLLOCK")
 			{
 				if (m_vUI[i]->GetUIButtonImage()->GetIsCollisionPT())
 				{
@@ -277,7 +277,7 @@ void cUIManager::QuickSlotFunc()
 					}
 				}
 			}
-			else if (m_vUI[i]->GetName() == "SKILLLOCK2")
+			else if (m_vUI[i]->GetName() == "QSSKILLLOCK2")
 			{
 				if (m_vUI[i]->GetUIButtonImage()->GetIsCollisionPT())
 				{
