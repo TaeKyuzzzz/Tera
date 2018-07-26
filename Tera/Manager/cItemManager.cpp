@@ -62,7 +62,7 @@ void cItemManager::Update()
 	//드래그하는 동안의 예외설정
 	ExceptionsWhileDragging();
 
-	ClickUseItem();
+	
 
 	/*ClickUseItemThisPlace(m_vInvenItem, "Inventory");
 	ClickUseItemThisPlace(m_vStatusItem, "Status");
@@ -75,7 +75,7 @@ void cItemManager::Update()
 	//아이템 설명창 업데이트
 	ItemExplaneUpdate();
 
-	
+	ClickUseItem();
 
 	DragAndDrop();
 	
@@ -1020,7 +1020,7 @@ void cItemManager::SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, const char* 
 			RECT temp;
 			if (IntersectRect(&temp, &UIRc, &itemRc))
 			{
-				ConditionalExcutionWearBack(placeItem[i]);
+				if(placeItem == m_vStatusItem) ConditionalExcutionWearBack(placeItem[i]);
 
 				(*vDestination).push_back(placeItem[i]);
 				placeItem.erase(placeItem.begin() + i);
@@ -1061,8 +1061,10 @@ bool cItemManager::ClickUseItemThisPlace(vector<cItemInfo*>& sendItem)
 			//오프면 상태창으로
 			else
 			{
+			
 				ConditionalExcutionWearBack(sendItem[index]);
 				m_vStatusItem.push_back(sendItem[index]);
+				
 			}
 			//삭제는 공통
 			sendItem.erase(sendItem.begin() + index);
@@ -1081,6 +1083,8 @@ bool cItemManager::ClickUseItemThisPlace(vector<cItemInfo*>& sendItem)
 		}
 		else if (sendItem == m_vStatusItem)
 		{
+			if (sendItem[index]->GetItemKind() == WEAPON) return false;
+			
 			m_vInvenItem.push_back(sendItem[index]);
 			sendItem.erase(sendItem.begin() + index);
 		}

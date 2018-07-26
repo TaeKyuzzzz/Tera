@@ -31,7 +31,7 @@ void cUIManager::CreateUIList()
 	string szDragZone[16];
 	string szSkillSlot[16]; 
 
-	CreateUI(WINDOW, "QSDRAGZONE", "Texture/UIIcon/DragZone.png", D3DXVECTOR3(300, 730, 0), { 1,1 });
+	CreateUI(WINDOW, "QSDRAGZONE", "Texture/UIIcon/DragZone.png", D3DXVECTOR3(340, 730, 0), { 1,1 });
 	CreateUI(BUTTON, "QSSKILLLOCK", "Texture/UIIcon/SkillLock.png", "Texture/UIIcon/SkillLockUp.png", "Texture/UIIcon/SkillKey.png"
 		, D3DXVECTOR3(-17, 17, 0), "QSDRAGZONE");
 
