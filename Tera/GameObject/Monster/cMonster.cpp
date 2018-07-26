@@ -37,6 +37,7 @@ cMonster::~cMonster()
 
 void cMonster::Setup()
 {
+	cGameObject::Setup();
 }
 
 void cMonster::Update()
