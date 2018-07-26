@@ -1,12 +1,12 @@
 #pragma once
 class cSpere
 {
-private :
+private:
 
 	LPD3DXMESH			m_pSpere;
 
 	SYNTHESIZE(D3DXMATRIX, m_matWorld, World);
-	D3DXVECTOR3				 m_vPosition;	
+	D3DXVECTOR3				 m_vPosition;
 	SYNTHESIZE(float, m_fRadius, Radius);
 
 public:

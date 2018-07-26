@@ -3,6 +3,8 @@
 
 class cSkinnedMesh;
 class cParticleSet;
+class cProgressBar;
+class cSprite;
 
 #define NUMOFPATTERN	3
 #define LEFTTURN		(NUMOFPATTERN)
@@ -46,8 +48,8 @@ protected:
 		MON_Anim_ReactionStart,
 		MON_Anim_roundAtk01,
 		MON_Anim_roundAtk02,
-		MON_Anim_roundmove01,
-		MON_Anim_roundmove02,
+		MON_Anim_roundmove01, // 좌회전
+		MON_Anim_roundmove02, // 우회전
 		MON_Anim_run,
 		MON_Anim_Spawn,
 		MON_Anim_unarmedwait,
@@ -66,7 +68,7 @@ protected:
 	MON_Anim		m_currAnim;						// 바뀔 애니메이션
 
 	bool			m_bIsDone;						// 애니메이션이 끝났니?
-		
+
 	float			m_fCurAnimTime;					// 재생된 시간 애니메이션
 	float			m_fAnimTime[MON_Anim_COUNT];	// 재생돼야할 총 시간
 	float			m_fTime;						// 애니 걸린시간
@@ -94,17 +96,25 @@ protected:
 
 
 	// 파티클 효과 1번 출력에 쓰는 불 변수
-	bool			m_pEffectCost;					//
-	cParticleSet*	m_pParticleBleeding;			// 출혈 파티클
+	bool			m_pEffectCost;		//
+	cParticleSet*	m_pParticleBleeding;// 출혈 파티클
 	cParticleSet*	m_pIceHand;			//IceHand2			// 왼손 아이스 파티클
 	cParticleSet*	m_pFireHand;		// FireHand			// 오른손 파이어 파티클
 	cParticleSet*	m_pIceEffect;		// 보스 냉기충격
 	cParticleSet*	m_pFireEffect;		// 보스 화염충격
 
+										// 보스 공격시 피격 박스 만들 변수
+	float			m_fHitCircleRadian;
+	D3DXVECTOR3		m_vHitCirclePos[2];
+
+	// 프로그래스 바
+	cProgressBar*		m_pHpBar;
+	cSprite*			m_BackBar;
+
 public:
 	cKelsaik();
 	~cKelsaik();
-	
+
 	void Setup();
 
 	/////////Update Function//////////
@@ -125,7 +135,7 @@ public:
 	//////////////////////////////////
 
 	void Render();
-
+	void HitCircleRender();
 	////////Rendering Function///////
 
 	void SetAnimWorld();
@@ -135,7 +145,7 @@ public:
 	////// etc ////////////////////////
 	void ChangeState(MON_STATE state);
 	void ChangeAnim(MON_Anim anim, bool isBlend);
-	
+
 	bool isPlayerInDistance(float distance);					// 플레이어가 사거리에잇니
 	bool isEndPattern();						// 패턴(anim)이 끝났는지 확인
 	void CreatePatternCost();					// 패턴 코스트 생성
@@ -150,5 +160,16 @@ public:
 	void TurnLeft();
 	void TurnRight();
 	void TurnBack();
+
+	// 데미지 받는 함수
+	void Damaged(float Damaged, D3DXVECTOR3 pos);
+
+
+	// 프로그래스바 관련 함수
+
+	void SetUpStateBar();
+	void UpdateUpStateBar();
+	void RenderUpStateBar();
 };
 
+// 제발 되라

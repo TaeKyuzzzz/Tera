@@ -4,6 +4,7 @@
 #include "Sprite\cSprite.h"
 #include "iMap.h"
 #include "GameObject\Item\cItem.h"
+#include "Particle\cParticleSet.h"
 
 cCharacter::cCharacter()
 	: m_fRotY(0.0f)
@@ -23,6 +24,8 @@ cCharacter::cCharacter()
 	, m_pBleedingAlpha(0)
 	, m_fAttack(20.0f)
 	, m_fDefense(10.0f)
+	, m_fDotDamagedTime(0.0f)
+	, m_pConditionAlpha(0)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matAnimWorld);
@@ -35,19 +38,35 @@ cCharacter::~cCharacter()
 	SAFE_DELETE(m_pMpBar);
 	SAFE_DELETE(m_BackBar);
 	SAFE_DELETE(m_pBleeding);
+	SAFE_DELETE(m_pBurnning);
+	SAFE_DELETE(m_pIcing);
 }
 
 void cCharacter::Setup()
 {
+	cGameObject::Setup();
+
 	SetUpStateBar();
 
 	m_pBleeding = TEXTUREMANAGER->GetSprite("Texture/Effect/bleeding.png");
-	
-	float xSize = (float) WINSIZEX / m_pBleeding->textureInfo.Width;
-	D3DXMATRIX mat;
-	D3DXMatrixScaling(&mat, xSize, 1, 1);
-	m_pBleeding->m_pSprite->SetTransform(&mat);
+	m_pBurnning = TEXTUREMANAGER->GetSprite("Texture/Effect/fireScreen.png");
+	m_pIcing = TEXTUREMANAGER->GetSprite("Texture/Effect/iceScreen.png");
 
+	D3DXMATRIX mat;
+	D3DXMatrixScaling(&mat, (float)WINSIZEX / m_pBleeding->textureInfo.Width,
+		(float)WINSIZEY / m_pBleeding->textureInfo.Height, 1);
+	m_pBleeding->m_pSprite->SetTransform(&mat);
+	D3DXMatrixScaling(&mat, (float)WINSIZEX / m_pIcing->textureInfo.Width,
+		(float)WINSIZEY / m_pIcing->textureInfo.Height, 1);
+	m_pIcing->m_pSprite->SetTransform(&mat);
+	D3DXMatrixScaling(&mat, (float)WINSIZEX / m_pBurnning->textureInfo.Width,
+		(float)WINSIZEY / m_pBurnning->textureInfo.Height, 1);
+	m_pBurnning->m_pSprite->SetTransform(&mat);
+
+	m_pConditionBurn = PARTICLEMANAGER->GetParticle("CDT_Burn");
+	PARTICLEMANAGER->AddChild(m_pConditionBurn);
+	m_pConditionIce = PARTICLEMANAGER->GetParticle("CDT_Ice");
+	PARTICLEMANAGER->AddChild(m_pConditionIce);
 }
 
 void cCharacter::Update()
@@ -61,13 +80,26 @@ void cCharacter::Update()
 
 	ITEMMANAGER->SetAttackValue(m_fAttack);
 	ITEMMANAGER->SetDefenceValue(m_fDefense);
+
+	Condition_Update();
+	CountPossibleDamaged(3.0f);
 }
 
 void cCharacter::Render()
 {
 	RenderUpStateBar();
 	//AlphaRender AlphaRenderWinSize
-	m_pBleeding->AlphaRender(D3DXVECTOR3( WINSIZEX/2, 0, 0), D3DXVECTOR3(WINSIZEX / 2, 0, 0), m_pBleedingAlpha);
+	m_pBleeding->AlphaRender(D3DXVECTOR3(WINSIZEX / 2, 0, 0), D3DXVECTOR3(WINSIZEX / 2, 0, 0), m_pBleedingAlpha);
+
+	switch (m_eCondition)
+	{
+	case CDT_ICE: m_pIcing->AlphaRender(D3DXVECTOR3(WINSIZEX / 2, 0, 0), D3DXVECTOR3(WINSIZEX / 2, 0, 0), m_pConditionAlpha);
+		break;
+	case CDT_BURN: m_pBurnning->AlphaRender(D3DXVECTOR3(WINSIZEX / 2, 0, 0), D3DXVECTOR3(WINSIZEX / 2, 0, 0), m_pConditionAlpha);
+
+		break;
+	}
+
 }
 
 void cCharacter::PlusMapHeight()
@@ -84,16 +116,30 @@ void cCharacter::SetUpStateBar()
 	m_pHpBar = new cProgressBar;
 	m_pHpBar->Setup("Texture/CharacterInfo/HP.png",
 		"Texture/CharacterInfo/HPLose.png",
-		19 + m_BackBar->textureInfo.Width / 7.0f,
-		26,
+		UIX + 19 + m_BackBar->textureInfo.Width / 7.0f,
+		UIY + 26,
 		WINSIZEX / 3.0f, WINSIZEY / 30.0f);
 
 	m_pMpBar = new cProgressBar;
 	m_pMpBar->Setup("Texture/CharacterInfo/MP.png",
 		"Texture/CharacterInfo/MPLose.png",
-		19 + m_BackBar->textureInfo.Width / 7.0f,
-		32 + WINSIZEY / 30.0f,
+		UIX + 19 + m_BackBar->textureInfo.Width / 7.0f,
+		UIY + 32 + WINSIZEY / 30.0f, // 6Â÷ÀÌ
 		WINSIZEX / 3.0f, WINSIZEY / 30.0f);
+
+	//m_pHpBar = new cProgressBar;
+	//m_pHpBar->Setup("Texture/CharacterInfo/HP.png",
+	//	"Texture/CharacterInfo/HPLose.png",
+	//	19 + m_BackBar->textureInfo.Width / 7.0f,
+	//	26,
+	//	WINSIZEX / 3.0f, WINSIZEY / 30.0f);
+	//
+	//m_pMpBar = new cProgressBar;
+	//m_pMpBar->Setup("Texture/CharacterInfo/MP.png",
+	//	"Texture/CharacterInfo/MPLose.png",
+	//	19 + m_BackBar->textureInfo.Width / 7.0f,
+	//	32 + WINSIZEY / 30.0f,
+	//	WINSIZEX / 3.0f, WINSIZEY / 30.0f);
 }
 
 void cCharacter::UpdateUpStateBar()
@@ -105,7 +151,7 @@ void cCharacter::UpdateUpStateBar()
 
 void cCharacter::RenderUpStateBar()
 {
-	m_BackBar->Render(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(20, 20, 0));
+	m_BackBar->Render(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(UIX + 20, UIY + 20, 0));
 	m_pHpBar->Render();
 	m_pMpBar->Render();
 
@@ -115,10 +161,10 @@ void cCharacter::RenderUpStateBar()
 
 	sprintf_s(szTemp, 1024, "%d / %d", (int)m_fHpCur, (int)m_fHpMax);
 	SetRect(&rc,
-		300,
-		26,
-		300 + m_BackBar->textureInfo.Width,
-		26 + 26);
+		UIX + 300,
+		UIY + 26,
+		UIX + 300 + m_BackBar->textureInfo.Width,
+		UIY +  26 + 26);
 
 	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::TF_UI_NUMBER);
 	pFont->DrawTextA(NULL, szTemp, strlen(szTemp), &rc,
@@ -126,10 +172,10 @@ void cCharacter::RenderUpStateBar()
 
 	sprintf_s(szTemp, 1024, "%d / %d", (int)m_fMpCur, (int)m_fMpMax);
 	SetRect(&rc,
-		300,
-		66,
-		300 + m_BackBar->textureInfo.Width,
-		66 + 26);
+		UIX + 300,
+		UIY + 66,
+		UIX + 300 + m_BackBar->textureInfo.Width,
+		UIY +  66 + 26);
 
 	pFont->DrawTextA(NULL, szTemp, strlen(szTemp), &rc,
 		DT_LEFT | DT_VCENTER, D3DCOLOR_XRGB(255, 255, 255));
@@ -139,20 +185,20 @@ void cCharacter::RenderUpStateBar()
 
 	sprintf_s(szTemp, 1024, "HP", (int)m_fMpCur, (int)m_fMpMax);
 	SetRect(&rc,
-		120,
-		26,
-		350,
-		26 + 26);
+		UIX + 120,
+		UIY + 26,
+		UIX + 350,
+		UIY + 26 + 26);
 
 	pFont->DrawTextA(NULL, szTemp, strlen(szTemp), &rc,
 		DT_LEFT | DT_VCENTER, D3DCOLOR_XRGB(255, 255, 255));
 
 	sprintf_s(szTemp, 1024, "MP", (int)m_fMpCur, (int)m_fMpMax);
 	SetRect(&rc,
-		120,
-		66,
-		350,
-		66 + 26);
+		UIX + 120,
+		UIY + 66,
+		UIX + 350,
+		UIY + 66 + 26);
 
 	pFont->DrawTextA(NULL, szTemp, strlen(szTemp), &rc,
 		DT_LEFT | DT_VCENTER, D3DCOLOR_XRGB(255, 255, 255));
@@ -163,6 +209,10 @@ void cCharacter::Damaged()
 	m_pBleedingAlpha = 120;
 }
 
+void cCharacter::Damaged(float damage, D3DXVECTOR3 pos, CONDITION con, float per)
+{
+}
+
 bool cCharacter::Attack(float damage)
 {
 	return false;
@@ -171,7 +221,7 @@ bool cCharacter::Attack(float damage)
 int cCharacter::ChangeEquit()
 {
 	vector<cItemInfo*> vec = (ITEMMANAGER->GetStatusItem());
-	
+
 	bool isEquitWeapon = false;
 	bool isEquitArmor = false;
 	bool isEquitHand = false;
@@ -199,10 +249,10 @@ int cCharacter::ChangeEquit()
 				m_pEquitWeapon = vec[i];
 				m_fAttack += m_pEquitWeapon->GetAbilityValue();
 				return 1;
-				
+
 			}
 		}
-		 if (vec[i]->GetItemKind() == ARMOR)
+		if (vec[i]->GetItemKind() == ARMOR)
 		{
 			isEquitArmor = true;
 
@@ -224,7 +274,7 @@ int cCharacter::ChangeEquit()
 				return 2;
 			}
 		}
-		 if (vec[i]->GetItemKind() == GLOVES)
+		if (vec[i]->GetItemKind() == GLOVES)
 		{
 			isEquitHand = true;
 
@@ -246,7 +296,7 @@ int cCharacter::ChangeEquit()
 				return 3;
 			}
 		}
-		 if (vec[i]->GetItemKind() == SHOES)
+		if (vec[i]->GetItemKind() == SHOES)
 		{
 			isEquitLeg = true;
 
@@ -288,7 +338,7 @@ int cCharacter::ChangeEquit()
 		m_pEquitHand = NULL;
 		return 3;
 	}
-	 if (isEquitLeg == false && m_pEquitLeg != NULL)
+	if (isEquitLeg == false && m_pEquitLeg != NULL)
 	{
 		m_fDefense -= m_pEquitLeg->GetAbilityValue();
 		m_pEquitLeg = NULL;
@@ -297,3 +347,39 @@ int cCharacter::ChangeEquit()
 
 	return 0;
 }
+
+void cCharacter::Condition_Update()
+{
+	if (m_pConditionAlpha > 0)
+		m_pConditionAlpha -= 2;
+
+	switch (m_eCondition)
+	{
+	case CDT_ICE:
+		m_fDotDamagedTime += TIMEMANAGER->GetEllapsedTime();
+		if (m_fDotDamagedTime > 1.0f)
+		{
+			m_fDotDamagedTime = 0.0f;
+			m_pConditionAlpha = 60;
+			m_fHpCur -= (m_fHpMax * 0.002);
+		}
+		m_pConditionIce->SetWorld(m_matWorld);
+		break;
+	case CDT_BURN:
+		m_fDotDamagedTime += TIMEMANAGER->GetEllapsedTime();
+		if (m_fDotDamagedTime > 1.0f)
+		{
+			m_fDotDamagedTime = 0.0f;
+			m_pConditionAlpha = 60;
+			m_fHpCur -= (m_fHpMax * 0.004);
+		}
+		m_pConditionBurn->SetWorld(m_matWorld);
+		break;
+	}
+
+}
+
+void cCharacter::Condition_Render()
+{
+}
+

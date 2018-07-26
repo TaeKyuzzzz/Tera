@@ -54,8 +54,8 @@ void cSceneBossLoading::TotalLoading()
 {
 	// 보스룸에 필요한 리소스들 가져오기
 
-	m_pLoading->InitForSound("BossBGM","Sound/BossRoom/Boss_Battle.ogg");
-	
+	m_pLoading->InitForSound("BossBGM", "Sound/BossRoom/Boss_Battle.ogg");
+
 	// 맵에 쓰이는 스태틱 메시를 불러옵시다
 	m_pLoading->InitForStaticMesh("XFile/Boss_Room/Bottom_ray.X");
 
@@ -75,7 +75,7 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_Cor02_A_02_SM.X");
 	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_TES_RCELV02_SM_1.X");
 	m_pLoading->InitForStaticMesh("XFile/Boss_Room/ARG_TES_RCELV02_SM_2.X");
-	
+
 	/////
 
 	m_pLoading->IniteForParticle("explosion", "Texture/Particle/explosion.txt");
@@ -85,6 +85,9 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->IniteForParticle("PortalEffect", "Texture/Particle/PortalEffect.txt");
 	m_pLoading->IniteForParticle("Heal", "Texture/Particle/heal.txt");
 	m_pLoading->IniteForParticle("Bleeding", "Texture/Particle/Bleeding.txt");
+
+	m_pLoading->IniteForParticle("CDT_Ice", "Texture/Particle/CDT_Ice.txt");
+	m_pLoading->IniteForParticle("CDT_Burn", "Texture/Particle/CDT_Burn.txt");
 
 	// 보스가 사용하는 파티클
 	m_pLoading->IniteForParticle("IceHand2", "Texture/Particle/IceHand2.txt");
@@ -132,5 +135,5 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->InitForSound("PCDamaged", "Sound/Chara/PCDamaged.ogg");
 	m_pLoading->InitForSound("PCBigDamaged", "Sound/Chara/PCBigDamaged.ogg");
 	m_pLoading->InitForSound("PCDie", "Sound/Chara/PCDie.ogg");
-	
+
 }
