@@ -658,12 +658,14 @@ void cItemManager::DragAndDrop()
 		//키해제시에 마우스와 아이템이 충돌중일때
 		//다른곳에 가있으면
 
-		SendItemAtoPlaceB(m_vInvenItem, "con");
-		SendItemAtoPlaceB(m_vInvenItem, "sta");
-		SendItemAtoPlaceB(m_vConShopItem, "inv");
-		SendItemAtoPlaceB(m_vConShopItem, "sta");
-		SendItemAtoPlaceB(m_vStatusItem, "inv");
-		SendItemAtoPlaceB(m_vStatusItem, "con");
+		//소속아이템으로부터 szDestination으로 배달
+
+		SendItemAtoPlaceB(m_vInvenItem, "ConShop");
+		SendItemAtoPlaceB(m_vInvenItem, "Status");
+		SendItemAtoPlaceB(m_vConShopItem, "Inventory");
+		SendItemAtoPlaceB(m_vConShopItem, "Status");
+		SendItemAtoPlaceB(m_vStatusItem, "Inventory");
+		SendItemAtoPlaceB(m_vStatusItem, "ConShop");
 
 	}
 
@@ -985,9 +987,13 @@ void cItemManager::SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, const char* 
 			if (IntersectRect(&temp, &UIRc, &itemRc))
 			{
 				if(placeItem == m_vStatusItem)ConditionalExcutionWearBack(placeItem[i]);
-				if (vDestination == &m_vConShopItem)
-					if ((*vDestination).size() >= 24) return;
+				if (vDestination == &m_vConShopItem && (*vDestination).size() >= 24)return;
+				else if (vDestination == &m_vInvenItem && (*vDestination).size() >= 40) return;
+
 				
+				
+				
+			
 
 				(*vDestination).push_back(placeItem[i]);
 				placeItem.erase(placeItem.begin() + i);

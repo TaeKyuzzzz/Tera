@@ -290,7 +290,7 @@ int cUIManager::FindUIRootIndex(const char* szFindIndex)
 
 	for (int i = 0; i < m_vUI.size(); i++)
 	{
-		if (_strnicmp(m_vUI[i]->GetName(), szFindIndex, 3) == 0)
+		if (strncmp(m_vUI[i]->GetName(), szFindIndex, 4) == 0)
 		{
 			return i;
 		}

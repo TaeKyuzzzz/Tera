@@ -56,37 +56,6 @@ void cUIManager::CreateUIList()
 			"Texture/UIIcon/KeyChangeOver.png", D3DXVECTOR3(22, 0, 0), szDragZoneC);
 
 	}
-	//630 700
-
-	//char szNum2[3];
-	//string szDragZone2[11];
-	//string szSkillSlot2[11];
-
-	//CreateUI(WINDOW, "QSDRAGZONE2", "Texture/UIIcon/DragZone.png", D3DXVECTOR3(755, 730, 0), { 1,1 });
-	//CreateUI(BUTTON, "QSSKILLLOCK2", "Texture/UIIcon/SkillLock.png", "Texture/UIIcon/SkillLockUp.png", "Texture/UIIcon/SkillKey.png"
-	//	, D3DXVECTOR3(-17, 17, 0), "QSDRAGZONE2");
-
-	//
-	//for (int i = 0; i < 8; i++)
-	//{
-	//	szDragZone2[i] = "QSDragZone2";
-	//	szSkillSlot2[i] = "QSSkillSlot2";
-
-	//	_itoa(i, szNum2, 10);
-
-	//	szDragZone2[i] += szNum;
-	//	szSkillSlot2[i] += szNum;
-
-	//	const char* szDragZoneC = szDragZone2[i].c_str();
-	//	const char* szSkillSlotC = szSkillSlot2[i].c_str();
-
-	//	CreateUI(WINDOW, szDragZoneC, "Texture/UIIcon/DragZone.png", D3DXVECTOR3((i + 1) * 50 - 11, -3, 0), { 1,1 }, "QSDRAGZONE2");
-	//	CreateUI(WINDOW, szSkillSlotC, "Texture/UIIcon/SkillSlot.png", D3DXVECTOR3(-8, 20, 0), { -1,-1 }, szDragZoneC);
-	//	CreateUI(BUTTON, "QSKeyChangeBTL2", "Texture/UIIcon/KeyChangeIdle.png", "Texture/UIIcon/KeyChangeOver.png",
-	//		"Texture/UIIcon/KeyChangeOver.png", D3DXVECTOR3(22, 0, 0), szDragZoneC);
-
-	//}
-	
 
 
 
