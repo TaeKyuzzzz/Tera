@@ -24,7 +24,7 @@ void cItemManager::UITextList()
 	tagText t1;
 	t1.Type = CONSTCHAR;
 	t1.szTextName = "소모품상점";
-	t1.szParrentName = "ConsumablesShop";
+	t1.szParrentName = "ConShop";
 	CreateText(t1);
 
 #pragma endregion

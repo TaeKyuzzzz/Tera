@@ -9,7 +9,7 @@ private:
 
 
 	SYNTHESIZE(const char*, m_szName, Name);
-
+	//SYNTHESIZE(int, m_nAlpha, Alpha);
 
 
 

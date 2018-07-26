@@ -82,7 +82,7 @@ void cUIObject::Render(LPD3DXSPRITE pSprite)
 
 void cUIObject::ImageDrag(D3DXVECTOR2 vec2ReduceDragRange)
 {
-	if (m_enClickState != UNMOVABLE && m_isCollisionPT)
+	if (m_enClickState != UNMOVABLE && m_isCollisionPT &&  isOptionMode)
 	{
 		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON) || KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
 		{

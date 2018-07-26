@@ -4,6 +4,7 @@
 
 cUIImageView::cUIImageView()
 	: m_pTexture(NULL)
+	//, m_nAlpha(UIMANAGER->GetAlpha())
 
 {
 }
@@ -26,7 +27,7 @@ void cUIImageView::SetTexture(const char * szFullPath)
 
 	m_enClickState = NEVERCLICKED;
 
-	m_nAlpha = UIMANAGER->GetAlpha();
+	
 
 }
 

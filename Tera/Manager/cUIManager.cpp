@@ -9,8 +9,9 @@
 
 
 cUIManager::cUIManager()
-	:m_nAlpha(200)
+	:m_nAlpha(150)
 	,m_isCallQuickSlot(true)
+	, m_isQuickSlotLock(false)
 {
 }
 
@@ -49,10 +50,12 @@ void cUIManager::Update()
 	if (m_isCallQuickSlot)	CallUIUpdate("QSDRAGZONE");
 	if (m_isCallInven)		CallUIUpdate("Inventory");
 	if (m_isCallStatus)		CallUIUpdate("Status");
-	if (m_isCallConShop)	CallUIUpdate("ConsumablesShop");
+	if (m_isCallConShop)	CallUIUpdate("ConShop");
 
-	QuickSlotFunc();
+	QuickSlotCall("QSSKILLLOCK");
+	QuickSlotCall("QSSKILLLOCK2");
 	QuickSlotResize();
+	QuickSlotLockBTHiding();
 	
 
 }
@@ -60,10 +63,10 @@ void cUIManager::Update()
 void cUIManager::Render()
 {
 
-	if (m_isCallQuickSlot)CallUIRender("QSDR");
+	if (m_isCallQuickSlot)CallUIRender("QSDRAGZONE");
 	if (m_isCallInven)CallUIRender("Inventory");
 	if (m_isCallStatus)CallUIRender("Status");
-	if (m_isCallConShop)CallUIRender("ConsumablesShop");
+	if (m_isCallConShop)CallUIRender("ConShop");
 
 	//텍스트정보보는함수
 	UIInfoTextPopUp(NULL, "Status");
@@ -260,37 +263,24 @@ void cUIManager::CloseUI(const char* szUIName)
 	}
 }
 
-void cUIManager::QuickSlotFunc()
+void cUIManager::QuickSlotCall(const char* callName)
 {
 	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 	{
 		for (int i = 0; i < m_vUI.size(); i++)
 		{
-			if (m_vUI[i]->GetName() == "QSSKILLLOCK")
+			if (m_vUI[i]->GetName() == callName)
 			{
 				if (m_vUI[i]->GetUIButtonImage()->GetIsCollisionPT())
 				{
-					for (int j = 1; j < m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild().size(); j++)
+					for (int j = 0; j < m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild().size(); j++)
 					{
 						m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild()[j]->
 							SetMove({ 0,0 });
 					}
 				}
-			}
-			else if (m_vUI[i]->GetName() == "QSSKILLLOCK2")
-			{
-				if (m_vUI[i]->GetUIButtonImage()->GetIsCollisionPT())
-				{
-					for (int j = 1; j < m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild().size(); j++)
-					{
-						m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild()[j]->
-							SetMove({ 0,0 });
-					}
-				}
-
 			}
 		}
-	
 	}
 }
 
@@ -300,7 +290,7 @@ int cUIManager::FindUIRootIndex(const char* szFindIndex)
 
 	for (int i = 0; i < m_vUI.size(); i++)
 	{
-		if (strcmp(m_vUI[i]->GetName(), szFindIndex) == 0)
+		if (_strnicmp(m_vUI[i]->GetName(), szFindIndex, 3) == 0)
 		{
 			return i;
 		}
@@ -343,12 +333,53 @@ void cUIManager::UIMoveControl()
 	{
 		int InvenIndex = FindUIRootIndex("Inventory");
 		int StatusIndex = FindUIRootIndex("Status");
-		int ConShop = FindUIRootIndex("ConsumablesShop");
+		int ConShop = FindUIRootIndex("ConShop");
 
 		if (i == InvenIndex || i == StatusIndex || i == ConShop) continue;
 		m_vUI[i]->GetUIRoot()->SetIsMove(false);
 	}
 }
+
+void cUIManager::QuickSlotLockBTHiding()
+{
+	if (!isOptionMode)
+	{
+		for (int i = 0; i < m_vUI.size(); i++)
+		{
+			if (strncmp(m_vUI[i]->GetName(), "QS", 2) == 0)
+			{
+				if (m_vUI[i]->GetUIRoot())
+				{
+					m_vUI[i]->GetUIRoot()->SetAlpha(0);
+					for (int j = 0; j < m_vUI[i]->GetUIRoot()->GetVecChild().size(); j++)
+					{
+						m_vUI[i]->GetUIRoot()->GetVecChild()[j]->SetAlpha(0);
+					}
+				}
+				else if (m_vUI[i]->GetUIButtonImage())m_vUI[i]->GetUIButtonImage()->SetAlpha(0);
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < m_vUI.size(); i++)
+		{
+			if (strncmp(m_vUI[i]->GetName(), "QS", 2) == 0)
+			{
+				if (m_vUI[i]->GetUIRoot())
+				{
+					m_vUI[i]->GetUIRoot()->SetAlpha(m_nAlpha);
+					for (int j = 0; j < m_vUI[i]->GetUIRoot()->GetVecChild().size(); j++)
+					{
+						m_vUI[i]->GetUIRoot()->GetVecChild()[j]->SetAlpha(m_nAlpha);
+					}
+				}
+				else if (m_vUI[i]->GetUIButtonImage())m_vUI[i]->GetUIButtonImage()->SetAlpha(m_nAlpha);
+			}
+		}
+	}
+}
+
 
 void cUIManager::QuickSlotResize()
 {
@@ -358,4 +389,7 @@ void cUIManager::QuickSlotResize()
 
 		m_vQuickSlotUI[i]->GetUIImage()->SetCollisionRect({ rc.left + 11, rc.top + 11, rc.right - 11, rc.bottom - 11 });
 	}
+
 }
+
+

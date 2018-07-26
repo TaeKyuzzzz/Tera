@@ -39,6 +39,7 @@ private:
 	SYNTHESIZE(bool, m_isCallConShop, IsCallConShop);
 	SYNTHESIZE(bool, m_isCallStatus, IsCallStatus);
 	SYNTHESIZE(bool, m_isCallQuickSlot, QuickSlot);
+	SYNTHESIZE(bool, m_isQuickSlotLock, QuickSlotLock);
 
 
 	HDC hdc;
@@ -78,8 +79,9 @@ public:
 	void CloseUI(const char* szUIName);
 
 
-	void QuickSlotFunc();
+	void QuickSlotCall(const char* callName);
 	void QuickSlotResize();
+
 
 
 
@@ -88,10 +90,11 @@ public:
 
 	void UIInfoTextPopUp(int oneValue, const char* szNecessaryPlace = NULL);
 	void UIMoveControl();
+	void QuickSlotLockBTHiding();
 
 
 
-	//void FindAbilityValue();
+
 
 };
 
