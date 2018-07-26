@@ -176,14 +176,18 @@ public:
 	//슬롯 위치 갱신
 	void UIPosRenewal(const char* placeName);
 	void ItemSlotPosRenewal(eSlotType itemSlotType, D3DXVECTOR3 placePos);	
-	void ClickUseItemThisPlace(vItem& sendItem, const char* currentPlaceName);
+	//void ClickUseItemThisPlace(vItem& sendItem, const char* currentPlaceName);
+
+
+	void ClickUseItem();
+
 	void ConnectNodeCommand();
 	void ExceptionsWhileDragging();
 	void SortInSlot();
 	void ItemUpdate();
 	void ItemRender();
 	void ItemRenewalThisPlace(vItem& _vVectorName);
-	void EquipmentWearBack(cItemInfo* _placeItem);
+	void ConditionalExcutionWearBack(cItemInfo* _newWear);
 	void SalesItemCalculator();
 	void BuyConsumables(int collisionNum);
 	void SetSkillSlot();
@@ -191,7 +195,7 @@ public:
 	void DragAndDrop();
 	void SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, const char* szPlaceName);
 
-
-
+	POINT FindPlaceAndIndex(vector<cItemInfo*> vPlaceItem);
+	bool ClickUseItemThisPlace(vector<cItemInfo*>& sendItem);
 };
 

@@ -41,9 +41,9 @@ void cUIManager::Update()
 
 
 	//closeIdel µÚÀÇ I = Inventory S = Status C = ConsumablesShop
-	CloseUI("closeIdleI");
-	CloseUI("closeIdleS");
-	CloseUI("closeIdleC");
+	CloseUI("closeI");
+	CloseUI("closeS");
+	CloseUI("closeC");
 
 	CallKeyInput();
 
@@ -242,7 +242,7 @@ void cUIManager::CallKeyInput()
 
 void cUIManager::CloseUI(const char* szUIName)
 {
-	int Index = FindUIRootIndex(szUIName);
+	int Index = FindUIRootIndexFull(szUIName);
 
 	RECT rc = m_vUI[Index]->GetUIButtonImage()->GetCollisionRect();
 
@@ -250,15 +250,15 @@ void cUIManager::CloseUI(const char* szUIName)
 	{
 		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 		{
-			if(szUIName == "closeIdleI") m_isCallInven = false;
-			else if (szUIName == "closeIdleS") m_isCallStatus = false;
-			else if (szUIName == "closeIdleC") m_isCallConShop = false;
+			if(szUIName == "closeI") m_isCallInven = false;
+			else if (szUIName == "closeS") m_isCallStatus = false;
+			else if (szUIName == "closeC") m_isCallConShop = false;
 		}
 		else if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 		{
-			if (szUIName == "closeIdleI") m_isCallInven = true;
-			else if (szUIName == "closeIdleS") m_isCallStatus = true;
-			else if (szUIName == "closeIdleC") m_isCallConShop = true;
+			if (szUIName == "closeI") m_isCallInven = true;
+			else if (szUIName == "closeS") m_isCallStatus = true;
+			else if (szUIName == "closeC") m_isCallConShop = true;
 		}
 	}
 }
@@ -295,6 +295,18 @@ int cUIManager::FindUIRootIndex(const char* szFindIndex)
 			return i;
 		}
 	}
+}
+
+int cUIManager::FindUIRootIndexFull(const char * szFindIndex)
+{
+	for (int i = 0; i < m_vUI.size(); i++)
+	{
+		if (m_vUI[i]->GetName() == szFindIndex)
+		{
+			return i;
+		}
+	}
+	
 }
 
 void cUIManager::UIInfoTextPopUp(int oneValue, const char* szNecessaryPlace)

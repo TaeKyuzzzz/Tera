@@ -58,15 +58,15 @@ void cItemManager::Update()
 	ItemSlotPosRenewal(STATUSSLOT, m_vec3RenwalStatus);
 
 
-	DragAndDrop();
-
+	
 	//드래그하는 동안의 예외설정
 	ExceptionsWhileDragging();
 
+	ClickUseItem();
 
-	ClickUseItemThisPlace(m_vInvenItem, "Inventory");
+	/*ClickUseItemThisPlace(m_vInvenItem, "Inventory");
 	ClickUseItemThisPlace(m_vStatusItem, "Status");
-	ClickUseItemThisPlace(m_vConShopItem, "ConShop");
+	ClickUseItemThisPlace(m_vConShopItem, "ConShop");*/
 
 
 
@@ -74,14 +74,11 @@ void cItemManager::Update()
 
 	//아이템 설명창 업데이트
 	ItemExplaneUpdate();
-	
-	//for (int i = 0; i < SLOTTYPEMAX; i++)
-	//{
-	//	MoveFromAToB(i);
-	//}
 
 	
 
+	DragAndDrop();
+	
 	SetSkillSlot();
 
 	//슬롯 내 정렬
@@ -701,95 +698,20 @@ void cItemManager::DragAndDrop()
 		SendItemAtoPlaceB(m_vStatusItem, "inv");
 		SendItemAtoPlaceB(m_vStatusItem, "con");
 
-		//SendItemAtoPlaceB(m_vConShopItem, "status");
-
-
-
 	}
-
 
 
 
 }
 
-void cItemManager::ClickUseItemThisPlace(vItem& sendItem, const char* currentPlaceName)
+void cItemManager::ClickUseItem()
 {
-
-	
-	int currentPlaceIndex = 0;
-	int shopIndex = 0;
-	for (int i = 0; i < _UI->GetVUI().size(); i++)
-	{
-		if (_UI->GetVUI()[i]->GetName() == currentPlaceName)
-		{
-			currentPlaceIndex = i;
-		
-		}
-	}
-	//마우스 우클릭시 해당 UI와 충돌을 하면
-	RECT rc1 = _UI->GetVUI()[currentPlaceIndex]->GetUIRoot()->GetCollisionRect();
-	 
-
 	if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
-	{
-		if (PtInRect(&rc1, ptMouse))
-		{
-			for (int i = 0; i < sendItem.size(); i++)
-			{
-				RECT rc2 = sendItem[i]->GetUIRoot()->GetCollisionRect();
-				if (PtInRect(&rc2, ptMouse))
-				{				
-					if (currentPlaceName == "ConShop")
-					{
-						
-						if (i < 8)
-						{
-							BuyConsumables(i);
-						}
-						else
-						{
-							m_vInvenItem.push_back(sendItem[i]);
-							sendItem.erase(sendItem.begin() + i);
-						}
-					}
-					else
-					{
-						if (currentPlaceName == "Inventory")
-						{
-							if (_UI->GetIsCallConShop())
-							{
-								if (m_vConShopItem.size() > 23) continue;
-								m_vConShopItem.push_back(sendItem[i]);
-							}
-							else
-							{							
-								//입고있던 아이템의 인덱스를 알아내서 삭제하는 함수
-								EquipmentWearBack(sendItem[i]);												
-								m_vStatusItem.push_back(sendItem[i]);
-								//m_vInvenItem.erase(sendItem.begin() + i);
-							}
-						}
-
-						if (currentPlaceName == "Status")
-						{
-							if (m_vInvenItem.size() > 39	||
-								sendItem[i]->GetItemKind() == WEAPON) continue;
-
-						
-							m_vInvenItem.push_back(sendItem[i]);
-						}
-
-						sendItem.erase(sendItem.begin() + i);
-					}
-				}
-
-									
-			}
-		}
-
+	{		
+		if(ClickUseItemThisPlace(m_vInvenItem));
+		else if(ClickUseItemThisPlace(m_vStatusItem));
+		else if(ClickUseItemThisPlace(m_vConShopItem));		
 	}
-
-
 }
 
 void cItemManager::ConnectNodeCommand()
@@ -992,13 +914,13 @@ void cItemManager::ItemRenewalThisPlace(vItem& _vVectorName)
 	}
 }
 
-void cItemManager::EquipmentWearBack(cItemInfo* _placeItem)
+void cItemManager::ConditionalExcutionWearBack(cItemInfo* _newWear)
 {
 	//스테이터스 슬롯에 있다는것은 장비하고 있다는 뜻
 	for (int i = 0; i < m_vStatusItem.size(); i++)
 	{
 
-		if (m_vStatusItem[i]->GetItemKind() == _placeItem->GetItemKind())
+		if (m_vStatusItem[i]->GetItemKind() == _newWear->GetItemKind())
 
 		{
 			m_vInvenItem.push_back(m_vStatusItem[i]);
@@ -1079,9 +1001,7 @@ void cItemManager::SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, const char* 
 
 	vector<cItemInfo*>* vDestination = NULL;
 
-	if (_strnicmp("con", szPlaceName, 3) == 0) vDestination = &m_vConShopItem;
-	else if (_strnicmp("inv", szPlaceName, 3) == 0) vDestination = &m_vInvenItem;
-	else if (_strnicmp("sta", szPlaceName, 3) == 0) vDestination = &m_vStatusItem;
+	
 
 	RECT UIRc = _UI->GetVUI()[UIIdx]->GetUIRoot()->GetCollisionRect();
 
@@ -1089,16 +1009,88 @@ void cItemManager::SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, const char* 
 	{
 		if (placeItem[i]->GetUIRoot()->GetIsCollisionPT())
 		{
+			if (_strnicmp("con", szPlaceName, 3) == 0) vDestination = &m_vConShopItem;
+			else if (_strnicmp("inv", szPlaceName, 3) == 0) vDestination = &m_vInvenItem;
+			else if (_strnicmp("sta", szPlaceName, 3) == 0) vDestination = &m_vStatusItem;
+
+			
+
 			RECT itemRc = placeItem[i]->GetUIRoot()->GetCollisionRect();
 
 			RECT temp;
 			if (IntersectRect(&temp, &UIRc, &itemRc))
 			{
+				ConditionalExcutionWearBack(placeItem[i]);
+
 				(*vDestination).push_back(placeItem[i]);
 				placeItem.erase(placeItem.begin() + i);
 			}
 		}
 	}
+}
+
+POINT cItemManager::FindPlaceAndIndex(vector<cItemInfo*> vPlaceItem)
+{
+	for (int i = 0; i < vPlaceItem.size(); i++)
+	{
+		if (vPlaceItem[i]->GetUIRoot()->GetIsCollisionPT())
+		{
+			if (vPlaceItem == m_vInvenItem )return {INVENTORYSLOT, i };
+			else if (vPlaceItem == m_vConShopItem)return {CONSHOPSLOT, i };
+			else if (vPlaceItem == m_vStatusItem)return {STATUSSLOT, i };
+			
+		}		
+	}
+	return { 0,0 };
+}
+
+bool cItemManager::ClickUseItemThisPlace(vector<cItemInfo*>& sendItem)
+{
+	if (FindPlaceAndIndex(sendItem).x != 0)
+	{
+		int index;
+
+		//위 함수에서 뱉어낸 인덱스
+		index = FindPlaceAndIndex(sendItem).y;
+	
+		
+		//인벤의 아이템인경우
+		if (sendItem == m_vInvenItem)
+		{	//상점이 온이면 상점으로
+			if (_UI->GetIsCallConShop())	m_vConShopItem.push_back(sendItem[index]);
+			//오프면 상태창으로
+			else
+			{
+				ConditionalExcutionWearBack(sendItem[index]);
+				m_vStatusItem.push_back(sendItem[index]);
+			}
+			//삭제는 공통
+			sendItem.erase(sendItem.begin() + index);
+		}
+		else if (sendItem == m_vConShopItem)
+		{
+			if (index < 8)
+			{
+				BuyConsumables(index);
+			}
+			else
+			{
+				m_vInvenItem.push_back(sendItem[index]);
+				sendItem.erase(sendItem.begin() + index);
+			}
+		}
+		else if (sendItem == m_vStatusItem)
+		{
+			m_vInvenItem.push_back(sendItem[index]);
+			sendItem.erase(sendItem.begin() + index);
+		}
+
+		return true;
+	}
+	else return false;
+
+
+
 }
 
 

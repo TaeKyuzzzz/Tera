@@ -86,6 +86,7 @@ public:
 
 
 	int FindUIRootIndex(const char* szFindIndex);
+	int FindUIRootIndexFull(const char* szFindIndex);
 	
 
 	void UIInfoTextPopUp(int oneValue, const char* szNecessaryPlace = NULL);

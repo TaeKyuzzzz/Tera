@@ -82,22 +82,22 @@ void cUIObject::Render(LPD3DXSPRITE pSprite)
 
 void cUIObject::ImageDrag(D3DXVECTOR2 vec2ReduceDragRange)
 {
-	if (m_enClickState != UNMOVABLE && m_isCollisionPT &&  isOptionMode)
+	if (m_enClickState != UNMOVABLE && m_isCollisionPT && isOptionMode)
 	{
-		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON) || KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
+		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 		{
 			m_beforeMousePT = ptMouse;
 			m_enClickState = CLICK;
 		}
 
-		if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON) || KEYMANAGER->IsStayKeyDown(VK_RBUTTON))
+		if (KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 		{
 			//맷월드가 x,y다 즉 위치다
 			m_matWorld._41 += (ptMouse.x - m_beforeMousePT.x);
 			m_matWorld._42 += (ptMouse.y - m_beforeMousePT.y);
 			m_enClickState = CLICKING;
 		}
-		if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON) || KEYMANAGER->IsOnceKeyUp(VK_RBUTTON))
+		if (KEYMANAGER->IsOnceKeyUp(VK_LBUTTON))
 		{
 			m_move.x += (ptMouse.x - m_beforeMousePT.x);
 			m_move.y += (ptMouse.y - m_beforeMousePT.y);
