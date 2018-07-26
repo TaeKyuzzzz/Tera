@@ -180,6 +180,8 @@ public:
 
 
 	void ClickUseItem();
+	void DragAndDrop();
+
 
 	void ConnectNodeCommand();
 	void ExceptionsWhileDragging();
@@ -190,10 +192,10 @@ public:
 	void ConditionalExcutionWearBack(cItemInfo* _newWear);
 	void SalesItemCalculator();
 	void BuyConsumables(int collisionNum);
-	void SetSkillSlot();
+	void QuickSlotPosRenewal();
 	void QuickSlotItemPosRenewal();
-	void DragAndDrop();
-	void SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, const char* szPlaceName);
+
+	void SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, const char* szDestination);
 
 	POINT FindPlaceAndIndex(vector<cItemInfo*> vPlaceItem);
 	bool ClickUseItemThisPlace(vector<cItemInfo*>& sendItem);
