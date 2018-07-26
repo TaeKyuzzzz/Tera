@@ -64,6 +64,7 @@ void cSceneBoss::Release()
 
 void cSceneBoss::Update()
 {
+	//if(KEYMANAGER->IsOnceKeyDown('Z') || KEYMANAGER->IsStayKeyDown('X'))
 	m_pKelsaik->Update();
 
 	m_pPopori->Update();

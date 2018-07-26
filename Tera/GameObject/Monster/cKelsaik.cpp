@@ -151,6 +151,7 @@ void cKelsaik::Update()
 		Battle_Update();
 		break;
 	case TURN :
+		Turn_Update();
 		break;
 	case WALK :
 		Walk_Update();
@@ -239,32 +240,45 @@ void cKelsaik::Battle_Update()
 	else if (!m_isDoingPattern)
 	{
 		// 여기서 자연스럽게 각도를 바꾸면 좋겟다..
-		SetTargetAngle();
-		if (m_fRotY != m_fTargetAngle)
-		{
-			ChangeState(TURN);
-			//SetAngleWithPlayer();
-			//ChangeAnim(MON_Anim_Wait, true);
-		}
+		//SetAngleWithPlayer();
+		//ChangeAnim(MON_Anim_Wait, true);
+		//m_partternCost = false;
 	}
 	
 	// 플레이어가 공격범위 안쪽이면 공격
 	
 	if (m_partternCost)
 	{
+		// 일단 패턴을 배치하고
 		m_nPatternNum = rand() % NUMOFPATTERN;
+		
+		SetTargetAngle(); // 타겟의 각도를 잰 뒤,
+
+		// 타겟의 위치에 따라 고개를 돌리는거임
+		if (m_fTargetAngle >= D3DX_PI * 0.25 && m_fTargetAngle < D3DX_PI * 0.75)
+			m_nPatternNum = RIGHTTURN;
+		else if (m_fTargetAngle >= D3DX_PI * 0.75 && m_fTargetAngle > D3DX_PI * 1.25)
+			m_nPatternNum = BACKTURN;
+		else if (m_fTargetAngle >= D3DX_PI * 1.25 && m_fTargetAngle > D3DX_PI * 1.75)
+			m_nPatternNum = LEFTTURN;
+
 		m_partternCost = false;
 		m_isDoingPattern = true;
 		m_pEffectCost = true;
+
 	}
 
 	if (m_isDoingPattern)
 	{
 		switch (m_nPatternNum)
 		{
-		case 0	:	AttackPattern01();	break;
-		case 1	:	AttackPattern02();	break;
-		case 2	:	AttackPattern03();	break;
+		case 0			:	AttackPattern01();	break;
+		case 1			:	AttackPattern02();	break;
+		case 2			:	AttackPattern03();	break;
+		case LEFTTURN	:	TurnLeft();			break;
+		case RIGHTTURN	:	TurnRight();		break;
+		case BACKTURN	:	TurnBack();			break;
+
 		}
 	}
 }
@@ -272,26 +286,54 @@ void cKelsaik::Battle_Update()
 void cKelsaik::Turn_Update()
 {
 	// 회전 무브 == 51 프레임 -> 51 / 30 초 걸림
-	if (m_Anim != MON_Anim_roundmove01 || m_Anim != MON_Anim_roundmove02)
+	if (m_Anim != MON_Anim_roundmove01 && m_Anim != MON_Anim_roundmove02)
 	{
-		if (m_vPosition.z < (*g_vPlayerPos).z)
-			m_Anim = MON_Anim_roundmove02;
-		else
-			m_Anim = MON_Anim_roundmove01;
-
 		SetTargetAngle();
+		
+		if (m_vPosition.z < g_vPlayerPos->z)
+			ChangeAnim(MON_Anim_roundmove01,true);
+		else
+			ChangeAnim(MON_Anim_roundmove02,true);
+
+
+		SetAnimWorld();
 	}
-	else
+	else if(!isEndPattern())
 	{
 		// 매 시간마다 월드 로테이트를 거꾸로 돌려야 될거같은데..
-
-		m_fRotY += D3DX_PI / (51.0f / 30.0f);
-		if (m_fRotY == m_fTargetAngle)
+		if (m_Anim == MON_Anim_roundmove01)
 		{
-			ChangeState(BATTLE);
-			ChangeAnim(MON_Anim_Wait, true);
+			// 빼야해
+			m_fRotY -= abs(m_fRotY - m_fTargetAngle) * (TIMEMANAGER->GetEllapsedTime() / m_fCurAnimTime);
+			if (m_fRotY < 0)
+				m_fRotY += 2 * D3DX_PI;
+			if (m_fRotY <= m_fTargetAngle)
+			{
+				m_fRotY = m_fTargetAngle;
+				ChangeState(BATTLE);
+				ChangeAnim(MON_Anim_Wait, true);
+			}
+		}
+		else
+		{
+			// 더해야해
+			m_fRotY += abs(m_fRotY - m_fTargetAngle) *  (TIMEMANAGER->GetEllapsedTime() / m_fCurAnimTime);
+			if (m_fRotY > 2 * D3DX_PI)
+				m_fRotY -= 2 * D3DX_PI;
+			if (m_fRotY >= m_fTargetAngle)
+			{
+				m_fRotY = m_fTargetAngle;
+				ChangeState(BATTLE);
+				ChangeAnim(MON_Anim_Wait, true);
+			}
 		}
 	}
+	//else
+	//{
+	//	m_fRotY = m_fTargetAngle;
+	//	ChangeState(BATTLE);
+	//	ChangeAnim(MON_Anim_Wait, false);
+	//}
 
 }
 
@@ -419,6 +461,19 @@ void cKelsaik::Render()
 		m_pSphereR->Render();
 	if (SightSpere && m_pSphereL)
 		m_pSphereL->Render();
+
+	char szTemp[1024];
+	sprintf_s(szTemp, 1024, "%d RotY : %.1f target : %.1f", m_Anim, m_fRotY, m_fTargetAngle);
+	RECT rc;
+	SetRect(&rc, WINSIZEX - 400, 200, WINSIZEX, 300);
+
+	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
+	pFont->DrawTextA(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_VCENTER,
+		D3DCOLOR_XRGB(255, 0, 0));
 }
 
 // 이동값이 있는 애니메이션의 스타트 월드 매트릭스를 세팅
@@ -438,7 +493,9 @@ bool cKelsaik::isUseLocalAnim()
 
 	if (
 		m_Anim == MON_Anim_atk01 ||
-		m_Anim == MON_Anim_atk02
+		m_Anim == MON_Anim_atk02 
+		//m_Anim == MON_Anim_roundmove02 ||
+		//m_Anim == MON_Anim_roundmove01
 		)
 		return true;
 
@@ -528,7 +585,6 @@ void cKelsaik::SetTargetAngle()
 
 	if (m_vPosition.z < g_vPlayerPos->z)
 		m_fTargetAngle = D3DX_PI * 2 - m_fTargetAngle;
-
 }
 
 void cKelsaik::AttackPattern01()
@@ -560,6 +616,7 @@ void cKelsaik::AttackPattern01()
 				mat._43 = m_pHandR->CombinedTransformationMatrix._43;
 				m_pFireEffect->SetWorld(mat);
 				m_pFireEffect->Start();
+				CAMERAMANAGER->Shaking(0.1f);
 			}
 		}
 	}
@@ -594,6 +651,7 @@ void cKelsaik::AttackPattern02()
 				mat._43 = m_pHandL->CombinedTransformationMatrix._43;
 				m_pIceEffect->SetWorld(mat);
 				m_pIceEffect->Start();
+				CAMERAMANAGER->Shaking(0.1f);
 			}
 		}
 	}
@@ -618,7 +676,7 @@ void cKelsaik::AttackPattern03()
 		}
 		else // 파티클 출력과 함께 데미지를 주자!
 		{
-			if (m_fTime >= 2.0f && m_pEffectCost)
+			if (m_fTime >= 1.95f && m_pEffectCost)
 			{
 				m_pEffectCost = false;
 				D3DXMATRIX mat;
@@ -634,8 +692,21 @@ void cKelsaik::AttackPattern03()
 				mat._43 = m_pHandR->CombinedTransformationMatrix._43;
 				m_pFireEffect->SetWorld(mat);
 				m_pFireEffect->Start();
+				CAMERAMANAGER->Shaking(0.1f);
 			}
 		}
 	}
+}
+
+void cKelsaik::TurnLeft()
+{
+}
+
+void cKelsaik::TurnRight()
+{
+}
+
+void cKelsaik::TurnBack()
+{
 }
 
