@@ -53,6 +53,7 @@ private:
 	float				m_fAnimTime[MON_STATE_COUNT];
 
 	float				m_fTime;
+	int					m_nTime;
 
 	bool				m_bIsBlend;
 
@@ -73,6 +74,12 @@ private:
 
 
 	cParticleSet*		m_pParticleBleeding;
+
+	//DeathShader
+	bool				DissapearingMode = false;
+
+	LPD3DXEFFECT		DeathShader = NULL;
+	LPDIRECT3DTEXTURE9	SKIN = NULL;
 
 
 public:

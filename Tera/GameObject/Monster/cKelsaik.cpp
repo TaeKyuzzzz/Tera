@@ -7,7 +7,7 @@
 #include "Sprite\cSprite.h"
 #include "ProgressBar/cProgressBar.h"
 #include "Particle\cParticleSet.h"
-#include "cShader.h"
+#include "cShader/cShader.h"
 #include "GameObject\Character\cCharacter.h"
 
 cKelsaik::cKelsaik()

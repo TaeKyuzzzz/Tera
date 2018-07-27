@@ -161,7 +161,7 @@
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="BoundingBox\Cube\cCube.h" />
     <ClInclude Include="GameObject\Monster\cKelsaik.h" />
-    <ClInclude Include="cShader.h" />
+    <ClInclude Include="cShader\cShader.h" />
     <ClInclude Include="GameObject\Item\cItem.h" />
     <ClInclude Include="GameObject\Item\cItemInfo.h" />
     <ClInclude Include="ItemUI.h" />
@@ -244,7 +244,7 @@
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="BoundingBox\Cube\cCube.cpp" />
     <ClCompile Include="GameObject\Monster\cKelsaik.cpp" />
-    <ClCompile Include="cShader.cpp" />
+    <ClCompile Include="cShader\cShader.cpp" />
     <ClCompile Include="GameObject\Item\cItem.cpp" />
     <ClCompile Include="GameObject\Item\cItemInfo.cpp" />
     <ClCompile Include="GameObject\Item\CreateItemList.cpp" />
