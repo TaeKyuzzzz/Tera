@@ -34,6 +34,8 @@ public:
 
 	void Render(LPD3DXFRAME pFrame, char * key, ST_BONE_MESH* equit);
 
+	void RenderWhite(LPD3DXFRAME pFrame);
+
 
 	void SetupBoneMatrixPtrs(LPD3DXFRAME pFrame);
 

@@ -377,6 +377,57 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame, char * key, ST_BONE_MESH * equit)
 		Render(pFrame->pFrameSibling, key, equit);
 }
 
+void cSkinnedMesh::RenderWhite(LPD3DXFRAME pFrame)
+{
+	if (pFrame == NULL)
+		pFrame = m_pRoot;
+
+	ST_BONE* pBone = (ST_BONE*)pFrame;
+
+	if (pBone->pMeshContainer)
+	{
+		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
+
+		// 스킨 인포가 존재하는 메시
+		if (pBoneMesh->pSkinInfo != NULL)
+		{
+			if (pBoneMesh->MeshData.pMesh)
+			{
+				
+				for (DWORD i = 0; i < pBoneMesh->vecMtl.size(); i++)
+				{
+					g_pD3DDevice->SetTexture(0, pBoneMesh->vecTex[i]);
+					pBoneMesh->vecMtl[i].Ambient = D3DXCOLOR(0.0f, 0.0f,0.0f, 0.0f);
+					pBoneMesh->vecMtl[i].Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+					pBoneMesh->vecMtl[i].Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+					g_pD3DDevice->SetMaterial(&pBoneMesh->vecMtl[i]);
+					pBoneMesh->MeshData.pMesh->DrawSubset(i);
+
+				}
+			}
+		}
+		else
+		{
+			for (DWORD i = 0; i < pBoneMesh->vecMtl.size(); i++)
+			{
+				g_pD3DDevice->SetTexture(0, pBoneMesh->vecTex[i]);
+				pBoneMesh->vecMtl[i].Ambient = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
+				pBoneMesh->vecMtl[i].Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+				pBoneMesh->vecMtl[i].Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+				g_pD3DDevice->SetMaterial(&pBoneMesh->vecMtl[i]);
+				pBoneMesh->pOrigMesh->DrawSubset(i);
+
+			}
+		}
+	}
+
+	if (pFrame->pFrameFirstChild)
+		RenderWhite(pFrame->pFrameFirstChild);
+
+	if (pFrame->pFrameSibling)
+		RenderWhite(pFrame->pFrameSibling);
+}
+
 void cSkinnedMesh::SetupBoneMatrixPtrs(LPD3DXFRAME pFrame)
 {
 	if (pFrame && pFrame->pMeshContainer)

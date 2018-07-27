@@ -512,8 +512,8 @@ void cKelsaik::Render()
 	// 히트 박스 렌더
 	HitCircleRender();
 
-	m_pMonster->Render(NULL);
-
+	//m_pMonster->Render(NULL);
+	m_pMonster->RenderWhite(NULL);
 
 	cGameObject::Render();
 
