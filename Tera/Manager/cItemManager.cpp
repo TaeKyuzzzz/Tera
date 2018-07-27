@@ -110,10 +110,10 @@ void cItemManager::Render()
 
 	//°ª Âï¾îº¸±â
 	char szTemp[1024];	
-	sprintf_s(szTemp, 1024, 
-		"ÀÎº¥¾ÆÀÌÅÛ°¹¼ö : %d, \n ÀåºñÃ¢¾ÆÀÌÅÛ°¹¼ö : %d, \n ¼¥¾ÆÀÌÅÛ°¹¼ö : %d, \n Äü½½·Ô ¾ÆÀÌÄÜ°¹¼ö : %d \n ÁÂÇ¥ x,y %d \t %d"
-		, m_vInvenItem.size(), m_vStatusItem.size(), m_vConShopItem.size(), m_vQuickItem.size(), 
-		(int)m_vInvenItem[0]->GetUIRoot()->GetPosition().x, (int)m_vInvenItem[0]->GetUIRoot()->GetPosition().y);
+	sprintf_s(szTemp, 1024,
+		"ÀÎº¥¾ÆÀÌÅÛ°¹¼ö : %d, \n ÀåºñÃ¢¾ÆÀÌÅÛ°¹¼ö : %d, \n ¼¥¾ÆÀÌÅÛ°¹¼ö : %d, \n Äü½½·Ô ¾ÆÀÌÄÜ°¹¼ö : %d"//\n ÁÂÇ¥ x,y %d \t %d"
+		, m_vInvenItem.size(), m_vStatusItem.size(), m_vConShopItem.size(), m_vQuickItem.size());//
+		//(int)m_vInvenItem[0]->GetUIRoot()->GetPosition().x, (int)m_vInvenItem[0]->GetUIRoot()->GetPosition().y);
 	RECT rc2;
 	SetRect(&rc2, 100, 200, 800, 400);
 	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA_BIG);
@@ -798,6 +798,15 @@ void cItemManager::ItemUpdate()
 		m_vAllItem[i]->Update();
 	}
 
+	for (int i = 0; i < m_vEtcIcon.size(); i++)
+	{
+		m_vEtcIcon[i]->Update();
+	}
+
+	for (int i = 0; i < m_vItemImitation.size(); i++)
+	{
+		m_vItemImitation[i]->Update();
+	}
 
 	////ÄÝ µÇ¾úÀ»¶§ ÀÎº¥Åä¸® ¾ÆÀÌÅÛ ¾÷µ¥ÀÌÆ®
 	//if (_UI->GetIsCallInven())
