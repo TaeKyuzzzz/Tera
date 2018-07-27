@@ -7,6 +7,7 @@ cParticleSet::cParticleSet()
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	m_isStart = false;
+	useIt = false;
 }
 
 
@@ -16,7 +17,7 @@ cParticleSet::~cParticleSet()
 		SAFE_DELETE(m_vecParticle[i]);
 }
 
-void cParticleSet::Setup(PARTICLE_TYPE type,float time, float speed,
+void cParticleSet::Setup(PARTICLE_TYPE type, float time, float speed,
 	int acc, int accMin, int accMax,
 	int posX, int randPosXMin, int randPosXMax,
 	int posY, int randPosYMin, int randPosYMax,
@@ -56,7 +57,7 @@ void cParticleSet::Setup(PARTICLE_TYPE type,float time, float speed,
 
 	m_pTexture = TEXTUREMANAGER->GetTexture(szFile);
 
-	m_vecParticle.resize(300);
+	m_vecParticle.resize(100);
 	for (int i = 0; i < m_vecParticle.size(); i++)
 	{
 		// 위치 방향 렌덤하게, 속도 가속도 타임 전달받은데로
@@ -98,12 +99,12 @@ void cParticleSet::Setup(PARTICLE_TYPE type,float time, float speed,
 			dir.z = m_fDirectionZ * 0.01f;
 
 		D3DXVec3Normalize(&dir, &dir);
-		
+
 		cParticle * newParticle = new cParticle;
 		newParticle->Setup(m_fTime, pos, dir, m_fSpeed, m_fAcc, 0.0f, m_stColor, m_szFile);
 		if (m_type == PTC_TYPE_LOOP)
 			newParticle->SetIsUse(false);
-		
+
 		m_vecParticle[i] = newParticle;
 	}
 
@@ -115,12 +116,12 @@ void cParticleSet::Setup(PARTICLE_TYPE type,float time, float speed,
 	g_pD3DDevice->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(1.0f));
 	g_pD3DDevice->SetRenderState(D3DRS_POINTSIZE_MAX, FtoDW(100.0f));
 	g_pD3DDevice->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDW(0.0f));
-	
+
 	// 텍스처 알파 옵션 셋팅
 	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-	
+
 	// 알파블랜딩 방식 결정
 	g_pD3DDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 	g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -129,30 +130,37 @@ void cParticleSet::Setup(PARTICLE_TYPE type,float time, float speed,
 
 void cParticleSet::Update()
 {
+
 	m_fCurTime += TIMEMANAGER->GetEllapsedTime();
-	
+
 	if (m_fCurTime >= m_fTime)
 		m_isStart = false;
 
-	if (m_type == PTC_TYPE_LOOP)
+	if (useIt)
 	{
-		for (int i = 0; i < m_vecParticle.size(); i++)
+		if (m_type == PTC_TYPE_LOOP)
 		{
-			if (m_vecParticle[i]->GetIsUse() == false)
+			for (int i = 0; i < m_vecParticle.size(); i++)
 			{
-				m_vecParticle[i]->Setup();
-				break;
+				if (m_vecParticle[i]->GetIsUse() == false)
+				{
+					m_vecParticle[i]->Setup();
+					break;
+				}
 			}
 		}
 	}
 
+
+
 	for (int i = 0; i < m_vecParticle.size(); i++)
 		m_vecParticle[i]->Update(m_matWorld);
+
 }
 
 void cParticleSet::Render()
 {
-	//
+
 	g_pD3DDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
 	g_pD3DDevice->SetRenderState(D3DRS_POINTSCALEENABLE, true);
 	//g_pD3DDevice->SetRenderState(D3DRS_POINTSIZE, FtoDW(10.0f));
@@ -187,7 +195,7 @@ void cParticleSet::Render()
 	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 	g_pD3DDevice->SetTexture(0, m_pTexture);
 	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
-	
+
 	for (int i = 0; i < m_vecParticle.size(); i++)
 		m_vecParticle[i]->Render();
 
@@ -196,15 +204,21 @@ void cParticleSet::Render()
 	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 
 	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+
+	//
 }
 
 void cParticleSet::RenderOnce()
 {
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
-	g_pD3DDevice->SetTexture(0, m_pTexture);
+	if (useIt)
+	{
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+		g_pD3DDevice->SetTexture(0, m_pTexture);
 
-	for (int i = 0; i < m_vecParticle.size(); i++)
-		m_vecParticle[i]->Render();
+		for (int i = 0; i < m_vecParticle.size(); i++)
+			m_vecParticle[i]->Render();
+	}
 
 }
 
@@ -212,6 +226,8 @@ void cParticleSet::Start()
 {
 	if (m_isStart)
 		return;
+
+	useIt = true;
 
 	for (int i = 0; i < m_vecParticle.size(); i++)
 	{
@@ -221,6 +237,19 @@ void cParticleSet::Start()
 		}
 	}
 
+}
+
+void cParticleSet::End()
+{
+	useIt = false;
+
+	for (int i = 0; i < m_vecParticle.size(); i++)
+	{
+		if (m_vecParticle[i]->GetIsUse() == true)
+		{
+			m_vecParticle[i]->GetIsUse() == false;
+		}
+	}
 }
 
 

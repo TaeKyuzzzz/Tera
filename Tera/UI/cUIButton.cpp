@@ -6,7 +6,7 @@ cUIButton::cUIButton()
 	: m_buttonState(BT_UP)
 	, m_pDelegate(NULL)
 	, m_isButton(true)
-
+	, m_nAlpha(UIMANAGER->GetAlpha())
 {
 }
 
@@ -70,8 +70,6 @@ void cUIButton::Update(ST_UI_SIZE dragSize)
 		m_buttonState = BT_UP;
 	}
 
-	
-
 	//D3DXMatrixIdentity(&m_matWorld);
 	//m_matWorld._41 = m_vPosition.x;
 	//m_matWorld._42 = m_vPosition.y;
@@ -102,7 +100,7 @@ void cUIButton::Render(LPD3DXSPRITE pSprite)
 		&rc,
 		&D3DXVECTOR3(0, 0, 0),
 		&D3DXVECTOR3(0, 0, 0),
-		D3DCOLOR_ARGB(UIMANAGER->GetAlpha(), 255, 255, 255)
+		D3DCOLOR_ARGB(m_nAlpha, 255, 255, 255)
 	);
 
 	pSprite->End();

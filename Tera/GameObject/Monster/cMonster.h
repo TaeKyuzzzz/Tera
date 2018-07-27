@@ -64,14 +64,14 @@ public:
 	bool			m_bFlinch;									//피격을 알리는 불변수
 
 
-	//어슬렁거리는 모션 관련.
+																//어슬렁거리는 모션 관련.
 	D3DXVECTOR3		NextSpot;									//다음지점
 	float			m_fStopTime;								//멈춘시점.
 	bool			m_bStart;								//멈춘시점기록을 위한 불변수.
 	bool			m_bWalkOnOff;								//걷느냐 마느냐. 걷는시점에선 걷는 모션
 																//아니면 멈추는 모션.
 
-	// 패턴 가짓 수
+																// 패턴 가짓 수
 	int				m_nNumofPattern;
 
 

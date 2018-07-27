@@ -24,7 +24,7 @@ void cItemManager::UITextList()
 	tagText t1;
 	t1.Type = CONSTCHAR;
 	t1.szTextName = "소모품상점";
-	t1.szParrentName = "ConsumablesShop";
+	t1.szParrentName = "ConShop";
 	CreateText(t1);
 
 #pragma endregion
@@ -129,7 +129,7 @@ void cItemManager::TextExplane()
 	textExplane["미스테리부적"] = "사용시 신비한\n 일이 일어난다";
 	textExplane["마을귀환서"] = "가까운 마을로\n 귀환한다";
 	textExplane["대검"] = "커다란 검, \n굉장히 무겁다.";
-	textExplane["고등어"] = "칼날로 된 고등어,\n 먹을 수 없다";
+	textExplane["참치"] = "칼날로 된 참치,\n 먹을 수 없다";
 	textExplane["아이스소드"] = "얼음을 형상화해 \n 만든 검";
 	textExplane["스카이소드"] = "하늘의 모습을\n 담아만든 검";
 	textExplane["검은마력의옷"] = "고대 마력의 비밀\n을 담은 옷";

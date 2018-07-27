@@ -28,7 +28,7 @@ private:
 
 	SYNTHESIZE(vUI, m_vUI, VUI);
 
-	SYNTHESIZE(vUI, m_vQuickSlotAll, VQuickSlotUIAll);
+	//SYNTHESIZE(vUI, m_vQuickSlotAll, VQuickSlotUIAll);
 	SYNTHESIZE(vUI, m_vQuickSlotUI, VQuickSlotUI);
 
 	SYNTHESIZE(D3DXVECTOR3, m_vInventoryPos, InventoryPos);
@@ -39,6 +39,7 @@ private:
 	SYNTHESIZE(bool, m_isCallConShop, IsCallConShop);
 	SYNTHESIZE(bool, m_isCallStatus, IsCallStatus);
 	SYNTHESIZE(bool, m_isCallQuickSlot, QuickSlot);
+	SYNTHESIZE(bool, m_isQuickSlotLock, QuickSlotLock);
 
 
 	HDC hdc;
@@ -78,20 +79,23 @@ public:
 	void CloseUI(const char* szUIName);
 
 
-	void QuickSlotFunc();
+	void QuickSlotCall(const char* callName);
 	void QuickSlotResize();
 
 
 
+
 	int FindUIRootIndex(const char* szFindIndex);
+	int FindUIRootIndexFull(const char* szFindIndex);
 	
 
 	void UIInfoTextPopUp(int oneValue, const char* szNecessaryPlace = NULL);
 	void UIMoveControl();
+	void QuickSlotLockBTHiding();
 
 
 
-	//void FindAbilityValue();
+
 
 };
 

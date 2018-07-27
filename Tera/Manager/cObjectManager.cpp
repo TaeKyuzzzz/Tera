@@ -4,6 +4,7 @@
 #include "GameObject\cGameObject.h"
 #include "Spere\cSpere.h"
 #include "BoundingBox\cBoundingBox.h"
+#include "GameObject\Character\cCharacter.h"
 
 cObjectManager::cObjectManager()
 {
@@ -35,11 +36,11 @@ bool cObjectManager::IsCollision(cGameObject * obj1, cGameObject * obj2)
 
 	float lengh = D3DXVec3Length(&(obj1->GetSpere()->GetPosition() - obj2->GetSpere()->GetPosition()));
 	float distance = obj1->GetSpere()->GetRadius() + obj2->GetSpere()->GetRadius();
-	
+
 	if (lengh >= distance) return false;
 
 	// OBB 충돌 체크을 해야한 합니다.
-	
+
 	return OBBCollision(&obj1->GetBoundingBox()->GetOBB(),
 		&obj2->GetBoundingBox()->GetOBB());
 }
@@ -64,15 +65,62 @@ bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage, D3DXVECTOR3 
 {
 	for (int i = 0; i < m_vecCharacter.size(); i++)
 	{
-	
+
 		cGameObject * obj1 = m_vecCharacter[i];
 
 		float lengh = D3DXVec3Length(&(obj1->GetSpere()->GetPosition() - spere->GetPosition()));
 		float distance = obj1->GetSpere()->GetRadius() + spere->GetRadius();
-	
+
 		if (lengh < distance)
 		{
 			obj1->Damaged(Damage, pos);
+			return true;
+		}
+	}
+	return false;
+}
+
+bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage, D3DXVECTOR3 pos, CONDITION con, float percent)
+{
+	for (int i = 0; i < m_vecCharacter.size(); i++)
+	{
+
+		cGameObject * obj1 = m_vecCharacter[i];
+		D3DXVECTOR3 vec1, vec2;
+		vec1 = obj1->GetSpere()->GetPosition();
+		vec1.y = 0;
+		vec2 = spere->GetPosition();
+		vec2.y = 0;
+		float lengh = D3DXVec3Length(&(vec1 - vec2));
+		float distance = obj1->GetSpere()->GetRadius() + spere->GetRadius();
+
+		if (lengh < distance)
+		{
+			obj1->Damaged(Damage, pos, con, percent);
+
+			return true;
+		}
+	}
+	return false;
+}
+
+bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage, D3DXVECTOR3 pos, CONDITION con, float percent, DAMAGED_TYPE type)
+{
+	for (int i = 0; i < m_vecCharacter.size(); i++)
+	{
+		cGameObject * obj1 = m_vecCharacter[i];
+		D3DXVECTOR3 vec1, vec2;
+		vec1 = obj1->GetSpere()->GetPosition();
+		vec1.y = 0;
+		vec2 = spere->GetPosition();
+		vec2.y = 0;
+		float lengh = D3DXVec3Length(&(vec1 - vec2));
+		float distance = obj1->GetSpere()->GetRadius() + spere->GetRadius();
+
+		if (lengh < distance)
+		{
+			obj1->Damaged(Damage, pos, con, percent, type);
+
 			return true;
 		}
 	}
@@ -89,7 +137,7 @@ bool cObjectManager::GiveDamagedMonster(cBoundingBox * box, float Damage)
 		if (OBBCollision(&(obj1->GetBoundingBox()->GetOBB()), &(box->GetOBB())))
 		{
 			//몬스터에서는 넉백을 고려안했으므로 그냥 일단 벡터값 아무거나 줬엉.
-			obj1->Damaged(Damage, D3DXVECTOR3(0,0,0));
+			obj1->Damaged(Damage, D3DXVECTOR3(0, 0, 0));
 			return true;
 		}
 	}

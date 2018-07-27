@@ -112,14 +112,19 @@ public:
 
 	void Move();
 
+	// 데미지의 충격에 따른 맞는 모션 설정
 	void Damaged(float damage, D3DXVECTOR3 pos);
+	// 맞는 모션 지정 설정
+	void Damaged(float damage, D3DXVECTOR3 dir, DAMAGED_TYPE type);
+	void Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, float per);
+	void Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, float per, DAMAGED_TYPE type);
 	void BigDamaged();
 	void Die();
 
 	// 스킬 이펙트 처리.. 나중에 리펙토링 하자
 	void SkillProcess();
 	// 평타, 스킬 사운드 처리
-	void AttSound(); 
+	void AttSound();
 	// 키 입력에 따른 각도 구하기
 	void GetAngle();
 

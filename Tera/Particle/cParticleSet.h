@@ -10,7 +10,7 @@ enum PARTICLE_TYPE
 
 class cParticleSet
 {
-private :
+private:
 
 	SYNTHESIZE(D3DXMATRIX, m_matWorld, World);
 
@@ -36,11 +36,11 @@ private :
 	int						m_fPositionY;
 	int						m_fRandPosYMin;
 	int						m_fRandPosYMax;
-	
+
 	int						m_fPositionZ;
 	int						m_fRandPosZMin;
 	int						m_fRandPosZMax;
-	
+
 	// ¹æÇâ °ª ( ·»´ýºÎºÐÀº -1.0f ~ 1.0f )
 	int						m_fDirectionX;
 	int						m_fRandDirXMin;
@@ -57,12 +57,14 @@ private :
 	char 					m_szFile[1024];
 	D3DXCOLOR				m_stColor;
 	LPDIRECT3DTEXTURE9		m_pTexture;
+
+	bool					useIt = false;
 public:
 	cParticleSet();
 	~cParticleSet();
 
-	void Setup(PARTICLE_TYPE type,float time, float speed,
-		int acc,  int accMin,	   int accMax,
+	void Setup(PARTICLE_TYPE type, float time, float speed,
+		int acc, int accMin, int accMax,
 		int posX, int randPosXMin, int randPosXMax,
 		int posY, int randPosYMin, int randPosYMax,
 		int posZ, int randPosZMin, int randPosZMax,
@@ -71,10 +73,11 @@ public:
 		int dirZ, int randDirZMin, int randDirZMax,
 		const char * szFile, D3DXCOLOR color);
 	void Update();
-	
+
 	void Render();
 	void RenderOnce();
-	
+
 	void Start();
+	void End();
 };
 

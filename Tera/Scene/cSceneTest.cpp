@@ -50,12 +50,12 @@ void cSceneTest::Setup()
 	m_pBackGroundBlack = TEXTUREMANAGER->GetSprite("Texture/SceneTexture/BGBlack.png");
 	
 	m_pMonster01 = new cMonster01;
-	m_pMonster01->Setup();
-	m_pMonster01->SetPosition(m_pMonster01->GetSpot());
+	m_pMonster01->Setup(D3DXVECTOR3(1979,0,3893));
+	//m_pMonster01->SetPosition(m_pMonster01->GetSpot());
 	OBJECTMANAGER->AddMonsterObject(m_pMonster01);
 
 	m_pPoalong = new cPoalong;
-	m_pPoalong->Setup();
+	m_pPoalong->Setup(D3DXVECTOR3(972,0,3813));
 
 	m_pTown_House = new cTown_House;
 	m_pTown_House->Setup();

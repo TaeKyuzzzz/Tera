@@ -268,7 +268,7 @@ void cCharaPopori::ChangeWeapon()
 			m_pWeapon = new cWeapon01;
 			m_pWeapon->Setup();
 		}
-		else if (m_pEquitWeapon->GetName()== "고등어")
+		else if (m_pEquitWeapon->GetName()== "참치")
 		{
 			m_pWeapon = new cWeapon02;
 			m_pWeapon->Setup();

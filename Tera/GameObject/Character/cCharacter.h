@@ -4,6 +4,10 @@
 class iMap;
 class cProgressBar;
 class vItem;
+class cParticleSet;
+
+#define UIX 0
+#define UIY 0
 
 class cCharacter : public cGameObject
 {
@@ -41,14 +45,22 @@ public:
 
 
 	cSprite*			m_pBleeding;
-	int					m_pBleedingAlpha;
+	cSprite*			m_pBurnning;
+	cSprite*			m_pIcing;
 
+	int					m_pBleedingAlpha;
+	int					m_pConditionAlpha;
 	// 장비 관련 변수...
 
 	cItemInfo*			m_pEquitWeapon;
 	cItemInfo*			m_pEquitBody;
 	cItemInfo*			m_pEquitHand;
 	cItemInfo*			m_pEquitLeg;
+
+	cParticleSet*		m_pConditionBurn;
+	cParticleSet*		m_pConditionIce;
+
+	float				m_fDotDamagedTime;
 
 public:
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
@@ -68,11 +80,17 @@ public:
 	void RenderUpStateBar();
 
 	virtual void Damaged();
-
+	virtual void Damaged(float damage, D3DXVECTOR3 pos, CONDITION con, float per);
+	virtual void Damaged(float damage, D3DXVECTOR3 pos, DAMAGED_TYPE type);
+	virtual void Damaged(float damage, D3DXVECTOR3 pos, CONDITION con, float per,DAMAGED_TYPE type);
 	// 캐릭터 공격
 	virtual bool Attack(float damage);
 
 	// 장비 바꾸기
 	virtual int ChangeEquit();
+
+	virtual void Condition_Update();
+	virtual void Condition_Render();
+
 };
 

@@ -4,8 +4,8 @@
 
 enum eSlotType
 {
-	INVENTORY,
-	CONSHOP,
+	INVENTORYSLOT = 1,
+	CONSHOPSLOT,
 	STATUSSLOT,
 	QUICKSLOT
 
@@ -49,7 +49,7 @@ private:
 	SINGLETONE(cItemManager);
 
 	SYNTHESIZE(vItem, m_vInvenItem, InvenItem);
-	SYNTHESIZE(vItem, m_vShopItem, ShopItem);
+	SYNTHESIZE(vItem, m_vConShopItem, ConShopItem);
 	SYNTHESIZE(vItem, m_vStatusItem, StatusItem);
 	SYNTHESIZE(vItem, m_vQuickItem, QuickItem);
 
@@ -160,7 +160,7 @@ public:
 	void ItemExplaneUpdate();
 	void ItemExplaneRender();
 	void ImitationIconRender();
-	bool isDisplayItemInfo();
+
 
 #pragma endregion
 
@@ -175,24 +175,30 @@ public:
 	void SetItemSlot(eSlotType itemSlotType);
 	//슬롯 위치 갱신
 	void UIPosRenewal(const char* placeName);
-	void ItemSlotPosRenewal(eSlotType itemSlotType, D3DXVECTOR3 placePos);
-	void MoveFromAToB(int _eSlotTypeNum);
-	void ClickUseItemThisPlace(vItem& sendItem, const char* currentPlaceName);
-	void ConnectNodeCommand();
-	
+	void ItemSlotPosRenewal(eSlotType itemSlotType, D3DXVECTOR3 placePos);	
+	//void ClickUseItemThisPlace(vItem& sendItem, const char* currentPlaceName);
 
+
+	void ClickUseItem();
+	void DragAndDrop();
+
+
+	void ConnectNodeCommand();
 	void ExceptionsWhileDragging();
 	void SortInSlot();
 	void ItemUpdate();
 	void ItemRender();
 	void ItemRenewalThisPlace(vItem& _vVectorName);
-	void EquipmentWearBack(cItemInfo* _placeItem);
+	void ConditionalExcutionWearBack(cItemInfo* _newWear);
 	void SalesItemCalculator();
 	void BuyConsumables(int collisionNum);
-	void SetSkillSlot();
+	void QuickSlotPosRenewal();
 	void QuickSlotItemPosRenewal();
 
+	void SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, const char* szDestination);
+	void SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, eSlotType _eSlotType);
 
-
+	POINT FindPlaceAndIndex(vector<cItemInfo*> vPlaceItem);
+	bool ClickUseItemThisPlace(vector<cItemInfo*>& sendItem);
 };
 
