@@ -16,6 +16,8 @@ cKelsaik::cKelsaik()
 	, m_fHitCircleRadian(0.0f)
 	, m_vHitCirclePos{ { 0,0,0 },{ 0, 0, 0 } }
 	, m_fDamagedStack(0.0f)
+	, m_isPossibleGroggy(true)
+	, m_isPossibleDown(true)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 
@@ -92,7 +94,7 @@ void cKelsaik::Setup()
 	
 	SetLight();
 
-	m_fMaxHp = 2000.0f;
+	m_fMaxHp = 4000.0f;
 	m_fCurHp = 0.0f;
 	m_fAttack = 30.0f;
 	m_fDefense = 10.0f;
@@ -295,17 +297,19 @@ void cKelsaik::Battle_Update()
 
 	}
 
-	if (m_isDoingPattern)
+	if (m_isDoingPattern) // 패턴 중일때
 	{
-		switch (m_nPatternNum)
+		switch (m_nPatternNum) // 정해진 패턴을 처리
 		{
-		case 0:	AttackPattern01();	break;
-		case 1:	AttackPattern02();	break;
-		case 2:	AttackPattern03();	break;
-		case LEFTTURN:	TurnLeft();			break;
-		case RIGHTTURN:	TurnRight();		break;
-		case BACKTURN:	TurnBack();			break;
-
+		case 0:				AttackPattern01();	break;
+		case 1:				AttackPattern02();	break;
+		case 2:				AttackPattern03();	break;
+		case LEFTTURN:		TurnLeft();			break;
+		case RIGHTTURN:		TurnRight();		break;
+		case BACKTURN:		TurnBack();			break;
+		case REACTION:		DamageReaction();	break;
+		case REACTIONGRGY:	ReactionGroggy();	break;
+		case REACTIONDOWN:	ReactionDown();		break;
 		}
 	}
 
@@ -551,12 +555,13 @@ bool cKelsaik::isUseLocalAnim()
 {
 
 	if (
-		m_Anim == MON_Anim_atk01 ||
-		m_Anim == MON_Anim_atk02 ||
-		m_Anim == MON_Anim_roundmove02 ||
-		m_Anim == MON_Anim_roundmove01 ||
-		m_Anim == MON_Anim_ReactonAtk ||
-		m_Anim == MON_Anim_Death
+		m_Anim == MON_Anim_atk01		||
+		m_Anim == MON_Anim_atk02		||
+		m_Anim == MON_Anim_roundmove02	||
+		m_Anim == MON_Anim_roundmove01	||
+		m_Anim == MON_Anim_ReactonAtk	||
+		m_Anim == MON_Anim_Death		||
+		m_Anim == MON_Anim_groggy
 		)
 		return true;
 
@@ -577,14 +582,14 @@ void cKelsaik::ChangeState(MON_STATE state)
 	STATE = state;
 }
 
-void cKelsaik::ChangeAnim(MON_Anim anim, bool isBlend)
+void cKelsaik::ChangeAnim(MON_Anim anim, bool isBlend, float Time)
 {
 	m_fTime = 0.0f;
 
 	m_bIsBlend = isBlend;
 
 	m_Anim = anim;
-	m_fCurAnimTime = m_fAnimTime[anim];
+	m_fCurAnimTime = m_fAnimTime[anim] * Time;
 
 }
 
@@ -871,6 +876,65 @@ void cKelsaik::TurnBack()
 	}
 }
 
+void cKelsaik::DamageReaction()
+{
+	if (m_Anim != MON_Anim_flinch)
+	{
+		ChangeAnim(MON_Anim_flinch,true);
+	}
+	else
+	{
+		if (isEndPattern())
+		{
+			ChangeAnim(MON_Anim_Wait, true);
+			m_isDoingPattern = false;
+		}
+	}
+}
+
+void cKelsaik::ReactionGroggy()
+{
+	if (m_Anim != MON_Anim_groggy)
+	{
+		ChangeAnim(MON_Anim_groggy, true);
+		SetAnimWorld();
+	}
+	else
+	{
+		if (isEndPattern())
+		{
+			ChangeAnim(MON_Anim_Wait, true);
+			m_isDoingPattern = false;
+		}
+	}
+}
+
+void cKelsaik::ReactionDown()
+{
+	if (m_Anim != MON_Anim_ReactionStart &&
+		m_Anim != MON_Anim_ReactionLoop &&
+		m_Anim != MON_Anim_ReactionEnd)
+	{
+		ChangeAnim(MON_Anim_ReactionStart, true);
+		SetAnimWorld();
+	}
+	else
+	{
+		if (isEndPattern())
+		{
+			if(m_Anim == MON_Anim_ReactionStart)
+				ChangeAnim(MON_Anim_ReactionLoop,false,2.0f);
+			else if(m_Anim == MON_Anim_ReactionLoop)
+				ChangeAnim(MON_Anim_ReactionEnd, false);
+			else
+			{
+				ChangeAnim(MON_Anim_Wait, true);
+				m_isDoingPattern = false;
+			}
+		}
+	}
+}
+
 void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 {
 	if (m_isPossibleDamaged == false || STATE == DIE)
@@ -896,7 +960,45 @@ void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 	m_pParticleBleeding->SetWorld(matR * matT);
 	m_pParticleBleeding->Start();
 
-	g_pD3DDevice->LightEnable(50, true);
+	// 피격시 순간 번쩍임을 위해 만들었는데 이 방법은 아닌듯..
+	//g_pD3DDevice->LightEnable(50, true);
+
+	if (m_fCurHp < m_fMaxHp * 0.3f && m_isPossibleDown)
+	{
+		m_isPossibleDown = false;
+		m_fDamagedStack = 0;
+
+		m_partternCost = false;
+		m_isDoingPattern = true;
+		m_pEffectCost = true;
+
+		m_nPatternNum = REACTIONDOWN;
+	}
+	else if (m_fCurHp < m_fMaxHp * 0.5f && m_isPossibleGroggy)
+	{
+		m_isPossibleGroggy = false;
+		m_fDamagedStack = 0;
+
+		m_partternCost = false;
+		m_isDoingPattern = true;
+		m_pEffectCost = true;
+
+		m_nPatternNum = REACTIONGRGY;
+	}
+	// 누적데미지 계산, 500을 넘었을 시 경직 모션을 재생
+	else if (m_fDamagedStack > 500 && (m_nPatternNum != REACTIONGRGY) && (m_nPatternNum != REACTIONDOWN))
+	{
+		m_fDamagedStack = 0;
+
+		m_partternCost = false;
+		m_isDoingPattern = true;
+		m_pEffectCost = true;
+
+		m_nPatternNum = REACTION;
+	}
+	else // 500 아니면 축적
+		m_fDamagedStack += Damaged;
+
 
 	if (m_fCurHp < 0)
 	{
