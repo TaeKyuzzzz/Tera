@@ -110,10 +110,10 @@ void cItemManager::Render()
 
 	//값 찍어보기
 	char szTemp[1024];	
-	sprintf_s(szTemp, 1024, 
-		"인벤아이템갯수 : %d, \n 장비창아이템갯수 : %d, \n 샵아이템갯수 : %d, \n 퀵슬롯 아이콘갯수 : %d \n 좌표 x,y %d \t %d"
-		, m_vInvenItem.size(), m_vStatusItem.size(), m_vConShopItem.size(), m_vQuickItem.size(), 
-		(int)m_vInvenItem[0]->GetUIRoot()->GetPosition().x, (int)m_vInvenItem[0]->GetUIRoot()->GetPosition().y);
+	sprintf_s(szTemp, 1024,
+		"인벤아이템갯수 : %d, \n 장비창아이템갯수 : %d, \n 샵아이템갯수 : %d, \n 퀵슬롯 아이콘갯수 : %d"//\n 좌표 x,y %d \t %d"
+		, m_vInvenItem.size(), m_vStatusItem.size(), m_vConShopItem.size(), m_vQuickItem.size());//
+		//(int)m_vInvenItem[0]->GetUIRoot()->GetPosition().x, (int)m_vInvenItem[0]->GetUIRoot()->GetPosition().y);
 	RECT rc2;
 	SetRect(&rc2, 100, 200, 800, 400);
 	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA_BIG);
@@ -793,46 +793,55 @@ void cItemManager::SortInSlot()
 
 void cItemManager::ItemUpdate()
 {
-
-
-
-	//콜 되었을때 인벤토리 아이템 업데이트
-	if (_UI->GetIsCallInven())
-	{
-		for (int i = 0; i < m_vInvenItem.size(); i++)
-		{
-			m_vInvenItem[i]->Update();
-			
-		}
-	}
-
-	//상점아이템 업데이트
-	if (_UI->GetIsCallConShop())
-	{
-		for (int i = 0; i < m_vConShopItem.size(); i++)
-		{
-			m_vConShopItem[i]->Update();
-		}
-	}
-
-	//스테이터스 업데이트
-	if (_UI->GetIsCallStatus())
-	{
-		for (int i = 0; i < m_vStatusItem.size(); i++)
-		{
-			m_vStatusItem[i]->Update();
-		}
-	}
-
 	for (int i = 0; i < m_vAllItem.size(); i++)
 	{
 		m_vAllItem[i]->Update();
 	}
 
-	for (int i = 0; i < m_vQuickItem.size(); i++)
+	for (int i = 0; i < m_vEtcIcon.size(); i++)
 	{
-		m_vQuickItem[i]->Update();
+		m_vEtcIcon[i]->Update();
 	}
+
+	for (int i = 0; i < m_vItemImitation.size(); i++)
+	{
+		m_vItemImitation[i]->Update();
+	}
+
+	////콜 되었을때 인벤토리 아이템 업데이트
+	//if (_UI->GetIsCallInven())
+	//{
+	//	for (int i = 0; i < m_vInvenItem.size(); i++)
+	//	{
+	//		m_vInvenItem[i]->Update();
+	//		
+	//	}
+	//}
+	//
+	////상점아이템 업데이트
+	//if (_UI->GetIsCallConShop())
+	//{
+	//	for (int i = 0; i < m_vConShopItem.size(); i++)
+	//	{
+	//		m_vConShopItem[i]->Update();
+	//	}
+	//}
+	//
+	////스테이터스 업데이트
+	//if (_UI->GetIsCallStatus())
+	//{
+	//	for (int i = 0; i < m_vStatusItem.size(); i++)
+	//	{
+	//		m_vStatusItem[i]->Update();
+	//	}
+	//}
+
+
+
+	//for (int i = 0; i < m_vQuickItem.size(); i++)
+	//{
+	//	m_vQuickItem[i]->Update();
+	//}
 
 
 
