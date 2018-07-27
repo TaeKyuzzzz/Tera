@@ -225,9 +225,6 @@
     <ClInclude Include="GameObject\Monster\cKelsaik.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cShader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject\Item\cItem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -259,6 +256,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Scene\05_BossScene\cBossRoom_Doll.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cShader\cShader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -461,9 +461,6 @@
     <ClCompile Include="GameObject\Monster\cKelsaik.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cShader.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\Item\cItem.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -501,6 +498,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Scene\05_BossScene\cBossRoom_Doll.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cShader\cShader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

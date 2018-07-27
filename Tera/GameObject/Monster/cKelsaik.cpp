@@ -6,7 +6,7 @@
 #include "Spere\cSpere.h"
 
 #include "Particle\cParticleSet.h"
-#include "cShader.h"
+#include "cShader/cShader.h"
 
 
 cKelsaik::cKelsaik()

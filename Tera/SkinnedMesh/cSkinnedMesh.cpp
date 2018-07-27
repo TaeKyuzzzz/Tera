@@ -333,6 +333,105 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame, LPD3DXEFFECT shader)
 		Render(pFrame->pFrameSibling, shader);
 }
 
+void cSkinnedMesh::Render(IN LPD3DXFRAME pFrame, IN LPD3DXEFFECT shader, IN int time, IN LPDIRECT3DTEXTURE9 texture,
+	OUT bool &onoff, OUT bool &IsGen, OUT float &TOD)
+{
+	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	//g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	//g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	//g_pD3DDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+
+	UINT numPasses = 0;
+	shader->Begin(&numPasses, NULL);
+
+	D3DXMATRIX   matView, matWorld, matProj, matViewProj;
+	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+	matViewProj = matView * matProj;
+	D3DXMatrixIdentity(&matWorld);
+	shader->SetMatrix("matViewProjection", &matViewProj);
+	shader->SetMatrix("matWorld", &matWorld);
+	shader->SetTexture("Earth_Tex", texture);
+	shader->SetFloat("Offset", 0.003f * time);
+
+	if (pFrame == NULL)
+		pFrame = m_pRoot;
+
+	ST_BONE* pBone = (ST_BONE*)pFrame;
+
+	if (pBone->pMeshContainer)
+	{
+		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
+
+		// 스킨 인포가 존재하는 메시
+		if (pBoneMesh->pSkinInfo != NULL)
+		{
+			if (pBoneMesh->MeshData.pMesh)
+			{
+				//g_pD3DDevice->SetTransform(D3DTS_WORLD, &(pBone->CombinedTransformationMatrix * m_matWorld));
+
+				/*for (DWORD i = 0; i < pBoneMesh->vecMtl.size(); i++)
+				{
+					g_pD3DDevice->SetTexture(0, pBoneMesh->vecTex[i]);
+					g_pD3DDevice->SetMaterial(&pBoneMesh->vecMtl[i]);
+					pBoneMesh->MeshData.pMesh->DrawSubset(i);
+				}*/
+
+				for (UINT i = 0; i < numPasses; i++)
+				{
+					shader->BeginPass(i);
+					pBoneMesh->MeshData.pMesh->DrawSubset(i);
+					shader->EndPass();
+				}
+
+			}
+		}
+		else
+		{
+			/*for (DWORD i = 0; i < pBoneMesh->vecMtl.size(); i++)
+			{
+				g_pD3DDevice->SetTexture(0, pBoneMesh->vecTex[i]);
+				g_pD3DDevice->SetMaterial(&pBoneMesh->vecMtl[i]);
+				pBoneMesh->pOrigMesh->DrawSubset(i);
+			}*/
+
+			for (UINT i = 0; i < numPasses; i++)
+			{
+				shader->BeginPass(i);
+				pBoneMesh->pOrigMesh->DrawSubset(i);
+				shader->EndPass();
+			}
+		}
+	}
+
+	shader->End();
+
+	/*char numString[100];
+	_itoa(time, numString, 10);
+	OutputDebugStringA(numString);*/
+
+	if (pFrame->pFrameFirstChild)
+		Render(pFrame->pFrameFirstChild, shader, time, texture, onoff, IsGen, TOD);
+
+	if (pFrame->pFrameSibling)
+		Render(pFrame->pFrameSibling, shader, time, texture, onoff, IsGen, TOD);
+
+	if (0.003f * time > 1.0f)
+	{
+		onoff = false;
+		IsGen = false;
+		//완전히 사라진 시점 기록
+		TOD = (float)GetTickCount();
+	}
+
+	
+	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+}
+
 void cSkinnedMesh::Render(LPD3DXFRAME pFrame, char * key, ST_BONE_MESH * equit)
 {
 	if (pFrame == NULL)
