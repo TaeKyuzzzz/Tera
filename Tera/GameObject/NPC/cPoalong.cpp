@@ -34,8 +34,9 @@ cPoalong::~cPoalong()
 	SAFE_DELETE(m_pPoalong);
 }
 
-void cPoalong::Setup()
+void cPoalong::Setup(D3DXVECTOR3 v)
 {
+	m_vWhere_To_Stay = v;
 	m_pPoalong = new cSkinnedMesh;
 	m_pPoalong->Setup("XFile", "Poalong.X");
 	m_pPoalong->SetAnimationIndexBlend(m_currState);

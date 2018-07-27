@@ -111,10 +111,23 @@ void cMainGame::Render()
 	/////////////////////////////////////////////////////////////////
 	
 
-	m_pGrid->Render();
+	//m_pGrid->Render();
 	SCENEMANAGER->Render();
 
 	TIMEMANAGER->Render();
+
+	char szTemp[1024];
+	sprintf_s(szTemp, 1024, "%d %d", ptMouse.x, ptMouse.y);
+	RECT rc;
+	SetRect(&rc, WINSIZEX - 200, 0100, WINSIZEX, 200);
+
+	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
+	pFont->DrawTextA(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_VCENTER,
+		D3DCOLOR_XRGB(255, 0, 0));
 	///////////////////////////////////////////////////////////////////
 	g_pD3DDevice->EndScene();
 

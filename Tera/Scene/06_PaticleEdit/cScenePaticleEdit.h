@@ -4,11 +4,12 @@
 
 #define BTNMAX 33
 class cSprite;
+class cGrid;
 
 class cScenePaticleEdit : public cGameNode
 {
 private :
-
+	cGrid*					m_pGrid;
 	cSprite*					m_pSprite;
 
 	LPDIRECT3DTEXTURE9			m_pTexture;

@@ -52,8 +52,6 @@ cMonster01::cMonster01()
 
 	// 패턴의 가짓 수
 	m_nNumofPattern = 2;
-	//처음에 얘로 셋팅해놓는다.
-	m_vBehaviorSpot = D3DXVECTOR3(1247, 0, 3578);
 
 	m_pParticleBleeding = PARTICLEMANAGER->GetParticle("Bleeding");
 	PARTICLEMANAGER->AddChild(m_pParticleBleeding);
@@ -68,10 +66,14 @@ cMonster01::~cMonster01()
 	SAFE_DELETE(m_pSphereL);
 }
 
-void cMonster01::Setup()
+void cMonster01::Setup(D3DXVECTOR3 v)
 {
 	cMonster::Setup();
 	
+	//처음에 얘로 셋팅해놓는다.
+	m_vBehaviorSpot = v;//D3DXVECTOR3(1247, 0, 3578);
+	m_vPosition = v;
+
 	m_fMaxHp = 500.0f;
 	m_fCurHp = 500.0f;
 	m_fAttack = 20.0f;
@@ -103,7 +105,7 @@ void cMonster01::Setup()
 
 	//처음 젠되는 위치 설정
 
-	m_vPosition = m_vBehaviorSpot;
+	//m_vPosition = m_vBehaviorSpot;
 
 	// 바운딩 박스 생성
 	m_pBoundingBox = new cBoundingBox;

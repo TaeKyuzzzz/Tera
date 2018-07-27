@@ -112,8 +112,12 @@ public:
 
 	void Move();
 
+	// 데미지의 충격에 따른 맞는 모션 설정
 	void Damaged(float damage, D3DXVECTOR3 pos);
+	// 맞는 모션 지정 설정
+	void Damaged(float damage, D3DXVECTOR3 dir, DAMAGED_TYPE type);
 	void Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, float per);
+	void Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, float per, DAMAGED_TYPE type);
 	void BigDamaged();
 	void Die();
 

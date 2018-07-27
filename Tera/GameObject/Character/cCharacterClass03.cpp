@@ -624,6 +624,70 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 	}
 }
 
+void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, DAMAGED_TYPE type)
+{
+	if (m_state == CH_STATE_bReactionStart ||
+		m_state == CH_STATE_bReactionStart3 ||
+		m_state == CH_STATE_Dearhwait ||
+		m_state == CH_STATE_Death ||
+		m_state == CH_STATE_groggy1 ||
+		(m_isPossibleDamaged == false)) return;
+
+	m_isPossibleDamaged = false;
+	m_PossbleDamagedTime = 0.0f;
+
+	D3DXVECTOR3 u = dir - m_vPosition;
+	u.y = 0;
+	D3DXVec3Normalize(&u, &u);
+	m_fCosVal = D3DXVec3Dot(&u, &D3DXVECTOR3(1, 0, 0));
+
+	// nan 값 나오지 않게 예외처리..
+	if (m_fCosVal < -1.0f)
+		m_fCosVal = -0.99f;
+	else if (m_fCosVal > 1.0f)
+		m_fCosVal = 0.99;
+
+	m_fRotY = acosf(m_fCosVal);
+
+	cCharacter::Damaged();
+
+	m_fHpCur -= damage;
+
+	if (type == PC_DMG_TYPE_1)
+	{
+		m_state = CH_STATE_groggy1;
+		m_fCurAnimTime = 0.5f;
+		m_bIsBlend = true;
+		m_bIsDone = false;
+
+		SOUNDMANAGER->Play("PCDamaged");
+	}
+	else if (type == PC_DMG_TYPE_2)
+	{
+		SetAnimWorld();
+		m_state = CH_STATE_bReactionStart;
+		m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart];
+		m_bIsDone = false;
+		m_bIsBlend = false;
+		SOUNDMANAGER->Play("PCBigDamaged");
+	}
+	else if (type == PC_DMG_TYPE_3)
+	{
+		SetAnimWorld();
+		m_state = CH_STATE_bReactionStart3;
+		m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart3];
+		m_bIsDone = false;
+		m_bIsBlend = false;
+		SOUNDMANAGER->Play("PCBigDamaged");
+	}
+
+	if (m_fHpCur < 0)
+	{
+		SOUNDMANAGER->Play("PCDie");
+		Die();
+	}
+}
+
 void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, float per)
 {
 
@@ -673,6 +737,106 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, fl
 		SOUNDMANAGER->Play("PCBigDamaged");
 	}
 	else
+	{
+		SetAnimWorld();
+		m_state = CH_STATE_bReactionStart3;
+		m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart3];
+		m_bIsDone = false;
+		m_bIsBlend = false;
+		SOUNDMANAGER->Play("PCBigDamaged");
+	}
+
+	if (m_fHpCur < 0)
+	{
+		SOUNDMANAGER->Play("PCDie");
+		Die();
+	}
+
+	if (rand() % 100 < per)
+	{
+		if (con == m_eCondition)
+		{
+			m_fHpCur = 0;
+			Die();
+			return;
+		}
+		else if (con == CDT_BURN && m_eCondition == CDT_ICE)
+			m_eCondition = CDT_NORMAL;
+		else if (con == CDT_ICE && m_eCondition == CDT_BURN)
+			m_eCondition = CDT_NORMAL;
+		else
+			m_eCondition = con;
+
+		switch (m_eCondition)
+		{
+		case CDT_NORMAL:
+			m_pConditionBurn->End();
+			m_pConditionIce->End();
+			m_fSpeed = 1.0f;
+			break;
+		case CDT_BURN:
+			m_pConditionBurn->Start();
+			break;
+		case CDT_ICE:
+			m_pConditionIce->Start();
+			m_fSpeed = 0.6;
+			break;
+		case CDT_STURN:
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, float per, DAMAGED_TYPE type)
+{
+	if (m_state == CH_STATE_bReactionStart ||
+		m_state == CH_STATE_bReactionStart3 ||
+		m_state == CH_STATE_Dearhwait ||
+		m_state == CH_STATE_Death ||
+		m_state == CH_STATE_groggy1 ||
+		(m_isPossibleDamaged == false)) return;
+
+	m_isPossibleDamaged = false;
+	m_PossbleDamagedTime = 0.0f;
+
+	D3DXVECTOR3 u = dir - m_vPosition;
+	u.y = 0;
+	D3DXVec3Normalize(&u, &u);
+	m_fCosVal = D3DXVec3Dot(&u, &D3DXVECTOR3(1, 0, 0));
+
+	// nan 값 나오지 않게 예외처리..
+	if (m_fCosVal < -1.0f)
+		m_fCosVal = -0.99f;
+	else if (m_fCosVal > 1.0f)
+		m_fCosVal = 0.99;
+
+	m_fRotY = acosf(m_fCosVal);
+
+	cCharacter::Damaged();
+
+	m_fHpCur -= damage;
+
+	if (type == PC_DMG_TYPE_1)
+	{
+		m_state = CH_STATE_groggy1;
+		m_fCurAnimTime = 0.5f;
+		m_bIsBlend = true;
+		m_bIsDone = false;
+
+		SOUNDMANAGER->Play("PCDamaged");
+	}
+	else if (type == PC_DMG_TYPE_2)
+	{
+		SetAnimWorld();
+		m_state = CH_STATE_bReactionStart;
+		m_fCurAnimTime = m_fAnimTime[CH_STATE_bReactionStart];
+		m_bIsDone = false;
+		m_bIsBlend = false;
+		SOUNDMANAGER->Play("PCBigDamaged");
+	}
+	else if(type == PC_DMG_TYPE_3)
 	{
 		SetAnimWorld();
 		m_state = CH_STATE_bReactionStart3;

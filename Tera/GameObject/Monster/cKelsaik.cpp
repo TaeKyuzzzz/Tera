@@ -8,13 +8,14 @@
 #include "ProgressBar/cProgressBar.h"
 #include "Particle\cParticleSet.h"
 #include "cShader.h"
-
+#include "GameObject\Character\cCharacter.h"
 
 cKelsaik::cKelsaik()
 	: m_pMonster(NULL)
 	, m_currAnim(MON_Anim_Walk)
 	, m_fHitCircleRadian(0.0f)
 	, m_vHitCirclePos{ { 0,0,0 },{ 0, 0, 0 } }
+	, m_fDamagedStack(0.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 
@@ -49,7 +50,7 @@ cKelsaik::cKelsaik()
 	m_fTracableArea = 1000.0f;
 	m_fRunSpeed = 1.5f;
 	m_fFightZone = 100.0f;
-	m_fHpCur = 50000.0f;
+	m_fHpCur = 0.0f;
 
 	STATE = IDLE;
 
@@ -88,10 +89,12 @@ cKelsaik::~cKelsaik()
 void cKelsaik::Setup()
 {
 	cMonster::Setup();
+	
+	SetLight();
 
-	m_fMaxHp = 50000.0f;
-	m_fCurHp = 50000.0f;
-	m_fAttack = 20.0f;
+	m_fMaxHp = 2000.0f;
+	m_fCurHp = 0.0f;
+	m_fAttack = 30.0f;
 	m_fDefense = 10.0f;
 
 	m_pMonster = new cSkinnedMesh;
@@ -145,8 +148,8 @@ void cKelsaik::Setup()
 
 void cKelsaik::Update()
 {
-	if (KEYMANAGER->IsOnceKeyDown('N'))
-		m_Anim = (MON_Anim)((int)m_Anim + 1);
+	//if (KEYMANAGER->IsOnceKeyDown('N'))
+	//	m_Anim = (MON_Anim)((int)m_Anim + 1);
 	SetTargetAngle();
 	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
 	//m_pBIP->TransformationMatrix._42 = m_matWorld._42;
@@ -205,7 +208,12 @@ void cKelsaik::Awake_Update()
 	}
 	else if (m_fTime > 0.8f)
 	{
+		if (m_fCurHp < m_fMaxHp)
+			m_fCurHp += m_fMaxHp / 144;
+		else
+			m_fCurHp = m_fMaxHp;
 		CAMERAMANAGER->Shaking(0.06f);
+
 	}
 
 	//if (isPlayerInDistance())
@@ -215,21 +223,21 @@ void cKelsaik::Awake_Update()
 void cKelsaik::Awake_Chase()
 {
 
-	m_Anim = MON_Anim_Walk;
-	// u벡터 -> 기준벡터
-	D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
-	D3DXVECTOR3 v;
-	D3DXVec3Normalize(&v, &temp);
-
-	m_fCosVal = D3DXVec3Dot(&v, &u);
-	m_fCosVal = acosf(m_fCosVal);
-
-	if (m_vPosition.z < g_vPlayerPos->z)
-		m_fCosVal = D3DX_PI * 2 - m_fCosVal;
-
-	m_vPosition += (m_fRunSpeed * v);
-
-	m_fRotY = m_fCosVal;
+//	m_Anim = MON_Anim_Walk;
+//	// u벡터 -> 기준벡터
+//	D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
+//	D3DXVECTOR3 v;
+//	D3DXVec3Normalize(&v, &temp);
+//
+//	m_fCosVal = D3DXVec3Dot(&v, &u);
+//	m_fCosVal = acosf(m_fCosVal);
+//
+//	if (m_vPosition.z < g_vPlayerPos->z)
+//		m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+//
+//	m_vPosition += (m_fRunSpeed * v);
+//
+//	m_fRotY = m_fCosVal;
 }
 
 void cKelsaik::Awake_Battle()
@@ -256,7 +264,7 @@ void cKelsaik::Battle_Update()
 	{
 		// 여기서 자연스럽게 각도를 바꾸면 좋겟다..
 		//SetAngleWithPlayer();
-		//ChangeAnim(MON_Anim_Wait, true);
+		ChangeAnim(MON_Anim_Wait, true);
 		//m_partternCost = false;
 	}
 
@@ -299,6 +307,12 @@ void cKelsaik::Battle_Update()
 		case BACKTURN:	TurnBack();			break;
 
 		}
+	}
+
+	if (KEYMANAGER->IsOnceKeyDown('N'))
+	{
+		m_fCurHp = 0;
+		ChangeState(DIE);
 	}
 }
 
@@ -358,6 +372,9 @@ void cKelsaik::Turn_Update()
 
 void cKelsaik::Walk_Update()
 {
+	if (KEYMANAGER->IsOnceKeyDown('V'))
+		int a = 10;
+
 	if (isPlayerInDistance(m_fAreaRadius))
 	{
 		ChangeState(BATTLE);
@@ -376,7 +393,18 @@ void cKelsaik::Walk_Update()
 
 void cKelsaik::Death_Update()
 {
-
+	if (m_Anim != MON_Anim_Death && m_Anim != MON_Anim_deathwait)
+	{
+		ChangeAnim(MON_Anim_Death,true);
+		SetAnimWorld();
+	}
+	else
+	{
+		if (isEndPattern())
+		{
+			ChangeAnim(MON_Anim_deathwait,false);
+		}
+	}
 }
 
 void cKelsaik::Death_Die()
@@ -467,18 +495,18 @@ void cKelsaik::ParticleUpdate()
 // 렌더
 void cKelsaik::Render()
 {
+	RenderUpStateBar();
 
 	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	D3DXMATRIX mat;
 	D3DXMatrixIdentity(&mat);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
-
+	
 	// 히트 박스 렌더
 	HitCircleRender();
 
 	m_pMonster->Render(NULL);
 
-	RenderUpStateBar();
 
 	cGameObject::Render();
 
@@ -488,7 +516,7 @@ void cKelsaik::Render()
 		m_pSphereL->Render();
 
 	char szTemp[1024];
-	sprintf_s(szTemp, 1024, "%d RotY : %.1f target : %.1f", m_Anim, m_fRotY, m_fTargetAngle);
+	sprintf_s(szTemp, 1024, "HP : %.0f", m_fCurHp);
 	RECT rc;
 	SetRect(&rc, WINSIZEX - 400, 200, WINSIZEX, 300);
 
@@ -527,7 +555,8 @@ bool cKelsaik::isUseLocalAnim()
 		m_Anim == MON_Anim_atk02 ||
 		m_Anim == MON_Anim_roundmove02 ||
 		m_Anim == MON_Anim_roundmove01 ||
-		m_Anim == MON_Anim_ReactonAtk
+		m_Anim == MON_Anim_ReactonAtk ||
+		m_Anim == MON_Anim_Death
 		)
 		return true;
 
@@ -582,10 +611,10 @@ bool cKelsaik::isEndPattern()
 
 void cKelsaik::CreatePatternCost()
 {
-	if (!m_partternCost)
+	if (!m_partternCost && !m_isDoingPattern)
 	{
 		m_fPatternCostTime += TIMEMANAGER->GetEllapsedTime();
-		if (m_fPatternCostTime >= 5.0f)
+		if (m_fPatternCostTime >= 4.0f)
 		{
 			m_partternCost = true;
 			m_fPatternCostTime = 0.0f;
@@ -652,7 +681,7 @@ void cKelsaik::AttackPattern01()
 				mat._43 = m_pHandR->CombinedTransformationMatrix._43;
 				m_pFireEffect->SetWorld(mat);
 				m_pFireEffect->Start();
-				CAMERAMANAGER->Shaking(0.1f);
+				CAMERAMANAGER->Shaking(0.3f);
 				m_vHitCirclePos[0] = D3DXVECTOR3(mat._41, -45, mat._43);
 			}
 			else if (m_fTime <= 2.8 && !m_pEffectCost)
@@ -660,7 +689,7 @@ void cKelsaik::AttackPattern01()
 				m_fHitCircleRadian += 4.5f;
 				cSpere hitCircle;
 				hitCircle.Setup(m_vHitCirclePos[0], m_fHitCircleRadian);
-				OBJECTMANAGER->GiveDamagedChara(&hitCircle, m_fAttack, m_vPosition, CDT_BURN, 100.0f);
+				OBJECTMANAGER->GiveDamagedChara(&hitCircle, m_fAttack, m_vPosition, CDT_BURN, 100.0f, PC_DMG_TYPE_1);
 			}
 		}
 	}
@@ -697,7 +726,7 @@ void cKelsaik::AttackPattern02()
 				mat._43 = m_pHandL->CombinedTransformationMatrix._43;
 				m_pIceEffect->SetWorld(mat);
 				m_pIceEffect->Start();
-				CAMERAMANAGER->Shaking(0.1f);
+				CAMERAMANAGER->Shaking(0.3f);
 				m_vHitCirclePos[0] = D3DXVECTOR3(mat._41, -45, mat._43);
 			}
 			else if (m_fTime <= 2.8 && !m_pEffectCost)
@@ -705,7 +734,7 @@ void cKelsaik::AttackPattern02()
 				m_fHitCircleRadian += 4.5f;
 				cSpere hitCircle;
 				hitCircle.Setup(m_vHitCirclePos[0], m_fHitCircleRadian);
-				OBJECTMANAGER->GiveDamagedChara(&hitCircle, m_fAttack, m_vPosition, CDT_ICE, 100.0f);
+				OBJECTMANAGER->GiveDamagedChara(&hitCircle, m_fAttack, m_vPosition, CDT_ICE, 100.0f, PC_DMG_TYPE_1);
 
 			}
 		}
@@ -750,16 +779,16 @@ void cKelsaik::AttackPattern03()
 				m_pFireEffect->SetWorld(mat);
 				m_pFireEffect->Start();
 				m_vHitCirclePos[1] = D3DXVECTOR3(mat._41, -45, mat._43);
-				CAMERAMANAGER->Shaking(0.1f);
+				CAMERAMANAGER->Shaking(0.3f);
 			}
 			else if (m_fTime <= 2.45 && !m_pEffectCost)
 			{
 				m_fHitCircleRadian += 4.5f;
 				cSpere hitCircle;
 				hitCircle.Setup(m_vHitCirclePos[0], m_fHitCircleRadian);
-				OBJECTMANAGER->GiveDamagedChara(&hitCircle, m_fAttack, m_vPosition, CDT_ICE, 100.0f);
+				OBJECTMANAGER->GiveDamagedChara(&hitCircle, m_fAttack, m_vPosition, CDT_ICE, 100.0f, PC_DMG_TYPE_1);
 				hitCircle.Setup(m_vHitCirclePos[1], m_fHitCircleRadian);
-				OBJECTMANAGER->GiveDamagedChara(&hitCircle, m_fAttack, m_vPosition, CDT_BURN, 100.0f);
+				OBJECTMANAGER->GiveDamagedChara(&hitCircle, m_fAttack, m_vPosition, CDT_BURN, 100.0f, PC_DMG_TYPE_1);
 
 			}
 		}
@@ -832,13 +861,22 @@ void cKelsaik::TurnBack()
 			ChangeAnim(MON_Anim_Wait, false);
 			m_isDoingPattern = false;
 		}
+		else // 파티클 출력과 함께 데미지를 주자!
+		{
+			if (m_Anim == MON_Anim_roundAtk01)
+				OBJECTMANAGER->GiveDamagedChara(m_pSphereR, m_fAttack, m_vPosition,CDT_BURN,100, PC_DMG_TYPE_2);
+			else if (m_Anim == MON_Anim_roundAtk02)
+				OBJECTMANAGER->GiveDamagedChara(m_pSphereL, m_fAttack, m_vPosition,CDT_ICE,100, PC_DMG_TYPE_2);
+		}
 	}
 }
 
 void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 {
-	if (m_isPossibleDamaged == false)
+	if (m_isPossibleDamaged == false || STATE == DIE)
 		return;
+
+	CAMERAMANAGER->Shaking(0.1f);
 
 	m_isPossibleDamaged = false;
 	m_PossbleDamagedTime = 0.0f;
@@ -846,7 +884,7 @@ void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 	Damaged = Damaged - m_fDefense;
 	if (Damaged < 0) Damaged = 0;
 
-	m_fHpCur -= Damaged;
+	m_fCurHp -= Damaged;
 
 	// 블리딩 터트릴 좌표를 만들어서 세팅하고 시작
 	D3DXMATRIX matTS, matR, matT;
@@ -858,7 +896,13 @@ void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 	m_pParticleBleeding->SetWorld(matR * matT);
 	m_pParticleBleeding->Start();
 
+	g_pD3DDevice->LightEnable(50, true);
 
+	if (m_fCurHp < 0)
+	{
+		m_fCurHp = 0;
+		ChangeState(DIE);
+	}
 }
 
 void cKelsaik::SetUpStateBar()
@@ -866,22 +910,58 @@ void cKelsaik::SetUpStateBar()
 	m_BackBar = TEXTUREMANAGER->GetSprite("Texture/MonsterInfo/BossHpBack.png");
 
 	m_pHpBar = new cProgressBar;
-	m_pHpBar->Setup("Texture/CharacterInfo/BossHp.png",
-		"Texture/CharacterInfo/BossEmpty.png",
-		WINSIZEX / 2 +  m_BackBar->textureInfo.Width / 2.0f,
-		70,
-		WINSIZEX / 3.0f, WINSIZEY / 30.0f);
+	m_pHpBar->Setup("Texture/MonsterInfo/BossHp.png",
+		"Texture/MonsterInfo/BossEmpty.png",
+		562, 135, 460, 16);
 
 }
 
 void cKelsaik::UpdateUpStateBar()
 {
-	m_pHpBar->SetGauge(m_fHpCur, m_fHpMax);
+	m_pHpBar->SetGauge(m_fCurHp, m_fMaxHp);
 }
 
 void cKelsaik::RenderUpStateBar()
 {
+	if (STATE == IDLE)
+		return;
+
 	m_BackBar->Render(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(WINSIZEX/2 - m_BackBar->textureInfo.Width / 2.0f, 120, 0));
-	//m_pHpBar->Render();
+	m_pHpBar->Render();
+
+	char szTemp[1024];
+	RECT rc;
+
+	sprintf_s(szTemp, 1024, "%.0f%%", ((float)m_fCurHp /(float)m_fMaxHp)*100.0f);
+	SetRect(&rc,
+		WINSIZEX / 2 - 20,137, WINSIZEX / 2 +20,152);
+
+	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::TF_UI_NUMBER2);
+	pFont->DrawTextA(NULL, szTemp, strlen(szTemp), &rc,
+		DT_LEFT | DT_VCENTER, D3DCOLOR_XRGB(255, 255, 255));
+}
+
+void cKelsaik::SetLight()
+{
+	D3DXVECTOR3 position = m_vPosition;
+
+	D3DXVECTOR3 vecDir;
+	D3DLIGHT9 light;
+	ZeroMemory(&light, sizeof(D3DLIGHT9));
+	light.Type = D3DLIGHT_POINT;
+	light.Ambient.r = light.Diffuse.r = 1.0f;
+	light.Ambient.g = light.Diffuse.g = 1.0f;
+	light.Ambient.b = light.Diffuse.b = 1.0f;
+
+	light.Attenuation0 = 0.2;
+	light.Attenuation1 = 0.1;
+	light.Attenuation2 = 0.1;
+
+	light.Position = position;
+
+	vecDir = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, &vecDir);
+	light.Range = 2000.0f;
+	g_pD3DDevice->SetLight(50, &light);
 }
 

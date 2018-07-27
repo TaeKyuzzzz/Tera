@@ -83,7 +83,7 @@ public:
 	//------------------------기본함수
 
 
-	void Setup();
+	void Setup(D3DXVECTOR3 v);
 	void Update();
 	void Render();
 
