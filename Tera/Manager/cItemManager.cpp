@@ -111,9 +111,9 @@ void cItemManager::Render()
 	//°ª Âï¾îº¸±â
 	char szTemp[1024];	
 	sprintf_s(szTemp, 1024, 
-		"ÀÎº¥¾ÆÀÌÅÛ°¹¼ö : %d, \n ÀåºñÃ¢¾ÆÀÌÅÛ°¹¼ö : %d, \n ¼¥¾ÆÀÌÅÛ°¹¼ö : %d, \n Äü½½·Ô ¾ÆÀÌÄÜ°¹¼ö : %d"/*, \n ÁÂÇ¥ x,y %d \t %d"*/
-		, m_vInvenItem.size(), m_vStatusItem.size(), m_vConShopItem.size(), m_vQuickItem.size()/*, 
-		(int)m_vInvenItem[0]->GetUIRoot()->GetPosition().x, (int)m_vInvenItem[0]->GetUIRoot()->GetPosition().y*/);
+		"ÀÎº¥¾ÆÀÌÅÛ°¹¼ö : %d, \n ÀåºñÃ¢¾ÆÀÌÅÛ°¹¼ö : %d, \n ¼¥¾ÆÀÌÅÛ°¹¼ö : %d, \n Äü½½·Ô ¾ÆÀÌÄÜ°¹¼ö : %d \n ÁÂÇ¥ x,y %d \t %d"
+		, m_vInvenItem.size(), m_vStatusItem.size(), m_vConShopItem.size(), m_vQuickItem.size(), 
+		(int)m_vInvenItem[0]->GetUIRoot()->GetPosition().x, (int)m_vInvenItem[0]->GetUIRoot()->GetPosition().y);
 	RECT rc2;
 	SetRect(&rc2, 100, 200, 800, 400);
 	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA_BIG);
@@ -666,7 +666,8 @@ void cItemManager::DragAndDrop()
 		SendItemAtoPlaceB(m_vConShopItem, "Status");
 		SendItemAtoPlaceB(m_vStatusItem, "Inventory");
 		SendItemAtoPlaceB(m_vStatusItem, "ConShop");
-
+		SendItemAtoPlaceB(m_vInvenItem, QUICKSLOT);
+		
 	}
 
 
@@ -963,13 +964,15 @@ void cItemManager::QuickSlotItemPosRenewal()
 
 void cItemManager::SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, const char* szDestination)
 {
+
 	int UIIdx = _UI->FindUIRootIndex(szDestination);
 
 	vector<cItemInfo*>* vDestination = NULL;
 
-	
+	RECT UIRc;
 
-	RECT UIRc = _UI->GetVUI()[UIIdx]->GetUIRoot()->GetCollisionRect();
+	UIRc = _UI->GetVUI()[UIIdx]->GetUIRoot()->GetCollisionRect();
+	
 
 	for (int i = 0; i < placeItem.size(); i++)
 	{
@@ -984,9 +987,17 @@ void cItemManager::SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, const char* 
 			RECT itemRc = placeItem[i]->GetUIRoot()->GetCollisionRect();
 
 			RECT temp;
+			//µµÂøÁöÀÇ colRect¿Í º¸³»´Â itemRcÀÇ ·ºÆ®°¡ Ãæµ¹ÇÏ¸é
 			if (IntersectRect(&temp, &UIRc, &itemRc))
 			{
 				if(placeItem == m_vStatusItem)ConditionalExcutionWearBack(placeItem[i]);
+				else if (placeItem == m_vConShopItem && i < 8)
+				{
+					BuyConsumables(i); 
+					return;
+				}
+
+
 				if (vDestination == &m_vConShopItem && (*vDestination).size() >= 24)return;
 				else if (vDestination == &m_vInvenItem && (*vDestination).size() >= 40) return;
 
@@ -997,6 +1008,35 @@ void cItemManager::SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, const char* 
 
 				(*vDestination).push_back(placeItem[i]);
 				placeItem.erase(placeItem.begin() + i);
+			}
+		}
+	}
+}
+
+void cItemManager::SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, eSlotType _eSlotType)
+{
+	RECT QSRc;
+
+
+	for (int i = 0; i < placeItem.size(); i++)
+	{
+		if (placeItem[i]->GetUIRoot()->GetIsCollisionPT())
+		{
+		
+			RECT itemRc = placeItem[i]->GetUIRoot()->GetCollisionRect();
+
+			RECT temp;
+
+			for (int j = 0; j < _UI->GetVQuickSlotUI().size(); j++)
+			{
+				QSRc = _UI->GetVQuickSlotUI()[j]->GetUIImage()->GetCollisionRect();
+				if (IntersectRect(&temp, &QSRc, &itemRc))
+				{		
+
+					cItemInfo* itemInfo = placeItem[i];
+
+					m_vQuickItem.push_back(itemInfo);
+				}
 			}
 		}
 	}

@@ -28,7 +28,7 @@ private:
 
 	SYNTHESIZE(vUI, m_vUI, VUI);
 
-	SYNTHESIZE(vUI, m_vQuickSlotAll, VQuickSlotUIAll);
+	//SYNTHESIZE(vUI, m_vQuickSlotAll, VQuickSlotUIAll);
 	SYNTHESIZE(vUI, m_vQuickSlotUI, VQuickSlotUI);
 
 	SYNTHESIZE(D3DXVECTOR3, m_vInventoryPos, InventoryPos);

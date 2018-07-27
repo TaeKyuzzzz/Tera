@@ -196,6 +196,7 @@ public:
 	void QuickSlotItemPosRenewal();
 
 	void SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, const char* szDestination);
+	void SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, eSlotType _eSlotType);
 
 	POINT FindPlaceAndIndex(vector<cItemInfo*> vPlaceItem);
 	bool ClickUseItemThisPlace(vector<cItemInfo*>& sendItem);

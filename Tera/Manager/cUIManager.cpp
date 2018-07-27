@@ -9,7 +9,7 @@
 
 
 cUIManager::cUIManager()
-	:m_nAlpha(150)
+	:m_nAlpha(100)
 	,m_isCallQuickSlot(true)
 	, m_isQuickSlotLock(false)
 {
