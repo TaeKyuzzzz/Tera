@@ -14,6 +14,7 @@ class cSprite;
 #define REACTION		(NUMOFPATTERN+3)
 #define REACTIONGRGY	(NUMOFPATTERN+4)
 #define REACTIONDOWN	(NUMOFPATTERN+5)
+#define BERSERK			(NUMOFPATTERN+6)
 
 class cKelsaik : public cMonster
 {
@@ -90,6 +91,7 @@ protected:
 
 	bool			m_isPossibleGroggy; // 그로기 1회
 	bool			m_isPossibleDown;	// 다운 1회
+	bool			m_isPossibleBerserk; // 광폭화 1회
 	//공격에 쓰이는 본
 
 	ST_BONE*		m_pHandR;			// 오른팔 (파이어
@@ -165,11 +167,17 @@ public:
 	void TurnLeft();
 	void TurnRight();
 	void TurnBack();
+	void Berserk();
 
 	//// 몬스터 피격 패턴 ///
+	
+	// 피격 패턴 설정
+	void SetReactionPattern(int patternNum);
+
 	void DamageReaction();
 	void ReactionGroggy();
 	void ReactionDown();
+
 	// 데미지 받는 함수
 	void Damaged(float Damaged, D3DXVECTOR3 pos);
 

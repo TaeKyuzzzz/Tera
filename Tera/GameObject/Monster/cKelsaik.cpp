@@ -18,6 +18,7 @@ cKelsaik::cKelsaik()
 	, m_fDamagedStack(0.0f)
 	, m_isPossibleGroggy(true)
 	, m_isPossibleDown(true)
+	, m_isPossibleBerserk(true)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 
@@ -297,6 +298,7 @@ void cKelsaik::Battle_Update()
 
 	}
 
+
 	if (m_isDoingPattern) // 패턴 중일때
 	{
 		switch (m_nPatternNum) // 정해진 패턴을 처리
@@ -310,6 +312,7 @@ void cKelsaik::Battle_Update()
 		case REACTION:		DamageReaction();	break;
 		case REACTIONGRGY:	ReactionGroggy();	break;
 		case REACTIONDOWN:	ReactionDown();		break;
+		case BERSERK:		Berserk();			break;
 		}
 	}
 
@@ -876,6 +879,35 @@ void cKelsaik::TurnBack()
 	}
 }
 
+void cKelsaik::Berserk()
+{
+	if (m_Anim != MON_Anim_heavyatk01)
+	{
+		ChangeAnim(MON_Anim_heavyatk01, true);
+	}
+	else if (isEndPattern())
+	{
+		m_fAttack *= 2.0f;
+		m_isDoingPattern = false;
+		ChangeAnim(MON_Anim_Wait,false);
+	}
+	else if (m_fTime > 0.8f)
+	{
+		CAMERAMANAGER->Shaking(0.06f);
+	}
+}
+
+void cKelsaik::SetReactionPattern(int patternNum)
+{
+	m_fDamagedStack = 0;
+
+	m_partternCost = false;
+	m_isDoingPattern = true;
+	m_pEffectCost = true;
+
+	m_nPatternNum = patternNum;
+}
+
 void cKelsaik::DamageReaction()
 {
 	if (m_Anim != MON_Anim_flinch)
@@ -963,38 +995,25 @@ void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 	// 피격시 순간 번쩍임을 위해 만들었는데 이 방법은 아닌듯..
 	//g_pD3DDevice->LightEnable(50, true);
 
-	if (m_fCurHp < m_fMaxHp * 0.3f && m_isPossibleDown)
+	if (m_fCurHp < m_fMaxHp * 0.1f && m_isPossibleBerserk)
+	{
+		m_isPossibleBerserk = false;
+		SetReactionPattern(BERSERK);
+	}
+	else if (m_fCurHp < m_fMaxHp * 0.3f && m_isPossibleDown)
 	{
 		m_isPossibleDown = false;
-		m_fDamagedStack = 0;
-
-		m_partternCost = false;
-		m_isDoingPattern = true;
-		m_pEffectCost = true;
-
-		m_nPatternNum = REACTIONDOWN;
+		SetReactionPattern(REACTIONDOWN);
 	}
 	else if (m_fCurHp < m_fMaxHp * 0.5f && m_isPossibleGroggy)
 	{
 		m_isPossibleGroggy = false;
-		m_fDamagedStack = 0;
-
-		m_partternCost = false;
-		m_isDoingPattern = true;
-		m_pEffectCost = true;
-
-		m_nPatternNum = REACTIONGRGY;
+		SetReactionPattern(REACTIONGRGY);
 	}
 	// 누적데미지 계산, 500을 넘었을 시 경직 모션을 재생
 	else if (m_fDamagedStack > 500 && (m_nPatternNum != REACTIONGRGY) && (m_nPatternNum != REACTIONDOWN))
 	{
-		m_fDamagedStack = 0;
-
-		m_partternCost = false;
-		m_isDoingPattern = true;
-		m_pEffectCost = true;
-
-		m_nPatternNum = REACTION;
+		SetReactionPattern(REACTION);
 	}
 	else // 500 아니면 축적
 		m_fDamagedStack += Damaged;
