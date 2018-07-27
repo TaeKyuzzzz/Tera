@@ -81,6 +81,8 @@ public:
 
 	virtual void Damaged();
 	virtual void Damaged(float damage, D3DXVECTOR3 pos, CONDITION con, float per);
+	virtual void Damaged(float damage, D3DXVECTOR3 pos, DAMAGED_TYPE type);
+	virtual void Damaged(float damage, D3DXVECTOR3 pos, CONDITION con, float per,DAMAGED_TYPE type);
 	// 캐릭터 공격
 	virtual bool Attack(float damage);
 

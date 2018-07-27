@@ -30,6 +30,7 @@ public:
 
 	bool GiveDamagedChara(cSpere * spere, float Damage, D3DXVECTOR3 pos);
 	bool GiveDamagedChara(cSpere * spere, float Damage, D3DXVECTOR3 pos, CONDITION con, float percent);
+	bool GiveDamagedChara(cSpere * spere, float Damage, D3DXVECTOR3 pos, CONDITION con, float percent, DAMAGED_TYPE type);
 
 	bool GiveDamagedMonster(cBoundingBox * box, float Damage);
 

@@ -213,6 +213,14 @@ void cCharacter::Damaged(float damage, D3DXVECTOR3 pos, CONDITION con, float per
 {
 }
 
+void cCharacter::Damaged(float damage, D3DXVECTOR3 pos, DAMAGED_TYPE type)
+{
+}
+
+void cCharacter::Damaged(float damage, D3DXVECTOR3 pos, CONDITION con, float per, DAMAGED_TYPE type)
+{
+}
+
 bool cCharacter::Attack(float damage)
 {
 	return false;
@@ -356,24 +364,30 @@ void cCharacter::Condition_Update()
 	switch (m_eCondition)
 	{
 	case CDT_ICE:
-		m_fDotDamagedTime += TIMEMANAGER->GetEllapsedTime();
-		if (m_fDotDamagedTime > 1.0f)
+		if (m_fHpCur != 0)
 		{
-			m_fDotDamagedTime = 0.0f;
-			m_pConditionAlpha = 60;
-			m_fHpCur -= (m_fHpMax * 0.002);
+			m_fDotDamagedTime += TIMEMANAGER->GetEllapsedTime();
+			if (m_fDotDamagedTime > 1.0f)
+			{
+				m_fDotDamagedTime = 0.0f;
+				m_pConditionAlpha = 60;
+				m_fHpCur -= (m_fHpMax * 0.002);
+			}
+			m_pConditionIce->SetWorld(m_matWorld);
 		}
-		m_pConditionIce->SetWorld(m_matWorld);
 		break;
 	case CDT_BURN:
-		m_fDotDamagedTime += TIMEMANAGER->GetEllapsedTime();
-		if (m_fDotDamagedTime > 1.0f)
+		if (m_fHpCur != 0)
 		{
-			m_fDotDamagedTime = 0.0f;
-			m_pConditionAlpha = 60;
-			m_fHpCur -= (m_fHpMax * 0.004);
+			m_fDotDamagedTime += TIMEMANAGER->GetEllapsedTime();
+			if (m_fDotDamagedTime > 1.0f)
+			{
+				m_fDotDamagedTime = 0.0f;
+				m_pConditionAlpha = 60;
+				m_fHpCur -= (m_fHpMax * 0.004);
+			}
+			m_pConditionBurn->SetWorld(m_matWorld);
 		}
-		m_pConditionBurn->SetWorld(m_matWorld);
 		break;
 	}
 

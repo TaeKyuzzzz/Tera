@@ -81,18 +81,17 @@ protected:
 
 	int				m_nPatternNum;
 	float			m_fPatternCostTime;
-	//행동패턴 디자인에 쓰인 임시변수
-	D3DXVECTOR3		temp;
-	D3DXVECTOR2		tt;
+
+	float			m_fDamagedStack;	// 경직을 위한 누적 데미지 ( 500에 경직)
 
 	//공격에 쓰이는 본
 
-	ST_BONE*		m_pHandR;						// 오른팔 (파이어
-	ST_BONE*		m_pHandL;						// 왼팔	 (아이스
-	cSpere*			m_pSphereR;						// 오른팔 구 (충돌용
-	cSpere*			m_pSphereL;						// 왼팔 구 (충돌용
+	ST_BONE*		m_pHandR;			// 오른팔 (파이어
+	ST_BONE*		m_pHandL;			// 왼팔	 (아이스
+	cSpere*			m_pSphereR;			// 오른팔 구 (충돌용
+	cSpere*			m_pSphereL;			// 왼팔 구 (충돌용
 
-	float			m_fFightZone;
+	float			m_fFightZone;		// 배틀 영역
 
 
 	// 파티클 효과 1번 출력에 쓰는 불 변수
@@ -170,6 +169,10 @@ public:
 	void SetUpStateBar();
 	void UpdateUpStateBar();
 	void RenderUpStateBar();
+
+
+	void SetLight(); // 피격시 깜박거림을 위해
+
 };
 
 // 제발 되라

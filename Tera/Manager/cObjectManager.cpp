@@ -4,6 +4,7 @@
 #include "GameObject\cGameObject.h"
 #include "Spere\cSpere.h"
 #include "BoundingBox\cBoundingBox.h"
+#include "GameObject\Character\cCharacter.h"
 
 cObjectManager::cObjectManager()
 {
@@ -96,6 +97,30 @@ bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage, D3DXVECTOR3 
 		if (lengh < distance)
 		{
 			obj1->Damaged(Damage, pos, con, percent);
+
+			return true;
+		}
+	}
+	return false;
+}
+
+bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage, D3DXVECTOR3 pos, CONDITION con, float percent, DAMAGED_TYPE type)
+{
+	for (int i = 0; i < m_vecCharacter.size(); i++)
+	{
+
+		cGameObject * obj1 = m_vecCharacter[i];
+		D3DXVECTOR3 vec1, vec2;
+		vec1 = obj1->GetSpere()->GetPosition();
+		vec1.y = 0;
+		vec2 = spere->GetPosition();
+		vec2.y = 0;
+		float lengh = D3DXVec3Length(&(vec1 - vec2));
+		float distance = obj1->GetSpere()->GetRadius() + spere->GetRadius();
+
+		if (lengh < distance)
+		{
+			obj1->Damaged(Damage, pos, con, percent, type);
 
 			return true;
 		}

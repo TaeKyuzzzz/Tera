@@ -51,6 +51,10 @@ void cGameObject::Damaged(float damage, D3DXVECTOR3 pos, CONDITION con, float pe
 
 }
 
+void cGameObject::Damaged(float damage, D3DXVECTOR3 pos, CONDITION con, float per, DAMAGED_TYPE type)
+{
+}
+
 void cGameObject::CountPossibleDamaged(float time)
 {
 	m_PossbleDamagedTime += TIMEMANAGER->GetEllapsedTime();

@@ -2,8 +2,10 @@
 #include "Scene\06_PaticleEdit\cScenePaticleEdit.h"
 
 #include "Sprite\cSprite.h"
+#include "cGrid.h"
 
 cScenePaticleEdit::cScenePaticleEdit()
+	: m_pGrid(NULL)
 {
 	m_type = PTC_TYPE_LOOP;
 	m_fTime = 0.0f;
@@ -53,6 +55,7 @@ cScenePaticleEdit::~cScenePaticleEdit()
 	SAFE_DELETE(m_pParticleSet);
 	//SAFE_DELETE(m_pSprite);
 	SAFE_DELETE(m_pMainImamge);
+	SAFE_DELETE(m_pGrid);
 }
 
 void cScenePaticleEdit::Setup()
@@ -64,6 +67,8 @@ void cScenePaticleEdit::Setup()
 
 	UISetup();
 
+	m_pGrid = new cGrid;
+	m_pGrid->Setup();
 }
 
 void cScenePaticleEdit::Release()
@@ -89,7 +94,7 @@ void cScenePaticleEdit::Update()
 void cScenePaticleEdit::Render()
 {
 	//m_pSprite->Render(D3DXVECTOR3(m_pSprite->textureInfo.Width / 2, 0, 0), D3DXVECTOR3(WINSIZEX / 2, 0, 0));
-	
+	m_pGrid->Render();
 	if (!KEYMANAGER->IsStayKeyDown(VK_LBUTTON))
 	{
 		m_pParticleSet->Render();

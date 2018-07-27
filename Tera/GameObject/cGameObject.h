@@ -17,13 +17,19 @@ enum CONDITION
 	CDT_STURN
 };
 
+enum DAMAGED_TYPE
+{
+	PC_DMG_TYPE_1,
+	PC_DMG_TYPE_2,
+	PC_DMG_TYPE_3
+};
+
 class cGameObject
 {
 protected:
 
 	bool			SightBox;
 	bool			SightSpere;
-
 
 protected:
 
@@ -46,6 +52,7 @@ public:
 
 	virtual void Damaged(float damage, D3DXVECTOR3 pos);
 	virtual void Damaged(float damage, D3DXVECTOR3 pos, CONDITION con, float per);
+	virtual void Damaged(float damage, D3DXVECTOR3 pos, CONDITION con, float per, DAMAGED_TYPE type);
 
 	virtual void CountPossibleDamaged(float time);
 };
