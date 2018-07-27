@@ -793,46 +793,46 @@ void cItemManager::SortInSlot()
 
 void cItemManager::ItemUpdate()
 {
-
-
-
-	//콜 되었을때 인벤토리 아이템 업데이트
-	if (_UI->GetIsCallInven())
-	{
-		for (int i = 0; i < m_vInvenItem.size(); i++)
-		{
-			m_vInvenItem[i]->Update();
-			
-		}
-	}
-
-	//상점아이템 업데이트
-	if (_UI->GetIsCallConShop())
-	{
-		for (int i = 0; i < m_vConShopItem.size(); i++)
-		{
-			m_vConShopItem[i]->Update();
-		}
-	}
-
-	//스테이터스 업데이트
-	if (_UI->GetIsCallStatus())
-	{
-		for (int i = 0; i < m_vStatusItem.size(); i++)
-		{
-			m_vStatusItem[i]->Update();
-		}
-	}
-
 	for (int i = 0; i < m_vAllItem.size(); i++)
 	{
 		m_vAllItem[i]->Update();
 	}
 
-	for (int i = 0; i < m_vQuickItem.size(); i++)
-	{
-		m_vQuickItem[i]->Update();
-	}
+
+	////콜 되었을때 인벤토리 아이템 업데이트
+	//if (_UI->GetIsCallInven())
+	//{
+	//	for (int i = 0; i < m_vInvenItem.size(); i++)
+	//	{
+	//		m_vInvenItem[i]->Update();
+	//		
+	//	}
+	//}
+	//
+	////상점아이템 업데이트
+	//if (_UI->GetIsCallConShop())
+	//{
+	//	for (int i = 0; i < m_vConShopItem.size(); i++)
+	//	{
+	//		m_vConShopItem[i]->Update();
+	//	}
+	//}
+	//
+	////스테이터스 업데이트
+	//if (_UI->GetIsCallStatus())
+	//{
+	//	for (int i = 0; i < m_vStatusItem.size(); i++)
+	//	{
+	//		m_vStatusItem[i]->Update();
+	//	}
+	//}
+
+
+
+	//for (int i = 0; i < m_vQuickItem.size(); i++)
+	//{
+	//	m_vQuickItem[i]->Update();
+	//}
 
 
 
