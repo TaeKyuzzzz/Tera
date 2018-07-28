@@ -370,7 +370,7 @@ void cCharacter::Condition_Update()
 			if (m_fDotDamagedTime > 1.0f)
 			{
 				m_fDotDamagedTime = 0.0f;
-				m_pConditionAlpha = 60;
+				m_pConditionAlpha = 120;
 				m_fHpCur -= (m_fHpMax * 0.002);
 			}
 			m_pConditionIce->SetWorld(m_matWorld);
@@ -383,7 +383,7 @@ void cCharacter::Condition_Update()
 			if (m_fDotDamagedTime > 1.0f)
 			{
 				m_fDotDamagedTime = 0.0f;
-				m_pConditionAlpha = 60;
+				m_pConditionAlpha = 120;
 				m_fHpCur -= (m_fHpMax * 0.004);
 			}
 			m_pConditionBurn->SetWorld(m_matWorld);

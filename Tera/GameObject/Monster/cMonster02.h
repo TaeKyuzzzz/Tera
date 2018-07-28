@@ -12,7 +12,11 @@ protected:
 	{
 		IDLE,
 		AWAKE,
-		DEATH
+		CHASE,
+		BATTLE,
+		RETURN,
+		DEATH,
+		DISAPPEAR
 	};
 
 	enum MON_STATE
@@ -20,31 +24,21 @@ protected:
 		MON_STATE_Walk,
 		MON_STATE_Wait,
 		MON_STATE_unarmedwait,
-		MON_STATE_Spawn,
 		MON_STATE_run,
-		MON_STATE_roundmove02,
-		MON_STATE_roundmove01,
-		MON_STATE_roundAtk02,
-		MON_STATE_roundAtk01,
-		MON_STATE_ReactionStart,
-		MON_STATE_ReactionLoop,
-		MON_STATE_ReactionEnd,
-		MON_STATE_ReactonAtk,
-		MON_STATE_ReactionAdd,
-		MON_STATE_moveAtk,
-		MON_STATE_modeAlarm,
-		MON_STATE_jumpevasion02,
-		MON_STATE_jumpevasion01,
-		MON_STATE_heavyatk02,
-		MON_STATE_heavyatk01,
-		MON_STATE_groggy,
-		MON_STATE_flinch,
+		MON_STATE_KnockBackStart,
+		MON_STATE_KnockBackLoop,
+		MON_STATE_KnockBackEnd,
+		MON_STATE_jumpevasion,
+		MON_STATE_Idle,
+		MON_STATE_DownStart,
+		MON_STATE_DownLoop,
+		MON_STATE_DownEnd,
 		MON_STATE_deathwait,
 		MON_STATE_Death,
-		MON_STATE_backAtk,
+		MON_STATE_commandreceive,
+		MON_STATE_atk03,
 		MON_STATE_atk02,
 		MON_STATE_atk01,
-		MON_STATE_aggrochange,
 		MON_STATE_COUNT
 	};
 

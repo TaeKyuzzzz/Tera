@@ -6,7 +6,7 @@
 #include "Spere\cSpere.h"
 
 #include "Particle\cParticleSet.h"
-#include "cShader.h"
+#include "Shader/cShader.h"
 
 cMonster01::cMonster01()
 	: m_pMonster(NULL)
@@ -21,6 +21,7 @@ cMonster01::cMonster01()
 
 	m_fCurAnimTime = 0.0f;
 	m_fTime = 0.0f;
+	m_nTime = 0;
 	float animTime[MON_STATE_COUNT] =
 	{
 		97, 41, 49, 66, 35,
@@ -64,6 +65,10 @@ cMonster01::~cMonster01()
 	SAFE_DELETE(m_pMonster);
 	SAFE_DELETE(m_pSphereR);
 	SAFE_DELETE(m_pSphereL);
+
+	//셰이더 관련
+	SAFE_RELEASE(DeathShader);
+	SAFE_RELEASE(SKIN);
 }
 
 void cMonster01::Setup(D3DXVECTOR3 v)
@@ -115,7 +120,9 @@ void cMonster01::Setup(D3DXVECTOR3 v)
 	m_pSpere = new cSpere;
 	m_pSpere->Setup(m_vPosition, m_fFightZone);
 
-
+	//셰이더관련
+	DeathShader = cShader::LoadShader("XFile/Monster", "DeathShader.fx");
+	SKIN = TEXTUREMANAGER->GetTexture("XFile/Monster/AbandonedAutomatedGuardian_diff.tga");
 }
 
 void cMonster01::Update()
@@ -127,12 +134,15 @@ void cMonster01::Update()
 
 	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
 
+	if (DissapearingMode)
+		m_nTime += 1;
+
 	//몬스터 죽는거
-	if (m_fHpCur <= 0)
+	if (m_fHpCur <= 0 && !DissapearingMode)
 		Die();
 
 	//젠되어있을때 
-	if (m_bIsGen)
+	if (m_bIsGen && !DissapearingMode)
 	{
 
 		MonoBehavior();
@@ -212,9 +222,10 @@ void cMonster01::Update()
 	}
 
 	//죽고 몬스터가 완전히 사라졌을때
-	else
+	else if(!m_bIsGen)
 	{
 		//다시 처음으로 설정
+		m_nTime = 0;
 		m_vPosition = m_vBehaviorSpot;
 		m_state = MON_STATE_unarmedwait;
 		//m_currState = MON_STATE_unarmedwait;
@@ -222,13 +233,14 @@ void cMonster01::Update()
 		m_vDirection = D3DXVECTOR3(1, 0, 0);
 		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
 		m_fHpCur = 100.0f;
+		m_bAnimation = false;
 
 		//5초뒤에 부활.
 		if (GetTickCount() - m_fTimeofDeath >= 5000.0f)
 		{
 			m_bIsGen = true;
 			m_bDeath = false;
-
+			DissapearingMode = false;
 			m_pMonster->AnimAdvanceTime();
 		}
 	}
@@ -239,7 +251,19 @@ void cMonster01::Update()
 		//애니메이션을 처리해야 하므로 시간을 잴 변수가 필요하다.
 		m_fTime += TIMEMANAGER->GetEllapsedTime();
 
-		if (m_fCurAnimTime - 0.05 <= m_fTime)
+		if (m_state == MON_STATE_Death && 
+			m_fCurAnimTime - 0.05 <= m_fTime && 
+			!DissapearingMode)
+		{
+			DissapearingMode = true;
+			m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
+			m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
+			m_fTime = 0.0f;
+			m_state == MON_STATE_deathwait;
+			m_bAngleLock = false;
+		}
+
+		else if (m_fCurAnimTime - 0.05 <= m_fTime)
 		{
 			m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
 			m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
@@ -247,12 +271,6 @@ void cMonster01::Update()
 			m_bAnimation = false;
 			m_bAngleLock = false;
 			m_bAtkTerm = !m_bAtkTerm;
-			if (m_state == MON_STATE_Death)
-			{
-				m_bIsGen = false;
-				//완전히 사라진 시점 기록
-				m_fTimeofDeath = (float)GetTickCount();
-			}
 		}
 	}
 
@@ -268,7 +286,12 @@ void cMonster01::Render()
 	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	
 	if (m_bIsGen)
-		m_pMonster->Render(NULL);
+	{
+		if (DissapearingMode)
+			m_pMonster->Render(NULL, DeathShader, m_nTime, SKIN, DissapearingMode, m_bIsGen, m_fTimeofDeath);
+		else
+			m_pMonster->Render(NULL);
+	}
 
 	cGameObject::Render();
 

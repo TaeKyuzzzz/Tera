@@ -22,14 +22,14 @@
     <ProjectGuid>{0C1A8ED4-9DFE-473C-AECC-1F530935F9D7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Tera</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
     <ProjectName>Tera</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -161,7 +161,7 @@
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="BoundingBox\Cube\cCube.h" />
     <ClInclude Include="GameObject\Monster\cKelsaik.h" />
-    <ClInclude Include="cShader.h" />
+    <ClInclude Include="Shader\cShader.h" />
     <ClInclude Include="GameObject\Item\cItem.h" />
     <ClInclude Include="GameObject\Item\cItemInfo.h" />
     <ClInclude Include="ItemUI.h" />
@@ -244,7 +244,7 @@
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="BoundingBox\Cube\cCube.cpp" />
     <ClCompile Include="GameObject\Monster\cKelsaik.cpp" />
-    <ClCompile Include="cShader.cpp" />
+    <ClCompile Include="Shader\cShader.cpp" />
     <ClCompile Include="GameObject\Item\cItem.cpp" />
     <ClCompile Include="GameObject\Item\cItemInfo.cpp" />
     <ClCompile Include="GameObject\Item\CreateItemList.cpp" />

@@ -7,7 +7,7 @@
 #include "Sprite\cSprite.h"
 #include "ProgressBar/cProgressBar.h"
 #include "Particle\cParticleSet.h"
-#include "cShader.h"
+#include "Shader/cShader.h"
 #include "GameObject\Character\cCharacter.h"
 
 cKelsaik::cKelsaik()
@@ -18,6 +18,7 @@ cKelsaik::cKelsaik()
 	, m_fDamagedStack(0.0f)
 	, m_isPossibleGroggy(true)
 	, m_isPossibleDown(true)
+	, m_isPossibleBerserk(true)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 
@@ -86,6 +87,8 @@ cKelsaik::~cKelsaik()
 	SAFE_DELETE(m_pMonster);
 	SAFE_DELETE(m_pSphereR);
 	SAFE_DELETE(m_pSphereL);
+
+	SAFE_RELEASE(m_pHitFlash);
 }
 
 void cKelsaik::Setup()
@@ -145,6 +148,9 @@ void cKelsaik::Setup()
 	m_partternCost = true;
 
 	SetUpStateBar();
+
+	// 셰이더 초기화
+	m_pHitFlash = cShader::LoadShader("Shader/Effect/","HitFlash.fx");
 }
 
 
@@ -297,6 +303,7 @@ void cKelsaik::Battle_Update()
 
 	}
 
+
 	if (m_isDoingPattern) // 패턴 중일때
 	{
 		switch (m_nPatternNum) // 정해진 패턴을 처리
@@ -310,6 +317,7 @@ void cKelsaik::Battle_Update()
 		case REACTION:		DamageReaction();	break;
 		case REACTIONGRGY:	ReactionGroggy();	break;
 		case REACTIONDOWN:	ReactionDown();		break;
+		case BERSERK:		Berserk();			break;
 		}
 	}
 
@@ -376,8 +384,6 @@ void cKelsaik::Turn_Update()
 
 void cKelsaik::Walk_Update()
 {
-	if (KEYMANAGER->IsOnceKeyDown('V'))
-		int a = 10;
 
 	if (isPlayerInDistance(m_fAreaRadius))
 	{
@@ -458,8 +464,7 @@ void cKelsaik::AnimUpdate()
 
 	// 이동값이 있는 애니메이션 적용 시
 	// 애니메이션 로컬을 현재 포지션으로 적용시키는 증가량을 계산 
-	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x != 0.0f)
-		int a = 10;
+
 	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x < 30.f)
 		m_vPosition += (m_vDirection * (m_vCurAnimPos.x - m_vBeforeAnimPos.x));
 	else
@@ -509,8 +514,13 @@ void cKelsaik::Render()
 	// 히트 박스 렌더
 	HitCircleRender();
 
-	m_pMonster->Render(NULL);
-
+	if(m_isPossibleDamaged)
+		m_pMonster->Render(NULL); // 요건 평상시의 렌더
+	else
+	{
+		m_pMonster->Render(NULL,m_pHitFlash);// 요건 맞았을때 히트 플래쉬 렌더!
+		HitShaderUpdate(m_PossbleDamagedTime * 0.2);
+	}
 
 	cGameObject::Render();
 
@@ -876,6 +886,35 @@ void cKelsaik::TurnBack()
 	}
 }
 
+void cKelsaik::Berserk()
+{
+	if (m_Anim != MON_Anim_heavyatk01)
+	{
+		ChangeAnim(MON_Anim_heavyatk01, true);
+	}
+	else if (isEndPattern())
+	{
+		m_fAttack *= 2.0f;
+		m_isDoingPattern = false;
+		ChangeAnim(MON_Anim_Wait,false);
+	}
+	else if (m_fTime > 0.8f)
+	{
+		CAMERAMANAGER->Shaking(0.06f);
+	}
+}
+
+void cKelsaik::SetReactionPattern(int patternNum)
+{
+	m_fDamagedStack = 0;
+
+	m_partternCost = false;
+	m_isDoingPattern = true;
+	m_pEffectCost = true;
+
+	m_nPatternNum = patternNum;
+}
+
 void cKelsaik::DamageReaction()
 {
 	if (m_Anim != MON_Anim_flinch)
@@ -963,38 +1002,25 @@ void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 	// 피격시 순간 번쩍임을 위해 만들었는데 이 방법은 아닌듯..
 	//g_pD3DDevice->LightEnable(50, true);
 
-	if (m_fCurHp < m_fMaxHp * 0.3f && m_isPossibleDown)
+	if (m_fCurHp < m_fMaxHp * 0.1f && m_isPossibleBerserk)
+	{
+		m_isPossibleBerserk = false;
+		SetReactionPattern(BERSERK);
+	}
+	else if (m_fCurHp < m_fMaxHp * 0.3f && m_isPossibleDown)
 	{
 		m_isPossibleDown = false;
-		m_fDamagedStack = 0;
-
-		m_partternCost = false;
-		m_isDoingPattern = true;
-		m_pEffectCost = true;
-
-		m_nPatternNum = REACTIONDOWN;
+		SetReactionPattern(REACTIONDOWN);
 	}
 	else if (m_fCurHp < m_fMaxHp * 0.5f && m_isPossibleGroggy)
 	{
 		m_isPossibleGroggy = false;
-		m_fDamagedStack = 0;
-
-		m_partternCost = false;
-		m_isDoingPattern = true;
-		m_pEffectCost = true;
-
-		m_nPatternNum = REACTIONGRGY;
+		SetReactionPattern(REACTIONGRGY);
 	}
 	// 누적데미지 계산, 500을 넘었을 시 경직 모션을 재생
 	else if (m_fDamagedStack > 500 && (m_nPatternNum != REACTIONGRGY) && (m_nPatternNum != REACTIONDOWN))
 	{
-		m_fDamagedStack = 0;
-
-		m_partternCost = false;
-		m_isDoingPattern = true;
-		m_pEffectCost = true;
-
-		m_nPatternNum = REACTION;
+		SetReactionPattern(REACTION);
 	}
 	else // 500 아니면 축적
 		m_fDamagedStack += Damaged;
@@ -1065,5 +1091,17 @@ void cKelsaik::SetLight()
 	D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, &vecDir);
 	light.Range = 2000.0f;
 	g_pD3DDevice->SetLight(50, &light);
+}
+
+void cKelsaik::HitShaderUpdate(float offset)
+{
+	D3DXMATRIX   matView, matWorld, matProj;
+	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+	D3DXMatrixIdentity(&matWorld);
+	m_pHitFlash->SetMatrix("gWorldMatrix", &matWorld);
+	m_pHitFlash->SetMatrix("gViewMatrix", &matView);
+	m_pHitFlash->SetMatrix("gProjectionMatrix", &matProj);
+	m_pHitFlash->SetFloat("Offset", offset);
 }
 

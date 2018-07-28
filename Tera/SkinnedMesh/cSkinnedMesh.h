@@ -31,9 +31,12 @@ public:
 
 	void Render(LPD3DXFRAME pFrame);
 	void Render(LPD3DXFRAME pFrame, LPD3DXEFFECT shader);
+	void Render(IN LPD3DXFRAME pFrame, IN LPD3DXEFFECT shader, IN int time, IN LPDIRECT3DTEXTURE9 texture,
+		OUT bool &onoff, OUT bool &IsGen, OUT float &TOD);
 
 	void Render(LPD3DXFRAME pFrame, char * key, ST_BONE_MESH* equit);
 
+	void RenderWhite(LPD3DXFRAME pFrame);
 
 	void SetupBoneMatrixPtrs(LPD3DXFRAME pFrame);
 

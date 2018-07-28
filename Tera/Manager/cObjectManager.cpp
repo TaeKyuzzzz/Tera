@@ -108,7 +108,6 @@ bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage, D3DXVECTOR3 
 {
 	for (int i = 0; i < m_vecCharacter.size(); i++)
 	{
-
 		cGameObject * obj1 = m_vecCharacter[i];
 		D3DXVECTOR3 vec1, vec2;
 		vec1 = obj1->GetSpere()->GetPosition();
