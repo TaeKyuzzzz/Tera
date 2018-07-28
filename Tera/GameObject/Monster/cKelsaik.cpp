@@ -7,7 +7,7 @@
 #include "Sprite\cSprite.h"
 #include "ProgressBar/cProgressBar.h"
 #include "Particle\cParticleSet.h"
-#include "cShader/cShader.h"
+#include "Shader/cShader.h"
 #include "GameObject\Character\cCharacter.h"
 
 cKelsaik::cKelsaik()
@@ -87,6 +87,8 @@ cKelsaik::~cKelsaik()
 	SAFE_DELETE(m_pMonster);
 	SAFE_DELETE(m_pSphereR);
 	SAFE_DELETE(m_pSphereL);
+
+	SAFE_RELEASE(m_pHitFlash);
 }
 
 void cKelsaik::Setup()
@@ -146,6 +148,9 @@ void cKelsaik::Setup()
 	m_partternCost = true;
 
 	SetUpStateBar();
+
+	// 셰이더 초기화
+	m_pHitFlash = cShader::LoadShader("Shader/Effect/","HitFlash.fx");
 }
 
 
@@ -379,8 +384,6 @@ void cKelsaik::Turn_Update()
 
 void cKelsaik::Walk_Update()
 {
-	if (KEYMANAGER->IsOnceKeyDown('V'))
-		int a = 10;
 
 	if (isPlayerInDistance(m_fAreaRadius))
 	{
@@ -461,8 +464,7 @@ void cKelsaik::AnimUpdate()
 
 	// 이동값이 있는 애니메이션 적용 시
 	// 애니메이션 로컬을 현재 포지션으로 적용시키는 증가량을 계산 
-	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x != 0.0f)
-		int a = 10;
+
 	if (m_vCurAnimPos.x - m_vBeforeAnimPos.x < 30.f)
 		m_vPosition += (m_vDirection * (m_vCurAnimPos.x - m_vBeforeAnimPos.x));
 	else
@@ -512,8 +514,13 @@ void cKelsaik::Render()
 	// 히트 박스 렌더
 	HitCircleRender();
 
-	//m_pMonster->Render(NULL);
-	m_pMonster->RenderWhite(NULL);
+	if(m_isPossibleDamaged)
+		m_pMonster->Render(NULL); // 요건 평상시의 렌더
+	else
+	{
+		m_pMonster->Render(NULL,m_pHitFlash);// 요건 맞았을때 히트 플래쉬 렌더!
+		HitShaderUpdate(m_PossbleDamagedTime * 0.2);
+	}
 
 	cGameObject::Render();
 
@@ -1084,5 +1091,17 @@ void cKelsaik::SetLight()
 	D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, &vecDir);
 	light.Range = 2000.0f;
 	g_pD3DDevice->SetLight(50, &light);
+}
+
+void cKelsaik::HitShaderUpdate(float offset)
+{
+	D3DXMATRIX   matView, matWorld, matProj;
+	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+	D3DXMatrixIdentity(&matWorld);
+	m_pHitFlash->SetMatrix("gWorldMatrix", &matWorld);
+	m_pHitFlash->SetMatrix("gViewMatrix", &matView);
+	m_pHitFlash->SetMatrix("gProjectionMatrix", &matProj);
+	m_pHitFlash->SetFloat("Offset", offset);
 }
 

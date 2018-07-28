@@ -6,7 +6,7 @@
 #include "Spere\cSpere.h"
 
 #include "Particle\cParticleSet.h"
-#include "cShader/cShader.h"
+#include "Shader/cShader.h"
 
 
 //cMonster02::cMonster02()

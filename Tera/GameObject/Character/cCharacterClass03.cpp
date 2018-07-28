@@ -272,7 +272,6 @@ void cCharacterClass03::Update()
 	//m_pParticleSet->Update();
 	//m_pParticleHeal->Update();
 
-	// 스킬 공격 ㅊ ㅓ리
 
 	cCharacter::Update();
 	if (m_fHpCur < 0)

@@ -38,7 +38,6 @@ public:
 
 	void RenderWhite(LPD3DXFRAME pFrame);
 
-
 	void SetupBoneMatrixPtrs(LPD3DXFRAME pFrame);
 
 	void SetWolrd(D3DXMATRIX world, LPD3DXFRAME pFrame);
