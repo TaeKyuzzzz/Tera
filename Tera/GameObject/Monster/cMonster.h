@@ -74,6 +74,7 @@ public:
 																// 패턴 가짓 수
 	int				m_nNumofPattern;
 
+	LPD3DXEFFECT		m_pRimLight;
 
 public:
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
@@ -97,5 +98,12 @@ public:
 
 	//몬스터 서식지 적용.
 	virtual void SetupBehaviorSpot(D3DXVECTOR3	v) { m_vBehaviorSpot = v; }
+
+	// 몬스터 림 라이트 세팅
+	virtual void RimLightSetup(float start, float end, float multiplier,
+		float RimColor, float LightDirection, float lightColor, float AmbientColor);
+
+	virtual void RimLightSetup(D3DXVECTOR4 color, float offset, float Alpha);
+
 };
 

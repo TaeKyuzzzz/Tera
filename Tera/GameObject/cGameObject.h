@@ -42,6 +42,8 @@ protected:
 	bool				m_isPossibleDamaged;
 	float				m_PossbleDamagedTime;
 
+
+
 public:
 	cGameObject();
 	virtual~cGameObject();

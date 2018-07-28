@@ -284,6 +284,7 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame, LPD3DXEFFECT shader)
 				for (UINT i = 0; i < numPasses; i++)
 				{
 					shader->SetTexture("DiffuseMap_Tex", pBoneMesh->vecTex[i]);
+					shader->SetTexture("Texture0", pBoneMesh->vecTex[i]);
 					shader->BeginPass(i);
 					pBoneMesh->MeshData.pMesh->DrawSubset(i);
 					shader->EndPass();
@@ -295,6 +296,7 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame, LPD3DXEFFECT shader)
 			for (UINT i = 0; i < numPasses; i++)
 			{
 				shader->SetTexture("DiffuseMap_Tex", pBoneMesh->vecTex[i]);
+				shader->SetTexture("Texture0", pBoneMesh->vecTex[i]);
 				shader->BeginPass(i);
 				pBoneMesh->pOrigMesh->DrawSubset(i);
 				shader->EndPass();

@@ -566,6 +566,7 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 		m_state == CH_STATE_Dearhwait ||
 		m_state == CH_STATE_Death ||
 		m_state == CH_STATE_groggy1 ||
+		m_state == CH_STATE_tumbling ||
 		(m_isPossibleDamaged == false)) return;
 
 	m_isPossibleDamaged = false;
@@ -630,6 +631,7 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, DAMAGED_TYPE type
 		m_state == CH_STATE_Dearhwait ||
 		m_state == CH_STATE_Death ||
 		m_state == CH_STATE_groggy1 ||
+		m_state == CH_STATE_tumbling ||
 		(m_isPossibleDamaged == false)) return;
 
 	m_isPossibleDamaged = false;
@@ -695,6 +697,7 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, fl
 		m_state == CH_STATE_Dearhwait ||
 		m_state == CH_STATE_Death ||
 		m_state == CH_STATE_groggy1 ||
+		m_state == CH_STATE_tumbling ||
 		(m_isPossibleDamaged == false)) return;
 
 	m_isPossibleDamaged = false;
@@ -795,6 +798,7 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, fl
 		m_state == CH_STATE_Dearhwait ||
 		m_state == CH_STATE_Death ||
 		m_state == CH_STATE_groggy1 ||
+		m_state == CH_STATE_tumbling ||
 		(m_isPossibleDamaged == false)) return;
 
 	m_isPossibleDamaged = false;

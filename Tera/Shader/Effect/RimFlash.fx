@@ -149,8 +149,8 @@ float Offset
    string UIWidget = "Numeric";
    bool UIVisible =  false;
    float UIMin = -1.00;
-   float UIMax = 0.00;
-> = float( 0.20 );
+   float UIMax = 1.00;
+> = float( -0.24 );
 
 float4 RimLight_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR0
 {   

@@ -124,10 +124,10 @@ void cKelsaik::Setup()
 
 	////양발 판정 구체
 	m_pSphereR = new cSpere;
-	m_pSphereR->Setup(D3DXVECTOR3(0, 0, 0), 50);
+	m_pSphereR->Setup(D3DXVECTOR3(0, 0, 0), 40);
 
 	m_pSphereL = new cSpere;
-	m_pSphereL->Setup(D3DXVECTOR3(0, 0, 0), 50);
+	m_pSphereL->Setup(D3DXVECTOR3(0, 0, 0), 40);
 
 
 
@@ -151,6 +151,9 @@ void cKelsaik::Setup()
 
 	// 셰이더 초기화
 	m_pHitFlash = cShader::LoadShader("Shader/Effect/","HitFlash.fx");
+	m_pRimLight = cShader::LoadShader("Shader/Effect/","RimFlash.fx");
+	m_pRimLight->SetFloat("Offset", 0.2);
+	// RimFlash RimLight5
 }
 
 
@@ -514,12 +517,16 @@ void cKelsaik::Render()
 	// 히트 박스 렌더
 	HitCircleRender();
 
-	if(m_isPossibleDamaged)
-		m_pMonster->Render(NULL); // 요건 평상시의 렌더
+	RimLightSetup(0,0,0,0,0,0,0);
+
+	if (m_isPossibleDamaged)
+	{
+		m_pMonster->Render(NULL,m_pRimLight); // 요건 평상시의 렌더
+	}
 	else
 	{
-		m_pMonster->Render(NULL,m_pHitFlash);// 요건 맞았을때 히트 플래쉬 렌더!
-		HitShaderUpdate(m_PossbleDamagedTime * 0.2);
+		RimLightSetup(D3DXVECTOR4(1.0f,0.0f,0.0f,1.0f), m_PossbleDamagedTime*0.2,1.0f);
+		m_pMonster->Render(NULL, m_pRimLight);// 요건 맞았을때 히트 플래쉬 렌더!
 	}
 
 	cGameObject::Render();
@@ -529,8 +536,9 @@ void cKelsaik::Render()
 	if (SightSpere && m_pSphereL)
 		m_pSphereL->Render();
 
+	D3DXVECTOR3 v = CAMERAMANAGER->GetCameraPosition();
 	char szTemp[1024];
-	sprintf_s(szTemp, 1024, "HP : %.0f", m_fCurHp);
+	sprintf_s(szTemp, 1024, "%.1f %.1f %.1f", v.x,v.y,v.z);
 	RECT rc;
 	SetRect(&rc, WINSIZEX - 400, 200, WINSIZEX, 300);
 

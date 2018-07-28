@@ -70,3 +70,9 @@ void cCameraManager::SetType(CAMERA_TYPE type)
 		m_pCamera->SetCurrentPT(POINT{ 0,0 });
 	}
 }
+
+D3DXVECTOR3 cCameraManager::GetCameraPosition()
+{
+
+	return m_pCamera->GetCameraPosition();
+}
