@@ -91,7 +91,7 @@ public:
 
 	void UIInfoTextPopUp(int oneValue, const char* szNecessaryPlace = NULL);
 	void UIMoveControl();
-	void QuickSlotLockBTHiding();
+	void QuickSlotOptionHiding();
 
 
 

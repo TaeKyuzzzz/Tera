@@ -39,7 +39,11 @@ void cItemManager::Setup()
 	//아이템목록에 있는 아이템 생성하기
 	CreateItemList();
 
+	
+
 	ConnectNodeCommand();
+
+	CreateImitationImage();
 
 }
 
@@ -85,6 +89,8 @@ void cItemManager::Update()
 		ItemInfoITextRenewal(i);
 	}
 
+	
+	
 
 }
 
@@ -111,9 +117,9 @@ void cItemManager::Render()
 	//값 찍어보기
 	char szTemp[1024];	
 	sprintf_s(szTemp, 1024,
-		"인벤아이템갯수 : %d, \n 장비창아이템갯수 : %d, \n 샵아이템갯수 : %d, \n 퀵슬롯 아이콘갯수 : %d"//\n 좌표 x,y %d \t %d"
-		, m_vInvenItem.size(), m_vStatusItem.size(), m_vConShopItem.size(), m_vQuickItem.size());//
-		//(int)m_vInvenItem[0]->GetUIRoot()->GetPosition().x, (int)m_vInvenItem[0]->GetUIRoot()->GetPosition().y);
+		"인벤아이템갯수 : %d, \n 장비창아이템갯수 : %d, \n 샵아이템갯수 : %d, \n 퀵슬롯 아이콘갯수 : %d\n 좌표 x,y %d \t %d"
+		, m_vInvenItem.size(), m_vStatusItem.size(), m_vConShopItem.size(), m_vQuickItem.size(),
+		(int)m_vInvenItem[0]->GetUIRoot()->GetPosition().x, (int)m_vInvenItem[0]->GetUIRoot()->GetPosition().y);
 	RECT rc2;
 	SetRect(&rc2, 100, 200, 800, 400);
 	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA_BIG);
@@ -459,9 +465,14 @@ void cItemManager::CreateItem(const char* itemName, const char* filePath, tagIte
 	if (itemType != NOTANITEM) 
 	{
 
+		m_vtagItemInfo.push_back(_tagItemInfo);
+
+		//관리벡터에 넣음
 		m_vAllItem.push_back(m_pItemInfo);
 
 		nItemNum += 1;
+
+
 
 	}
 
@@ -666,7 +677,7 @@ void cItemManager::DragAndDrop()
 		SendItemAtoPlaceB(m_vConShopItem, "Status");
 		SendItemAtoPlaceB(m_vStatusItem, "Inventory");
 		SendItemAtoPlaceB(m_vStatusItem, "ConShop");
-		SendItemAtoPlaceB(m_vInvenItem, QUICKSLOT);
+		QuickSlotManagement();
 		
 	}
 
@@ -993,7 +1004,7 @@ void cItemManager::SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, eSlotType _e
 	{
 		if (placeItem[i]->GetUIRoot()->GetIsCollisionPT())
 		{
-		
+
 			RECT itemRc = placeItem[i]->GetUIRoot()->GetCollisionRect();
 
 			RECT temp;
@@ -1002,16 +1013,21 @@ void cItemManager::SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, eSlotType _e
 			{
 				QSRc = _UI->GetVQuickSlotUI()[j]->GetUIImage()->GetCollisionRect();
 				if (IntersectRect(&temp, &QSRc, &itemRc))
-				{		
+				{
 
 					cItemInfo* itemInfo = placeItem[i];
 
+
 					m_vQuickItem.push_back(itemInfo);
+
 				}
 			}
 		}
 	}
 }
+
+
+
 
 POINT cItemManager::FindPlaceAndIndex(vector<cItemInfo*> vPlaceItem)
 {
@@ -1134,28 +1150,52 @@ void cItemManager::ImitationIconRender()
 					{
 						m_vItemImitation[i]->Render();
 					}
-					//else m_vItemImitation[i]->GetUIRoot()->SetAlpha(0);
+					
 				}
 			}
 		}
 	}
+}
 
-	//for (int i = 0; i < m_vItemImitation.size(); i++)
-	//{
-	//	for (int j = 0; j < m_vAllItem.size(); j++)
-	//	{
+void cItemManager::CreateImitationImage()
+{
+	//아이템인포에 정보를 전달
+	for (int i = 0; i < m_vtagItemInfo.size(); i++)
+	{
+		m_pItemInfo = new cItem;
+		m_pItemInfo->Setup(NULL, &m_vtagItemInfo[i]);
+		m_vItemImitation.push_back(m_pItemInfo);
+	}
+}
 
-	//		if (isPlaceItemCollision)
-	//		{
-	//			if (m_vItemImitation[i]->GetName() == m_vAllItem[j]->GetName())
-	//			{
-	//				//m_vItemImitation[i]->Render();
-	//			}
-	//		}
+void cItemManager::QuickSlotManagement()
+{
+	
 
-	//	}
-	//}
+	//마우스 해제시 아이템과 마우스가 충돌중이고
+	//그것이 또 퀵슬롯과도 충돌중일때 해당위치에 새로 아이템을 만들어줌
+	for (int i = 0; i < m_vInvenItem.size(); i++)
+	{
+		for (int j = 0; j < _UI->GetVQuickSlotUI().size(); j++)
+		{
+			if (m_vInvenItem[i]->GetUIRoot()->GetIsCollisionPT() && _UI->GetVQuickSlotUI()[j]->GetUIImage()->GetIsCollisionPT())
+			{
 
+				for (int k = 0; k < m_vtagItemInfo.size(); k++)
+				{
+					if (m_vInvenItem[i]->GetName() == m_vtagItemInfo[k]._itemName)
+					{
+						m_pItemInfo = new cItem;
+						m_pItemInfo->Setup(NULL, &m_vtagItemInfo[k]);
+						m_vQuickItem.push_back(m_pItemInfo);
+					}
+				}
+				
+			}
+		}
+	}
+
+	
 }
 
 

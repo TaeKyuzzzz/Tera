@@ -9,7 +9,7 @@
 
 
 cUIManager::cUIManager()
-	:m_nAlpha(100)
+	:m_nAlpha(200)
 	,m_isCallQuickSlot(true)
 	, m_isQuickSlotLock(false)
 {
@@ -55,7 +55,7 @@ void cUIManager::Update()
 	QuickSlotCall("QSSKILLLOCK");
 	QuickSlotCall("QSSKILLLOCK2");
 	QuickSlotResize();
-	QuickSlotLockBTHiding();
+	QuickSlotOptionHiding();
 	
 
 }
@@ -352,7 +352,7 @@ void cUIManager::UIMoveControl()
 	}
 }
 
-void cUIManager::QuickSlotLockBTHiding()
+void cUIManager::QuickSlotOptionHiding()
 {
 	if (!isOptionMode)
 	{

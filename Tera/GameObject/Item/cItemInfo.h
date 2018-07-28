@@ -50,5 +50,7 @@ public:
 
 	void ConnectNode(cUIObject* pParent);
 	void TransPos(D3DXVECTOR3 vec3Pos);
+	void TransferCopyHere(cUIObject * ObjectOfTheTargetVector);
+
 };
 
