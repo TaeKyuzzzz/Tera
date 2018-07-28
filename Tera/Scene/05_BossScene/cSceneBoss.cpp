@@ -11,7 +11,10 @@
 #include "Sprite\cSprite.h"
 #include "GameObject/Monster/cKelsaik.h"
 
+
+
 cSceneBoss::cSceneBoss()
+	: m_nBGBlackAlpha(255)
 {
 }
 
@@ -42,7 +45,7 @@ void cSceneBoss::Setup()
 	m_pPopori = new cCharaPopori;
 	m_pPopori->Setup();
 	m_pPopori->SetPosition(D3DXVECTOR3(0, -45.2, 850));// 1162
-													   //m_pPopori->SetMap(m_pBossRoom_Wall);
+	//m_pPopori->SetMap(m_pBossRoom_Wall);
 	OBJECTMANAGER->AddCharaObject(m_pPopori);
 
 	m_pKelsaik = new cKelsaik;
@@ -56,6 +59,8 @@ void cSceneBoss::Setup()
 	isOptionMode = false;
 
 	//SOUNDMANAGER->Play("BossBGM");
+
+	
 }
 
 void cSceneBoss::Release()
@@ -81,11 +86,12 @@ void cSceneBoss::Update()
 
 void cSceneBoss::Render()
 {
+
 	Render_Wall();
 
 
 	m_pKelsaik->Render();
-
+	
 	PARTICLEMANAGER->Render();
 	m_pPopori->Render();
 

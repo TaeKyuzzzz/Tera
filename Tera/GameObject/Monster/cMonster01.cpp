@@ -6,7 +6,7 @@
 #include "Spere\cSpere.h"
 
 #include "Particle\cParticleSet.h"
-#include "cShader/cShader.h"
+#include "Shader/cShader.h"
 
 cMonster01::cMonster01()
 	: m_pMonster(NULL)
@@ -57,6 +57,8 @@ cMonster01::cMonster01()
 	m_pParticleBleeding = PARTICLEMANAGER->GetParticle("Bleeding");
 	PARTICLEMANAGER->AddChild(m_pParticleBleeding);
 
+	m_pRimLight = cShader::LoadShader("Shader/Effect/", "RimFlash.fx");
+	m_pRimLight->SetFloat("Offset", 0.2);
 }
 
 
@@ -85,7 +87,7 @@ void cMonster01::Setup(D3DXVECTOR3 v)
 	m_fDefense = 10.0f;
 
 	m_pMonster = new cSkinnedMesh;
-	m_pMonster->Setup("XFile/Monster", "Moster01.X");
+	m_pMonster->Setup("XFile/Monster", "Moster01.X");//Moster01.X
 	m_pMonster->SetAnimationIndexBlend(m_currState);
 
 	// 위치를 가진 루트 본
@@ -123,6 +125,9 @@ void cMonster01::Setup(D3DXVECTOR3 v)
 	//셰이더관련
 	DeathShader = cShader::LoadShader("XFile/Monster", "DeathShader.fx");
 	SKIN = TEXTUREMANAGER->GetTexture("XFile/Monster/AbandonedAutomatedGuardian_diff.tga");
+
+	m_pRimLight = cShader::LoadShader("Shader/Effect/", "RimFlash.fx");
+	m_pRimLight->SetFloat("Offset", 0.2f);
 }
 
 void cMonster01::Update()
@@ -284,13 +289,22 @@ void cMonster01::Update()
 void cMonster01::Render()
 {
 	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
-	
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+
+	RimLightSetup(0, 0, 0, 0, 0, 0, 0);
 	if (m_bIsGen)
 	{
 		if (DissapearingMode)
 			m_pMonster->Render(NULL, DeathShader, m_nTime, SKIN, DissapearingMode, m_bIsGen, m_fTimeofDeath);
 		else
-			m_pMonster->Render(NULL);
+		{
+			if(m_isPicked)
+				m_pMonster->Render(NULL, m_pRimLight);
+			else
+				m_pMonster->Render(NULL);
+		}
 	}
 
 	cGameObject::Render();
@@ -299,6 +313,21 @@ void cMonster01::Render()
 		m_pSphereR->Render();
 	if (SightSpere && m_pSphereL)
 		m_pSphereL->Render();
+
+	D3DXVECTOR3 v = CAMERAMANAGER->GetCameraPosition();
+	char szTemp[1024];
+	sprintf_s(szTemp, 1024, "%.1f %.1f %.1f", v.x, v.y, v.z);
+	RECT rc;
+	SetRect(&rc, WINSIZEX - 400, 200, WINSIZEX, 300);
+
+	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
+	pFont->DrawTextA(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_VCENTER,
+		D3DCOLOR_XRGB(255, 0, 0));
+
 }
 
 bool cMonster01::isUseLocalAnim()

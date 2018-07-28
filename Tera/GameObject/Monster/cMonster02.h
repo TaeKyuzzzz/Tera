@@ -16,7 +16,8 @@ protected:
 		BATTLE,
 		RETURN,
 		DEATH,
-		DISAPPEAR
+		DISAPPEAR,
+		REBIRTH
 	};
 
 	enum MON_STATE
@@ -56,6 +57,7 @@ protected:
 	float				m_fCurAnimTime;					// 재생된 시간 애니메이션
 	float				m_fAnimTime[MON_STATE_COUNT];	// 재생돼야할 총 시간
 	float				m_fTime;						// 애니 걸린시간
+	int					m_nTime;						// 데스쉐이딩에 쓸 시간변수.
 	bool				m_bIsBlend;						// 애니 블렌딩 처리여부
 	float				m_fCosVal;						// 봐야할 각도
 
@@ -67,31 +69,31 @@ protected:
 
 	//공격에 쓰이는 본
 
-	ST_BONE*			m_pHandR;						// 오른팔 (파이어
-	ST_BONE*			m_pHandL;						// 왼팔	 (아이스
-	cSpere*				m_pSphereR;						// 오른팔 구 (충돌용
-	cSpere*				m_pSphereL;						// 왼팔 구 (충돌용
+	ST_BONE*			m_pHandR;						
+	ST_BONE*			m_pHandL;						
+	cSpere*				m_pSphereR;						
+	cSpere*				m_pSphereL;						
 
 	float				m_fFightZone;
+
 
 public:
 	cMonster02();
 	~cMonster02();
 
-	void Setup();
+	void Setup(D3DXVECTOR3 v);
 
 	/////////Update Function//////////
 	void Update();
-	void Idle_Update();
-	void Awake_Update();
-	void Awake_Chase();
-	void Awake_Battle();
-	void Death_Update();
-	void Death_Die();
-
-	void AnimUpdate();
-	void UpdateWorld();
-	void ParticleUpdate();
+	void Idle();
+	void Awake();
+	void Chase();
+	void Battle();
+	void Return();
+	void Death();
+	void Disappear();
+	void Rebirth();
+	
 	//////////////////////////////////
 
 	void Render();
@@ -102,8 +104,9 @@ public:
 	bool isUseLocalAnim();
 
 
-	////// etc ////////////////////////
-	void ChangeState(MON_MODE STATE);
-	void ChangeAnim(MON_STATE anim, bool isBlend);
-	///////////////////////////////////
+	//몬스터가 캐릭터를 공격하는 함수
+	virtual bool Attack(float damage);
+
+	//몬스터가 캐릭터에게 피해를 받는 함수
+	void Damaged(float damage, D3DXVECTOR3 pos);
 };

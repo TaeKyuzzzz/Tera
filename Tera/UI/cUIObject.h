@@ -35,7 +35,7 @@ protected :
 
 	POINT m_beforeMousePT = { 0,0 };
 
-
+	SYNTHESIZE(D3DXMATRIX, m_matWorld2, MatWorld2);
 
 	SYNTHESIZE(vector<cUIObject*>, m_vecChild, VecChild);			// 자식 정보
 					

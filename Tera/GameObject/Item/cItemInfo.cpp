@@ -91,9 +91,11 @@ void cItemInfo::TransPos(D3DXVECTOR3 vec3Pos)
 	m_pUIImage->SetPosition(vec3Pos);
 }
 
-//void cItemInfo::ConnectNode(cUIObject * parrent)
-//{
-//	parrent->AddChild(m_pImage);
-//}
+void cItemInfo::TransferCopyHere(cUIObject* ObjectOfTheTargetVector)
+{
+	
+}
+
+
 
 

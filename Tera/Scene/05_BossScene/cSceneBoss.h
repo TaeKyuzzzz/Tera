@@ -18,7 +18,7 @@ private:
 	cBossRoom_Road* m_pBossRoom_Road;
 	cBossRoom_Doll* m_pBossRoom_Doll;
 
-
+	
 
 	cSprite*			m_pBackGroundBlack;
 	int					m_nBGBlackAlpha;

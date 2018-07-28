@@ -258,7 +258,13 @@
     <ClInclude Include="Scene\05_BossScene\cBossRoom_Doll.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cShader\cShader.h">
+    <ClInclude Include="Shader\cShader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\cShaderManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Ray\cRay.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Scene\11_MapEdit\cBoundingObject.h">
@@ -512,7 +518,13 @@
     <ClCompile Include="Scene\05_BossScene\cBossRoom_Doll.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cShader\cShader.cpp">
+    <ClCompile Include="Shader\cShader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\cShaderManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Ray\cRay.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Scene\11_MapEdit\cBoundingObject.cpp">

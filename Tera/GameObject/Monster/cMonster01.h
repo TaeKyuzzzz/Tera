@@ -72,16 +72,6 @@ private:
 
 	float				m_fFightZone;
 
-
-	cParticleSet*		m_pParticleBleeding;
-
-	//DeathShader
-	bool				DissapearingMode = false;
-
-	LPD3DXEFFECT		DeathShader = NULL;
-	LPDIRECT3DTEXTURE9	SKIN = NULL;
-
-
 public:
 	cMonster01();
 	~cMonster01();

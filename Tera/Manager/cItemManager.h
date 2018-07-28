@@ -53,6 +53,8 @@ private:
 	SYNTHESIZE(vItem, m_vStatusItem, StatusItem);
 	SYNTHESIZE(vItem, m_vQuickItem, QuickItem);
 
+
+
 	SYNTHESIZE(vItem, m_vAllItem, AllItem);
 	SYNTHESIZE(vItem, m_vEtcIcon, EtcIcon);
 	SYNTHESIZE(vItem, m_vItemImitation, ItemImitation);
@@ -72,7 +74,7 @@ private:
 	SYNTHESIZE(D3DXVECTOR3, m_vec3RenwalShop, Vec3Shop);
 	SYNTHESIZE(D3DXVECTOR3, m_vec3RenwalStatus, Vec3Status);
 
-
+	vector<tagItemInfo> m_vtagItemInfo;
 
 	int nItemNum;
 	int m_nInvenItemIndex;
@@ -141,7 +143,7 @@ public:
 	
 	void CalculatorGold(int Price) { m_nGold += Price; }
 
-#pragma region 텍스트관련함수
+#pragma region 텍스트 or 아이콘출력 관련함수
 
 
 	void CreateText(tagText _tagText);
@@ -160,6 +162,8 @@ public:
 	void ItemExplaneUpdate();
 	void ItemExplaneRender();
 	void ImitationIconRender();
+	void CreateImitationImage();
+	void QuickSlotManagement();
 
 
 #pragma endregion

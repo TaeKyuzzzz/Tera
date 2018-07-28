@@ -22,6 +22,8 @@ private:
 	SYNTHESIZE(D3DXMATRIX, m_matWorld, World);
 	SYNTHESIZE(POINT, beforePt, BeforePT);
 	SYNTHESIZE(POINT, currentPt, CurrentPT);
+
+	D3DXVECTOR3		viewPos;
 public:
 	cCamera();
 	~cCamera();
@@ -30,5 +32,6 @@ public:
 	void Update(D3DXVECTOR3 target);
 	void UpdateFix(D3DXVECTOR3 target);
 
+	D3DXVECTOR3 GetCameraPosition();
 };// 커밋을 위한 수정
 

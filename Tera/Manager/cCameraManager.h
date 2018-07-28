@@ -31,5 +31,6 @@ public :
 
 	void SetType(CAMERA_TYPE type);
 
+	D3DXVECTOR3 GetCameraPosition();
 };
 

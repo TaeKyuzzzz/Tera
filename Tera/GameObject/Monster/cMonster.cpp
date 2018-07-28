@@ -33,6 +33,7 @@ cMonster::cMonster()
 
 cMonster::~cMonster()
 {
+
 }
 
 void cMonster::Setup()
