@@ -49,34 +49,39 @@ void cUIImageView::Update()
 
 void cUIImageView::Render(LPD3DXSPRITE pSprite)
 {
-	
+	for (int i = 0; i < 2; i++)
+	{
 
-	// 스프라이트 그리기
-	pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
-	
-	// 월드 매트릭스로 출력할 위치를 지정
-	pSprite->SetTransform(&m_matWorld);
-	// 출력할 렉트 생성
-	RECT rc;
-	SetRect(&rc, 0, 0, m_stSize.fWidth, m_stSize.fHeight); // 시작점과 너비
-	// 드로우
+		// 스프라이트 그리기
+		pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 
-	pSprite->Draw
-	(	
-		m_pTexture,
-		&rc,
-		&D3DXVECTOR3(0, 0, 0),
-		&D3DXVECTOR3(0, 0, 0),
-		D3DCOLOR_ARGB(m_nAlpha, 255, 255, 255)
-	);
-	
+		// 월드 매트릭스로 출력할 위치를 지정
+		if(i == 0) pSprite->SetTransform(&m_matWorld);
 
-		
-	pSprite->End();
-	
-	cUIObject::Render(pSprite);	
+		if(i == 1) pSprite->SetTransform(&m_matWorld2);
 
-	
+
+		// 출력할 렉트 생성
+		RECT rc;
+		SetRect(&rc, 0, 0, m_stSize.fWidth, m_stSize.fHeight); // 시작점과 너비
+		// 드로우
+
+		pSprite->Draw
+		(
+			m_pTexture,
+			&rc,
+			&D3DXVECTOR3(0, 0, 0),
+			&D3DXVECTOR3(0, 0, 0),
+			D3DCOLOR_ARGB(m_nAlpha, 255, 255, 255)
+		);
+
+
+
+		pSprite->End();
+
+		cUIObject::Render(pSprite);
+
+	}
 }
 
 

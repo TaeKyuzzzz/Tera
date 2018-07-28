@@ -6,7 +6,7 @@
 #include "Spere\cSpere.h"
 
 #include "Particle\cParticleSet.h"
-#include "cShader/cShader.h"
+#include "Shader/cShader.h"
 
 cMonster01::cMonster01()
 	: m_pMonster(NULL)

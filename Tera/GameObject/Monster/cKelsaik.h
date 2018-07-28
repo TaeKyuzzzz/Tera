@@ -118,6 +118,10 @@ protected:
 	cProgressBar*		m_pHpBar;
 	cSprite*			m_BackBar;
 
+
+	// 사용되는 셰이더
+	LPD3DXEFFECT		m_pHitFlash;
+
 public:
 	cKelsaik();
 	~cKelsaik();
@@ -191,6 +195,8 @@ public:
 
 	void SetLight(); // 피격시 깜박거림을 위해
 
-};
+	// 셰이딩 관련 함수/////////
+	// 히트 플래시 셰이더
+	void HitShaderUpdate(float offset);
 
-// 제발 되라
+};
