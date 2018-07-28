@@ -22,6 +22,7 @@ cMonster02::cMonster02()
 
 	m_fCurAnimTime = 0.0f;
 	m_fTime = 0.0f;
+	m_nTime = 0;
 	float animTime[MON_STATE_COUNT] =
 	{
 		40,		60,		50,		23,		41,
@@ -41,21 +42,17 @@ cMonster02::cMonster02()
 	//블렌드 처리하니깐 제식해버리더라구. 그래서 해제시켰다.
 	m_bIsBlend = false;
 
-	//Monster01은 이런 특성을 가지고 있다.
-	m_fAreaRadius = 300.0f;
+	//Monster02은 이런 특성을 가지고 있다.
+	m_fAreaRadius = 100.0f;
 	m_fTracableArea = 1000.0f;
-	m_fRunSpeed = 1.0f;
-	m_fFightZone = 100.0f;
-	m_fHpCur = 50000.0f;
+	m_fRunSpeed = 0.8f;
+	m_fFightZone = 50.0f;
+	m_fHpCur = 40.0f;
 
 	MODE = IDLE;
-	eAWAKE = CHASE;
-	eDEATH = DIE;
 
 	// 패턴의 가짓 수
-	m_nNumofPattern = 4;
-	//처음에 얘로 셋팅해놓는다.
-	m_vBehaviorSpot = D3DXVECTOR3(1247, 0, 1000);
+	m_nNumofPattern = 2;
 
 	m_pParticleBleeding = PARTICLEMANAGER->GetParticle("Bleeding");
 	PARTICLEMANAGER->AddChild(m_pParticleBleeding);
@@ -67,19 +64,28 @@ cMonster02::~cMonster02()
 	SAFE_DELETE(m_pMonster);
 	SAFE_DELETE(m_pSphereR);
 	SAFE_DELETE(m_pSphereL);
+
+	//셰이더 관련
+	SAFE_RELEASE(DeathShader);
+	SAFE_RELEASE(SKIN);
 }
 
-void cMonster02::Setup()
+void cMonster02::Setup(D3DXVECTOR3 v)
 {
 	cMonster::Setup();
 
-	m_fMaxHp = 50000.0f;
-	m_fCurHp = 50000.0f;
-	m_fAttack = 20.0f;
-	m_fDefense = 10.0f;
+	//처음에 얘로 셋팅해놓는다.
+	//처음 젠되는 위치 설정
+	m_vBehaviorSpot = v;//D3DXVECTOR3(1247, 0, 3578);
+	m_vPosition = v;
+
+	m_fMaxHp = 200.0f;
+	m_fCurHp = 200.0f;
+	m_fAttack = 10.0f;
+	m_fDefense = 5.0f;
 
 	m_pMonster = new cSkinnedMesh;
-	m_pMonster->Setup("XFile/Monster", "Kelsaik.X");
+	m_pMonster->Setup("XFile/Monster", "Bear.X");
 	m_pMonster->SetAnimationIndexBlend(m_currState);
 
 	// 위치를 가진 루트 본
@@ -98,16 +104,13 @@ void cMonster02::Setup()
 
 	////양발 판정 구체
 	m_pSphereR = new cSpere;
-	m_pSphereR->Setup(D3DXVECTOR3(0, 0, 0), 50);
+	m_pSphereR->Setup(D3DXVECTOR3(0, 0, 0), 10);
 
 	m_pSphereL = new cSpere;
-	m_pSphereL->Setup(D3DXVECTOR3(0, 0, 0), 50);
+	m_pSphereL->Setup(D3DXVECTOR3(0, 0, 0), 10);
 
 
 
-	//처음 젠되는 위치 설정
-
-	m_vPosition = m_vBehaviorSpot;
 
 	// 바운딩 박스 생성
 	m_pBoundingBox = new cBoundingBox;
@@ -117,23 +120,50 @@ void cMonster02::Setup()
 	m_pSpere = new cSpere;
 	m_pSpere->Setup(m_vPosition, m_fFightZone);
 
+
+	//셰이더관련
+	DeathShader = cShader::LoadShader("XFile/Monster", "DeathShader.fx");
+	SKIN = TEXTUREMANAGER->GetTexture("XFile/Monster/EnragedBear_diff.tga");
+
 	MODE = IDLE;
 }
 
 void cMonster02::Update()
 {
+	//최상위 순위!! 몬스터 죽으면 다른거 꽝이야.
+	if (m_fHpCur <= 0)
+		MODE = DEATH;
+
+	if (DissapearingMode)
+		m_nTime += 1;
+
 	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
 
 	switch (MODE)
 	{
 	case IDLE:
-		Idle_Update();
+		Idle();
 		break;
 	case AWAKE:
-		Awake_Update();
+		Awake();
+		break;
+	case CHASE:
+		Chase();
+		break;
+	case BATTLE:
+		Battle();
+		break;
+	case RETURN:
+		Return();
 		break;
 	case DEATH:
-		Death_Update();
+		Death();
+		break;
+	case DISAPPEAR:
+		Disappear();
+		break;
+	case REBIRTH:
+		Rebirth();
 		break;
 	}
 
@@ -154,7 +184,6 @@ void cMonster02::Update()
 		m_currState = m_state;
 
 		m_pMonster->AnimAdvanceTime();
-		//m_fTime += TIMEMANAGER->GetEllapsedTime();
 	}
 
 	// 이동값이 있는 애니메이션의 업데이트면
@@ -209,20 +238,9 @@ void cMonster02::Update()
 	cGameObject::Update();
 }
 
-void cMonster02::Idle_Update()
-{
-	switch (eIDLE)
-	{
-	case ROAMING:
-		Idle_Roaming();
-		break;
-	case COMEBACK:
-		Idle_Back_to_SquareOne();
-		break;
-	}
-}
 
-void cMonster02::Idle_Roaming()
+//아무것도 안한 상태. 서식지에서 어슬렁거린다.
+void cMonster02::Idle()
 {
 	//기다리는과정(첫세팅)
 	if (!m_bWalkOnOff && !m_bStart)
@@ -291,24 +309,20 @@ void cMonster02::Idle_Roaming()
 		}
 	}
 
-	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
+	float Distance_Player_Monster = DistanceXZ(*g_vPlayerPos, m_vPosition);
 	if (Distance_Player_Monster < m_fAreaRadius)
+	{
 		MODE = AWAKE;
-
+		m_bWalkOnOff = false;
+		m_bStart = false;
+	}
 }
 
-void cMonster02::Idle_Back_to_SquareOne()
+//다시 서식지로 돌아오는 함수.
+void cMonster02::Return()
 {
-	//혹시모르니깐 어슬렁패턴에 쓰인 불변수는 모두 초기화 시켜주자.
-	{
-		m_bStart = false;
-		m_bWalkOnOff = false;
-	}
-
-	D3DXVECTOR3 tempV = m_vPosition - m_vBehaviorSpot;
-	tempV.y = 0;
-	if (D3DXVec3Length(&tempV) < 1.0f)
-		eIDLE = ROAMING;
+	if (DistanceXZ(m_vPosition, m_vBehaviorSpot) < 1.0f)
+		MODE = IDLE;
 	else
 	{
 		m_state = MON_STATE_run;
@@ -329,33 +343,51 @@ void cMonster02::Idle_Back_to_SquareOne()
 	}
 }
 
-void cMonster02::Awake_Update()
+//Awake상태는 준비태세이다. 플레이어를 바라보면서 회전한다.
+//FightZone 내부로 들어오면 배틀시작, 벗어나면 다시 Idle상태로 돌아간다.
+void cMonster02::Awake()
 {
-	switch (eAWAKE)
+	m_state = MON_STATE_Wait;
+	// u벡터 -> 기준벡터
+	D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
+	D3DXVECTOR3 v;
+	D3DXVec3Normalize(&v, &temp);
+
+	m_fCosVal = D3DXVec3Dot(&v, &u);
+	m_fCosVal = acosf(m_fCosVal);
+
+	if (m_vPosition.z < g_vPlayerPos->z)
+		m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+
+	//경계모드에서 경계거리에서 벗어나면 다시 Idle로 진입
+	if (DistanceXZ(*g_vPlayerPos, m_vPosition) > m_fAreaRadius)
 	{
-	case CHASE:
-		Awake_Chase();
-		break;
-	case BATTLE:
-		Awake_Battle();
-		break;
+		MODE = IDLE;
+		m_fTime = 0.0f;
+	}
+
+	//경계모드에서 싸움존으로 거리가 좁혀지면 교전시작.
+	if (DistanceXZ(*g_vPlayerPos, m_vPosition) < m_fFightZone)
+	{
+		MODE = BATTLE;
+		m_fTime = 0.0f;
 	}
 }
 
-void cMonster02::Awake_Chase()
+void cMonster02::Chase()
 {
-	float Distance_Player_Monster = D3DXVec3Length(&(*g_vPlayerPos - m_vPosition));
+	float Distance_Player_Monster = DistanceXZ(*g_vPlayerPos, m_vPosition);
 
+	//경계선근처에서 싸우게 되면 배틀존 내부에서 있게되어 싸우는게 우선이다.
 	if (Distance_Player_Monster < m_fFightZone)
-		eAWAKE = BATTLE;
+		MODE = BATTLE;
 
-	else if (D3DXVec3Length(&(m_vPosition - m_vBehaviorSpot)) > m_fTracableArea)
+	else if (DistanceXZ(m_vPosition, m_vBehaviorSpot) > m_fTracableArea)
 	{
-		MODE = IDLE;
-		eIDLE = COMEBACK;
+		MODE = RETURN;
 	}
 
-	m_state = MON_STATE_Walk;
+	m_state = MON_STATE_run;
 	// u벡터 -> 기준벡터
 	D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
 	D3DXVECTOR3 v;
@@ -370,31 +402,18 @@ void cMonster02::Awake_Chase()
 	m_vPosition += (m_fRunSpeed * v);
 }
 
-void cMonster02::Awake_Battle()
+void cMonster02::Battle()
 {
-	//몬스터 죽는거
-	if (m_fHpCur <= 0)
-		MODE = DEATH;
-
-	//나머지를 부타캐~~~~
 
 
+	// 공격
+	if (m_state == MON_STATE_atk01)
+		Attack(m_fAttack);
+	if (m_state == MON_STATE_atk02)
+		Attack(m_fAttack * 3);
 }
 
-void cMonster02::Death_Update()
-{
-	switch (eDEATH)
-	{
-	case DIE:
-		Death_Die();
-		break;
-	case REBIRTH:
-		Death_Rebirth();
-		break;
-	}
-}
-
-void cMonster02::Death_Die()
+void cMonster02::Death()
 {
 	m_fHpCur = 0.0f;
 
@@ -409,16 +428,19 @@ void cMonster02::Death_Die()
 		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
 		m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
 		m_fTime = 0.0f;
-		m_bAnimation = false;
-		m_bAngleLock = false;
-		m_bAtkTerm = !m_bAtkTerm;
-		m_bIsGen = false;
+		DissapearingMode = true;
+		MODE = DISAPPEAR;
 		//완전히 사라진 시점 기록
 		m_fTimeofDeath = (float)GetTickCount();
 	}
 }
 
-void cMonster02::Death_Rebirth()
+void cMonster02::Disappear()
+{
+	m_state = MON_STATE_deathwait;
+}
+
+void cMonster02::Rebirth()
 {
 	m_vPosition = m_vBehaviorSpot;
 	m_state = MON_STATE_unarmedwait;
@@ -432,7 +454,6 @@ void cMonster02::Death_Rebirth()
 	if (GetTickCount() - m_fTimeofDeath >= 5000.0f)
 	{
 		MODE = IDLE;
-		eIDLE = ROAMING;
 		m_pMonster->AnimAdvanceTime();
 	}
 }
@@ -441,10 +462,10 @@ void cMonster02::Render()
 {
 	if (m_bIsGen)
 	{
-		m_pMonster->Render(NULL);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		m_pMonster->Render(NULL);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		if (DissapearingMode)
+			m_pMonster->Render(NULL, DeathShader, m_nTime, SKIN, DissapearingMode, m_bIsGen, m_fTimeofDeath);
+		else
+			m_pMonster->Render(NULL);
 	}
 
 	cGameObject::Render();
