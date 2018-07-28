@@ -32,8 +32,6 @@ private :
 
 	bool				m_isGoBoss;
 
-	cKelsaik*			m_pKelsaik;
-
 public:
 	cSceneTest();
 	~cSceneTest();

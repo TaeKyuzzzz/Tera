@@ -103,4 +103,10 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("PCDamaged", "Sound/Chara/PCDamaged.ogg");
 	m_pLoading->InitForSound("PCBigDamaged", "Sound/Chara/PCBigDamaged.ogg");
 	m_pLoading->InitForSound("PCDie", "Sound/Chara/PCDie.ogg");
+
+	// 보스가 사용하는 파티클
+	m_pLoading->IniteForParticle("IceHand2", "Texture/Particle/IceHand2.txt");
+	m_pLoading->IniteForParticle("FireHand", "Texture/Particle/FireHand.txt");
+	m_pLoading->IniteForParticle("FireEffect", "Texture/Particle/Boss_FireEffect.txt");
+	m_pLoading->IniteForParticle("IceEffect", "Texture/Particle/Boss_IceEffect.txt");
 }
