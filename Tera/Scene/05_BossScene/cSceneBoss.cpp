@@ -11,7 +11,7 @@
 #include "Sprite\cSprite.h"
 #include "GameObject/Monster/cKelsaik.h"
 
-#include "GameObject/Monster/cMonster01.h"
+
 
 cSceneBoss::cSceneBoss()
 	: m_nBGBlackAlpha(255)
@@ -60,11 +60,7 @@ void cSceneBoss::Setup()
 
 	//SOUNDMANAGER->Play("BossBGM");
 
-	m_pMonster01 = new cMonster01;
-	m_pMonster01->Setup(D3DXVECTOR3(300, 0, 300));
-	//m_pMonster01->SetPosition(m_pMonster01->GetSpot());
-	OBJECTMANAGER->AddMonsterObject(m_pMonster01);
-
+	
 }
 
 void cSceneBoss::Release()
@@ -75,7 +71,7 @@ void cSceneBoss::Update()
 {
 	//if(KEYMANAGER->IsOnceKeyDown('Z') || KEYMANAGER->IsStayKeyDown('X'))
 	m_pKelsaik->Update();
-	m_pMonster01->Update();
+
 	m_pPopori->Update();
 
 	PARTICLEMANAGER->Update();
@@ -95,7 +91,7 @@ void cSceneBoss::Render()
 
 
 	m_pKelsaik->Render();
-	m_pMonster01->Render();
+	
 	PARTICLEMANAGER->Render();
 	m_pPopori->Render();
 
