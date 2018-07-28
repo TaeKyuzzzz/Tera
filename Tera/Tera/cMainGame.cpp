@@ -64,7 +64,6 @@ void cMainGame::Setup()
 	SCENEMANAGER->AddScene("Boss", new cSceneBoss);
 	SCENEMANAGER->AddScene("BossLoading", new cSceneBossLoading);
 
-
 	SCENEMANAGER->ChangeScene("LobbyLoading");
 	
 	// 커서 설정하는 부분

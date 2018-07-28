@@ -48,6 +48,7 @@ public:
 	void ChangeLeg();
 
 	//캐릭터가 몬스터를 공격하는 함수
+	void AttackBoundBox(); // 검의 바운딩박스로 공격
 	virtual bool Attack(float damage);
 
 	// 장비 바꾸기

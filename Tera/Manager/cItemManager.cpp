@@ -689,9 +689,9 @@ void cItemManager::ClickUseItem()
 {
 	if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON))
 	{		
-		if(ClickUseItemThisPlace(m_vInvenItem));
-		else if(ClickUseItemThisPlace(m_vStatusItem));
-		else if(ClickUseItemThisPlace(m_vConShopItem));		
+		if(_UI->GetIsCallInven() && ClickUseItemThisPlace(m_vInvenItem));
+		else if(_UI->GetIsCallStatus() && ClickUseItemThisPlace(m_vStatusItem));
+		else if(_UI->GetIsCallConShop() && ClickUseItemThisPlace(m_vConShopItem));		
 	}
 }
 
@@ -806,18 +806,19 @@ void cItemManager::ItemUpdate()
 {
 	for (int i = 0; i < m_vInvenItem.size(); i++)
 	{
-		m_vInvenItem[i]->Update();		
+		m_vInvenItem[i]->Update();
 	}
-
+	
 	for (int i = 0; i < m_vConShopItem.size(); i++)
 	{
 		m_vConShopItem[i]->Update();
-	}
-	
+	}	
+
 	for (int i = 0; i < m_vStatusItem.size(); i++)
 	{
 		m_vStatusItem[i]->Update();
 	}
+	
 }
 
 void cItemManager::ItemRender()
@@ -1178,7 +1179,7 @@ void cItemManager::QuickSlotManagement()
 	{
 		for (int j = 0; j < _UI->GetVQuickSlotUI().size(); j++)
 		{
-			if (m_vInvenItem[i]->GetUIRoot()->GetIsCollisionPT() && _UI->GetVQuickSlotUI()[j]->GetUIImage()->GetIsCollisionPT())
+			if (m_vInvenItem[i]->GetUIRoot()->GetIsCollisionPT() /*&& _UI->GetVQuickSlotUI()[j]->GetUIImage()->GetIsCollisionPT()*/)
 			{
 
 				for (int k = 0; k < m_vtagItemInfo.size(); k++)

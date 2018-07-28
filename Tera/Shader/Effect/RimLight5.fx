@@ -143,19 +143,14 @@ float  Alpha
    float UIMin = -1.00;
    float UIMax = 1.00;
 > = float( 0.00 );
-float Offset
-<
-   string UIName = "Offset";
-   string UIWidget = "Numeric";
-   bool UIVisible =  false;
-   float UIMin = -1.00;
-   float UIMax = 0.00;
-> = float( 0.20 );
 
 float4 RimLight_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR0
 {   
   float3 color;
   color = tex2D(Texture0, Input.TexCoord);
+  //color.x = 0;
+  //color.y = 0;
+  //color.z = 0;
   
   float3 CameraPosition = ViewI;
   float3 N = normalize(Input.Normal);
@@ -166,13 +161,11 @@ float4 RimLight_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR0
   float lightAmount = max(dot(N,L),0);
   float lighting = AmbientColor + lightAmount * LightColor;
   
-  float4 f = float4(color,1) * lighting  + rim*Rim_Multiplier * Rim_Color;
+  float4 f = float4(color,0) * lighting  + rim*Rim_Multiplier * Rim_Color;
   //f.w = 0;
-  f.x += (0.2f - Offset);
-  f.y += (0.2f - Offset);
-  f.z += (0.2f - Offset);
-  
-  return float4(f.xyz, Alpha); 
+ 
+  return float4(f.xyz, Alpha);
+   
 }
 
 
