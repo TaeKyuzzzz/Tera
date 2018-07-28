@@ -3,7 +3,8 @@ class cCube
 {
 protected	:
 
-	vector<ST_PC_VERTEX>		m_vecVertex;
+	//vector<ST_PC_VERTEX>		m_vecVertex;
+	SYNTHESIZE(vector<ST_PC_VERTEX>, m_vecVertex, Vertex); //lsc
 
 public:
 	cCube();

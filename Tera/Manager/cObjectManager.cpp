@@ -6,6 +6,8 @@
 #include "BoundingBox\cBoundingBox.h"
 #include "GameObject\Character\cCharacter.h"
 
+#include "Scene/11_MapEdit/cBoundingObject.h"
+
 cObjectManager::cObjectManager()
 {
 }
@@ -23,6 +25,11 @@ void cObjectManager::AddObject(cGameObject * obj)
 void cObjectManager::AddCharaObject(cGameObject * obj)
 {
 	m_vecCharacter.push_back(obj);
+}
+
+void cObjectManager::AddObject(vector<cBoundingObject*> obj)
+{
+	m_vecObjectB = obj;
 }
 
 void cObjectManager::AddMonsterObject(cGameObject * obj)
@@ -58,7 +65,27 @@ bool cObjectManager::IsCollision(cGameObject * obj1)
 	}
 
 	return false;
-	//
+}
+
+bool cObjectManager::IsCollision(cGameObject * obj1, cBoundingObject* obj2)
+{
+	// 구 충돌 여부 부터
+	float lengh = D3DXVec3Length(&(obj1->GetSpere()->GetPosition() - obj2->GetSpere()->GetPosition()));
+	float distance = obj1->GetSpere()->GetRadius() + obj2->GetSpere()->GetRadius();
+
+	if (lengh >= distance) return false;
+
+	// OBB 충돌 체크을 해야한 합니다.
+
+	for (UINT g = 0; g < obj2->GetvecBBoxGroup().size(); g++)
+	{
+		if (OBBCollision(&obj1->GetBoundingBox()->GetOBB(),
+			&obj2->GetvecBBoxGroup()[g]->GetOBB()))
+		{
+			if (g == obj2->GetvecBBoxGroup().size() - 1) return true;
+		}
+	}
+	return false;
 }
 
 bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage, D3DXVECTOR3 pos)

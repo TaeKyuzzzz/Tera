@@ -8,6 +8,7 @@
 
 #include "GameObject/Town/cTown_House.h"
 #include "cTestMap.h"
+#include "Scene/11_MapEdit/cBoundingBoxLoader.h"
 
 cSceneTest::cSceneTest()
 	: m_pBackGroundBlack(NULL)
@@ -31,8 +32,8 @@ cSceneTest::~cSceneTest()
 	SAFE_DELETE(m_pPoalong);
 	SAFE_DELETE(m_pMap);
 
-
 	m_pTown_House->Destroy();
+	SAFE_DELETE(m_pBoxLoader);
 }
 
 void cSceneTest::Setup()
@@ -63,6 +64,9 @@ void cSceneTest::Setup()
 	m_pMap = new cTestMap;
 	m_pMap->Setup();
 
+	m_pBoxLoader = new cBoundingBoxLoader; //lsc
+	m_pBoxLoader->Setup();
+
 	m_pPopori->SetMap(m_pMap);
 	m_pMonster01->SetMap(m_pMap);
 	m_pPoalong->SetMap(m_pMap);
@@ -83,8 +87,7 @@ void cSceneTest::Release()
 	SAFE_DELETE(m_pPoalong);
 	SAFE_DELETE(m_pMap);
 
-
-
+	SAFE_DELETE(m_pBoxLoader); //lsc
 	m_pTown_House->Destroy();
 }
 
@@ -103,6 +106,8 @@ void cSceneTest::Update()
 	m_pMonster01->Update();
 
 	m_pPoalong->Update();
+
+	m_pBoxLoader->Update();
 
 	PARTICLEMANAGER->Update();
 
@@ -132,6 +137,8 @@ void cSceneTest::Render()
 
 	m_pPoalong->Render();
 	m_pMonster01->Render();
+
+	m_pBoxLoader->Render();
 
 	//포포리가 제일 나중에 렌더되어야 한다.
 	m_pPopori->Render();

@@ -9,13 +9,17 @@ private :
 	SYNTHESIZE_REF(D3DXMATRIX,m_matWorld, World);
 	SYNTHESIZE_REF(cCube*, m_pBoundBox, BoundingBox);
 
-	D3DXVECTOR3					m_vMinPos;
-	D3DXVECTOR3					m_vMaxPos;
-
-
 public:
 	cBoundingBox();
 	~cBoundingBox();
+
+	D3DXVECTOR3					m_vMinPos; 
+	D3DXVECTOR3					m_vMaxPos;
+
+	D3DXVECTOR3					m_vPosition;  //lsc
+	D3DXVECTOR3					m_vRoatation;
+
+	bool			m_bIsPicked; // 선택된Box 시각효과 표시.
 
 	void Setup(D3DXVECTOR3 min, D3DXVECTOR3 max);
 	void Update();

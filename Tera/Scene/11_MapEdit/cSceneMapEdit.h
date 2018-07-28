@@ -20,6 +20,7 @@ private:
 	cSpere* m_pSphere;
 
 	cTestMap*	m_pMap;
+	string m_sFileName;
 
 	//== 작업 Object
 	cTown_House* m_pTown_House;
@@ -37,6 +38,8 @@ public:
 	UINT			m_iNum_group;	//group중에 선택된  box번호
 	UINT			m_iNum_Face;	// 6개의 면중 선택된 면을 가리키는 번호
 
+	bool m_bRenderMode_Object; //true: solid , false: wireframe
+
 	D3DXVECTOR3 m_vPosToCamera;
 
 public:
@@ -50,10 +53,12 @@ public:
 	void FaceControl();
 	void KeyMoveWASDRF();
 	void RaytoCube();
+
 	void CreateBox(D3DXVECTOR3 pos);
 	void ResizeSphere();
 	void Destroy();
 
-	void ObjectSave();
+	void ObjectSave(string fileName);
 	void ObjectLoad();
+	void FG_Sight();
 };

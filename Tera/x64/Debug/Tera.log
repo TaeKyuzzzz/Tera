@@ -1,88 +1,41 @@
-﻿cParticleSet.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
-cMonster01.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
-cCharacterClass03.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
-cMainGame.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
-cBoundingBox.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
-cPoalong.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
-cCamera.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
-cKelsaik.obj : error LNK2001: D3DXVec3Normalize 외부 기호를 확인할 수 없습니다.
-cItemBase.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
-cParticle.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
-cTestMap.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
-cDummyObj.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
-cObjectManager.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
-cBoundingBox.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
-cBossRoom_Wall.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
-cCamera.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
-cKelsaik.obj : error LNK2001: D3DXVec3TransformCoord 외부 기호를 확인할 수 없습니다.
-cPoalong.obj : error LNK2019: D3DXVec3TransformNormal 외부 기호(참조 위치: "public: virtual void __cdecl cPoalong::Update(void)" (?Update@cPoalong@@UEAAXXZ) 함수)에서 확인하지 못했습니다.
-cKelsaik.obj : error LNK2001: D3DXVec3TransformNormal 외부 기호를 확인할 수 없습니다.
-cMonster01.obj : error LNK2001: D3DXVec3TransformNormal 외부 기호를 확인할 수 없습니다.
-cCharacterClass03.obj : error LNK2001: D3DXVec3TransformNormal 외부 기호를 확인할 수 없습니다.
-cSkinnedMesh.obj : error LNK2001: D3DXMatrixMultiply 외부 기호를 확인할 수 없습니다.
-cPoalong.obj : error LNK2001: D3DXMatrixMultiply 외부 기호를 확인할 수 없습니다.
-cKelsaik.obj : error LNK2001: D3DXMatrixMultiply 외부 기호를 확인할 수 없습니다.
-cMonster01.obj : error LNK2001: D3DXMatrixMultiply 외부 기호를 확인할 수 없습니다.
-cCharacterClass03.obj : error LNK2001: D3DXMatrixMultiply 외부 기호를 확인할 수 없습니다.
-cDummyObj.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cCharacterClass03.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cParticle.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cTestMap.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cMonster01.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cTown_House.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cPoalong.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cBossRoom_Road.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cCamera.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cKelsaik.obj : error LNK2001: D3DXMatrixTranslation 외부 기호를 확인할 수 없습니다.
-cKelsaik.obj : error LNK2001: D3DXMatrixRotationY 외부 기호를 확인할 수 없습니다.
-cMonster01.obj : error LNK2001: D3DXMatrixRotationY 외부 기호를 확인할 수 없습니다.
-cCharacterClass03.obj : error LNK2001: D3DXMatrixRotationY 외부 기호를 확인할 수 없습니다.
-cPoalong.obj : error LNK2001: D3DXMatrixRotationY 외부 기호를 확인할 수 없습니다.
-cBossRoom_Doll.obj : error LNK2001: D3DXMatrixRotationY 외부 기호를 확인할 수 없습니다.
-cBossRoom_Wall.obj : error LNK2001: D3DXMatrixRotationY 외부 기호를 확인할 수 없습니다.
-cCamera.obj : error LNK2001: D3DXMatrixRotationY 외부 기호를 확인할 수 없습니다.
-cSkinnedMesh.obj : error LNK2001: D3DXFrameFind 외부 기호를 확인할 수 없습니다.
-cPoalong.obj : error LNK2001: D3DXFrameFind 외부 기호를 확인할 수 없습니다.
-cKelsaik.obj : error LNK2001: D3DXFrameFind 외부 기호를 확인할 수 없습니다.
-cMonster01.obj : error LNK2001: D3DXFrameFind 외부 기호를 확인할 수 없습니다.
-cCharaPopori.obj : error LNK2001: D3DXFrameFind 외부 기호를 확인할 수 없습니다.
-cBossRoom_Wall.obj : error LNK2019: D3DXIntersectTri 외부 기호(참조 위치: "public: virtual bool __cdecl cBossRoom_Wall::GetHeight(float,float &,float)" (?GetHeight@cBossRoom_Wall@@UEAA_NMAEAMM@Z) 함수)에서 확인하지 못했습니다.
-cTestMap.obj : error LNK2001: D3DXIntersectTri 외부 기호를 확인할 수 없습니다.
-cCamera.obj : error LNK2019: D3DXMatrixRotationX 외부 기호(참조 위치: "public: void __cdecl cCamera::UpdateFix(struct D3DXVECTOR3)" (?UpdateFix@cCamera@@QEAAXUD3DXVECTOR3@@@Z) 함수)에서 확인하지 못했습니다.
-cCamera.obj : error LNK2019: D3DXMatrixLookAtLH 외부 기호(참조 위치: "public: void __cdecl cCamera::Update(struct D3DXVECTOR3)" (?Update@cCamera@@QEAAXUD3DXVECTOR3@@@Z) 함수)에서 확인하지 못했습니다.
-cCamera.obj : error LNK2019: D3DXMatrixPerspectiveFovLH 외부 기호(참조 위치: "public: void __cdecl cCamera::Setup(void)" (?Setup@cCamera@@QEAAXXZ) 함수)에서 확인하지 못했습니다.
-cShader.obj : error LNK2019: D3DXLoadMeshFromXW 외부 기호(참조 위치: "public: static struct ID3DXMesh * __cdecl cShader::LoadModel(char const *,char const *)" (?LoadModel@cShader@@SAPEAUID3DXMesh@@PEBD0@Z) 함수)에서 확인하지 못했습니다.
-cXLoader.obj : error LNK2001: D3DXLoadMeshFromXW 외부 기호를 확인할 수 없습니다.
-cShader.obj : error LNK2019: D3DXCreateEffectFromFileW 외부 기호(참조 위치: "public: static struct ID3DXEffect * __cdecl cShader::LoadShader(char const *,char const *)" (?LoadShader@cShader@@SAPEAUID3DXEffect@@PEBD0@Z) 함수)에서 확인하지 못했습니다.
-cItemInfo.obj : error LNK2019: D3DXCreateSprite 외부 기호(참조 위치: "public: void __cdecl cItemInfo::Setup(struct tagTextPack *,struct tagItemInfo *)" (?Setup@cItemInfo@@QEAAXPEAUtagTextPack@@PEAUtagItemInfo@@@Z) 함수)에서 확인하지 못했습니다.
-cSprite.obj : error LNK2001: D3DXCreateSprite 외부 기호를 확인할 수 없습니다.
-cUIInfo.obj : error LNK2001: D3DXCreateSprite 외부 기호를 확인할 수 없습니다.
-cParticle.obj : error LNK2019: D3DXMatrixScaling 외부 기호(참조 위치: "public: void __cdecl cParticle::Update(struct D3DXMATRIX)" (?Update@cParticle@@QEAAXUD3DXMATRIX@@@Z) 함수)에서 확인하지 못했습니다.
-cTown_House.obj : error LNK2001: D3DXMatrixScaling 외부 기호를 확인할 수 없습니다.
-cCharacter.obj : error LNK2001: D3DXMatrixScaling 외부 기호를 확인할 수 없습니다.
-cSpere.obj : error LNK2019: D3DXCreateSphere 외부 기호(참조 위치: "public: void __cdecl cSpere::Setup(struct D3DXVECTOR3,float)" (?Setup@cSpere@@QEAAXUD3DXVECTOR3@@M@Z) 함수)에서 확인하지 못했습니다.
-cItemBase.obj : error LNK2019: D3DXVec3CatmullRom 외부 기호(참조 위치: "public: virtual void __cdecl cItemBase::Update(void)" (?Update@cItemBase@@UEAAXXZ) 함수)에서 확인하지 못했습니다.
-cSkinnedMesh.obj : error LNK2019: D3DXLoadMeshHierarchyFromXW 외부 기호(참조 위치: "public: void __cdecl cSkinnedMesh::Setup(char const *,char const *)" (?Setup@cSkinnedMesh@@QEAAXPEBD0@Z) 함수)에서 확인하지 못했습니다.
-cSkinnedMesh.obj : error LNK2019: D3DXFrameDestroy 외부 기호(참조 위치: "public: __cdecl cSkinnedMesh::~cSkinnedMesh(void)" (??1cSkinnedMesh@@QEAA@XZ) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: FMOD_System_Create 외부 기호(참조 위치: "enum FMOD_RESULT __cdecl FMOD::System_Create(class FMOD::System * *)" (?System_Create@FMOD@@YA?AW4FMOD_RESULT@@PEAPEAVSystem@1@@Z) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::System::release(void)" (?release@System@FMOD@@QEAA?AW4FMOD_RESULT@@XZ) 외부 기호(참조 위치: "public: void __cdecl cSoundManager::Release(void)" (?Release@cSoundManager@@QEAAXXZ) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::System::init(int,unsigned int,void *)" (?init@System@FMOD@@QEAA?AW4FMOD_RESULT@@HIPEAX@Z) 외부 기호(참조 위치: "public: void __cdecl cSoundManager::Setup(void)" (?Setup@cSoundManager@@QEAAXXZ) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::System::close(void)" (?close@System@FMOD@@QEAA?AW4FMOD_RESULT@@XZ) 외부 기호(참조 위치: "public: void __cdecl cSoundManager::Release(void)" (?Release@cSoundManager@@QEAAXXZ) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::System::update(void)" (?update@System@FMOD@@QEAA?AW4FMOD_RESULT@@XZ) 외부 기호(참조 위치: "public: void __cdecl cSoundManager::Update(void)" (?Update@cSoundManager@@QEAAXXZ) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::System::createSound(char const *,unsigned int,struct FMOD_CREATESOUNDEXINFO *,class FMOD::Sound * *)" (?createSound@System@FMOD@@QEAA?AW4FMOD_RESULT@@PEBDIPEAUFMOD_CREATESOUNDEXINFO@@PEAPEAVSound@2@@Z) 외부 기호(참조 위치: "public: void __cdecl cSoundManager::AddSound(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,bool,bool)" (?AddSound@cSoundManager@@QEAAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0_N1@Z) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::System::createStream(char const *,unsigned int,struct FMOD_CREATESOUNDEXINFO *,class FMOD::Sound * *)" (?createStream@System@FMOD@@QEAA?AW4FMOD_RESULT@@PEBDIPEAUFMOD_CREATESOUNDEXINFO@@PEAPEAVSound@2@@Z) 외부 기호(참조 위치: "public: void __cdecl cSoundManager::AddSound(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,bool,bool)" (?AddSound@cSoundManager@@QEAAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0_N1@Z) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::System::playSound(enum FMOD_CHANNELINDEX,class FMOD::Sound *,bool,class FMOD::Channel * *)" (?playSound@System@FMOD@@QEAA?AW4FMOD_RESULT@@W4FMOD_CHANNELINDEX@@PEAVSound@2@_NPEAPEAVChannel@2@@Z) 외부 기호(참조 위치: "public: void __cdecl cSoundManager::Play(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,float)" (?Play@cSoundManager@@QEAAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@M@Z) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::Sound::release(void)" (?release@Sound@FMOD@@QEAA?AW4FMOD_RESULT@@XZ) 외부 기호(참조 위치: "public: void __cdecl cSoundManager::Release(void)" (?Release@cSoundManager@@QEAAXXZ) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::Channel::stop(void)" (?stop@Channel@FMOD@@QEAA?AW4FMOD_RESULT@@XZ) 외부 기호(참조 위치: "public: void __cdecl cSoundManager::AllStop(void)" (?AllStop@cSoundManager@@QEAAXXZ) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::Channel::setPaused(bool)" (?setPaused@Channel@FMOD@@QEAA?AW4FMOD_RESULT@@_N@Z) 외부 기호(참조 위치: "public: void __cdecl cSoundManager::Pause(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?Pause@cSoundManager@@QEAAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::Channel::getPaused(bool *)" (?getPaused@Channel@FMOD@@QEAA?AW4FMOD_RESULT@@PEA_N@Z) 외부 기호(참조 위치: "public: bool __cdecl cSoundManager::IspauserSound(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?IspauserSound@cSoundManager@@QEAA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::Channel::setVolume(float)" (?setVolume@Channel@FMOD@@QEAA?AW4FMOD_RESULT@@M@Z) 외부 기호(참조 위치: "public: void __cdecl cSoundManager::Play(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,float)" (?Play@cSoundManager@@QEAAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@M@Z) 함수)에서 확인하지 못했습니다.
-cSoundManager.obj : error LNK2019: "public: enum FMOD_RESULT __cdecl FMOD::Channel::isPlaying(bool *)" (?isPlaying@Channel@FMOD@@QEAA?AW4FMOD_RESULT@@PEA_N@Z) 외부 기호(참조 위치: "public: bool __cdecl cSoundManager::isPlaySound(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?isPlaySound@cSoundManager@@QEAA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) 함수)에서 확인하지 못했습니다.
-cTextureManager.obj : error LNK2019: D3DXCreateTextureFromFileExW 외부 기호(참조 위치: "public: void __cdecl cTextureManager::AddTexture(char const *)" (?AddTexture@cTextureManager@@QEAAXPEBD@Z) 함수)에서 확인하지 못했습니다.
-cDeviceManager.obj : error LNK2019: Direct3DCreate9 외부 기호(참조 위치: "private: __cdecl cDeviceManager::cDeviceManager(void)" (??0cDeviceManager@@AEAA@XZ) 함수)에서 확인하지 못했습니다.
-cFontManager.obj : error LNK2019: D3DXCreateFontIndirectW 외부 기호(참조 위치: "public: struct ID3DXFont * __cdecl cFontManager::GetFont(enum cFontManager::eFontType)" (?GetFont@cFontManager@@QEAAPEAUID3DXFont@@W4eFontType@1@@Z) 함수)에서 확인하지 못했습니다.
-cMainGame.obj : error LNK2019: D3DXCreateTextureFromFileW 외부 기호(참조 위치: "public: virtual void __cdecl cMainGame::Setup(void)" (?Setup@cMainGame@@UEAAXXZ) 함수)에서 확인하지 못했습니다.
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\d3d9.lib : warning LNK4272: 'X86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\d3dx9.lib : warning LNK4272: 'X86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
-lib/fmodex_vc.lib : warning LNK4272: 'X86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
-C:\Users\shin\Tera\x64\Debug\Tera.exe : fatal error LNK1120: 37개의 확인할 수 없는 외부 참조입니다.
+﻿  stdafx.cpp
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2662): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2663): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2664): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2665): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2666): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2667): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2668): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2689): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2690): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2691): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2694): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2695): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2698): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2702): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2712): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2713): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2715): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2716): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2717): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2727): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2728): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2729): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2730): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2731): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2732): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2742): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2743): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2754): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(2254): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4523): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4577): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4639): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4707): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4770): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4832): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathvector.inl(1269): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(518): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(519): warning C4838: 'unsigned int'에서 'INT'(으)로의 변환에는 축소 변환이 필요합니다.
+j:\[game sturdy]\[심화_3개월]portfolio\tera\tera\stdafx.h(174): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  cGameNode.cpp

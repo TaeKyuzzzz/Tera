@@ -36,6 +36,7 @@ using namespace std;
 
 #include <xnamath.h>
 #include <fstream>
+#include <sstream> //lsc
 #include <conio.h>
 #include <map>
 #include <list>

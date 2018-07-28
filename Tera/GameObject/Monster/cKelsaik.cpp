@@ -1074,9 +1074,9 @@ void cKelsaik::SetLight()
 	light.Ambient.g = light.Diffuse.g = 1.0f;
 	light.Ambient.b = light.Diffuse.b = 1.0f;
 
-	light.Attenuation0 = 0.2;
-	light.Attenuation1 = 0.1;
-	light.Attenuation2 = 0.1;
+	light.Attenuation0 = 0.2f;
+	light.Attenuation1 = 0.1f;
+	light.Attenuation2 = 0.1f;
 
 	light.Position = position;
 
