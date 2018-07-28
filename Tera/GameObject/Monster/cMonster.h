@@ -74,6 +74,16 @@ public:
 																// 패턴 가짓 수
 	int				m_nNumofPattern;
 
+	LPD3DXEFFECT		m_pRimLight;
+	cParticleSet*		m_pParticleBleeding;					//파티클 효과 처리.
+
+	//DeathShader
+	bool				DissapearingMode = false;				//몬스터 죽을때 데스쉐이딩 적용할때 쓰는 변수들.
+
+	LPD3DXEFFECT		DeathShader = NULL;
+	LPDIRECT3DTEXTURE9	SKIN = NULL;
+
+
 public:
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 
@@ -96,6 +106,12 @@ public:
 
 	//몬스터 서식지 적용.
 	virtual void SetupBehaviorSpot(D3DXVECTOR3	v) { m_vBehaviorSpot = v; }
+
+	// 몬스터 림 라이트 세팅
+	virtual void RimLightSetup(float start, float end, float multiplier,
+		float RimColor, float LightDirection, float lightColor, float AmbientColor);
+
+	virtual void RimLightSetup(D3DXVECTOR4 color, float offset, float Alpha);
 
 };
 

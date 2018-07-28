@@ -23,7 +23,7 @@ cPoalong::cPoalong()
 	m_fTime = 0.0f;
 
 	//처음에 얘로 셋팅해놓는다.
-	m_vWhere_To_Stay = D3DXVECTOR3(1247, 0, 1578);
+	//m_vWhere_To_Stay = D3DXVECTOR3(1247, 0, 1578);
 
 	m_fAnimTime = 80.0f / 30.0f;
 }
