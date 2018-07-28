@@ -45,9 +45,9 @@ cMonster02::cMonster02()
 	//Monster02은 이런 특성을 가지고 있다.
 	m_fAreaRadius = 100.0f;
 	m_fTracableArea = 1000.0f;
-	m_fRunSpeed = 0.8f;
+	m_fRunSpeed = 1.2f;
 	m_fFightZone = 50.0f;
-	m_fHpCur = 40.0f;
+	m_fHpCur = 200.0f;
 
 	MODE = IDLE;
 
@@ -114,7 +114,7 @@ void cMonster02::Setup(D3DXVECTOR3 v)
 
 	// 바운딩 박스 생성
 	m_pBoundingBox = new cBoundingBox;
-	m_pBoundingBox->Setup(D3DXVECTOR3(-30, -55, -30), D3DXVECTOR3(30, 55, 30));
+	m_pBoundingBox->Setup(D3DXVECTOR3(-15, -10, -15), D3DXVECTOR3(15, 10, 15));
 
 	// 구 충돌 영역 생성(싸움존 거리)
 	m_pSpere = new cSpere;
@@ -130,13 +130,6 @@ void cMonster02::Setup(D3DXVECTOR3 v)
 
 void cMonster02::Update()
 {
-	//최상위 순위!! 몬스터 죽으면 다른거 꽝이야.
-	if (m_fHpCur <= 0)
-		MODE = DEATH;
-
-	if (DissapearingMode)
-		m_nTime += 1;
-
 	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
 
 	switch (MODE)
@@ -294,6 +287,10 @@ void cMonster02::Idle()
 		D3DXVec3Normalize(&v, &v2);
 
 		m_fCosVal = D3DXVec3Dot(&v, &u);
+		if (m_fCosVal < -1.0f)
+			m_fCosVal = -0.99f;
+		else if (m_fCosVal > 1.0f)
+			m_fCosVal = 0.99;
 		m_fCosVal = acosf(m_fCosVal);
 
 		if (m_vPosition.z < NextSpot.z)
@@ -302,7 +299,7 @@ void cMonster02::Idle()
 		m_vPosition += (0.3f*m_fRunSpeed * v);
 
 		//이거 오차범위 넉넉하게 줘야 한다. 안그러면 정확하게 맞추려고 부르르르르 떤다. 
-		if (D3DXVec3Length(&v2) < 1.0f)
+		if (DistanceXZ(NextSpot, m_vPosition) < 1.0f)
 		{
 			m_bWalkOnOff = false;
 			m_bStart = false;
@@ -315,6 +312,7 @@ void cMonster02::Idle()
 		MODE = AWAKE;
 		m_bWalkOnOff = false;
 		m_bStart = false;
+		return;
 	}
 }
 
@@ -331,9 +329,14 @@ void cMonster02::Return()
 		D3DXVECTOR3 v;
 		D3DXVECTOR3 t;
 		t = m_vBehaviorSpot - m_vPosition;
+		t.y = 0;
 		D3DXVec3Normalize(&v, &t);
 
 		m_fCosVal = D3DXVec3Dot(&v, &u);
+		if (m_fCosVal < -1.0f)
+			m_fCosVal = -0.99f;
+		else if (m_fCosVal > 1.0f)
+			m_fCosVal = 0.99;
 		m_fCosVal = acosf(m_fCosVal);
 
 		if (m_vPosition.z < m_vBehaviorSpot.z)
@@ -351,9 +354,13 @@ void cMonster02::Awake()
 	// u벡터 -> 기준벡터
 	D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
 	D3DXVECTOR3 v;
-	D3DXVec3Normalize(&v, &temp);
+	D3DXVec3Normalize(&v, &(*g_vPlayerPos - m_vPosition));
 
 	m_fCosVal = D3DXVec3Dot(&v, &u);
+	if (m_fCosVal < -1.0f)
+		m_fCosVal = -0.99f;
+	else if (m_fCosVal > 1.0f)
+		m_fCosVal = 0.99;
 	m_fCosVal = acosf(m_fCosVal);
 
 	if (m_vPosition.z < g_vPlayerPos->z)
@@ -364,6 +371,7 @@ void cMonster02::Awake()
 	{
 		MODE = IDLE;
 		m_fTime = 0.0f;
+		return;
 	}
 
 	//경계모드에서 싸움존으로 거리가 좁혀지면 교전시작.
@@ -371,6 +379,7 @@ void cMonster02::Awake()
 	{
 		MODE = BATTLE;
 		m_fTime = 0.0f;
+		return;
 	}
 }
 
@@ -378,22 +387,32 @@ void cMonster02::Chase()
 {
 	float Distance_Player_Monster = DistanceXZ(*g_vPlayerPos, m_vPosition);
 
-	//경계선근처에서 싸우게 되면 배틀존 내부에서 있게되어 싸우는게 우선이다.
+	//싸움존 내부로 거리가 좁혀지면 다시 배틀모드. 그리고
+	//만일 경계선근처에서 싸우게 되면 배틀존 내부에서 있게되어 싸우는게 우선이다.
 	if (Distance_Player_Monster < m_fFightZone)
+	{
 		MODE = BATTLE;
-
+		return;
+	}
 	else if (DistanceXZ(m_vPosition, m_vBehaviorSpot) > m_fTracableArea)
 	{
 		MODE = RETURN;
+		return;
 	}
 
 	m_state = MON_STATE_run;
 	// u벡터 -> 기준벡터
 	D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
-	D3DXVECTOR3 v;
-	D3DXVec3Normalize(&v, &temp);
+	D3DXVECTOR3 v, v2;
+	v2 = *g_vPlayerPos - m_vPosition;
+	v2.y = 0;
+	D3DXVec3Normalize(&v, &v2);
 
 	m_fCosVal = D3DXVec3Dot(&v, &u);
+	if (m_fCosVal < -1.0f)
+		m_fCosVal = -0.99f;
+	else if (m_fCosVal > 1.0f)
+		m_fCosVal = 0.99;
 	m_fCosVal = acosf(m_fCosVal);
 
 	if (m_vPosition.z < g_vPlayerPos->z)
@@ -404,7 +423,95 @@ void cMonster02::Chase()
 
 void cMonster02::Battle()
 {
+	//최상위조건. 몬스터가 죽으면 나머지 다 꽝이야.
+	if (m_fHpCur <= 0)
+	{
+		MODE = DEATH;
+		m_bAtkTerm = true;
+		m_bAnimation = false;
+		m_bAngleLock = false;
+		return;
+	}
 
+	//싸움을 시작하기전에 항상 조건을 먼저 확인한다. 싸움존에서 벗어나면 추격을 시작.
+	if (!m_bAnimation && DistanceXZ(*g_vPlayerPos, m_vPosition) > m_fFightZone)
+	{
+		MODE = CHASE;
+		m_bAtkTerm = true;
+		m_bAnimation = false;
+		m_bAngleLock = false;
+		return;
+	}
+
+	//앵글락 상태에서는 퍼포먼스도중에 회전하지 않는다.(때리면서 돌아가는거 방지)
+	if (!m_bAngleLock)
+	{
+
+		D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
+		D3DXVECTOR3 v;
+		D3DXVec3Normalize(&v, &(*g_vPlayerPos - m_vPosition));
+
+		m_fCosVal = D3DXVec3Dot(&v, &u);
+		if (m_fCosVal < -1.0f)
+			m_fCosVal = -0.99f;
+		else if (m_fCosVal > 1.0f)
+			m_fCosVal = 0.99;
+		m_fCosVal = acosf(m_fCosVal);
+
+		if (m_vPosition.z < g_vPlayerPos->z)
+			m_fCosVal = D3DX_PI * 2 - m_fCosVal;
+	}
+
+	//공격을 시작할때(아직 애니메이션을 시작하지 않은 상태여야 한다.)
+	if (!m_bAtkTerm && !m_bAnimation && DistanceXZ(*g_vPlayerPos, m_vPosition) < m_fFightZone)
+	{
+		SetAnimWorld();
+		//구간애니메이션이므로 이를 온 시켜준다.
+		m_bAnimation = true;
+		//공격중에는 방향을 바꾸지 않으므로 앵글락을 온시켜줍니다.
+		m_bAngleLock = true;
+
+
+		int patternNum = rand() % m_nNumofPattern;
+
+		switch (patternNum)
+		{
+		case 0:
+			//전투모션은 atk01타입이다.
+			m_state = MON_STATE_atk01;
+			//현재 애니메이션 구간길이를 입력해줍니다.
+			m_fCurAnimTime = m_fAnimTime[MON_STATE_atk01];
+			break;
+		case 1:
+			m_state = MON_STATE_atk02;
+			m_fCurAnimTime = m_fAnimTime[MON_STATE_atk02];
+			break;
+		}
+	}
+	else if (m_bAtkTerm && !m_bAnimation)
+	{
+		//전투는 구간애니메이션 합으로 이루어져있으므로 이렇게 설정함.
+		m_bAnimation = true;
+		m_state = MON_STATE_Wait;
+		m_fCurAnimTime = m_fAnimTime[MON_STATE_Wait];
+	}
+
+	//구간애니메이션 처리부분.
+	if (m_bAnimation)
+	{
+		//애니메이션을 처리해야 하므로 시간을 잴 변수가 필요하다.
+		m_fTime += TIMEMANAGER->GetEllapsedTime();
+
+		if (m_fCurAnimTime - 0.05 <= m_fTime)
+		{
+			m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
+			m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
+			m_fTime = 0.0f;
+			m_bAnimation = false;
+			m_bAngleLock = false;
+			m_bAtkTerm = !m_bAtkTerm;
+		}
+	}
 
 	// 공격
 	if (m_state == MON_STATE_atk01)
@@ -423,38 +530,44 @@ void cMonster02::Death()
 	//애니메이션을 처리해야 하므로 시간을 잴 변수가 필요하다.
 	m_fTime += TIMEMANAGER->GetEllapsedTime();
 
-	if (m_fCurAnimTime - 0.05 <= m_fTime)
+	if (m_fCurAnimTime <= m_fTime)
 	{
 		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
 		m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
 		m_fTime = 0.0f;
-		DissapearingMode = true;
 		MODE = DISAPPEAR;
-		//완전히 사라진 시점 기록
-		m_fTimeofDeath = (float)GetTickCount();
 	}
 }
 
 void cMonster02::Disappear()
 {
+	//렌더 과정을 거쳐서 완전히 사라지면 다시 태어나는 모드로.
+	if (!m_bIsGen)
+	{
+		MODE = REBIRTH;
+		m_nTime = 0;
+		return;
+	}
 	m_state = MON_STATE_deathwait;
+	DissapearingMode = true;
+	m_nTime += 1;
 }
 
 void cMonster02::Rebirth()
 {
 	m_vPosition = m_vBehaviorSpot;
 	m_state = MON_STATE_unarmedwait;
-	//m_currState = MON_STATE_unarmedwait;
 	m_fRotY = 0.0f;
 	m_vDirection = D3DXVECTOR3(1, 0, 0);
 	m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
-	m_fHpCur = 50000.0f;
+	m_fHpCur = 200.0f;
 
 	//5초뒤에 부활.
 	if (GetTickCount() - m_fTimeofDeath >= 5000.0f)
 	{
 		MODE = IDLE;
 		m_pMonster->AnimAdvanceTime();
+		m_bIsGen = true;
 	}
 }
 
@@ -474,6 +587,19 @@ void cMonster02::Render()
 		m_pSphereR->Render();
 	if (SightSpere && m_pSphereL)
 		m_pSphereL->Render();
+
+	char szTemp[1024];
+	sprintf_s(szTemp, 1024, "MODE : %d", MODE);
+	RECT rc;
+	SetRect(&rc, WINSIZEX - 200, 200, WINSIZEX, 300);
+
+	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
+	pFont->DrawTextA(NULL,
+		szTemp,
+		strlen(szTemp),
+		&rc,
+		DT_LEFT | DT_VCENTER,
+		D3DCOLOR_XRGB(255, 0, 0));
 }
 
 
@@ -507,4 +633,40 @@ bool cMonster02::isUseLocalAnim()
 
 
 	return false;
+}
+
+bool cMonster02::Attack(float damage)
+{
+	if (!OBJECTMANAGER->GiveDamagedChara(m_pSphereR, damage, m_vPosition))
+	{
+		if (OBJECTMANAGER->GiveDamagedChara(m_pSphereL, damage, m_vPosition))
+			return true;
+	}
+	else
+		return true;
+
+	return false;
+}
+
+void cMonster02::Damaged(float damage, D3DXVECTOR3 pos)
+{
+	if (m_state == MON_STATE_deathwait ||
+		m_state == MON_STATE_Death)	 return;
+
+	m_fHpCur -= damage;
+
+	if (damage)
+	{
+
+		// 블리딩 터트릴 좌표를 만들어서 세팅하고 시작
+		D3DXMATRIX matTS, matR, matT;
+		D3DXMatrixRotationY(&matR, m_fRotY);
+		float x = 30 + m_vPosition.x;
+		float y = rand() % 10 + 10 + m_vPosition.y;
+		float z = rand() % 60 - 30 + m_vPosition.z;
+		D3DXMatrixTranslation(&matT, x, y, z);
+		m_pParticleBleeding->SetWorld(matR * matT);
+		m_pParticleBleeding->Start();
+
+	}
 }

@@ -94,10 +94,6 @@ public:
 	void Disappear();
 	void Rebirth();
 	
-
-	void AnimUpdate();
-	void UpdateWorld();
-	void ParticleUpdate();
 	//////////////////////////////////
 
 	void Render();
@@ -108,8 +104,9 @@ public:
 	bool isUseLocalAnim();
 
 
-	////// etc ////////////////////////
-	void ChangeState(MON_MODE STATE);
-	void ChangeAnim(MON_STATE anim, bool isBlend);
-	///////////////////////////////////
+	//몬스터가 캐릭터를 공격하는 함수
+	virtual bool Attack(float damage);
+
+	//몬스터가 캐릭터에게 피해를 받는 함수
+	void Damaged(float damage, D3DXVECTOR3 pos);
 };
