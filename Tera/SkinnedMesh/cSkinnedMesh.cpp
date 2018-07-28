@@ -333,6 +333,7 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame, LPD3DXEFFECT shader)
 		Render(pFrame->pFrameSibling, shader);
 }
 
+//Monster1전용 함수. 새로 다듬을 예정
 void cSkinnedMesh::Render(IN LPD3DXFRAME pFrame, IN LPD3DXEFFECT shader, IN int time, IN LPDIRECT3DTEXTURE9 texture,
 	OUT bool &onoff, OUT bool &IsGen, OUT float &TOD)
 {
