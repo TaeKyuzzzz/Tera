@@ -9,6 +9,9 @@
 #include "GameObject/Town/cTown_House.h"
 #include "cTestMap.h"
 
+
+#include "GameObject/Monster/cKelsaik.h"
+ 
 cSceneTest::cSceneTest()
 	: m_pBackGroundBlack(NULL)
 	, m_pPopori(NULL)
@@ -72,6 +75,13 @@ void cSceneTest::Setup()
 	SOUNDMANAGER->Play("Field");
 
 	m_isGoBoss = false;
+
+
+	m_pKelsaik = new cKelsaik;
+	m_pKelsaik->Setup();
+	m_pKelsaik->SetPosition(D3DXVECTOR3(0, -45.2, 0));
+	//m_pKelsaik->SetMap(m_pBossRoom_Wall);
+	OBJECTMANAGER->AddMonsterObject(m_pKelsaik);
 }
 
 void cSceneTest::Release()
@@ -90,7 +100,7 @@ void cSceneTest::Release()
 
 void cSceneTest::Update()
 {
-
+	m_pKelsaik->Update();
 	//m_pTown_House->Update();
 
 	//m_pDummy->Update();
@@ -129,18 +139,19 @@ void cSceneTest::Render()
 	m_pDummy->Render();
 	//m_pMap->Render(); //Ground Map Rendering은 GameObject/Town에서 한다.
 	m_pTown_House->Render();
-
+	m_pKelsaik->Render();
 	m_pPoalong->Render();
 	m_pMonster01->Render();
 
 	//포포리가 제일 나중에 렌더되어야 한다.
+	PARTICLEMANAGER->Render();
 	m_pPopori->Render();
 	
-	PARTICLEMANAGER->Render();
-	/////////////
-	if (m_nBGBlackAlpha>0)
-		m_pBackGroundBlack->AlphaRender(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), m_nBGBlackAlpha);
 
 	UIMANAGER->Render();
 	ITEMMANAGER->Render();
+	
+	/////////////
+	if (m_nBGBlackAlpha>0)
+		m_pBackGroundBlack->AlphaRender(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), m_nBGBlackAlpha);
 }

@@ -8,6 +8,7 @@ class cBossRoom_Doll;
 class cCharaPopori;
 class cSprite;
 class cKelsaik;
+class cMonster01;
 
 class cSceneBoss : public cGameNode
 {
@@ -18,7 +19,7 @@ private:
 	cBossRoom_Road* m_pBossRoom_Road;
 	cBossRoom_Doll* m_pBossRoom_Doll;
 
-
+	cMonster01*			m_pMonster01;
 
 	cSprite*			m_pBackGroundBlack;
 	int					m_nBGBlackAlpha;

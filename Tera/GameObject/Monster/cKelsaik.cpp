@@ -95,7 +95,7 @@ void cKelsaik::Setup()
 {
 	cMonster::Setup();
 	
-	SetLight();
+	//SetLight();
 
 	m_fMaxHp = 4000.0f;
 	m_fCurHp = 0.0f;
@@ -521,7 +521,10 @@ void cKelsaik::Render()
 
 	if (m_isPossibleDamaged)
 	{
-		m_pMonster->Render(NULL,m_pRimLight); // 요건 평상시의 렌더
+		if(m_isPicked)
+			m_pMonster->Render(NULL, m_pRimLight);
+		else
+			m_pMonster->Render(NULL); // 요건 평상시의 렌더
 	}
 	else
 	{

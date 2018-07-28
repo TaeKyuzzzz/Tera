@@ -10,7 +10,7 @@ class cPoalong;
 
 class cTown_House;
 class cTestMap;
-
+class cKelsaik;
 class cSceneTest : public cGameNode
 {
 private :
@@ -29,6 +29,9 @@ private :
 	cTestMap*			m_pMap;
 
 	bool				m_isGoBoss;
+
+	cKelsaik*			m_pKelsaik;
+
 public:
 	cSceneTest();
 	~cSceneTest();

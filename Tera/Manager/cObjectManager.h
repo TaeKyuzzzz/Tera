@@ -37,4 +37,6 @@ public:
 	bool OBBCollision(ST_OBB * Box1, ST_OBB * Box2);
 
 	void VecClear();
+
+	void PickObject();
 };
