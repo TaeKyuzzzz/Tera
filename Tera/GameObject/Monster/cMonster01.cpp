@@ -293,6 +293,9 @@ void cMonster01::Render()
 	D3DXMatrixIdentity(&mat);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 
+	if (m_isPicked)
+		int a = 10;
+	
 	RimLightSetup(0, 0, 0, 0, 0, 0, 0);
 	if (m_bIsGen)
 	{
@@ -313,21 +316,6 @@ void cMonster01::Render()
 		m_pSphereR->Render();
 	if (SightSpere && m_pSphereL)
 		m_pSphereL->Render();
-
-	D3DXVECTOR3 v = CAMERAMANAGER->GetCameraPosition();
-	char szTemp[1024];
-	sprintf_s(szTemp, 1024, "%.1f %.1f %.1f", v.x, v.y, v.z);
-	RECT rc;
-	SetRect(&rc, WINSIZEX - 400, 200, WINSIZEX, 300);
-
-	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
-	pFont->DrawTextA(NULL,
-		szTemp,
-		strlen(szTemp),
-		&rc,
-		DT_LEFT | DT_VCENTER,
-		D3DCOLOR_XRGB(255, 0, 0));
-
 }
 
 bool cMonster01::isUseLocalAnim()

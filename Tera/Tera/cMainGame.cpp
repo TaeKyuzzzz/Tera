@@ -86,9 +86,9 @@ void cMainGame::Setup()
 
 void cMainGame::Update()
 {
-	SCENEMANAGER->Update();
-	OBJECTMANAGER->PickObject();
 	CAMERAMANAGER->Update();
+	OBJECTMANAGER->PickObject();
+	SCENEMANAGER->Update();
 
 	RemoteMode();
 }

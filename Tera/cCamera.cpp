@@ -67,10 +67,15 @@ void cCamera::Update(D3DXVECTOR3 target)
 	D3DXVec3TransformCoord(&vEye, &vEye, &m_matWorld);
 	x = vEye.x - x;
 
+	m_vLocal = vEye;
+
+
 	if (target)
 		vEye += target;
 
 	viewPos = vEye;
+	//viewPos.y = 0;
+	//D3DXVec3Normalize(&viewPos, &viewPos);
 
 	D3DXVECTOR3 vLookAt = m_vLookAt;
 	D3DXVec3TransformCoord(&vLookAt, &vLookAt, &m_matRotateY);
@@ -158,6 +163,8 @@ void cCamera::UpdateFix(D3DXVECTOR3 target)
 	D3DXVec3TransformCoord(&vEye, &vEye, &m_matWorld);
 	x = vEye.x - x;
 
+	m_vLocal = vEye;
+
 	if (target)
 		vEye += target;
 
@@ -189,8 +196,13 @@ void cCamera::UpdateFix(D3DXVECTOR3 target)
 	g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
 }
 
-D3DXVECTOR3 cCamera::GetCameraPosition()
+D3DXVECTOR3 cCamera::GetCameraWorld()
 {
 	return viewPos;
 	//return m_vEye;
+}
+
+D3DXVECTOR3 cCamera::GetCameraLocal()
+{
+	return m_vLocal;
 }

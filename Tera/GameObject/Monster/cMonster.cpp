@@ -4,10 +4,10 @@
 #include "iMap.h"
 
 cMonster::cMonster()
-	: m_fRotY(0.0f)
-	, m_vDirection(1, 0, 0)
-	, m_vPosition(0, 0, 0)
-	, m_fSpeed(1.0f)
+	//: m_fRotY(0.0f)
+	//, m_vDirection(1, 0, 0)
+	//, m_vPosition(0, 0, 0)
+	: m_fSpeed(1.0f)
 	, m_vBeforeAnimPos(0, 0, 0)
 	, m_vCurAnimPos(0, 0, 0)
 	, m_bIsGen(true)

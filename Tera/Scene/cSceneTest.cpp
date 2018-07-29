@@ -42,11 +42,11 @@ cSceneTest::~cSceneTest()
 
 void cSceneTest::Setup()
 {
-	CAMERAMANAGER->SetType(CAMERA_FREE);
+	//CAMERAMANAGER->SetType(CAMERA_FREE);
 
 	m_pPopori = new cCharaPopori;
 	m_pPopori->Setup();
-	m_pPopori->SetPosition(D3DXVECTOR3(1206, 427, 2952));
+	m_pPopori->SetPosition(D3DXVECTOR3(1794, 0, 3936));
 	OBJECTMANAGER->AddCharaObject(m_pPopori);
 	OBJECTMANAGER->SetPlayer(m_pPopori);
 	
@@ -104,17 +104,16 @@ void cSceneTest::Release()
 
 void cSceneTest::Update()
 {
-	
+
 	//m_pTown_House->Update();
 
 	//m_pDummy->Update();
 	if (m_pDummy->IsGoBossRoom())
 		m_isGoBoss = true;
 	
-	m_pPopori->Update();
-
-	//if (KEYMANAGER->IsOnceKeyDown('U'))
 	m_pMonster01->Update();
+	
+	m_pPopori->Update();
 
 	m_pMonster02->Update();
 
@@ -141,13 +140,13 @@ void cSceneTest::Update()
 void cSceneTest::Render()
 {
 
+	m_pMonster01->Render();
 	
 	m_pDummy->Render();
 	//m_pMap->Render(); //Ground Map Rendering은 GameObject/Town에서 한다.
 	m_pTown_House->Render();
-	
+
 	m_pPoalong->Render();
-	m_pMonster01->Render();
 	m_pMonster02->Render();
 
 	//포포리가 제일 나중에 렌더되어야 한다.
