@@ -524,12 +524,16 @@ void cMonster01::BigDamaged()
 
 void cMonster01::Die()
 {
+	if(m_state != MON_STATE_Death)
+		ItemDrop("검은마력의옷");
+	
 	m_fHpCur = 0.0f;
 
 	m_state = MON_STATE_Death;
 	m_fCurAnimTime = m_fAnimTime[MON_STATE_Death];
 	m_bIsBlend = false;
 	m_bAnimation = true;
+
 }
 
 //몬스터와 캐릭터사이의 거리에 따른 불변수 집합

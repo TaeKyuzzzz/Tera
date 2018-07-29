@@ -2,6 +2,7 @@
 #include "../cGameObject.h"
 
 class iMap;
+class cProgressBar;
 
 class cMonster : public cGameObject
 {
@@ -79,6 +80,10 @@ public:
 	LPD3DXEFFECT		DeathShader = NULL;
 	LPDIRECT3DTEXTURE9	SKIN = NULL;
 
+	// Ã¼·Â¹Ù
+	cProgressBar*		m_pHpBar;
+	cProgressBar*		m_pMpBar;
+	cSprite*			m_BackBar;
 
 public:
 
@@ -104,5 +109,9 @@ public:
 	virtual void SetupBehaviorSpot(D3DXVECTOR3	v) { m_vBehaviorSpot = v; }
 
 	virtual void ItemDrop(const char * itemName);
+
+	void SetUpStateBar();
+	void UpdateUpStateBar();
+	void RenderUpStateBar();
 };
 

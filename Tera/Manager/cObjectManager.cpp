@@ -38,6 +38,22 @@ void cObjectManager::AddMonsterObject(cGameObject * obj)
 	m_vecMonster.push_back(obj);
 }
 
+void cObjectManager::AddItemObject(cGameObject * obj)
+{
+	for (int i = 0; i < m_vecItemObject.size(); i++)
+	{
+		if (m_vecItemObject[i]->GetIsUse() == false)
+		{
+			m_vecItemObject[i]->SetIsUse(true);
+			m_vecItemObject[i]->SetPosition(obj->GetPosition());
+			m_vecItemObject[i]->SetName(obj->GetName());
+			delete obj;
+			return;
+		}
+	}
+	m_vecItemObject.push_back(obj);
+}
+
 bool cObjectManager::IsCollision(cGameObject * obj1, cGameObject * obj2)
 {
 	// 备 面倒 咯何 何磐
@@ -354,4 +370,20 @@ void cObjectManager::PickObject()
 		}
 	}
 	
+}
+
+void cObjectManager::Update()
+{
+	for (int i = 0; i < m_vecItemObject.size(); i++)
+	{
+		if(m_vecItemObject[i])
+			m_vecItemObject[i]->Update();
+	}
+}
+
+void cObjectManager::Render()
+{
+
+	for (int i = 0; i < m_vecItemObject.size(); i++)
+		m_vecItemObject[i]->Render();
 }

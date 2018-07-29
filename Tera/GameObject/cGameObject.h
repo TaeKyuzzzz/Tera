@@ -32,7 +32,8 @@ protected:
 	bool			SightSpere;
 
 protected:
-
+	SYNTHESIZE(bool, m_isUse, IsUse);
+	SYNTHESIZE(const char *, m_sName, Name);
 	SYNTHESIZE_REF(cSpere*, m_pSpere, Spere);
 	SYNTHESIZE_REF(cBoundingBox*, m_pBoundingBox, BoundingBox);
 

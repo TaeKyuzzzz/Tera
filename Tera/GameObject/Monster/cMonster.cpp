@@ -2,7 +2,7 @@
 #include "cMonster.h"
 
 #include "iMap.h"
-
+#include "GameObject\Item\cDropItem.h"
 cMonster::cMonster()
 	//: m_fRotY(0.0f)
 	//, m_vDirection(1, 0, 0)
@@ -68,5 +68,20 @@ bool cMonster::Attack(float damage)
 
 void cMonster::ItemDrop(const char * itemName)
 {
+	cDropItem * drItem = new cDropItem;
+	drItem->Setup(itemName, m_vPosition);
 
+	OBJECTMANAGER->AddItemObject(drItem);
+}
+
+void cMonster::SetUpStateBar()
+{
+}
+
+void cMonster::UpdateUpStateBar()
+{
+}
+
+void cMonster::RenderUpStateBar()
+{
 }

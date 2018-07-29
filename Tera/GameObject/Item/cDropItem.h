@@ -4,26 +4,29 @@
 class cSprite;
 class iMap;
 class cItemInfo;
+class cCube;
 
 class cDropItem : public cGameObject
 {
 
 private :
+	
+	cCube*					m_body;
 
-	const char *	m_sName;
+	LPDIRECT3DTEXTURE9		m_pTexture;
 
-	D3DXMATRIX		m_matWorld;
-	D3DXVECTOR3		m_vPosition;
+	D3DXMATRIX				m_matWorld;
+	//D3DXVECTOR3				m_vPosition;
 
 	SYNTHESIZE(iMap*, m_pMap, Map);
 
-	float			m_fRotY;
-	float			m_fOverLand;
+	float					m_fRotY;
+	float					m_fOverLand;
 
 
-	cSprite*		m_pBodySprite;
-
-	tagItemInfo		m_stItemInfo;
+	//cSprite*		m_pBodySprite;
+	D3DMATERIAL9			m_stMtl;
+	tagItemInfo				m_stItemInfo;
 
 public:
 	cDropItem();
@@ -35,7 +38,10 @@ public:
 	
 	void PlusMapHeight();
 
-
+	void SetMaterial();
 	void SetItemInfo(const char * name);
+	void PickUp();
+
+	
 };
 

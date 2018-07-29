@@ -58,7 +58,7 @@ void cSceneBoss::Setup()
 
 	isOptionMode = false;
 
-	//SOUNDMANAGER->Play("BossBGM");
+	SOUNDMANAGER->Play("BossBGM");
 
 	
 }
