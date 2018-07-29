@@ -88,6 +88,16 @@ private:
 	RECT quickRc[16];
 	int m_nItemNum[16];
 	int m_nSlotNum[16];
+	int m_nExpWidth = 0;
+	int m_nExpHeight = 0;
+
+	RECT m_ShopRc;
+	RECT m_InvenRc;
+	RECT m_StatusRc;
+	RECT m_QuickRc[16];
+
+
+	int m_nCheckNum = 0;
 
 	D3DXVECTOR3 m_pVec3SlotPos[16];
 
@@ -163,7 +173,7 @@ public:
 	void ItemExplaneRender();
 	void ImitationIconRender();
 	void CreateImitationImage();
-	void QuickSlotManagement();
+	void QuickSlotSynchronize();
 
 
 #pragma endregion
@@ -185,8 +195,12 @@ public:
 
 	void ClickUseItem();
 	void DragAndDrop();
-
-
+	
+	void QuickSlotFunc();
+	void MovementInQuickSlot();
+	int QuickSlotRegist();
+	bool SwapInQuickSlot();
+	
 	void ConnectNodeCommand();
 	void ExceptionsWhileDragging();
 	void SortInSlot();
@@ -198,9 +212,11 @@ public:
 	void BuyConsumables(int collisionNum);
 	void QuickSlotPosRenewal();
 	void QuickSlotItemPosRenewal();
+	void MainUIInfo();
 
-	void SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, const char* szDestination);
-	void SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, eSlotType _eSlotType);
+
+	int SendItemAtoPlaceB(vector<cItemInfo*>& placeItem);
+	int SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, eSlotType _eSlotType);
 
 	POINT FindPlaceAndIndex(vector<cItemInfo*> vPlaceItem);
 	bool ClickUseItemThisPlace(vector<cItemInfo*>& sendItem);

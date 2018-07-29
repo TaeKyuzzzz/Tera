@@ -38,7 +38,7 @@ private:
 	SYNTHESIZE(bool, m_isCallInven, IsCallInven);
 	SYNTHESIZE(bool, m_isCallConShop, IsCallConShop);
 	SYNTHESIZE(bool, m_isCallStatus, IsCallStatus);
-	SYNTHESIZE(bool, m_isCallQuickSlot, QuickSlot);
+	SYNTHESIZE(bool, m_isCallQuickSlot, IsCallQuickSlot);
 	SYNTHESIZE(bool, m_isQuickSlotLock, QuickSlotLock);
 
 

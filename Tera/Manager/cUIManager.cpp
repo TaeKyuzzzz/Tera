@@ -23,7 +23,7 @@ cUIManager::~cUIManager()
 
 void cUIManager::Setup()
 {
-	
+	hdc = GetDC(g_hWnd);
 
 	CreateUIList();
 	ConnectNode();
@@ -54,7 +54,6 @@ void cUIManager::Update()
 
 	QuickSlotCall("QSSKILLLOCK");
 	QuickSlotCall("QSSKILLLOCK2");
-	QuickSlotResize();
 	QuickSlotOptionHiding();
 	
 
@@ -71,7 +70,6 @@ void cUIManager::Render()
 	//텍스트정보보는함수
 	UIInfoTextPopUp(NULL, "Status");
 	UIInfoTextPopUp(m_vUI.size());
-
 
 
 }
@@ -271,7 +269,7 @@ void cUIManager::QuickSlotCall(const char* callName)
 		{
 			if (m_vUI[i]->GetName() == callName)
 			{
-				if (m_vUI[i]->GetUIButtonImage()->GetIsCollisionPT())
+				if (m_vUI[i]->GetUIButtonImage()->GetIsColDragRcAndPT())
 				{
 					for (int j = 0; j < m_vUI[i]->GetUIButtonImage()->GetParent()->GetVecChild().size(); j++)
 					{
@@ -391,17 +389,3 @@ void cUIManager::QuickSlotOptionHiding()
 		}
 	}
 }
-
-
-void cUIManager::QuickSlotResize()
-{
-	for (int i = 0; i < m_vQuickSlotUI.size(); i++)
-	{
-		RECT rc = m_vQuickSlotUI[i]->GetUIImage()->GetCollisionRect();
-
-		m_vQuickSlotUI[i]->GetUIImage()->SetCollisionRect({ rc.left + 11, rc.top + 11, rc.right - 11, rc.bottom - 11 });
-	}
-
-}
-
-

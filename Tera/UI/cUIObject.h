@@ -1,6 +1,6 @@
 #pragma once
 
-#define INDEXOUTOFRANGE -1
+#define INDEXNOTSET -1
 
 enum tagClicked
 {
@@ -26,11 +26,14 @@ protected :
 	SYNTHESIZE(bool, m_isItemInfoWnd, IsItemInfoWnd);
 
 	SYNTHESIZE(bool, m_isCollisionPT, IsCollisionPT);
+	SYNTHESIZE(bool, m_isColDragRcAndPT, IsColDragRcAndPT);
+
 	SYNTHESIZE(POINT, m_move, Move);
 	SYNTHESIZE(tagClicked, m_enClickState, ClickState);
 	SYNTHESIZE(bool, m_isMove, IsMove);
 	SYNTHESIZE(RECT, m_CollisionRect, CollisionRect);
 	SYNTHESIZE(RECT, m_DragRect, DragRect);
+	SYNTHESIZE(RECT, m_resizeRect, ResizeRect);
 	SYNTHESIZE(D3DXVECTOR2, m_nReduceDragRange, ReduceDragRange);
 
 	POINT m_beforeMousePT = { 0,0 };

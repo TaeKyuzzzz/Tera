@@ -154,7 +154,6 @@
   <ItemGroup>
     <ClInclude Include="BoundingBox\cBoundingBox.h" />
     <ClInclude Include="GameObject\NPC\cPoalong.h" />
-    <ClInclude Include="GameObject\Monster\cMonster02.h" />
     <ClInclude Include="Scene\05_BossScene\cBossRoom_Doll.h" />
     <ClInclude Include="Scene\05_BossScene\cBossRoom_Road.h" />
     <ClInclude Include="Scene\05_BossScene\cBossRoom_Wall.h" />
@@ -237,7 +236,6 @@
   <ItemGroup>
     <ClCompile Include="BoundingBox\cBoundingBox.cpp" />
     <ClCompile Include="GameObject\NPC\cPoalong.cpp" />
-    <ClCompile Include="GameObject\Monster\cMonster02.cpp" />
     <ClCompile Include="Scene\05_BossScene\cBossRoom_Doll.cpp" />
     <ClCompile Include="Scene\05_BossScene\cBossRoom_Road.cpp" />
     <ClCompile Include="Scene\05_BossScene\cBossRoom_Wall.cpp" />

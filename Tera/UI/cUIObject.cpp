@@ -57,6 +57,7 @@ void cUIObject::Update(ST_UI_SIZE dragSize)
 		m_matWorld._43 += m_pParent->m_matWorld._43;
 	}
 
+	
 	ImageDrag(m_nReduceDragRange);
 
 	for (auto child : m_vecChild)
@@ -82,7 +83,7 @@ void cUIObject::Render(LPD3DXSPRITE pSprite)
 
 void cUIObject::ImageDrag(D3DXVECTOR2 vec2ReduceDragRange)
 {
-	if (m_enClickState != UNMOVABLE && m_isCollisionPT && isOptionMode)
+	if (m_enClickState != UNMOVABLE && m_isColDragRcAndPT && isOptionMode)
 	{
 		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 		{
@@ -117,6 +118,12 @@ void cUIObject::ImageDrag(D3DXVECTOR2 vec2ReduceDragRange)
 		, m_matWorld._41 + m_stSize.fWidth
 		, m_matWorld._42 + m_stSize.fHeight);
 
+	SetRect(&m_resizeRect,
+		m_CollisionRect.left + 11,
+		m_CollisionRect.top + 11,
+		m_CollisionRect.right - 11,
+		m_CollisionRect.bottom - 11);
+
 
 	SetRect(&m_DragRect
 		, m_matWorld._41
@@ -128,10 +135,18 @@ void cUIObject::ImageDrag(D3DXVECTOR2 vec2ReduceDragRange)
 	if (PtInRect(&m_DragRect, ptMouse))
 	{
 
-		m_isCollisionPT = true;
+		m_isColDragRcAndPT = true;
 
 	}
-	else m_isCollisionPT = false;
+	else m_isColDragRcAndPT = false;
+
+	if (PtInRect(&m_DragRect, ptMouse))
+	{
+
+		m_isColDragRcAndPT = true;
+
+	}
+	else m_isColDragRcAndPT = false;
 }
 
 
