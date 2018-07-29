@@ -31,7 +31,7 @@ void cGameObject::Setup()
 
 void cGameObject::Update()
 {
-	if (KEYMANAGER->IsOnceKeyDown('F'))
+	if (KEYMANAGER->IsOnceKeyDown('H'))
 		SightBox = !SightBox;
 	if (KEYMANAGER->IsOnceKeyDown('G'))
 		SightSpere = !SightSpere;
@@ -44,7 +44,10 @@ void cGameObject::Render()
 		m_pBoundingBox->Render();
 
 	if (SightSpere && m_pSpere)
+	{
+		g_pD3DDevice->SetTexture(0, NULL);
 		m_pSpere->Render();
+	}
 }
 
 void cGameObject::Damaged(float damage, D3DXVECTOR3 pos)
