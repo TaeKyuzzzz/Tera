@@ -32,6 +32,8 @@ private:
 	float				m_fTime;
 
 	D3DXVECTOR3			m_vWhere_To_Stay;
+	float DialogZone;
+	//LPD3DXEFFECT		m_pRimLight;
 
 public:
 	cPoalong();

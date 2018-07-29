@@ -532,7 +532,9 @@ void cCharacterClass03::Move()
 		m_vPosition = beforePos;
 		D3DXMATRIX mat, matR, matT;
 		D3DXMatrixRotationY(&matR, m_fRotY);
-
+		D3DXVECTOR3 dir(m_fSpeed, 0, 0);
+		D3DXVec3TransformNormal(&dir, &dir, &matR);
+		m_vPosition -= dir;
 		D3DXMatrixIdentity(&mat);
 		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y + 15, m_vPosition.z);
 		m_pBoundingBox->SetWorld(matR * mat);

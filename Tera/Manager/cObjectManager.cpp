@@ -65,13 +65,13 @@ bool cObjectManager::IsCollision(cGameObject * obj1)
 			return result;
 	}
 
-	//for (int i = 0; i < m_vecObject.size(); i++)
-	//{
-	//	result = IsCollision(obj1, );
-	//
-	//	if (result)
-	//		return result;
-	//}
+	for (int i = 0; i < m_vecObjectB.size(); i++)
+	{
+		result = IsCollision(obj1, m_vecObjectB[i]);
+	
+		if (result)
+			return result;
+	}
 
 	return false;
 }
