@@ -823,6 +823,18 @@ void cItemManager::ConnectNodeCommand()
 			}
 		}
 	}
+
+	//텍스트와 아이템과의 연결
+	for (int i = 0; i < m_vText.size(); i++)
+	{
+		for (int j = 0; j < m_vInvenItem.size(); j++)
+		{
+			if (m_vText[i]->GetParentName() == m_vInvenItem[j]->GetName())
+			{
+				m_vText[i]->ConnectNode(m_vInvenItem[j]->GetUIRoot());
+			}
+		}
+	}
 }
 
 void cItemManager::ExceptionsWhileDragging()
@@ -1258,7 +1270,7 @@ void cItemManager::PotionCountTextThisName(const char * szPotionName)
 
 	CreateUIITextData
 	(
-		{ m_nExcutionNum , 0 },
+		{ m_nExcutionNum , 999 },
 		{ { 0,0,0 },{ 25,20,0 } },
 		{ SMALL, SMALL },
 		{ { 0,0,0 },{ 128,128,128 } }
