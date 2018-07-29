@@ -103,4 +103,8 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("PCDamaged", "Sound/Chara/PCDamaged.ogg");
 	m_pLoading->InitForSound("PCBigDamaged", "Sound/Chara/PCBigDamaged.ogg");
 	m_pLoading->InitForSound("PCDie", "Sound/Chara/PCDie.ogg");
+
+	////
+
+
 }

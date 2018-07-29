@@ -55,7 +55,7 @@ void cCamera::Update(D3DXVECTOR3 target)
 	
 	D3DXMatrixRotationY(&m_matRotateY, m_fWorldY * D3DX_PI / 180.0f);
 	
-	D3DXMatrixTranslation(&m_matTraslation, Wheel, 0, 0);
+	D3DXMatrixTranslation(&m_matTraslation, (float)Wheel, 0, 0);
 
 	D3DXVECTOR3 vEye;
 	float x = m_vEye.x;
@@ -67,8 +67,15 @@ void cCamera::Update(D3DXVECTOR3 target)
 	D3DXVec3TransformCoord(&vEye, &vEye, &m_matWorld);
 	x = vEye.x - x;
 
+	m_vLocal = vEye;
+
+
 	if (target)
 		vEye += target;
+
+	viewPos = vEye;
+	//viewPos.y = 0;
+	//D3DXVec3Normalize(&viewPos, &viewPos);
 
 	D3DXVECTOR3 vLookAt = m_vLookAt;
 	D3DXVec3TransformCoord(&vLookAt, &vLookAt, &m_matRotateY);
@@ -144,7 +151,7 @@ void cCamera::UpdateFix(D3DXVECTOR3 target)
 
 	//D3DXMatrixRotationZ(&m_matRotateZ, m_fWorldZ * D3DX_PI / 180.0f);
 
-	D3DXMatrixTranslation(&m_matTraslation, Wheel, 0, 0);
+	D3DXMatrixTranslation(&m_matTraslation, (float)Wheel, 0, 0);
 
 	D3DXVECTOR3 vEye;
 	float x = m_vEye.x;
@@ -156,9 +163,12 @@ void cCamera::UpdateFix(D3DXVECTOR3 target)
 	D3DXVec3TransformCoord(&vEye, &vEye, &m_matWorld);
 	x = vEye.x - x;
 
+	m_vLocal = vEye;
+
 	if (target)
 		vEye += target;
 
+	viewPos = vEye;
 
 	D3DXVECTOR3 vLookAt = m_vLookAt;
 	//vLookAt.x += x;
@@ -184,4 +194,15 @@ void cCamera::UpdateFix(D3DXVECTOR3 target)
 
 
 	g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
+}
+
+D3DXVECTOR3 cCamera::GetCameraWorld()
+{
+	return viewPos;
+	//return m_vEye;
+}
+
+D3DXVECTOR3 cCamera::GetCameraLocal()
+{
+	return m_vLocal;
 }

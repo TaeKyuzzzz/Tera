@@ -41,6 +41,15 @@ protected:
 
 	bool				m_isPossibleDamaged;
 	float				m_PossbleDamagedTime;
+	SYNTHESIZE(bool, m_isPicked, IsPicked);  // 타게팅 여부
+
+	LPD3DXEFFECT		m_pRimLight;
+
+
+	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
+	float			m_fRotY;
+	D3DXVECTOR3		m_vDirection;
+	D3DXMATRIX		m_matWorld;
 
 public:
 	cGameObject();
@@ -55,5 +64,11 @@ public:
 	virtual void Damaged(float damage, D3DXVECTOR3 pos, CONDITION con, float per, DAMAGED_TYPE type);
 
 	virtual void CountPossibleDamaged(float time);
+
+	// 림 라이트 세팅
+	virtual void RimLightSetup(float start, float end, float multiplier,
+		float RimColor, float LightDirection, float lightColor, float AmbientColor);
+
+	virtual void RimLightSetup(D3DXVECTOR4 color, float offset, float Alpha);
 };
 

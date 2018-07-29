@@ -160,18 +160,9 @@ void cCharaPopori::Update()
 	if (m_pWeapon)
 		m_pWeapon->Update();
 
+
 	// 공격 ( 무기의 바운딩박스를 여기서밖에 못구함.. 플젝 끝나고 리펙토링하며 공부하자
-	if (m_state == CH_STATE_combo1 ||
-		m_state == CH_STATE_combo2 ||
-		m_state == CH_STATE_combo3 ||
-		m_state == CH_STATE_combo4)
-		Attack(m_fAttack);
-	else if (m_state == CH_STATE_CutHead)
-		if (Attack(m_fAttack * 2.0f))
-			CAMERAMANAGER->Shaking(0.275f);
-	else if (m_state == CH_STATE_StingerBlade)
-		if(Attack(m_fAttack * 2.0f))
-			CAMERAMANAGER->Shaking(0.275f);
+	AttackBoundBox();
 	
 	// 조작
 	cCharacterClass03::Update();
@@ -370,6 +361,24 @@ void cCharaPopori::ChangeLeg()
 	}
 
 	m_pLeg->SetAnimPosition(position);
+}
+
+void cCharaPopori::AttackBoundBox()
+{
+	// 검 휘두를때 타이밍을 맞춰서 때리게 해야해.. ( 준비자세 때 히트 판정이 되지않게 )
+	
+	if (m_state == CH_STATE_combo1 && m_fTime > m_fAnimTime[CH_STATE_combo1] - 0.5f)
+		Attack(m_fAttack);
+	else if (m_state == CH_STATE_combo2 && m_fTime >= m_fAnimTime[CH_STATE_combo2] - 0.5f)
+		Attack(m_fAttack);
+	else if (m_state == CH_STATE_combo3 && m_fTime >= m_fAnimTime[CH_STATE_combo3] - 0.4f)
+		Attack(m_fAttack);
+	else if (m_state == CH_STATE_combo4 && m_fTime >= m_fAnimTime[CH_STATE_combo4] - 1.2f)
+		Attack(m_fAttack);
+	else if (m_state == CH_STATE_CutHead)
+		Attack(m_fAttack);
+	else if (m_state == CH_STATE_StingerBlade)
+		Attack(m_fAttack);
 }
 
 bool cCharaPopori::Attack(float damage)

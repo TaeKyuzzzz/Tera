@@ -16,11 +16,15 @@ private:
 	static cGameNode* _currentScene;  //ÇöÀç ¾À
 	mSceneList _mSceneList;		  //¾À¸ñ·Ï
 
+	string m_sCurrentSceneName; //lsc
+
 public:
 
 	void Setup();
 	void Update();
 	void Render();
+
+	string* GetCurrentSceneName() { return &m_sCurrentSceneName; }; //lsc
 
 	//¾À Ãß°¡
 	cGameNode* AddScene(string sceneName, cGameNode* scene);

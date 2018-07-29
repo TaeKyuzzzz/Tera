@@ -95,7 +95,7 @@ void cKelsaik::Setup()
 {
 	cMonster::Setup();
 	
-	SetLight();
+	//SetLight();
 
 	m_fMaxHp = 4000.0f;
 	m_fCurHp = 0.0f;
@@ -124,10 +124,10 @@ void cKelsaik::Setup()
 
 	////양발 판정 구체
 	m_pSphereR = new cSpere;
-	m_pSphereR->Setup(D3DXVECTOR3(0, 0, 0), 50);
+	m_pSphereR->Setup(D3DXVECTOR3(0, 0, 0), 40);
 
 	m_pSphereL = new cSpere;
-	m_pSphereL->Setup(D3DXVECTOR3(0, 0, 0), 50);
+	m_pSphereL->Setup(D3DXVECTOR3(0, 0, 0), 40);
 
 
 
@@ -151,6 +151,9 @@ void cKelsaik::Setup()
 
 	// 셰이더 초기화
 	m_pHitFlash = cShader::LoadShader("Shader/Effect/","HitFlash.fx");
+	m_pRimLight = cShader::LoadShader("Shader/Effect/","RimFlash.fx");
+	m_pRimLight->SetFloat("Offset", 0.2);
+	// RimFlash RimLight5
 }
 
 
@@ -217,7 +220,7 @@ void cKelsaik::Awake_Update()
 	else if (m_fTime > 0.8f)
 	{
 		if (m_fCurHp < m_fMaxHp)
-			m_fCurHp += m_fMaxHp / 144;
+			m_fCurHp += m_fMaxHp / 130;
 		else
 			m_fCurHp = m_fMaxHp;
 		CAMERAMANAGER->Shaking(0.06f);
@@ -514,12 +517,19 @@ void cKelsaik::Render()
 	// 히트 박스 렌더
 	HitCircleRender();
 
-	if(m_isPossibleDamaged)
-		m_pMonster->Render(NULL); // 요건 평상시의 렌더
+	RimLightSetup(0,0,0,0,0,0,0);
+
+	if (m_isPossibleDamaged)
+	{
+		if(m_isPicked)
+			m_pMonster->Render(NULL, m_pRimLight);
+		else
+			m_pMonster->Render(NULL); // 요건 평상시의 렌더
+	}
 	else
 	{
-		m_pMonster->Render(NULL,m_pHitFlash);// 요건 맞았을때 히트 플래쉬 렌더!
-		HitShaderUpdate(m_PossbleDamagedTime * 0.2);
+		RimLightSetup(D3DXVECTOR4(1.0f,0.0f,0.0f,1.0f), m_PossbleDamagedTime*0.2,1.0f);
+		m_pMonster->Render(NULL, m_pRimLight);// 요건 맞았을때 히트 플래쉬 렌더!
 	}
 
 	cGameObject::Render();
@@ -528,19 +538,6 @@ void cKelsaik::Render()
 		m_pSphereR->Render();
 	if (SightSpere && m_pSphereL)
 		m_pSphereL->Render();
-
-	char szTemp[1024];
-	sprintf_s(szTemp, 1024, "HP : %.0f", m_fCurHp);
-	RECT rc;
-	SetRect(&rc, WINSIZEX - 400, 200, WINSIZEX, 300);
-
-	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
-	pFont->DrawTextA(NULL,
-		szTemp,
-		strlen(szTemp),
-		&rc,
-		DT_LEFT | DT_VCENTER,
-		D3DCOLOR_XRGB(255, 0, 0));
 }
 
 void cKelsaik::HitCircleRender()
@@ -1081,9 +1078,9 @@ void cKelsaik::SetLight()
 	light.Ambient.g = light.Diffuse.g = 1.0f;
 	light.Ambient.b = light.Diffuse.b = 1.0f;
 
-	light.Attenuation0 = 0.2;
-	light.Attenuation1 = 0.1;
-	light.Attenuation2 = 0.1;
+	light.Attenuation0 = 0.2f;
+	light.Attenuation1 = 0.1f;
+	light.Attenuation2 = 0.1f;
 
 	light.Position = position;
 

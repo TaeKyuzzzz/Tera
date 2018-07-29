@@ -5,6 +5,9 @@
 #include "Spere\cSpere.h"
 #include "BoundingBox\cBoundingBox.h"
 #include "GameObject\Character\cCharacter.h"
+#include "Ray\cRay.h"
+
+#include "Scene/11_MapEdit/cBoundingObject.h"
 
 cObjectManager::cObjectManager()
 {
@@ -23,6 +26,11 @@ void cObjectManager::AddObject(cGameObject * obj)
 void cObjectManager::AddCharaObject(cGameObject * obj)
 {
 	m_vecCharacter.push_back(obj);
+}
+
+void cObjectManager::AddObject(vector<cBoundingObject*> obj)
+{
+	m_vecObjectB = obj;
 }
 
 void cObjectManager::AddMonsterObject(cGameObject * obj)
@@ -57,8 +65,36 @@ bool cObjectManager::IsCollision(cGameObject * obj1)
 			return result;
 	}
 
-	return false;
+	//for (int i = 0; i < m_vecObject.size(); i++)
+	//{
+	//	result = IsCollision(obj1, );
 	//
+	//	if (result)
+	//		return result;
+	//}
+
+	return false;
+}
+
+bool cObjectManager::IsCollision(cGameObject * obj1, cBoundingObject* obj2)
+{
+	// 구 충돌 여부 부터
+	float lengh = D3DXVec3Length(&(obj1->GetSpere()->GetPosition() - obj2->GetSpere()->GetPosition()));
+	float distance = obj1->GetSpere()->GetRadius() + obj2->GetSpere()->GetRadius();
+
+	if (lengh >= distance) return false;
+
+	// OBB 충돌 체크을 해야한 합니다.
+
+	for (UINT g = 0; g < obj2->GetvecBBoxGroup().size(); g++)
+	{
+		if (OBBCollision(&obj1->GetBoundingBox()->GetOBB(),
+			&obj2->GetvecBBoxGroup()[g]->GetOBB()))
+		{
+			if (g == obj2->GetvecBBoxGroup().size() - 1) return true;
+		}
+	}
+	return false;
 }
 
 bool cObjectManager::GiveDamagedChara(cSpere * spere, float Damage, D3DXVECTOR3 pos)
@@ -289,4 +325,33 @@ void cObjectManager::VecClear()
 	m_vecObject.clear();
 	m_vecCharacter.clear();
 	m_vecMonster.clear();
+}
+
+void cObjectManager::PickObject()
+{
+	// 오브 젝트들의 벡터를 순회하면서 피킹할 것임
+	// 왜냐! 피킹되면 타겟된걸로 간주! 림라이트를 씌울 것이다
+	// 중복 처리는 필요 없을듯
+
+	if (!isOptionMode)
+	{
+		cRay * temp = new cRay;
+		cRay r = temp->RayAtWorldSpace(WINSIZEX/2, WINSIZEY/2);
+		bool noOne = false;
+		int min = 1000000;
+		int index = -1;
+		for (int i = 0; i < m_vecMonster.size();i++)
+		{
+			m_vecMonster[i]->SetIsPicked(false);
+			if (r.IsPicked(m_vecMonster[i]->GetSpere()) > 0)
+				m_vecMonster[i]->SetIsPicked(true);
+		}
+		for (int i = 0; i < m_vecObject.size();i++)
+		{
+			m_vecObject[i]->SetIsPicked(false);
+			if (r.IsPicked(m_vecObject[i]->GetSpere()) > 0)
+				m_vecObject[i]->SetIsPicked(true);
+		}
+	}
+	
 }

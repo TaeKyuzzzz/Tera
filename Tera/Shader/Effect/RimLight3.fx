@@ -60,14 +60,7 @@ VS_OUTPUT RimLight_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 
 
-texture DiffuseMap_Tex
-<
-   string ResourceName = "..\\..\\..\\..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Textures\\Earth.jpg";
->;
-sampler2D Texture0 = sampler_state
-{
-   Texture = (DiffuseMap_Tex);
-};
+sampler2D Texture0;
 
 struct PS_INPUT 
 {
@@ -110,52 +103,18 @@ float4 Rim_Color
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
 > = float4( 1.00, 0.00, 0.00, 0.00 );
-float3 LightDirection
-<
-   string UIName = "LightDirection";
-   string UIWidget = "Numeric";
-   bool UIVisible =  false;
-   float UIMin = -1.00;
-   float UIMax = 1.00;
-> = float3( 1.00, -1.00, 1.00 );
-float3 LightColor
-<
-   string UIName = "LightColor";
-   string UIWidget = "Numeric";
-   bool UIVisible =  false;
-   float UIMin = -1.00;
-   float UIMax = 1.00;
-> = float3( 0.90, 0.90, 0.90 );
-float3 AmbientColor
-<
-   string UIName = "AmbientColor";
-   string UIWidget = "Numeric";
-   bool UIVisible =  false;
-   float UIMin = -1.00;
-   float UIMax = 1.00;
-> = float3( 0.40, 0.40, 0.40 );
+float3 LightDirection;
+float3 LightColor;
+float3 AmbientColor;
 float4 ViewI : ViewPosition;
-float  Alpha
-<
-   string UIName = "Alpha";
-   string UIWidget = "Numeric";
-   bool UIVisible =  false;
-   float UIMin = -1.00;
-   float UIMax = 1.00;
-> = float( 0.00 );
-float Offset
-<
-   string UIName = "Offset";
-   string UIWidget = "Numeric";
-   bool UIVisible =  false;
-   float UIMin = -1.00;
-   float UIMax = 0.00;
-> = float( 0.20 );
 
 float4 RimLight_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR0
 {   
   float3 color;
   color = tex2D(Texture0, Input.TexCoord);
+  color.x = 0;
+  color.y = 0;
+  color.z = 0;
   
   float3 CameraPosition = ViewI;
   float3 N = normalize(Input.Normal);
@@ -166,13 +125,8 @@ float4 RimLight_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR0
   float lightAmount = max(dot(N,L),0);
   float lighting = AmbientColor + lightAmount * LightColor;
   
-  float4 f = float4(color,1) * lighting  + rim*Rim_Multiplier * Rim_Color;
-  //f.w = 0;
-  f.x += (0.2f - Offset);
-  f.y += (0.2f - Offset);
-  f.z += (0.2f - Offset);
-  
-  return float4(f.xyz, Alpha); 
+  return float4(color * lighting +  rim*Rim_Multiplier * Rim_Color,0);
+   
 }
 
 

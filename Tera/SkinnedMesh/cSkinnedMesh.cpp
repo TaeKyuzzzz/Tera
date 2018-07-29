@@ -284,6 +284,7 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame, LPD3DXEFFECT shader)
 				for (UINT i = 0; i < numPasses; i++)
 				{
 					shader->SetTexture("DiffuseMap_Tex", pBoneMesh->vecTex[i]);
+					//shader->SetTexture("Texture0", pBoneMesh->vecTex[i]);
 					shader->BeginPass(i);
 					pBoneMesh->MeshData.pMesh->DrawSubset(i);
 					shader->EndPass();
@@ -295,6 +296,7 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame, LPD3DXEFFECT shader)
 			for (UINT i = 0; i < numPasses; i++)
 			{
 				shader->SetTexture("DiffuseMap_Tex", pBoneMesh->vecTex[i]);
+				//shader->SetTexture("Texture0", pBoneMesh->vecTex[i]);
 				shader->BeginPass(i);
 				pBoneMesh->pOrigMesh->DrawSubset(i);
 				shader->EndPass();
@@ -311,17 +313,10 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame, LPD3DXEFFECT shader)
 		Render(pFrame->pFrameSibling, shader);
 }
 
-//Monster1전용 함수. 새로 다듬을 예정
+//DeathShader전용 함수.
 void cSkinnedMesh::Render(IN LPD3DXFRAME pFrame, IN LPD3DXEFFECT shader, IN int time, IN LPDIRECT3DTEXTURE9 texture,
-	OUT bool &onoff, OUT bool &IsGen, OUT float &TOD)
+	OUT bool &Modeonoff, OUT bool &IsGen, OUT float &TOD)
 {
-	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	//g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	//g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	//g_pD3DDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
-
 	UINT numPasses = 0;
 	shader->Begin(&numPasses, NULL);
 
@@ -333,7 +328,7 @@ void cSkinnedMesh::Render(IN LPD3DXFRAME pFrame, IN LPD3DXEFFECT shader, IN int 
 	shader->SetMatrix("matViewProjection", &matViewProj);
 	shader->SetMatrix("matWorld", &matWorld);
 	shader->SetTexture("Earth_Tex", texture);
-	shader->SetFloat("Offset", 0.003f * time);
+	shader->SetFloat("Offset", 0.0045f * time);
 
 	if (pFrame == NULL)
 		pFrame = m_pRoot;
@@ -349,15 +344,6 @@ void cSkinnedMesh::Render(IN LPD3DXFRAME pFrame, IN LPD3DXEFFECT shader, IN int 
 		{
 			if (pBoneMesh->MeshData.pMesh)
 			{
-				//g_pD3DDevice->SetTransform(D3DTS_WORLD, &(pBone->CombinedTransformationMatrix * m_matWorld));
-
-				/*for (DWORD i = 0; i < pBoneMesh->vecMtl.size(); i++)
-				{
-					g_pD3DDevice->SetTexture(0, pBoneMesh->vecTex[i]);
-					g_pD3DDevice->SetMaterial(&pBoneMesh->vecMtl[i]);
-					pBoneMesh->MeshData.pMesh->DrawSubset(i);
-				}*/
-
 				for (UINT i = 0; i < numPasses; i++)
 				{
 					shader->BeginPass(i);
@@ -369,13 +355,6 @@ void cSkinnedMesh::Render(IN LPD3DXFRAME pFrame, IN LPD3DXEFFECT shader, IN int 
 		}
 		else
 		{
-			/*for (DWORD i = 0; i < pBoneMesh->vecMtl.size(); i++)
-			{
-				g_pD3DDevice->SetTexture(0, pBoneMesh->vecTex[i]);
-				g_pD3DDevice->SetMaterial(&pBoneMesh->vecMtl[i]);
-				pBoneMesh->pOrigMesh->DrawSubset(i);
-			}*/
-
 			for (UINT i = 0; i < numPasses; i++)
 			{
 				shader->BeginPass(i);
@@ -392,23 +371,18 @@ void cSkinnedMesh::Render(IN LPD3DXFRAME pFrame, IN LPD3DXEFFECT shader, IN int 
 	OutputDebugStringA(numString);*/
 
 	if (pFrame->pFrameFirstChild)
-		Render(pFrame->pFrameFirstChild, shader, time, texture, onoff, IsGen, TOD);
+		Render(pFrame->pFrameFirstChild, shader, time, texture, Modeonoff, IsGen, TOD);
 
 	if (pFrame->pFrameSibling)
-		Render(pFrame->pFrameSibling, shader, time, texture, onoff, IsGen, TOD);
+		Render(pFrame->pFrameSibling, shader, time, texture, Modeonoff, IsGen, TOD);
 
-	if (0.003f * time > 1.0f)
+	if (0.0045f * time > 1.0f)
 	{
-		onoff = false;
+		Modeonoff = false;
 		IsGen = false;
 		//완전히 사라진 시점 기록
 		TOD = (float)GetTickCount();
 	}
-
-	
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-	//g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
-	//g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
 void cSkinnedMesh::Render(LPD3DXFRAME pFrame, char * key, ST_BONE_MESH * equit)
