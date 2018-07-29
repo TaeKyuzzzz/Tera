@@ -41,7 +41,9 @@ void cItemManager::CreateItemList()
 	CreateItem("퍼플플랫슈즈", "Texture/ItemIcon/PurpleShoes.png", SHOES, 5, 200, m_vInvenItem);
 	CreateItem("퍼플플랫글러브", "Texture/ItemIcon/PurpleGlove.png", GLOVES, 3, 160, m_vInvenItem);
 
-	
+	CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", POTION, 50, 50, m_vInvenItem);
+	CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", POTION, 100, 100, m_vInvenItem);
+
 
 
 }

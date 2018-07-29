@@ -11,6 +11,14 @@ enum eSlotType
 
 };
 
+enum eITextTitle
+{
+	GOLD = 1,
+	ITEMVALUE,
+	CHARACTERSPEC,
+	POTIONCOUNT
+};
+
 #define ITEMMANAGER	cItemManager::GetInstance()
 
 class cItemInfo;
@@ -95,6 +103,7 @@ private:
 	RECT m_InvenRc;
 	RECT m_StatusRc;
 	RECT m_QuickRc[16];
+	int m_nExcutionNum = 4;
 
 
 	int m_nCheckNum = 0;
@@ -212,13 +221,20 @@ public:
 	void BuyConsumables(int collisionNum);
 	void QuickSlotPosRenewal();
 	void QuickSlotItemPosRenewal();
-	void MainUIInfo();
+	void MainUIInfo(); 
+	void PotionOverlap();
+	bool FindSamePotion(const char* szPotionName);
+	void TextReconnection();
+
 
 
 	int SendItemAtoPlaceB(vector<cItemInfo*>& placeItem);
 	int SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, eSlotType _eSlotType);
 
 	POINT FindPlaceAndIndex(vector<cItemInfo*> vPlaceItem);
+	int FindPotionCount(const char* szName);
+
+	void PotionCountTextThisName(const char* szPotionName);
 	bool ClickUseItemThisPlace(vector<cItemInfo*>& sendItem);
 };
 

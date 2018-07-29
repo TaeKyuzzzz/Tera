@@ -1,12 +1,7 @@
 #include "stdafx.h"
 #include "Manager\cItemManager.h"
 
-enum eITextTitle
-{
-	GOLD = 1,
-	ITEMVALUE,
-	CHARACTERSPEC
-};
+
 
 
 void cItemManager::UITextList()
@@ -29,6 +24,36 @@ void cItemManager::UITextList()
 
 #pragma endregion
 
+#pragma region 아이템툴팁
+	CreateUICTextData
+	(
+		{ "아이템정보","능력", "설명:", "설명의내용", "판매또는구매가격" }
+		, { { 50,10,0 },{ 50,40,0 },{ 10,90,0 },{ 30, 120, 0 },{ 30, 200,0 } }
+		, { MID, MID, MID, MID, SMALL }
+		, { { 135,132,255 },{ 200,200,200 },{ 128,128,128 },{ 128,128,128 },{ 255,255,255 } }
+	);
+
+	tagText t2;
+	t2.Type = CONSTCHAR;
+	t2.szTextName = "아이템정보";
+	t2.szParrentName = "ItemExplaneWindow";
+	CreateText(t2);
+
+
+	CreateUIITextData
+	(
+		{ ITEMVALUE, ZEROVALUE, ZEROVALUE }
+		, { { 0, 0, 0 },{ 155, 38, 0 },{ 130, 200, 0 } }
+		, { MID, MID, SMALL }
+		, { { 0, 0, 0 },{ 230, 50, 230 },{ 255, 255, 255 } }
+	);
+
+	tagText t3;
+	t3.Type = VARIABLEVALUE;
+	t3.nIdentyfyNum = ITEMVALUE;
+	t3.szParrentName = "ItemExplaneWindow";
+	CreateText(t3);
+#pragma endregion
 
 #pragma region 인벤토리
 	CreateUIITextData
@@ -81,36 +106,26 @@ void cItemManager::UITextList()
 
 
 
-#pragma region 아이템툴팁
-	CreateUICTextData
-	(
-		{ "아이템정보","능력", "설명:", "설명의내용", "판매또는구매가격"}
-		, { { 50,10,0 },{ 50,40,0 },{ 10,90,0 }, {30, 120, 0}, {30, 200,0 }}
-		, { MID, MID, MID, MID, SMALL }
-		, { { 135,132,255 },{ 200,200,200 },{ 128,128,128 }, {128,128,128}, {255,255,255} }
-	);
-
-	tagText t2;
-	t2.Type = CONSTCHAR;
-	t2.szTextName = "아이템정보";
-	t2.szParrentName = "ItemExplaneWindow";
-	CreateText(t2);
 
 
-	CreateUIITextData
-	(
-		{ ITEMVALUE, ZEROVALUE, ZEROVALUE}
-		, { { 0, 0, 0 },{ 155, 38, 0 }, {130, 200, 0} }
-		, { MID, MID, SMALL }
-		, { { 0, 0, 0 },{ 230, 50, 230 }, {255, 255, 255} }
-	);
+#pragma region 포션카운트
 
-	tagText t3;
-	t3.Type = VARIABLEVALUE;
-	t3.nIdentyfyNum = ITEMVALUE;
-	t3.szParrentName = "ItemExplaneWindow";
-	CreateText(t3);
+	PotionCountTextThisName("하급회복물약");
+	PotionCountTextThisName("중급회복물약");
+	PotionCountTextThisName("상급회복물약");
+	PotionCountTextThisName("하급마나물약");
+	PotionCountTextThisName("중급마나물약");
+	PotionCountTextThisName("상급마나물약");
+
+
+
+
 #pragma endregion
+
+
+
+
+
 
 	TextExplane();
 }

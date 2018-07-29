@@ -92,7 +92,7 @@ void cItemManager::Update()
 
 	//char텍스트와 int텍스트 로드
 	ItemInfoCTextRenewal("아이템정보");
-	for (int i = 1; i < 10; i++)
+	for (int i = 1; i < 5; i++)
 	{
 		ItemInfoITextRenewal(i);
 	}
@@ -278,40 +278,11 @@ void cItemManager::ItemInfoITextRenewal(int sequence)
 			}
 			else if (sequence == 4)
 			{
-				vInt[1] = FindPotionCount("하급회복물약");
+				vInt[1] = FindPotionCount();
 
 				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
-			else if (sequence == 5)
-			{
-				vInt[1] = FindPotionCount("중급회복물약");
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
-			}
-			else if (sequence == 6)
-			{
-				vInt[1] = FindPotionCount("상급회복물약");
-
-				m_vText[i]->GetText()->SetTextIContents(vInt);
-			}
-			else if (sequence == 7)
-			{
-				vInt[1] = FindPotionCount("하급마나물약");
-
-				m_vText[i]->GetText()->SetTextIContents(vInt);
-			}
-			else if (sequence == 8)
-			{
-				vInt[1] = FindPotionCount("중급마나물약");
-
-				m_vText[i]->GetText()->SetTextIContents(vInt);
-			}
-			else if (sequence == 9)
-			{
-				vInt[1] = FindPotionCount("상급마나물약");
-
-				m_vText[i]->GetText()->SetTextIContents(vInt);
-			}
 
 
 		}
@@ -823,6 +794,22 @@ void cItemManager::ConnectNodeCommand()
 			}
 		}
 	}
+
+	//텍스트와 아이템과의 연결
+	for (int i = 0; i < m_vText.size(); i++)
+	{
+		for (int j = 0; j < m_vAllItem.size(); j++)
+		{
+			if (m_vText[i]->GetParentName() == m_vAllItem[j]->GetName())
+			{
+				m_vText[i]->ConnectNode(m_vAllItem[j]->GetUIRoot());
+			}
+		}
+	}
+
+	
+
+
 }
 
 void cItemManager::ExceptionsWhileDragging()
@@ -1110,21 +1097,6 @@ bool cItemManager::FindSamePotion(const char* szPotionName)
 
 }
 
-void cItemManager::TextReconnection()
-{
-	//텍스트와 아이템과의 연결
-	for (int i = 0; i < m_vText.size(); i++)
-	{
-		for (int j = 0; j < m_vInvenItem.size(); j++)
-		{
-			if (m_vText[i]->GetParentName() == m_vInvenItem[j]->GetName())
-			{
-				m_vText[i]->ConnectNode(m_vInvenItem[j]->GetUIRoot());
-			}
-		}
-	}
-}
-
 int cItemManager::SendItemAtoPlaceB(vector<cItemInfo*>& placeItem)
 {
 	if (placeItem == m_vConShopItem)
@@ -1241,11 +1213,11 @@ POINT cItemManager::FindPlaceAndIndex(vector<cItemInfo*> vPlaceItem)
 	return { 0,0 };
 }
 
-int cItemManager::FindPotionCount(const char* szName)
+int cItemManager::FindPotionCount()
 {
 	for (int i = 0; i < m_vInvenItem.size(); i++)
 	{
-		if (m_vInvenItem[i]->GetName() == szName)
+		if (m_vInvenItem[i]->GetItemKind() == POTION)
 		{
 			return m_vInvenItem[i]->GetPotionCount();
 		}	
@@ -1258,7 +1230,7 @@ void cItemManager::PotionCountTextThisName(const char * szPotionName)
 
 	CreateUIITextData
 	(
-		{ m_nExcutionNum , 0 },
+		{ m_nExcutionNum , 5 },
 		{ { 0,0,0 },{ 25,20,0 } },
 		{ SMALL, SMALL },
 		{ { 0,0,0 },{ 128,128,128 } }

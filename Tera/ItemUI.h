@@ -2,6 +2,7 @@
 //인덱스가 존재하지않음
 #define INDEXNOTSET -1
 #define ZEROVALUE 0
+#define NUMBERNOTSET -1
 
 enum eTextSize
 {
