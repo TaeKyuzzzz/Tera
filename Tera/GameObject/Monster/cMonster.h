@@ -103,5 +103,6 @@ public:
 	//몬스터 서식지 적용.
 	virtual void SetupBehaviorSpot(D3DXVECTOR3	v) { m_vBehaviorSpot = v; }
 
+	virtual void ItemDrop(const char * itemName);
 };
 

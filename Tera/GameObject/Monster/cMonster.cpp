@@ -65,3 +65,8 @@ bool cMonster::Attack(float damage)
 
 	return false;
 }
+
+void cMonster::ItemDrop(const char * itemName)
+{
+
+}
