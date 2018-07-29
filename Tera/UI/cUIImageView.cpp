@@ -33,32 +33,20 @@ void cUIImageView::SetTexture(const char * szFullPath)
 
 void cUIImageView::Update()
 {
-	cUIObject::Update();
-
-
-
-	SetRect(&m_CollisionRect
-		,  m_matWorld._41
-		, m_matWorld._42
-		, m_matWorld._41 + m_stSize.fWidth
-		, m_matWorld._42 + m_stSize.fHeight);
-
-
-		
+	cUIObject::Update();	
 }
 
 void cUIImageView::Render(LPD3DXSPRITE pSprite)
 {
-	for (int i = 0; i < 2; i++)
-	{
+
 
 		// 스프라이트 그리기
 		pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 
 		// 월드 매트릭스로 출력할 위치를 지정
-		if(i == 0) pSprite->SetTransform(&m_matWorld);
+		pSprite->SetTransform(&m_matWorld);
 
-		if(i == 1) pSprite->SetTransform(&m_matWorld2);
+	
 
 
 		// 출력할 렉트 생성
@@ -81,7 +69,7 @@ void cUIImageView::Render(LPD3DXSPRITE pSprite)
 
 		cUIObject::Render(pSprite);
 
-	}
+	
 }
 
 
