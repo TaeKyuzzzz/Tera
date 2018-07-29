@@ -135,6 +135,8 @@ void cCharacterClass03::Update()
 				m_fCurAnimTime = m_fAnimTime[CH_STATE_combo1];
 				m_fTime = 0.0f;
 				m_bIsDone = false;
+
+				SOUNDMANAGER->Play("WPN_Sword_Swing");
 			}
 		}
 		else if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON) &&
@@ -155,6 +157,8 @@ void cCharacterClass03::Update()
 		else if (KEYMANAGER->IsOnceKeyDown(VK_SPACE))
 		{
 			SetAnimWorld();
+
+			SOUNDMANAGER->Play("WPN_Sword_Swing2");
 
 			// 여기는 점프를 만들어야 합니다.
 			m_state = CH_STATE_DwonBlow;

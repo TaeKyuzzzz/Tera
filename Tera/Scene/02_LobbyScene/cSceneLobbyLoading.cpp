@@ -127,5 +127,10 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("M2_MON_STATE_Death", "Sound/Field/M2_MON_STATE_Death.mp3");
 	m_pLoading->InitForSound("M2_MON_STATE_Damage", "Sound/Field/M2_MON_STATE_Damage.mp3");
 
-	//==
+	//== ±âÅ¸
+	m_pLoading->InitForSound("WPN_Sword_Swing", "Sound/Main/WPN_Sword_Swing.mp3");
+	m_pLoading->InitForSound("WPN_Sword_Swing2", "Sound/Main/WPN_Sword_Swing2.mp3");
+
+
+
 }
