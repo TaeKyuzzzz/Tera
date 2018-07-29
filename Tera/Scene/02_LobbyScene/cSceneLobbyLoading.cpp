@@ -93,7 +93,7 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForStaticMesh("XFile/Item/Weapon/TwoHandSword_03.X");
 	m_pLoading->InitForStaticMesh("XFile/Item/Weapon/TwoHandSword_04.X");
 
-	m_pLoading->InitForSound("Field", "Sound/Field/Ambience_Field26.ogg", true, true);
+	m_pLoading->InitForSound("Field", "Sound/Field/Ambience_Field26.mp3", true, true);
 
 	m_pLoading->InitForSound("PCAtt01", "Sound/Chara/PCAtt01.ogg");
 	m_pLoading->InitForSound("PCAtt02", "Sound/Chara/PCAtt02.ogg");
