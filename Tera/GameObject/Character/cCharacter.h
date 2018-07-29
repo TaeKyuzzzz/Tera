@@ -60,7 +60,11 @@ public:
 	cParticleSet*		m_pConditionBurn;
 	cParticleSet*		m_pConditionIce;
 
+	cParticleSet*		m_pUseHPotion;
+	cParticleSet*		m_pUseMpotion;
+
 	float				m_fDotDamagedTime;
+
 
 public:
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
@@ -91,6 +95,8 @@ public:
 
 	virtual void Condition_Update();
 	virtual void Condition_Render();
+
+	void UseQuickSlot();
 
 };
 
