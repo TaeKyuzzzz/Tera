@@ -24,7 +24,7 @@ private :
 	cDummyObj*			m_pDummy;
 
 	cMonster01*			m_pMonster01;
-	cMonster02*			m_pMonster02;
+	cMonster02			*m_pMonster02, *m_pMonster02_1, *m_pMonster02_2, *m_pMonster02_3, *m_pMonster02_4;
 	//cKelsaik*			m_pKelsaik;
 	cPoalong*			m_pPoalong;
 

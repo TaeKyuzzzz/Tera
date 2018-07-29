@@ -22,14 +22,14 @@
     <ProjectGuid>{0C1A8ED4-9DFE-473C-AECC-1F530935F9D7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Tera</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
     <ProjectName>Tera</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="BoundingBox\cBoundingBox.h" />
     <ClInclude Include="GameObject\Monster\cMonster02.h" />
+    <ClInclude Include="Manager\cShaderManager.h" />
     <ClInclude Include="Ray\cRay.h" />
     <ClInclude Include="Scene\11_MapEdit\cBoundingBoxLoader.h" />
     <ClInclude Include="GameObject\NPC\cPoalong.h" />
@@ -242,6 +243,7 @@
   <ItemGroup>
     <ClCompile Include="BoundingBox\cBoundingBox.cpp" />
     <ClCompile Include="GameObject\Monster\cMonster02.cpp" />
+    <ClCompile Include="Manager\cShaderManager.cpp" />
     <ClCompile Include="Ray\cRay.cpp" />
     <ClCompile Include="Scene\11_MapEdit\cBoundingBoxLoader.cpp" />
     <ClCompile Include="GameObject\NPC\cPoalong.cpp" />
