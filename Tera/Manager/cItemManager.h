@@ -105,6 +105,10 @@ private:
 	RECT m_QuickRc[16];
 	int m_nExcutionNum = 4;
 
+	char m_szStr[2] = "C";
+	
+
+	vector<char> vChar;
 
 	int m_nCheckNum = 0;
 
@@ -224,7 +228,10 @@ public:
 	void MainUIInfo(); 
 	void PotionOverlap();
 	bool FindSamePotion(const char* szPotionName);
-	void TextReconnection();
+	void InvenTextReconnection();
+	void QuickTextReconnection();
+
+
 	void QuickSlotSynchronize();
 
 
@@ -233,7 +240,7 @@ public:
 	int SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, eSlotType _eSlotType);
 
 	POINT FindPlaceAndIndex(vector<cItemInfo*> vPlaceItem);
-	int FindPotionCount(const char* szName);
+	int FindPotionCount(vector<cItemInfo*> vPlaceItem, const char* szName);
 
 	void PotionCountTextThisName(const char* szPotionName);
 	bool ClickUseItemThisPlace(vector<cItemInfo*>& sendItem);

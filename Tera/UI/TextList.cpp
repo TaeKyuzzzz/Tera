@@ -117,6 +117,12 @@ void cItemManager::UITextList()
 	PotionCountTextThisName("중급마나물약");
 	PotionCountTextThisName("상급마나물약");
 
+	PotionCountTextThisName("하급회복물약");
+	PotionCountTextThisName("중급회복물약");
+	PotionCountTextThisName("상급회복물약");
+	PotionCountTextThisName("하급마나물약");
+	PotionCountTextThisName("중급마나물약");
+	PotionCountTextThisName("상급마나물약");
 
 
 
