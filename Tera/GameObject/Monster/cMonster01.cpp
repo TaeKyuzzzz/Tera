@@ -410,15 +410,24 @@ void cMonster01::Move()
 				switch (patternNum)
 				{
 				case 0 :
+				{
 					//전투모션은 atk01타입이다.
 					m_state = MON_STATE_atk01;
 					//현재 애니메이션 구간길이를 입력해줍니다.
 					m_fCurAnimTime = m_fAnimTime[MON_STATE_atk01];
+
+					SOUNDMANAGER->Play("M1_MON_STATE_atk01");
+				}
 					break;
 				case 1 :
+				{
 					m_state = MON_STATE_atk02;
 					m_fCurAnimTime = m_fAnimTime[MON_STATE_atk02];
+
+					SOUNDMANAGER->Play("M1_MON_STATE_atk02");
+				}
 					break;
+
 				}
 			}
 			else if(m_bAtkTerm && !m_bAnimation)
@@ -454,6 +463,8 @@ void cMonster01::Move()
 					m_bEscapeToggle = false;
 					m_bAwake = false;
 				}
+
+				//SOUNDMANAGER->Play("M1_MON_STATE_Wait");
 			}
 			///////////////////////////////////////////////////////////////////////
 			else
@@ -471,6 +482,8 @@ void cMonster01::Move()
 					m_fCosVal = D3DX_PI * 2 - m_fCosVal;
 
 				m_vPosition += (m_fRunSpeed * v);
+
+				//SOUNDMANAGER->Play("M1_MON_STATE_Walk");
 			}
 		}
 	}
@@ -506,6 +519,8 @@ void cMonster01::Move()
 					m_fCosVal = D3DX_PI * 2 - m_fCosVal;
 
 				m_vPosition += (1.5f * m_fRunSpeed * v);
+
+				//SOUNDMANAGER->Play("M1_MON_STATE_run");
 			}
 		}
 	}
@@ -524,12 +539,17 @@ void cMonster01::BigDamaged()
 
 void cMonster01::Die()
 {
+	if(m_state != MON_STATE_Death)
+		ItemDrop("검은마력의옷");
+	
 	m_fHpCur = 0.0f;
 
 	m_state = MON_STATE_Death;
 	m_fCurAnimTime = m_fAnimTime[MON_STATE_Death];
 	m_bIsBlend = false;
 	m_bAnimation = true;
+
+	//SOUNDMANAGER->Play("M1_MON_STATE_Death");
 }
 
 //몬스터와 캐릭터사이의 거리에 따른 불변수 집합
@@ -586,6 +606,8 @@ void cMonster01::Roaming(void)
 			m_bWalkOnOff = true;
 			m_bStart = false;
 		}
+
+		//SOUNDMANAGER->Play("M1_MON_STATE_Wait");
 	}
 	//걷는과정.처음셋팅할때
 	else if (m_bWalkOnOff && !m_bStart)
@@ -636,6 +658,8 @@ void cMonster01::Roaming(void)
 			m_bWalkOnOff = false;
 			m_bStart = false;
 		}
+
+		//SOUNDMANAGER->Play("M1_MON_STATE_Walk");
 	}
 
 }
@@ -678,6 +702,8 @@ void cMonster01::Damaged(float damage, D3DXVECTOR3 pos)
 		D3DXMatrixTranslation(&matT, x, y, z);
 		m_pParticleBleeding->SetWorld(matR * matT);
 		m_pParticleBleeding->Start();
+
+		SOUNDMANAGER->Play("M1_MON_STATE_Damage");
 		
 	}
 }

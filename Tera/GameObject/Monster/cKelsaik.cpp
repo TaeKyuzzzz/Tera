@@ -212,6 +212,8 @@ void cKelsaik::Awake_Update()
 	if (m_Anim != MON_Anim_modeAlarm)
 	{
 		ChangeAnim(MON_Anim_modeAlarm, true);
+
+		SOUNDMANAGER->Play("MON_Anim_modeAlarm");
 	}
 	else if (isEndPattern())
 	{
@@ -224,7 +226,6 @@ void cKelsaik::Awake_Update()
 		else
 			m_fCurHp = m_fMaxHp;
 		CAMERAMANAGER->Shaking(0.06f);
-
 	}
 
 	//if (isPlayerInDistance())
@@ -410,6 +411,8 @@ void cKelsaik::Death_Update()
 	{
 		ChangeAnim(MON_Anim_Death,true);
 		SetAnimWorld();
+
+		SOUNDMANAGER->Play("MON_Anim_Death");
 	}
 	else
 	{
@@ -672,6 +675,7 @@ void cKelsaik::AttackPattern01()
 		SetAngleWithPlayer();
 		SetAnimWorld();
 		m_fHitCircleRadian = 0.0f;
+
 	}
 	else
 	{
@@ -695,6 +699,8 @@ void cKelsaik::AttackPattern01()
 				m_pFireEffect->Start();
 				CAMERAMANAGER->Shaking(0.3f);
 				m_vHitCirclePos[0] = D3DXVECTOR3(mat._41, -45, mat._43);
+
+				SOUNDMANAGER->Play("MON_Anim_atk01");
 			}
 			else if (m_fTime <= 2.8 && !m_pEffectCost)
 			{
@@ -740,6 +746,8 @@ void cKelsaik::AttackPattern02()
 				m_pIceEffect->Start();
 				CAMERAMANAGER->Shaking(0.3f);
 				m_vHitCirclePos[0] = D3DXVECTOR3(mat._41, -45, mat._43);
+
+				SOUNDMANAGER->Play("MON_Anim_atk02");
 			}
 			else if (m_fTime <= 2.8 && !m_pEffectCost)
 			{
@@ -792,6 +800,8 @@ void cKelsaik::AttackPattern03()
 				m_pFireEffect->Start();
 				m_vHitCirclePos[1] = D3DXVECTOR3(mat._41, -45, mat._43);
 				CAMERAMANAGER->Shaking(0.3f);
+
+				SOUNDMANAGER->Play("MON_Anim_roundAtk01");
 			}
 			else if (m_fTime <= 2.45 && !m_pEffectCost)
 			{
@@ -863,6 +873,8 @@ void cKelsaik::TurnBack()
 			ChangeAnim(MON_Anim_roundAtk02, true);
 		}
 		SetAnimWorld();
+
+		SOUNDMANAGER->Play("MON_Anim_roundAtk02");
 	}
 	else
 	{
@@ -888,6 +900,8 @@ void cKelsaik::Berserk()
 	if (m_Anim != MON_Anim_heavyatk01)
 	{
 		ChangeAnim(MON_Anim_heavyatk01, true);
+
+		SOUNDMANAGER->Play("MON_Anim_heavyatk01");
 	}
 	else if (isEndPattern())
 	{
@@ -917,6 +931,8 @@ void cKelsaik::DamageReaction()
 	if (m_Anim != MON_Anim_flinch)
 	{
 		ChangeAnim(MON_Anim_flinch,true);
+
+		SOUNDMANAGER->Play("MON_Anim_flinch");
 	}
 	else
 	{
@@ -934,6 +950,8 @@ void cKelsaik::ReactionGroggy()
 	{
 		ChangeAnim(MON_Anim_groggy, true);
 		SetAnimWorld();
+
+		SOUNDMANAGER->Play("MON_Anim_groggy");
 	}
 	else
 	{

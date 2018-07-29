@@ -382,6 +382,8 @@ void cMonster02::Awake()
 		m_fTime = 0.0f;
 		return;
 	}
+
+	//SOUNDMANAGER->Play("M2_MON_STATE_Idle");
 }
 
 void cMonster02::Chase()
@@ -478,14 +480,22 @@ void cMonster02::Battle()
 		switch (patternNum)
 		{
 		case 0:
+		{
 			//전투모션은 atk01타입이다.
 			m_state = MON_STATE_atk01;
 			//현재 애니메이션 구간길이를 입력해줍니다.
 			m_fCurAnimTime = m_fAnimTime[MON_STATE_atk01];
+
+			SOUNDMANAGER->Play("M2_MON_STATE_atk01");
+		}
 			break;
 		case 1:
+		{
 			m_state = MON_STATE_atk02;
 			m_fCurAnimTime = m_fAnimTime[MON_STATE_atk02];
+
+			SOUNDMANAGER->Play("M2_MON_STATE_atk01");
+		}
 			break;
 		}
 	}
@@ -538,6 +548,8 @@ void cMonster02::Death()
 		m_fTime = 0.0f;
 		MODE = DISAPPEAR;
 	}
+
+	//SOUNDMANAGER->Play("M2_MON_STATE_Death");
 }
 
 void cMonster02::Disappear()
@@ -668,6 +680,8 @@ void cMonster02::Damaged(float damage, D3DXVECTOR3 pos)
 		D3DXMatrixTranslation(&matT, x, y, z);
 		m_pParticleBleeding->SetWorld(matR * matT);
 		m_pParticleBleeding->Start();
+
+		//SOUNDMANAGER->Play("M2_MON_STATE_Damage");
 
 	}
 }

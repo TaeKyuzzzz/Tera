@@ -2,6 +2,7 @@
 #include "../cGameObject.h"
 
 class iMap;
+class cProgressBar;
 
 class cMonster : public cGameObject
 {
@@ -79,6 +80,10 @@ public:
 	LPD3DXEFFECT		DeathShader = NULL;
 	LPDIRECT3DTEXTURE9	SKIN = NULL;
 
+	// 체력바
+	cProgressBar*		m_pHpBar;
+	cProgressBar*		m_pMpBar;
+	cSprite*			m_BackBar;
 
 public:
 
@@ -103,5 +108,10 @@ public:
 	//몬스터 서식지 적용.
 	virtual void SetupBehaviorSpot(D3DXVECTOR3	v) { m_vBehaviorSpot = v; }
 
+	virtual void ItemDrop(const char * itemName);
+
+	void SetUpStateBar();
+	void UpdateUpStateBar();
+	void RenderUpStateBar();
 };
 

@@ -244,5 +244,11 @@ public:
 
 	void PotionCountTextThisName(const char* szPotionName);
 	bool ClickUseItemThisPlace(vector<cItemInfo*>& sendItem);
+
+
+
+
+	// 영주가 추가한 드롭 아이템 관련 함수
+	void AddInvenItem(const char* itemName, const char* filePath, tagItemKindAndETC itemType, int itemAbility, int itemSalePrice);
 };
 

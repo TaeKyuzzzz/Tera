@@ -64,6 +64,9 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->IniteForParticle("CDT_Ice", "Texture/Particle/CDT_Ice.txt");
 	m_pLoading->IniteForParticle("CDT_Burn", "Texture/Particle/CDT_Burn.txt");
 
+	m_pLoading->IniteForParticle("HpPotion", "Texture/Particle/HpHeal.txt");
+	m_pLoading->IniteForParticle("MpPotion", "Texture/Particle/MpHeal.txt");
+
 	// x 파일
 	m_pLoading->InitForStaticMesh("XFile/Map/Field/ANC_B_4858_SL.X"); //무거운 파일을 먼저 로딩한다. 늦게하면 메모리에 안올라간다.
 
@@ -90,7 +93,7 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForStaticMesh("XFile/Item/Weapon/TwoHandSword_03.X");
 	m_pLoading->InitForStaticMesh("XFile/Item/Weapon/TwoHandSword_04.X");
 
-	m_pLoading->InitForSound("Field", "Sound/Field/Ambience_Field26.ogg", true, true);
+	m_pLoading->InitForSound("Field", "Sound/Field/Ambience_Field26.mp3", true, true); // Volume 20%
 
 	m_pLoading->InitForSound("PCAtt01", "Sound/Chara/PCAtt01.ogg");
 	m_pLoading->InitForSound("PCAtt02", "Sound/Chara/PCAtt02.ogg");
@@ -104,7 +107,33 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("PCBigDamaged", "Sound/Chara/PCBigDamaged.ogg");
 	m_pLoading->InitForSound("PCDie", "Sound/Chara/PCDie.ogg");
 
-	////
+	// 사운드 인자값으로 브금인지 루프할것인지 물어봄
+
+	//== AbandonedAutomatedGuardian
+	m_pLoading->InitForSound("M1_MON_STATE_atk01", "Sound/Field/M1_MON_STATE_atk01.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_atk02", "Sound/Field/M1_MON_STATE_atk02.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_aggrochange", "Sound/Field/M1_MON_STATE_aggrochange.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_Damage", "Sound/Field/M1_MON_STATE_Damage.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_Death", "Sound/Field/M1_MON_STATE_Death.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_Walk", "Sound/Field/M1_MON_STATE_Walk.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_Wait", "Sound/Field/M1_MON_STATE_Wait.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_run", "Sound/Field/M1_MON_STATE_run.mp3");
+
+	//== bear
+	m_pLoading->InitForSound("M2_MON_STATE_atk01", "Sound/Field/M2_MON_STATE_atk01.mp3");
+	m_pLoading->InitForSound("M2_MON_STATE_Walk", "Sound/Field/M2_MON_STATE_Walk.mp3");
+	m_pLoading->InitForSound("M2_MON_STATE_Wait", "Sound/Field/M2_MON_STATE_Wait.mp3");
+	m_pLoading->InitForSound("M2_MON_STATE_Idle", "Sound/Field/M2_MON_STATE_Idle.mp3");
+	m_pLoading->InitForSound("M2_MON_STATE_Death", "Sound/Field/M2_MON_STATE_Death.mp3");
+	m_pLoading->InitForSound("M2_MON_STATE_Damage", "Sound/Field/M2_MON_STATE_Damage.mp3");
+
+	//== 기타
+	m_pLoading->InitForSound("WPN_Sword_Swing", "Sound/Main/WPN_Sword_Swing.mp3");
+	m_pLoading->InitForSound("WPN_Sword_Swing2", "Sound/Main/WPN_Sword_Swing2.mp3");
+	m_pLoading->InitForSound("Char_Wark_GlassLand", "Sound/Main/Char_Wark_GlassLand.mp3");
+	m_pLoading->InitForSound("Char_BodyFall", "Sound/Main/Char_Wark_GlassLand.mp3");
+	m_pLoading->InitForSound("WPN_Hit", "Sound/Main/Char_Wark_GlassLand.mp3");
+
 
 
 }

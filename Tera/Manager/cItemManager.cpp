@@ -1419,6 +1419,41 @@ bool cItemManager::ClickUseItemThisPlace(vector<cItemInfo*>& sendItem)
 
 }
 
+void cItemManager::AddInvenItem(const char * itemName, const char * filePath, tagItemKindAndETC itemType, int itemAbility, int itemSalePrice)
+{
+	//새로운 iteminfo클래스 셋팅
+	m_pItemInfo = new cItem;
+
+	//iteminfo에 보내줄 내용의 형식
+	tagItemInfo _tagItemInfo;
+
+	_tagItemInfo._itemPath = filePath;
+	_tagItemInfo._itemPos = D3DXVECTOR3(0, 0, 0);
+	_tagItemInfo._itemName = itemName;
+	_tagItemInfo._itemKind = itemType;
+	_tagItemInfo._itemAbilityValue = itemAbility;
+	_tagItemInfo._itemBuyPrice = itemSalePrice * 5;
+	_tagItemInfo._itemSalePrice = itemSalePrice;
+	_tagItemInfo._itemParentName = NULL;
+
+	//아이템인포에 정보를 전달
+	m_pItemInfo->Setup(NULL, &_tagItemInfo);
+
+	//this클래스의 벡터에 포인터로 저장
+	m_vInvenItem.push_back(m_pItemInfo);
+
+	//아이템의 종류가 아닐땐 관리벡터에 넣지 않는다.
+	if (itemType != NOTANITEM)
+	{
+		m_vtagItemInfo.push_back(_tagItemInfo);
+
+		//관리벡터에 넣음
+		m_vAllItem.push_back(m_pItemInfo);
+
+		nItemNum += 1;
+	}
+}
+
 
 void cItemManager::ItemExplaneRender()
 {
