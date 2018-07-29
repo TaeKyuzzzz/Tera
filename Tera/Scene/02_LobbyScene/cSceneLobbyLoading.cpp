@@ -64,6 +64,9 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->IniteForParticle("CDT_Ice", "Texture/Particle/CDT_Ice.txt");
 	m_pLoading->IniteForParticle("CDT_Burn", "Texture/Particle/CDT_Burn.txt");
 
+	m_pLoading->IniteForParticle("HpPotion", "Texture/Particle/HpHeal.txt");
+	m_pLoading->IniteForParticle("MpPotion", "Texture/Particle/MpHeal.txt");
+
 	// x 파일
 	m_pLoading->InitForStaticMesh("XFile/Map/Field/ANC_B_4858_SL.X"); //무거운 파일을 먼저 로딩한다. 늦게하면 메모리에 안올라간다.
 
@@ -103,5 +106,10 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("PCDamaged", "Sound/Chara/PCDamaged.ogg");
 	m_pLoading->InitForSound("PCBigDamaged", "Sound/Chara/PCBigDamaged.ogg");
 	m_pLoading->InitForSound("PCDie", "Sound/Chara/PCDie.ogg");
-	
+
+	// 사운드 인자값으로 브금인지 루프할것인지 물어봄
+
+	////
+
+
 }

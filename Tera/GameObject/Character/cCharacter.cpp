@@ -5,6 +5,7 @@
 #include "iMap.h"
 #include "GameObject\Item\cItem.h"
 #include "Particle\cParticleSet.h"
+#include "GameObject\Item/cItemInfo.h"
 
 cCharacter::cCharacter()
 	: m_fRotY(0.0f)
@@ -51,7 +52,7 @@ void cCharacter::Setup()
 	m_pBleeding = TEXTUREMANAGER->GetSprite("Texture/Effect/bleeding.png");
 	m_pBurnning = TEXTUREMANAGER->GetSprite("Texture/Effect/fireScreen.png");
 	m_pIcing = TEXTUREMANAGER->GetSprite("Texture/Effect/iceScreen.png");
-
+	
 	D3DXMATRIX mat;
 	D3DXMatrixScaling(&mat, (float)WINSIZEX / m_pBleeding->textureInfo.Width,
 		(float)WINSIZEY / m_pBleeding->textureInfo.Height, 1);
@@ -67,12 +68,21 @@ void cCharacter::Setup()
 	PARTICLEMANAGER->AddChild(m_pConditionBurn);
 	m_pConditionIce = PARTICLEMANAGER->GetParticle("CDT_Ice");
 	PARTICLEMANAGER->AddChild(m_pConditionIce);
+
+	m_pUseHPotion = PARTICLEMANAGER->GetParticle("HpPotion");
+	PARTICLEMANAGER->AddChild(m_pUseHPotion);
+	m_pUseMpotion = PARTICLEMANAGER->GetParticle("MpPotion");
+	PARTICLEMANAGER->AddChild(m_pUseMpotion);
+
+
 }
 
 void cCharacter::Update()
 {
 	UpdateUpStateBar();
 	PlusMapHeight();
+
+	UseQuickSlot();
 
 	if (m_pBleedingAlpha > 0)
 		m_pBleedingAlpha -= 2;
@@ -397,3 +407,56 @@ void cCharacter::Condition_Render()
 {
 }
 
+void cCharacter::UseQuickSlot()
+{
+	vector<cItemInfo*> m_vItem = ITEMMANAGER->GetQuickItem();
+
+	for (int i = 0; i < m_vItem.size(); i++)
+	{
+		if (KEYMANAGER->IsOnceKeyDown('5'))
+		{
+			int a = 10;
+		}
+		if (KEYMANAGER->IsOnceKeyDown(m_vItem[i]->GetQuickSlotNum() + 1 + '0'))
+		{
+			if (m_vItem[i]->GetItemKind() == HPOTION)
+			{
+				 m_fHpCur += m_vItem[i]->GetAbilityValue();
+				 if (m_fHpCur > m_fHpMax) m_fHpCur = m_fHpMax;
+				 // 파티클 효과
+				 m_pUseHPotion->SetWorld(m_matWorld);
+				 m_pUseHPotion->Start();
+
+				 int cnt = m_vItem[i]->GetPotionCount();
+				 cnt--;
+				 if (cnt < 0) cnt = 0;
+				 m_vItem[i]->SetPotionCount(cnt);
+			}
+			else if (m_vItem[i]->GetItemKind() == MPOTION)
+			{
+				m_fMpCur += m_vItem[i]->GetAbilityValue();
+				if (m_fMpCur > m_fMpMax) m_fMpCur = m_fMpMax;
+				// 파티클 효과
+				m_pUseMpotion->SetWorld(m_matWorld);
+				m_pUseMpotion->Start();
+
+				int cnt = m_vItem[i]->GetPotionCount();
+				cnt--;
+				if (cnt < 0) cnt = 0;
+				m_vItem[i]->SetPotionCount(cnt);
+			}
+			
+		}
+	}
+}
+
+/*
+"하급회복물약"
+"중급회복물약"
+"상급회복물약"
+"하급마나물약"
+"중급마나물약"
+"상급마나물약"
+"미스테리부적"
+"마을귀환서"
+*/
