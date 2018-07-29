@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoundingBox\cBoundingBox.h" />
+    <ClInclude Include="Ray\cRay.h" />
     <ClInclude Include="Scene\11_MapEdit\cBoundingBoxLoader.h" />
     <ClInclude Include="GameObject\NPC\cPoalong.h" />
     <ClInclude Include="GameObject\Monster\cMonster02.h" />
@@ -162,7 +163,7 @@
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="BoundingBox\Cube\cCube.h" />
     <ClInclude Include="GameObject\Monster\cKelsaik.h" />
-    <ClInclude Include="cShader\cShader.h" />
+    <ClInclude Include="Shader\cShader.h" />
     <ClInclude Include="GameObject\Item\cItem.h" />
     <ClInclude Include="GameObject\Item\cItemInfo.h" />
     <ClInclude Include="ItemUI.h" />
@@ -240,6 +241,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoundingBox\cBoundingBox.cpp" />
+    <ClCompile Include="Ray\cRay.cpp" />
     <ClCompile Include="Scene\11_MapEdit\cBoundingBoxLoader.cpp" />
     <ClCompile Include="GameObject\NPC\cPoalong.cpp" />
     <ClCompile Include="GameObject\Monster\cMonster02.cpp" />
@@ -249,7 +251,7 @@
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="BoundingBox\Cube\cCube.cpp" />
     <ClCompile Include="GameObject\Monster\cKelsaik.cpp" />
-    <ClCompile Include="cShader\cShader.cpp" />
+    <ClCompile Include="Shader\cShader.cpp" />
     <ClCompile Include="GameObject\Item\cItem.cpp" />
     <ClCompile Include="GameObject\Item\cItemInfo.cpp" />
     <ClCompile Include="GameObject\Item\CreateItemList.cpp" />
