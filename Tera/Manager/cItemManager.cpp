@@ -341,7 +341,7 @@ void cItemManager::ItemInfoCTextRenewal(const char * szFindText)
 						vChar[1] = "기능아이템";
 					}
 
-					else if (m_vAllItem[i]->GetItemKind() == POTION)
+					else if (m_vAllItem[i]->GetItemKind() == HPOTION || m_vAllItem[i]->GetItemKind() == MPOTION)
 					{
 						vChar[1] = "회복력";
 					}
@@ -1013,21 +1013,23 @@ void cItemManager::BuyConsumables(int collisionNum)
 	if (m_vInvenItem.size() <= 39)
 	{
 		if (collisionNum % 8 == 0 && m_nGold > 250 && !FindSamePotion("하급회복물약"))					
-			CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", POTION, 50, 50, m_vInvenItem), CalculatorGold(-250);				
+			CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", HPOTION, 50, 50, m_vInvenItem), CalculatorGold(-250);				
 		if (collisionNum % 8 == 1 && m_nGold > 500 && !FindSamePotion("중급회복물약"))
-			CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", POTION, 100, 100, m_vInvenItem), CalculatorGold(-500);
+			CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", HPOTION, 100, 100, m_vInvenItem), CalculatorGold(-500);
 		if (collisionNum % 8 == 2 && m_nGold > 1000 && !FindSamePotion("상급회복물약"))
-			CreateItem("상급회복물약", "Texture/ItemIcon/HPBig.png", POTION, 150, 200, m_vInvenItem), CalculatorGold(-1000);
+			CreateItem("상급회복물약", "Texture/ItemIcon/HPBig.png", HPOTION, 150, 200, m_vInvenItem), CalculatorGold(-1000);
 		if (collisionNum % 8 == 3 && m_nGold > 300 && !FindSamePotion("하급마나물약"))
-			CreateItem("하급마나물약", "Texture/ItemIcon/MPSmall.png", POTION, 50, 60, m_vInvenItem), CalculatorGold(-300);
+			CreateItem("하급마나물약", "Texture/ItemIcon/MPSmall.png", HPOTION, 50, 60, m_vInvenItem), CalculatorGold(-300);
 		if (collisionNum % 8 == 4 && m_nGold > 600 && !FindSamePotion("중급마나물약"))
-			CreateItem("중급마나물약", "Texture/ItemIcon/MPMid.png", POTION, 100, 120, m_vInvenItem), CalculatorGold(-600);
+			CreateItem("중급마나물약", "Texture/ItemIcon/MPMid.png", HPOTION, 100, 120, m_vInvenItem), CalculatorGold(-600);
 		if (collisionNum % 8 == 5 && m_nGold > 1200 && !FindSamePotion("상급마나물약"))
-			CreateItem("상급마나물약", "Texture/ItemIcon/MPBig.png", POTION, 150, 240, m_vInvenItem), CalculatorGold(-1200);
+			CreateItem("상급마나물약", "Texture/ItemIcon/MPBig.png", HPOTION, 150, 240, m_vInvenItem), CalculatorGold(-1200);
 		if (collisionNum % 8 == 6 && m_nGold > 1000 && !FindSamePotion("미스테리부적"))
 			CreateItem("미스테리부적", "Texture/ItemIcon/MysteryPaper.png", ETCCONSUMABLES, 0, 200, m_vInvenItem), CalculatorGold(-1000);
 		if (collisionNum % 8 == 7 && m_nGold > 2000 && !FindSamePotion("마을귀환서"))
 			CreateItem("마을귀환서", "Texture/ItemIcon/CityRecall.png", ETCCONSUMABLES, 0, 400, m_vInvenItem), CalculatorGold(-2000);
+
+		TextReconnection();
 	}
 }
 
@@ -1504,13 +1506,16 @@ void cItemManager::QuickSlotSynchronize()
 {
 	for (int i = 0; i < m_vQuickItem.size();)
 	{
-		for (int j = 0; j < m_vInvenItem.size();)
+		for (int j = 0; j < m_vInvenItem.size(); j++)
 		{
-			if (m_vQuickItem[i]->GetQuickSlotNum() == m_vInvenItem[j]->GetQuickSlotNum()) return;
-			else j++;
+			if (m_vQuickItem[i]->GetItemKind() == HPOTION || m_vQuickItem[i]->GetItemKind() == MPOTION)
+			{
+				if (m_vQuickItem[i]->GetName() == m_vInvenItem[j]->GetName())
+				{
+					m_vQuickItem[i]->SetPotionCount(m_vInvenItem[j]->GetPotionCount());
+				}
+			}
 		}
-		m_vQuickItem.erase(m_vQuickItem.begin() + i);
-		
 	}
 
 	

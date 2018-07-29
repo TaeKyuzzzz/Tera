@@ -182,7 +182,7 @@ public:
 	void ItemExplaneRender();
 	void ImitationIconRender();
 	void CreateImitationImage();
-	void QuickSlotSynchronize();
+	
 
 
 #pragma endregion
@@ -225,6 +225,7 @@ public:
 	void PotionOverlap();
 	bool FindSamePotion(const char* szPotionName);
 	void TextReconnection();
+	void QuickSlotSynchronize();
 
 
 

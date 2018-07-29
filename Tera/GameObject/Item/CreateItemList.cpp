@@ -11,12 +11,12 @@ void cItemManager::CreateItemList()
 	CreateItem("SideSlash", "Texture/ItemIcon/SideSlash.png", SKILLICON, NULL, NULL, m_vEtcIcon);
 	CreateItem("Piercing", "Texture/ItemIcon/Piercing.png", SKILLICON, NULL, NULL, m_vEtcIcon);
 
-	CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", POTION, 50, 50, m_vConShopItem);
-	CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", POTION, 100, 100, m_vConShopItem);
-	CreateItem("상급회복물약", "Texture/ItemIcon/HPBig.png", POTION, 150, 200, m_vConShopItem);
-	CreateItem("하급마나물약", "Texture/ItemIcon/MPSmall.png", POTION, 50, 60, m_vConShopItem);
-	CreateItem("중급마나물약", "Texture/ItemIcon/MPMid.png", POTION, 100, 120, m_vConShopItem);
-	CreateItem("상급마나물약", "Texture/ItemIcon/MPBig.png", POTION, 150, 240, m_vConShopItem);
+	CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", HPOTION, 50, 50, m_vConShopItem);
+	CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", HPOTION, 100, 100, m_vConShopItem);
+	CreateItem("상급회복물약", "Texture/ItemIcon/HPBig.png", HPOTION, 150, 200, m_vConShopItem);
+	CreateItem("하급마나물약", "Texture/ItemIcon/MPSmall.png", MPOTION, 50, 60, m_vConShopItem);
+	CreateItem("중급마나물약", "Texture/ItemIcon/MPMid.png", MPOTION, 100, 120, m_vConShopItem);
+	CreateItem("상급마나물약", "Texture/ItemIcon/MPBig.png", MPOTION, 150, 240, m_vConShopItem);
 	CreateItem("미스테리부적", "Texture/ItemIcon/MysteryPaper.png", ETCCONSUMABLES, 0, 200 , m_vConShopItem);
 	CreateItem("마을귀환서", "Texture/ItemIcon/CityRecall.png", ETCCONSUMABLES, 0, 400, m_vConShopItem);
 	
@@ -41,8 +41,8 @@ void cItemManager::CreateItemList()
 	CreateItem("퍼플플랫슈즈", "Texture/ItemIcon/PurpleShoes.png", SHOES, 5, 200, m_vInvenItem);
 	CreateItem("퍼플플랫글러브", "Texture/ItemIcon/PurpleGlove.png", GLOVES, 3, 160, m_vInvenItem);
 
-	CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", POTION, 50, 50, m_vInvenItem);
-	CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", POTION, 100, 100, m_vInvenItem);
+	CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", HPOTION, 50, 50, m_vInvenItem);
+	CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", HPOTION, 100, 100, m_vInvenItem);
 
 
 
