@@ -528,7 +528,7 @@ void cKelsaik::Render()
 	}
 	else
 	{
-		RimLightSetup(D3DXVECTOR4(1.0f,0.0f,0.0f,1.0f), m_PossbleDamagedTime*0.2,1.0f);
+		RimLightSetup(D3DXVECTOR4(1, 0.6, 0.16, 1), m_PossbleDamagedTime*0.2,1.0f);
 		m_pMonster->Render(NULL, m_pRimLight);// 요건 맞았을때 히트 플래쉬 렌더!
 	}
 

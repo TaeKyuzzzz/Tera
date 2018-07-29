@@ -85,10 +85,10 @@ void cGameObject::RimLightSetup(float start, float end, float multiplier,
 	D3DXVECTOR3 v = CAMERAMANAGER->GetCameraWorld();
 	D3DXVECTOR3 camera = CAMERAMANAGER->GetCameraLocal();
 	
-	m_pRimLight->SetFloat("Rim_Start", 0.7f);
+	m_pRimLight->SetFloat("Rim_Start", 0.5f);
 	m_pRimLight->SetFloat("Rim_End", 1.00f);
 	m_pRimLight->SetFloat("Rim_Multiplier", 1.00f);
-	m_pRimLight->SetVector("Rim_Color", &D3DXVECTOR4(1, 0, 0, 1));
+	m_pRimLight->SetVector("Rim_Color", &D3DXVECTOR4(1, 0.6, 0.16, 1));//1, 0.6, 0.16, 1
 	m_pRimLight->SetVector("LightDirection", &D3DXVECTOR4(-camera.x,0, -camera.z, 0.0f));
 	m_pRimLight->SetVector("LightColor", &D3DXVECTOR4(0.9f, 0.9f, 0.9f, 1.0f));
 	m_pRimLight->SetVector("AmbientColor", &D3DXVECTOR4(0.4f, 0.4f, 0.4f, 1.0f));
@@ -110,11 +110,11 @@ void cGameObject::RimLightSetup(D3DXVECTOR4 color, float offset, float Alpha)
 	D3DXVECTOR3 camera = CAMERAMANAGER->GetCameraLocal();
 	
 
-	m_pRimLight->SetFloat("Rim_Start", 0.7f);
+	m_pRimLight->SetFloat("Rim_Start", 0.5f);
 	m_pRimLight->SetFloat("Rim_End", 1.00f);
 	m_pRimLight->SetFloat("Rim_Multiplier", 1.00f);
 	m_pRimLight->SetVector("Rim_Color", &color);
-	m_pRimLight->SetVector("LightDirection", &D3DXVECTOR4(-v.x, 0, -v.z, 0.0f));
+	m_pRimLight->SetVector("LightDirection", &D3DXVECTOR4(-camera.x, 0, -camera.z, 0.0f));
 	m_pRimLight->SetVector("LightColor", &D3DXVECTOR4(0.9f, 0.9f, 0.9f, 1.0f));
 	m_pRimLight->SetVector("AmbientColor", &D3DXVECTOR4(0.4f, 0.4f, 0.4f, 1.0f));
 	m_pRimLight->SetVector("ViewI", &D3DXVECTOR4(v.x, v.y, v.z, 1));

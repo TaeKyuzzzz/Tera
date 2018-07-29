@@ -42,42 +42,46 @@ void cCube::Setup(D3DXVECTOR3 min, D3DXVECTOR3 max)
 	v.p = D3DXVECTOR3(max.x, max.y, min.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(max.x, min.y, max.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(max.x, min.y, min.z);  m_vecVertex.push_back(v);
-										    
-										    
+
+
 	v.p = D3DXVECTOR3(max.x, max.y, min.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(max.x, max.y, max.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(max.x, min.y, max.z);  m_vecVertex.push_back(v);
-										    
-										    
+
+
 	v.p = D3DXVECTOR3(min.x, max.y, max.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(min.x, min.y, min.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(min.x, min.y, max.z);  m_vecVertex.push_back(v);
-										    
-										    
+
+
 	v.p = D3DXVECTOR3(min.x, max.y, max.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(min.x, max.y, min.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(min.x, min.y, min.z);  m_vecVertex.push_back(v);
-										    
-										    
+
+
 	v.p = D3DXVECTOR3(min.x, max.y, max.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(max.x, max.y, min.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(min.x, max.y, min.z);  m_vecVertex.push_back(v);
-										    
-										    
+
+
 	v.p = D3DXVECTOR3(min.x, max.y, max.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(max.x, max.y, max.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(max.x, max.y, min.z);  m_vecVertex.push_back(v);
-										    
-										    
+
+
 	v.p = D3DXVECTOR3(max.x, min.y, max.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(min.x, min.y, max.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(max.x, min.y, min.z);  m_vecVertex.push_back(v);
-										    
-										    
+
+
 	v.p = D3DXVECTOR3(min.x, min.y, max.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(min.x, min.y, min.z);  m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(max.x, min.y, min.z);  m_vecVertex.push_back(v);
 
+}
+
+void cCube::Update()
+{
 }
 
 void cCube::Update(D3DXVECTOR3 min, D3DXVECTOR3 max)
@@ -129,11 +133,6 @@ void cCube::Update(D3DXVECTOR3 min, D3DXVECTOR3 max)
 	m_vecVertex[33].p = D3DXVECTOR3(min.x, min.y, max.z);
 	m_vecVertex[34].p = D3DXVECTOR3(max.x, min.y, min.z);
 	m_vecVertex[35].p = D3DXVECTOR3(max.x, min.y, max.z);
-}
-
-
-void cCube::Update()
-{
 }
 
 void cCube::Render()

@@ -104,17 +104,17 @@ void cMonster02::Setup(D3DXVECTOR3 v)
 
 	////양발 판정 구체
 	m_pSphereR = new cSpere;
-	m_pSphereR->Setup(D3DXVECTOR3(0, 0, 0), 10);
+	m_pSphereR->Setup(D3DXVECTOR3(0, 0, 0), 5);
 
 	m_pSphereL = new cSpere;
-	m_pSphereL->Setup(D3DXVECTOR3(0, 0, 0), 10);
+	m_pSphereL->Setup(D3DXVECTOR3(0, 0, 0), 5);
 
 
 
 
 	// 바운딩 박스 생성
 	m_pBoundingBox = new cBoundingBox;
-	m_pBoundingBox->Setup(D3DXVECTOR3(-15, -10, -15), D3DXVECTOR3(15, 10, 15));
+	m_pBoundingBox->Setup(D3DXVECTOR3(-15, 0, -15), D3DXVECTOR3(15, 20, 15));
 
 	// 구 충돌 영역 생성(싸움존 거리)
 	m_pSpere = new cSpere;
@@ -184,8 +184,9 @@ void cMonster02::Update()
 	// 아니면 평소처럼 적용된 월드에서 업데이트
 	if (isUseLocalAnim())
 	{
-		m_pMonster->Update(m_matAnimWorld);
+		m_matAnimWorld._42 = m_matWorld._42;
 
+		m_pMonster->Update(m_matAnimWorld);
 	}
 	else
 	{

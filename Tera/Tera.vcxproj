@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="BoundingBox\cBoundingBox.h" />
     <ClInclude Include="GameObject\Monster\cMonster02.h" />
+    <ClInclude Include="Manager\cShaderManager.h" />
     <ClInclude Include="Ray\cRay.h" />
     <ClInclude Include="Scene\11_MapEdit\cBoundingBoxLoader.h" />
     <ClInclude Include="GameObject\NPC\cPoalong.h" />
@@ -242,6 +243,7 @@
   <ItemGroup>
     <ClCompile Include="BoundingBox\cBoundingBox.cpp" />
     <ClCompile Include="GameObject\Monster\cMonster02.cpp" />
+    <ClCompile Include="Manager\cShaderManager.cpp" />
     <ClCompile Include="Ray\cRay.cpp" />
     <ClCompile Include="Scene\11_MapEdit\cBoundingBoxLoader.cpp" />
     <ClCompile Include="GameObject\NPC\cPoalong.cpp" />
