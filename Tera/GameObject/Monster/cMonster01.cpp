@@ -217,13 +217,13 @@ void cMonster01::Update()
 		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 
 
-		m_matWorld = matR * matT;
-		m_pBoundingBox->SetWorld(m_matWorld);
-		m_pSpere->SetWorld(m_matWorld);
-
 		cMonster::Update();
 
 		cGameObject::Update();
+
+		m_matWorld = matR * matT;
+		m_pBoundingBox->SetWorld(m_matWorld);
+		m_pSpere->SetWorld(m_matWorld);
 	}
 
 	//죽고 몬스터가 완전히 사라졌을때
