@@ -130,6 +130,9 @@ void cSceneLobbyLoading::TotalLoading()
 	//== ±âÅ¸
 	m_pLoading->InitForSound("WPN_Sword_Swing", "Sound/Main/WPN_Sword_Swing.mp3");
 	m_pLoading->InitForSound("WPN_Sword_Swing2", "Sound/Main/WPN_Sword_Swing2.mp3");
+	m_pLoading->InitForSound("Char_Wark_GlassLand", "Sound/Main/Char_Wark_GlassLand.mp3");
+	m_pLoading->InitForSound("Char_BodyFall", "Sound/Main/Char_Wark_GlassLand.mp3");
+	m_pLoading->InitForSound("WPN_Hit", "Sound/Main/Char_Wark_GlassLand.mp3");
 
 
 
