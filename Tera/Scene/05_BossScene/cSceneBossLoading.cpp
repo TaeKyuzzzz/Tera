@@ -116,6 +116,9 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Armor/Hand", "Hand_03.X");
 	m_pLoading->InitForSkinnedMesh("XFile/Character/poporiClass03/Armor/Leg", "Leg_03.X");
 
+	m_pLoading->IniteForParticle("HpPotion", "Texture/Particle/HpHeal.txt");
+	m_pLoading->IniteForParticle("MpPotion", "Texture/Particle/MpHeal.txt");
+
 
 	m_pLoading->InitForStaticMesh("XFile/Item/Weapon/TwoHandSword_00.X");
 	m_pLoading->InitForStaticMesh("XFile/Item/Weapon/TwoHandSword_02.X");
@@ -137,12 +140,15 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->InitForSound("PCDie", "Sound/Chara/PCDie.ogg");
 
 	//== Giant Griffin
-	m_pLoading->InitForSound("MON_Anim_atk01", "Sound/Boss/MON_Anim_atk01.mp3");
-	m_pLoading->InitForSound("MON_Anim_atk02", "Sound/Boss/MON_Anim_atk02.mp3");
+	m_pLoading->InitForSound("MON_Anim_atk01", "Sound/Boss/MON_Anim_atk01(Ori).mp3");
+	m_pLoading->InitForSound("MON_Anim_atk02", "Sound/Boss/MON_Anim_atk02(Ori).mp3");
 	m_pLoading->InitForSound("MON_Anim_heavyatk01", "Sound/Boss/MON_Anim_heavyatk01.mp3");
 	m_pLoading->InitForSound("MON_Anim_modeAlarm", "Sound/Boss/MON_Anim_modeAlarm.mp3");
 	m_pLoading->InitForSound("MON_Anim_roundAtk02", "Sound/Boss/MON_Anim_roundAtk02.mp3");
-	m_pLoading->InitForSound("MON_Anim_roundAtk01", "Sound/Boss/MON_Anim_roundAtk01.mp3");
+	m_pLoading->InitForSound("MON_Anim_roundAtk01", "Sound/Boss/MON_Anim_roundAtk01(Ori).mp3");
 	m_pLoading->InitForSound("MON_Anim_Death", "Sound/Boss/MON_Anim_Death.mp3");
+
+	m_pLoading->InitForSound("MON_Anim_groggy", "Sound/Boss/MON_Anim_groggy.mp3");
+	m_pLoading->InitForSound("MON_Anim_flinch", "Sound/Boss/MON_Anim_flinch.mp3");
 
 }
