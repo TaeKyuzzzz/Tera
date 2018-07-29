@@ -31,10 +31,10 @@ void cBoundingObject::Setup()
 
 void cBoundingObject::Update()
 {
-	if (KEYMANAGER->IsOnceKeyDown('['))
-		m_bSightBox = !m_bSightBox;
-	if (KEYMANAGER->IsOnceKeyDown(']'))
-		m_bSightSpere = !m_bSightSpere;
+	//if (KEYMANAGER->IsOnceKeyDown('['))
+	//	m_bSightBox = !m_bSightBox;
+	//if (KEYMANAGER->IsOnceKeyDown(']'))
+	//	m_bSightSpere = !m_bSightSpere;
 
 	if (!m_vecBBoxGroup.empty()) // SightBox && m_vecBBoxGroup.size()
 	{

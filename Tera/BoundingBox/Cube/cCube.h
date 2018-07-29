@@ -13,6 +13,7 @@ public:
 	virtual void Setup();
 	virtual void Setup(D3DXVECTOR3 min, D3DXVECTOR3 max);
 	virtual void Update();
+			void Update(D3DXVECTOR3 min, D3DXVECTOR3 max);
 	virtual void Render();
 };
 
