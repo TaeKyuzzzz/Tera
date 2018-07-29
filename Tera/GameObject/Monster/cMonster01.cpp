@@ -546,7 +546,7 @@ void cMonster01::Die()
 	m_bIsBlend = false;
 	m_bAnimation = true;
 
-	SOUNDMANAGER->Play("M1_MON_STATE_Death");
+	//SOUNDMANAGER->Play("M1_MON_STATE_Death");
 }
 
 //몬스터와 캐릭터사이의 거리에 따른 불변수 집합

@@ -119,4 +119,13 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("M1_MON_STATE_Wait", "Sound/Field/M1_MON_STATE_Wait.mp3");
 	m_pLoading->InitForSound("M1_MON_STATE_run", "Sound/Field/M1_MON_STATE_run.mp3");
 
+	//== bear
+	m_pLoading->InitForSound("M2_MON_STATE_atk01", "Sound/Field/M2_MON_STATE_atk01.mp3");
+	m_pLoading->InitForSound("M2_MON_STATE_Walk", "Sound/Field/M2_MON_STATE_Walk.mp3");
+	m_pLoading->InitForSound("M2_MON_STATE_Wait", "Sound/Field/M2_MON_STATE_Wait.mp3");
+	m_pLoading->InitForSound("M2_MON_STATE_Idle", "Sound/Field/M2_MON_STATE_Idle.mp3");
+	m_pLoading->InitForSound("M2_MON_STATE_Death", "Sound/Field/M2_MON_STATE_Death.mp3");
+	m_pLoading->InitForSound("M2_MON_STATE_Damage", "Sound/Field/M2_MON_STATE_Damage.mp3");
+
+	//==
 }
