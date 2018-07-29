@@ -6,9 +6,6 @@ class iMap;
 class cMonster : public cGameObject
 {
 public:
-	float			m_fRotY;
-	D3DXVECTOR3		m_vDirection;
-	D3DXMATRIX		m_matWorld;
 
 	float			m_fSpeed;
 
@@ -84,7 +81,7 @@ public:
 
 
 public:
-	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
+
 
 public:
 	cMonster();

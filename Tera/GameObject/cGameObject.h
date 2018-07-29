@@ -45,6 +45,12 @@ protected:
 
 	LPD3DXEFFECT		m_pRimLight;
 
+
+	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
+	float			m_fRotY;
+	D3DXVECTOR3		m_vDirection;
+	D3DXMATRIX		m_matWorld;
+
 public:
 	cGameObject();
 	virtual~cGameObject();

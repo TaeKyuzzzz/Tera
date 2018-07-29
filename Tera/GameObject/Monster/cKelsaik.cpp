@@ -220,7 +220,7 @@ void cKelsaik::Awake_Update()
 	else if (m_fTime > 0.8f)
 	{
 		if (m_fCurHp < m_fMaxHp)
-			m_fCurHp += m_fMaxHp / 144;
+			m_fCurHp += m_fMaxHp / 130;
 		else
 			m_fCurHp = m_fMaxHp;
 		CAMERAMANAGER->Shaking(0.06f);
@@ -538,20 +538,6 @@ void cKelsaik::Render()
 		m_pSphereR->Render();
 	if (SightSpere && m_pSphereL)
 		m_pSphereL->Render();
-
-	D3DXVECTOR3 v = CAMERAMANAGER->GetCameraPosition();
-	char szTemp[1024];
-	sprintf_s(szTemp, 1024, "%.1f %.1f %.1f", v.x,v.y,v.z);
-	RECT rc;
-	SetRect(&rc, WINSIZEX - 400, 200, WINSIZEX, 300);
-
-	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
-	pFont->DrawTextA(NULL,
-		szTemp,
-		strlen(szTemp),
-		&rc,
-		DT_LEFT | DT_VCENTER,
-		D3DCOLOR_XRGB(255, 0, 0));
 }
 
 void cKelsaik::HitCircleRender()

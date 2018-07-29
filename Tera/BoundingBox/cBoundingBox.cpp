@@ -29,6 +29,13 @@ void cBoundingBox::Setup(D3DXVECTOR3 min, D3DXVECTOR3 max)
 
 void cBoundingBox::Update()
 {
+	D3DXMATRIX pos, rot, mat;
+	D3DXMatrixTranslation(&pos, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	D3DXMatrixRotationY(&rot, m_vRoatation.y);
+
+	m_matWorld = rot * pos;
+
+	m_pBoundBox->Update(m_vMinPos, m_vMaxPos);
 }
 
 void cBoundingBox::Render()
@@ -53,8 +60,8 @@ ST_OBB cBoundingBox::GetOBB()
 	D3DXVECTOR3 Min = m_vMinPos;
 	D3DXVECTOR3 Max = m_vMaxPos;
 	D3DXVec3TransformCoord(&center, &center, &m_matWorld);
-	D3DXVec3TransformCoord(&Min, &Min, &m_matWorld);
-	D3DXVec3TransformCoord(&Max, &Max, &m_matWorld);
+	//D3DXVec3TransformCoord(&Min, &Min, &m_matWorld);
+	//D3DXVec3TransformCoord(&Max, &Max, &m_matWorld);
 
 
 	D3DXVECTOR3 v0(Min.x, Min.y, Min.z);
@@ -67,13 +74,17 @@ ST_OBB cBoundingBox::GetOBB()
 	v2 -= v0;
 	v3 -= v0;
 
+	D3DXVec3TransformNormal(&v1, &v1, &m_matWorld);
+	D3DXVec3TransformNormal(&v2, &v2, &m_matWorld);
+	D3DXVec3TransformNormal(&v3, &v3, &m_matWorld);
+
 	D3DXVec3Normalize(&obb.vAxisDir[0], &v1);
 	D3DXVec3Normalize(&obb.vAxisDir[1], &v2);
 	D3DXVec3Normalize(&obb.vAxisDir[2], &v3);
 	
-	obb.fAxisLen[0] = D3DXVec3Length(&v1) / 2;
-	obb.fAxisLen[1] = D3DXVec3Length(&v2) / 2;
-	obb.fAxisLen[2] = D3DXVec3Length(&v3) / 2;
+	obb.fAxisLen[0] = D3DXVec3Length(&v1);
+	obb.fAxisLen[1] = D3DXVec3Length(&v2);
+	obb.fAxisLen[2] = D3DXVec3Length(&v3);
 
 	obb.vCenterPos = center;
 

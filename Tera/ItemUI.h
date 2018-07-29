@@ -1,6 +1,6 @@
 #pragma once
 //인덱스가 존재하지않음
-#define NONEINDEX -1
+#define INDEXNOTSET -1
 #define ZEROVALUE 0
 
 enum eTextSize

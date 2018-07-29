@@ -71,8 +71,12 @@ void cCameraManager::SetType(CAMERA_TYPE type)
 	}
 }
 
-D3DXVECTOR3 cCameraManager::GetCameraPosition()
+D3DXVECTOR3 cCameraManager::GetCameraWorld()
 {
+	return m_pCamera->GetCameraWorld();
+}
 
-	return m_pCamera->GetCameraPosition();
+D3DXVECTOR3 cCameraManager::GetCameraLocal()
+{
+	return m_pCamera->GetCameraLocal();
 }

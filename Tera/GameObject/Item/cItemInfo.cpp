@@ -6,6 +6,7 @@
 
 
 cItemInfo::cItemInfo()
+	:m_nQuickSlotNum(INDEXNOTSET)
 {
 }
 

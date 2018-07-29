@@ -22,12 +22,12 @@ void cItemManager::CreateItemList()
 	
 	
 	CreateItem("대검", "Texture/ItemIcon/Claymore.png", WEAPON, 15, 200, m_vStatusItem);
-	CreateItem("아이스소드", "Texture/ItemIcon/TwohandIce.png", WEAPON, 150, 4000, m_vConShopItem);
+	CreateItem("아이스소드", "Texture/ItemIcon/TwohandIce.png", WEAPON, 150, 4000, m_vInvenItem);
 	CreateItem("스카이소드", "Texture/ItemIcon/TwohandSky.png", WEAPON, 100, 3000, m_vInvenItem);
 	CreateItem("참치", "Texture/ItemIcon/TwohandFish.png", WEAPON, 50,2000, m_vInvenItem);
 	//
 	//블랙셋트
-	CreateItem("검은마력의옷", "Texture/ItemIcon/BlackClothes.png", ARMOR, 75, 3600, m_vConShopItem);
+	CreateItem("검은마력의옷", "Texture/ItemIcon/BlackClothes.png", ARMOR, 75, 3600, m_vInvenItem);
 	CreateItem("검은마력의신발", "Texture/ItemIcon/BlackShoes.png", SHOES, 25 , 1400, m_vInvenItem);
 	CreateItem("검은마력의장갑", "Texture/ItemIcon/BlackGlove.png", GLOVES, 20, 1100, m_vInvenItem);
 	
