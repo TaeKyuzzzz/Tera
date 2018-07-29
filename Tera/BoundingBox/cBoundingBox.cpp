@@ -29,6 +29,13 @@ void cBoundingBox::Setup(D3DXVECTOR3 min, D3DXVECTOR3 max)
 
 void cBoundingBox::Update()
 {
+	D3DXMATRIX pos, rot, mat;
+	D3DXMatrixTranslation(&pos, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	D3DXMatrixRotationY(&rot, m_vRoatation.y);
+
+	m_matWorld = rot * pos;
+
+	m_pBoundBox->Update(m_vMinPos, m_vMaxPos);
 }
 
 void cBoundingBox::Render()

@@ -71,7 +71,6 @@ public:
 																// 패턴 가짓 수
 	int				m_nNumofPattern;
 
-	//LPD3DXEFFECT		m_pRimLight;
 	cParticleSet*		m_pParticleBleeding;					//파티클 효과 처리.
 
 	//DeathShader

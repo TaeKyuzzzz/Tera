@@ -4,88 +4,151 @@
 #include "cTestMap.h"
 
 //== Object작업
-#include "GameObject/Town/Town_House.h"
+#include "GameObject/Town/cTown_House.h"
 
 #include "Spere/cSpere.h"
 #include "BoundingBox/cBoundingBox.h"
-#include "Scene/06_MapEdit/cBoundingObject.h"
+#include "Scene/11_MapEdit/cBoundingObject.h"
 
 #include "Ray_toCube.h"
-
 
 cSceneMapEdit::cSceneMapEdit()
 	: m_iNum_group(0)
 	, m_bIsSelected(false)
 	, m_iNum_Face(0)
+	, m_bRenderMode_Object(true)
+	, m_sFileName("")
 {
 }
 
 cSceneMapEdit::~cSceneMapEdit()
 {
-	SAFE_DELETE(m_pMap);
-	m_pTown_House->Destroy();
-	//SAFE_DELETE(m_pSpere);
-	//SAFE_DELETE(m_pGameObject);
-	//SAFE_DELETE(m_pBoundingBox);
+	if (*SCENEMANAGER->GetCurrentSceneName() == "MapEdit")
+	{
+		SAFE_DELETE(m_pMap);
+
+		if (m_pTown_House)
+		{
+			m_pTown_House->Destroy();
+		}
+		//SAFE_DELETE(m_pSpere);
+		//SAFE_DELETE(m_pGameObject);
+		//SAFE_DELETE(m_pBoundingBox);
+	}
 }
 
 void cSceneMapEdit::Setup()
 {
-	m_pMap = new cTestMap;
-	m_pMap->Setup();
-	//m_pPopori->SetMap(m_pMap);
+	if (*SCENEMANAGER->GetCurrentSceneName() == "MapEdit")
+	{
+		m_pMap = new cTestMap;
+		m_pMap->Setup();
+		//m_pPopori->SetMap(m_pMap);
 
-	//== 작업Object
-	m_pTown_House = new cTown_House;
-	m_pTown_House->Setup();
+		//== 작업Object
+		m_pTown_House = new cTown_House;
+		m_pTown_House->Setup();
+	}
 }
 
 void cSceneMapEdit::Update()
 {
-	m_pLine.clear(); // 선택면 초기화.
-
-					 //== Key설정 구간
-	if (m_bIsSelected)
+	if (*SCENEMANAGER->GetCurrentSceneName() == "MapEdit")
 	{
-		KeyMoveWASDRF();
-	}
+		m_pLine.clear(); // 선택면 초기화.
 
-	RaytoCube();
+						 //== Key설정 구간
+		if (m_bIsSelected)
+		{
+			KeyMoveWASDRF();
+		}
 
-	//==SaveLoda
-	if (KEYMANAGER->IsOnceKeyDown(VK_F8))
-	{
-		ObjectSave();
-	}
-	if (KEYMANAGER->IsOnceKeyDown(VK_F9))
-	{
-		ObjectLoad();
-	}
+		RaytoCube();
 
-	if (KEYMANAGER->IsOnceKeyDown(VK_F1))
-	{
-		D3DXVECTOR3 pos;
-		if (!m_vecBObject.empty())
-			pos = m_vecBObject[m_iNum_BSet]->GetvecBBoxGroup().back()->m_vPosition;
-		else
-			pos = D3DXVECTOR3(0, 0, 0);
+		//==SaveLoda
+		if (KEYMANAGER->IsOnceKeyDown(VK_F7)) // 몬스터 리스폰
+		{
+			m_sFileName = "Monster_Object.txt";
+			ObjectSave(m_sFileName);
+		}
+		else if (KEYMANAGER->IsOnceKeyDown(VK_F8)) // bound box save
+		{
+			m_sFileName = "Save_Object.txt";
+			ObjectSave(m_sFileName);
+		}
+		else if (KEYMANAGER->IsOnceKeyDown(VK_F9))
+		{
+			ObjectLoad();
+		}
 
-		CreateBox(pos);
-	}
-	if (KEYMANAGER->IsOnceKeyDown(VK_F2))
-	{
-		ResizeSphere();
-		m_vecBObject.back()->GetSpere()->Update();
-	}
+		//== Object 생성과 Sphere생성
+		if (KEYMANAGER->IsOnceKeyDown(VK_F1))
+		{
+			//==맵위의 좌표찍기
+			D3DXVECTOR3 pos;
+			float ray_distance;
+			m_pMap->IntersectTri(pos, ray_distance);
 
+			CreateBox(pos);
+
+			if (!m_vecBObject.empty())
+				m_vecBObject[m_iNum_BSet]->GetvecBBoxGroup().back()->Update();
+		}
+		else if (KEYMANAGER->IsOnceKeyDown(VK_F2))
+		{
+			ResizeSphere();
+			m_vecBObject.back()->GetSpere()->Update();
+		}
+
+		//==Object들의 렌더링방식 1.Solid 2.Wire
+		if (KEYMANAGER->IsOnceKeyDown('1'))
+		{
+			m_bRenderMode_Object = true;
+		}
+		else if (KEYMANAGER->IsOnceKeyDown('2'))
+		{
+			m_bRenderMode_Object = false;
+		}
+
+		//== delete box
+		if (KEYMANAGER->IsOnceKeyDown(VK_DELETE))
+		{
+			if (!m_vecBObject.empty())
+			{
+				m_vecBObject[m_iNum_BSet]->GetvecBBoxGroup().erase(
+					m_vecBObject[m_iNum_BSet]->GetvecBBoxGroup().begin() + m_iNum_group);
+
+				if (m_vecBObject[m_iNum_BSet]->GetvecBBoxGroup().empty()) //box없는 빈 그룹 삭제
+				{
+					m_vecBObject.erase(m_vecBObject.begin() + m_iNum_BSet);
+				}
+
+				m_bIsSelected = false; //선택면 풀어주기
+			}
+		}
+
+	}
 }
 
 void cSceneMapEdit::Render()
 {
-	m_pMap->Render();
+	if (*SCENEMANAGER->GetCurrentSceneName() == "MapEdit") // loader로 불러울경우의 렌더 예외처리
+	{
+		//== Map
+		m_pMap->Render();
 
-	//== 작업Object
-	m_pTown_House->Render();
+		//== 작업Object
+		if (m_pTown_House)
+		{
+			if (m_bRenderMode_Object)
+				g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+			else g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
+			m_pTown_House->Render();
+
+			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		}
+	}
 
 	if (!m_vecBObject.empty())
 	{
@@ -95,89 +158,90 @@ void cSceneMapEdit::Render()
 		}
 	}
 
-	if (m_bIsSelected)
+	if (*SCENEMANAGER->GetCurrentSceneName() == "MapEdit") // loader로 불러울경우의 렌더 예외처리
 	{
-		//==선택된 면 line 그리기
-		ST_PC_VERTEX a;
-		a.c = 0xff00ff00;
+		if (m_bIsSelected)
+		{
+			//==선택된 면 line 그리기
+			ST_PC_VERTEX a;
+			a.c = 0xff00ff00;
 
-		D3DXVECTOR3 max = m_vecBObject[m_iNum_BSet]->GetvecBBoxGroup()[m_iNum_group]->m_vMaxPos;
-		D3DXVECTOR3 min = m_vecBObject[m_iNum_BSet]->GetvecBBoxGroup()[m_iNum_group]->m_vMinPos;
+			D3DXVECTOR3 max = m_vecBObject[m_iNum_BSet]->GetvecBBoxGroup()[m_iNum_group]->m_vMaxPos;
+			D3DXVECTOR3 min = m_vecBObject[m_iNum_BSet]->GetvecBBoxGroup()[m_iNum_group]->m_vMinPos;
 
-		switch (m_iNum_Face)
-		{
+			switch (m_iNum_Face)
+			{
 
-		case 0:
-		{
-			a.p = D3DXVECTOR3(min.x, min.y, min.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, max.y, min.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, max.y, min.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, min.y, min.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, min.y, min.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, max.y, min.z);		m_pLine.push_back(a);
-		}
-		break;
-		case 1:
-		{
-			a.p = D3DXVECTOR3(max.x, min.y, max.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, max.y, max.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, max.y, max.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, min.y, max.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, min.y, max.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, max.y, max.z);		m_pLine.push_back(a);
-		}
-		break;
-		case 2:
-		{
-			a.p = D3DXVECTOR3(min.x, min.y, max.z);  	m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, max.y, max.z);  	m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, max.y, min.z);  	m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, min.y, min.z);  	m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, min.y, max.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, max.y, min.z); 	m_pLine.push_back(a);
-		}
-		break;
-		case 3:
-		{
-			a.p = D3DXVECTOR3(max.x, min.y, min.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, max.y, min.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, max.y, max.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, min.y, max.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, min.y, min.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, max.y, max.z);		m_pLine.push_back(a);
-		}
-		break;
-		case 4:
-		{
-			a.p = D3DXVECTOR3(min.x, max.y, min.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, max.y, max.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, max.y, max.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, max.y, min.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, max.y, min.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, max.y, max.z);		m_pLine.push_back(a);
-		}
-		break;
-		case 5:
-		{
-			a.p = D3DXVECTOR3(min.x, min.y, max.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, min.y, min.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, min.y, min.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, min.y, max.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(min.x, min.y, max.z);		m_pLine.push_back(a);
-			a.p = D3DXVECTOR3(max.x, min.y, max.z);		m_pLine.push_back(a);
-		}
-		break;
-		}
+			case 0:
+			{
+				a.p = D3DXVECTOR3(min.x, min.y, min.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, max.y, min.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, max.y, min.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, min.y, min.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, min.y, min.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, max.y, min.z);		m_pLine.push_back(a);
+			}
+			break;
+			case 1:
+			{
+				a.p = D3DXVECTOR3(max.x, min.y, max.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, max.y, max.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, max.y, max.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, min.y, max.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, min.y, max.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, max.y, max.z);		m_pLine.push_back(a);
+			}
+			break;
+			case 2:
+			{
+				a.p = D3DXVECTOR3(min.x, min.y, max.z);  	m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, max.y, max.z);  	m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, max.y, min.z);  	m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, min.y, min.z);  	m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, min.y, max.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, max.y, min.z); 	m_pLine.push_back(a);
+			}
+			break;
+			case 3:
+			{
+				a.p = D3DXVECTOR3(max.x, min.y, min.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, max.y, min.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, max.y, max.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, min.y, max.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, min.y, min.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, max.y, max.z);		m_pLine.push_back(a);
+			}
+			break;
+			case 4:
+			{
+				a.p = D3DXVECTOR3(min.x, max.y, min.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, max.y, max.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, max.y, max.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, max.y, min.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, max.y, min.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, max.y, max.z);		m_pLine.push_back(a);
+			}
+			break;
+			case 5:
+			{
+				a.p = D3DXVECTOR3(min.x, min.y, max.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, min.y, min.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, min.y, min.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, min.y, max.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(min.x, min.y, max.z);		m_pLine.push_back(a);
+				a.p = D3DXVECTOR3(max.x, min.y, max.z);		m_pLine.push_back(a);
+			}
+			break;
+			}
 
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_vecBObject[m_iNum_BSet]->GetvecBBoxGroup()[m_iNum_group]->GetWorld());
-		g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
-		g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINESTRIP,
-			5,
-			&m_pLine[0],
-			sizeof(ST_PC_VERTEX));
+			g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_vecBObject[m_iNum_BSet]->GetvecBBoxGroup()[m_iNum_group]->GetWorld());
+			g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
+			g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINESTRIP,
+				5,
+				&m_pLine[0],
+				sizeof(ST_PC_VERTEX));
+		}
 	}
-
-
 }
 
 void cSceneMapEdit::FaceControl()
@@ -512,7 +576,8 @@ void cSceneMapEdit::RaytoCube()
 		}
 	}// KEYMANAGER->IsOnceKeyDown(VK_LBUTTON)
 
-	if (!m_vecBObject.empty())
+	 //== 카메라 연결부분
+	if (!m_vecBObject.empty() && m_bIsSelected == true)
 	{
 		m_vPosToCamera = m_vecBObject[m_iNum_BSet]->GetvecBBoxGroup()[m_iNum_group]->m_vPosition; // 선택된 박스를 카메라에 연결
 		g_vPlayerPos = &m_vPosToCamera;
@@ -524,24 +589,13 @@ void cSceneMapEdit::CreateBox(D3DXVECTOR3 pos)
 {
 	D3DXVECTOR3 size(100, 100, 100);
 
-	D3DXVECTOR3 min = pos - size;
-	D3DXVECTOR3 max = pos + size;
+	D3DXVECTOR3 min = -size;
+	D3DXVECTOR3 max = size;
 	cBoundingBox *m_pBoundingBox = new cBoundingBox;
 	m_pBoundingBox->Setup(min, max);
 
-	//if (!m_vecBObject.empty())
-	//{
-	//	for (auto b : m_vecBObject)
-	//	{
-	//		for (auto g : m_vecBObject)
-	//		{
-	//			g->GetBoundingBox()->m_bIsPicked = false;
-	//		}
-	//	}
-	//}
-	//m_pBoundingBox->m_bIsPicked = true;
-
-	//return m_pBoundingBox;
+	D3DXVECTOR3 position = D3DXVECTOR3(pos.x, pos.y + 100.0f, pos.z);
+	m_pBoundingBox->m_vPosition = position;
 
 	//m_pGameObject = new cGameObject;
 	if (m_vecBObject.empty()) //예외처리. 최초 비어있을경우의 생성
@@ -594,7 +648,7 @@ void cSceneMapEdit::ResizeSphere()
 		if (value < abs(tempA)) value = abs(tempA);
 	}
 
-	float x= 0, y=0, z=0, sumPX=0, sumPY=0, sumPZ=0, temp = 0;
+	float x = 0, y = 0, z = 0, sumPX = 0, sumPY = 0, sumPZ = 0, temp = 0;
 	for (int i = 0; i < roll; i++)
 	{
 		x = m_vecBObject.back()->GetvecBBoxGroup()[i]->m_vPosition.x;
@@ -612,7 +666,7 @@ void cSceneMapEdit::ResizeSphere()
 
 	pos = { (sumPX / roll) , (sumPY / roll), (sumPZ / roll) };
 
-	r = 500.0f ;
+	r = 500.0f;
 
 	// 구 충돌 영역 크기 재 조정
 	m_vecBObject.back()->GetSpere()->SetRadius(r);
@@ -629,11 +683,11 @@ void cSceneMapEdit::Destroy()
 	delete this;
 }
 
-void cSceneMapEdit::ObjectSave()
+void cSceneMapEdit::ObjectSave(string fileName)
 {
-	const string file_name = "Save_Object.txt";
+	//const string file_name = "Save_Object.txt";
 	ofstream file_out;
-	file_out.open(file_name, ifstream::out);
+	file_out.open(fileName, ifstream::out);
 
 	//==[1] 각 vector의 size 크기 가져오기
 	file_out << '#' << ' ' << 1 << '\n';
@@ -814,10 +868,21 @@ void cSceneMapEdit::ObjectLoad()
 		}
 	}
 
-
 	for (auto a : m_vecBObject)
 	{
 		a->Update();
 	}
 }
+
+void cSceneMapEdit::FG_Sight()
+{
+	for (int b = 0; b < m_vecBObject.size(); b++)
+	{
+		if (KEYMANAGER->IsOnceKeyDown('F'))
+			m_vecBObject[b]->SetSightBox(!m_vecBObject[b]->GetSightBox());
+		if (KEYMANAGER->IsOnceKeyDown('G'))
+			m_vecBObject[b]->SetSightSpere(!m_vecBObject[b]->GetSightSpere());
+	}
+}
+
 

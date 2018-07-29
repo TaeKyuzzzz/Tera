@@ -11,6 +11,8 @@
 #include "Scene\06_PaticleEdit\cScenePaticleEdit.h"
 #include "Scene\05_BossScene\cSceneBossLoading.h"
 #include "Scene\05_BossScene\cSceneBoss.h"
+
+#include "Scene/11_MapEdit/cSceneMapEdit.h"
 cMainGame::cMainGame()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
@@ -63,6 +65,8 @@ void cMainGame::Setup()
 	SCENEMANAGER->AddScene("Test", new cSceneTest);
 	SCENEMANAGER->AddScene("Boss", new cSceneBoss);
 	SCENEMANAGER->AddScene("BossLoading", new cSceneBossLoading);
+	SCENEMANAGER->AddScene("MapEdit", new cSceneMapEdit);
+
 
 	SCENEMANAGER->ChangeScene("LobbyLoading");
 	

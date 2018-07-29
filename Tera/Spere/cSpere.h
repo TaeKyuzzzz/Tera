@@ -23,5 +23,10 @@ public:
 		D3DXVec3TransformCoord(&pos, &pos, &m_matWorld);
 		return pos;
 	}
+
+	void SetPosition(D3DXVECTOR3 pos)
+	{
+		m_vPosition = pos;
+	}
 };
 

@@ -11,8 +11,6 @@ class cCharaPopori : public cCharacterClass03
 {
 private:
 
-private:
-
 	cSkinnedMesh*			m_pBody;
 
 	cSkinnedMesh*			m_pHair;

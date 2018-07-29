@@ -134,7 +134,7 @@ bool cBossRoom_Wall::GetHeight(IN float x, OUT float & y, IN float z)
 	D3DXVECTOR3 vRayDir(0, -1, 0);
 
 	D3DXVECTOR3 v0,v1, v2;
-	for (int i = 0; i <numOfIndex; i += 3)
+	for (UINT i = 0; i <numOfIndex; i += 3)
 	{
 		float u, v, f;
 

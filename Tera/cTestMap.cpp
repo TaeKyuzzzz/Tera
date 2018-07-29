@@ -3,6 +3,8 @@
 #include "XMesh\cXLoader.h"
 #include "XMesh\cXMesh.h"
 
+#include "Scene/11_MapEdit/Ray_toCube.h"
+
 cTestMap::cTestMap()
 	: m_pGround(NULL)
 	, m_pVertex(NULL)
@@ -10,9 +12,7 @@ cTestMap::cTestMap()
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXVECTOR3 pos(15000, 0, -1500);
 	D3DXMatrixTranslation(&m_matWorld, pos.x, pos.y, pos.z);
-
 }
-
 
 cTestMap::~cTestMap()
 {
@@ -94,4 +94,22 @@ bool cTestMap::GetHeight(IN float x, OUT float & y, IN float z)
 	}
 	
 	return false;
+}
+
+void cTestMap::IntersectTri(OUT D3DXVECTOR3 & vPickedPosition, OUT float & ray_dis)
+{
+	cRay_toCube ray;
+	float distMax = 100000.0f; // ray 최대거리
+
+	cRay_toCube r = ray.RayAtWorldSpace(ptMouse.x, ptMouse.y);
+
+	for (UINT i = 0; i <numOfIndex; i += 3)
+	{
+		float u, v, f;
+		r.IntersectTri(m_pVertex[m_pIndex[i + 0]].p,
+			m_pVertex[m_pIndex[i + 1]].p,
+			m_pVertex[m_pIndex[i + 2]].p,
+			vPickedPosition,
+			ray_dis);
+	}
 }
