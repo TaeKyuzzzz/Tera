@@ -136,4 +136,13 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->InitForSound("PCBigDamaged", "Sound/Chara/PCBigDamaged.ogg");
 	m_pLoading->InitForSound("PCDie", "Sound/Chara/PCDie.ogg");
 
+	//== Giant Griffin
+	m_pLoading->InitForSound("MON_Anim_atk01", "Sound/Boss/MON_Anim_atk01.mp3");
+	m_pLoading->InitForSound("MON_Anim_atk02", "Sound/Boss/MON_Anim_atk02.mp3");
+	m_pLoading->InitForSound("MON_Anim_heavyatk01", "Sound/Boss/MON_Anim_heavyatk01.mp3");
+	m_pLoading->InitForSound("MON_Anim_modeAlarm", "Sound/Boss/MON_Anim_modeAlarm.mp3");
+	m_pLoading->InitForSound("MON_Anim_roundAtk02", "Sound/Boss/MON_Anim_roundAtk02.mp3");
+	m_pLoading->InitForSound("MON_Anim_roundAtk01", "Sound/Boss/MON_Anim_roundAtk01.mp3");
+	m_pLoading->InitForSound("MON_Anim_Death", "Sound/Boss/MON_Anim_Death.mp3");
+
 }

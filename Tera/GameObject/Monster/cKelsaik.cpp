@@ -212,6 +212,8 @@ void cKelsaik::Awake_Update()
 	if (m_Anim != MON_Anim_modeAlarm)
 	{
 		ChangeAnim(MON_Anim_modeAlarm, true);
+
+		SOUNDMANAGER->Play("MON_Anim_modeAlarm");
 	}
 	else if (isEndPattern())
 	{
@@ -224,7 +226,6 @@ void cKelsaik::Awake_Update()
 		else
 			m_fCurHp = m_fMaxHp;
 		CAMERAMANAGER->Shaking(0.06f);
-
 	}
 
 	//if (isPlayerInDistance())
@@ -410,6 +411,7 @@ void cKelsaik::Death_Update()
 	{
 		ChangeAnim(MON_Anim_Death,true);
 		SetAnimWorld();
+		SOUNDMANAGER->Play("MON_Anim_Death");
 	}
 	else
 	{
@@ -672,6 +674,8 @@ void cKelsaik::AttackPattern01()
 		SetAngleWithPlayer();
 		SetAnimWorld();
 		m_fHitCircleRadian = 0.0f;
+
+		SOUNDMANAGER->Play("MON_Anim_atk01");
 	}
 	else
 	{
@@ -717,6 +721,8 @@ void cKelsaik::AttackPattern02()
 		SetAngleWithPlayer();
 		SetAnimWorld();
 		m_fHitCircleRadian = 0.0f;
+
+		SOUNDMANAGER->Play("MON_Anim_atk02");
 	}
 	else
 	{
@@ -762,6 +768,8 @@ void cKelsaik::AttackPattern03()
 		SetAngleWithPlayer();
 		SetAnimWorld();
 		m_fHitCircleRadian = 0.0f;
+
+		SOUNDMANAGER->Play("MON_Anim_roundAtk01");
 	}
 	else
 	{
@@ -863,6 +871,8 @@ void cKelsaik::TurnBack()
 			ChangeAnim(MON_Anim_roundAtk02, true);
 		}
 		SetAnimWorld();
+
+		SOUNDMANAGER->Play("MON_Anim_roundAtk02");
 	}
 	else
 	{
@@ -888,6 +898,8 @@ void cKelsaik::Berserk()
 	if (m_Anim != MON_Anim_heavyatk01)
 	{
 		ChangeAnim(MON_Anim_heavyatk01, true);
+
+		SOUNDMANAGER->Play("MON_Anim_heavyatk01");
 	}
 	else if (isEndPattern())
 	{
