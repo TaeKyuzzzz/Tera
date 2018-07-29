@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoundingBox\cBoundingBox.h" />
+    <ClInclude Include="Manager\cShaderManager.h" />
     <ClInclude Include="Ray\cRay.h" />
     <ClInclude Include="Scene\11_MapEdit\cBoundingBoxLoader.h" />
     <ClInclude Include="GameObject\NPC\cPoalong.h" />
@@ -241,6 +242,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoundingBox\cBoundingBox.cpp" />
+    <ClCompile Include="Manager\cShaderManager.cpp" />
     <ClCompile Include="Ray\cRay.cpp" />
     <ClCompile Include="Scene\11_MapEdit\cBoundingBoxLoader.cpp" />
     <ClCompile Include="GameObject\NPC\cPoalong.cpp" />
