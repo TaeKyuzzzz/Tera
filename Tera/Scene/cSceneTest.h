@@ -11,6 +11,7 @@ class cPoalong;
 
 class cTown_House;
 class cTestMap;
+class cBoundingBoxLoader;
 
 class cSceneTest : public cGameNode
 {
@@ -29,6 +30,7 @@ private :
 
 	cTown_House*		m_pTown_House;
 	cTestMap*			m_pMap;
+	cBoundingBoxLoader* m_pBoxLoader;
 
 	bool				m_isGoBoss;
 

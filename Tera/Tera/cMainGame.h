@@ -7,6 +7,7 @@ class cGrid;
 class cSceneTest;
 class cSceneMain;
 
+class cSceneMapEdit; //lsc
 
 class cMainGame : public cGameNode
 {
@@ -17,6 +18,8 @@ private :
 	LPDIRECT3DSURFACE9 surfcursor;
 	LPDIRECT3DTEXTURE9 m_cursorArrow;
 	LPDIRECT3DTEXTURE9 m_cursorEmpty;
+
+	cSceneMapEdit* m_pSceneMapEdit; //lsc
 
 public:
 	cMainGame();

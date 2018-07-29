@@ -44,13 +44,14 @@ cRay_toCube cRay_toCube::RayAtWorldSpace(int nScreenX, int nScreenY)
 	D3DXVec3TransformCoord(&r.m_vOriginal, &r.m_vOriginal, &matInvView); // 첫번째 매개변수의 w = 1
 	D3DXVec3TransformNormal(&r.m_vRay_Direction, &r.m_vRay_Direction, &matInvView); // 첫번재 매개변수의 w = 0
 
-	// 교차 판정을 위해 반직선 방향 벡터를 단위 길이로 만든다.
+																					// 교차 판정을 위해 반직선 방향 벡터를 단위 길이로 만든다.
 	D3DXVec3Normalize(&r.m_vRay_Direction, &r.m_vRay_Direction);
 
 	return r;
 }
 
-bool cRay_toCube::IntersectTri(IN D3DXVECTOR3 & v0, IN D3DXVECTOR3 & v1, IN D3DXVECTOR3 & v2, OUT D3DXVECTOR3 & vPickedPosition, OUT float & ray_dis)
+bool cRay_toCube::IntersectTri(IN D3DXVECTOR3 & v0, IN D3DXVECTOR3 & v1, IN D3DXVECTOR3 & v2,
+	OUT D3DXVECTOR3 & vPickedPosition, OUT float & ray_dis)
 {
 	float u, v;
 	bool b = D3DXIntersectTri(&v0, &v1, &v2, &m_vOriginal, &m_vRay_Direction, &u, &v, &ray_dis);
@@ -58,3 +59,4 @@ bool cRay_toCube::IntersectTri(IN D3DXVECTOR3 & v0, IN D3DXVECTOR3 & v1, IN D3DX
 	//vPickedPosition  = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
 	return b;
 }
+

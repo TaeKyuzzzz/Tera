@@ -55,7 +55,7 @@ void cCamera::Update(D3DXVECTOR3 target)
 	
 	D3DXMatrixRotationY(&m_matRotateY, m_fWorldY * D3DX_PI / 180.0f);
 	
-	D3DXMatrixTranslation(&m_matTraslation, Wheel, 0, 0);
+	D3DXMatrixTranslation(&m_matTraslation, (float)Wheel, 0, 0);
 
 	D3DXVECTOR3 vEye;
 	float x = m_vEye.x;
@@ -146,7 +146,7 @@ void cCamera::UpdateFix(D3DXVECTOR3 target)
 
 	//D3DXMatrixRotationZ(&m_matRotateZ, m_fWorldZ * D3DX_PI / 180.0f);
 
-	D3DXMatrixTranslation(&m_matTraslation, Wheel, 0, 0);
+	D3DXMatrixTranslation(&m_matTraslation, (float)Wheel, 0, 0);
 
 	D3DXVECTOR3 vEye;
 	float x = m_vEye.x;
