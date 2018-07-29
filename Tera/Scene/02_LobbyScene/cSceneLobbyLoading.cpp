@@ -109,7 +109,14 @@ void cSceneLobbyLoading::TotalLoading()
 
 	// 사운드 인자값으로 브금인지 루프할것인지 물어봄
 
-	////
-
+	//== AbandonedAutomatedGuardian
+	m_pLoading->InitForSound("M1_MON_STATE_atk01", "Sound/Field/M1_MON_STATE_atk01.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_atk02", "Sound/Field/M1_MON_STATE_atk02.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_aggrochange", "Sound/Field/M1_MON_STATE_aggrochange.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_Damage", "Sound/Field/M1_MON_STATE_Damage.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_Death", "Sound/Field/M1_MON_STATE_Death.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_Walk", "Sound/Field/M1_MON_STATE_Walk.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_Wait", "Sound/Field/M1_MON_STATE_Wait.mp3");
+	m_pLoading->InitForSound("M1_MON_STATE_run", "Sound/Field/M1_MON_STATE_run.mp3");
 
 }
