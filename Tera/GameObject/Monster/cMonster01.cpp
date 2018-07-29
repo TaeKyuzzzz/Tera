@@ -116,7 +116,7 @@ void cMonster01::Setup(D3DXVECTOR3 v)
 
 	// 바운딩 박스 생성
 	m_pBoundingBox = new cBoundingBox;
-	m_pBoundingBox->Setup(D3DXVECTOR3(-30, -55, -30), D3DXVECTOR3(30, 55, 30));
+	m_pBoundingBox->Setup(D3DXVECTOR3(-30, 0, -30), D3DXVECTOR3(30, 110, 30));
 
 	// 구 충돌 영역 생성(싸움존 거리)
 	m_pSpere = new cSpere;
@@ -178,6 +178,8 @@ void cMonster01::Update()
 		// 아니면 평소처럼 적용된 월드에서 업데이트
 		if (isUseLocalAnim())
 		{
+			m_matAnimWorld._42 = m_matWorld._42;
+
 			m_pMonster->Update(m_matAnimWorld);
 
 		}
