@@ -27,9 +27,7 @@ void cUIManager::CreateUIList()
 	CreateUI(WINDOW, "EquipmentPort", "Texture/UIIcon/EquipmentPort.png", D3DXVECTOR3(-50, -50, 0), { -1,-1 }, "Status");
 
 
-	char szNum[3];
-	string szDragZone[16];
-	string szSkillSlot[16]; 
+
 
 	CreateUI(WINDOW, "QSDRAGZONE", "Texture/UIIcon/DragZone.png", D3DXVECTOR3(340, 730, 0), { 1,1 });
 	CreateUI(BUTTON, "QSSKILLLOCK", "Texture/UIIcon/SkillLock.png", "Texture/UIIcon/SkillLockUp.png", "Texture/UIIcon/SkillKey.png"
@@ -47,8 +45,8 @@ void cUIManager::CreateUIList()
 		szDragZone[i] += szNum;
 		szSkillSlot[i] += szNum;
 
-		const char* szDragZoneC = szDragZone[i].c_str();
-		const char* szSkillSlotC = szSkillSlot[i].c_str();
+		szDragZoneC = szDragZone[i].c_str();
+		szSkillSlotC = szSkillSlot[i].c_str();
 
 		CreateUI(WINDOW, szDragZoneC, "Texture/UIIcon/DragZone.png", D3DXVECTOR3((i+1) * 50 - 11, -3, 0), { 1,1 }, "QSDRAGZONE");
 		CreateUI(WINDOW, szSkillSlotC, "Texture/UIIcon/SkillSlot.png", D3DXVECTOR3(-8, 20, 0), { -1,-1 }, szDragZoneC);
