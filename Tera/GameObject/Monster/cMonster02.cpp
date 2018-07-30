@@ -392,6 +392,15 @@ void cMonster02::Awake()
 
 void cMonster02::Chase()
 {
+	//배틀모드->추격모드일 경우 피격모드에서 쓰였던 bool변수와 float변수를 초기화해준다.(중복방지)
+	if (GetDamaged)
+	{
+		GetDamaged = false;
+		DamageTerm = 0.0f;
+	}
+
+
+	//이 함수에서는 항상 몬스터와 플레이어간 거리가 중요하므로 항상 제일 먼저 갱신해준다.
 	float Distance_Player_Monster = DistanceXZ(*g_vPlayerPos, m_vPosition);
 
 	//싸움존 내부로 거리가 좁혀지면 다시 배틀모드. 그리고
@@ -448,6 +457,18 @@ void cMonster02::Battle()
 		m_bAnimation = false;
 		m_bAngleLock = false;
 		return;
+	}
+
+	//만약 피격당했다면 일정시간동안 무적이어야 한다. GetDamaged를 On시켜서 시간을 잰후에 일정시간이 되면 다시 OFF시킨다.
+	if (GetDamaged)
+	{
+		DamageTerm += TIMEMANAGER->GetEllapsedTime();
+		if (DamageTerm > 1000.0f)
+		{
+			GetDamaged = false;
+			DamageTerm = 0.0f;
+		}
+			
 	}
 
 	//앵글락 상태에서는 퍼포먼스도중에 회전하지 않는다.(때리면서 돌아가는거 방지)
@@ -675,13 +696,14 @@ bool cMonster02::Attack(float damage)
 void cMonster02::Damaged(float damage, D3DXVECTOR3 pos)
 {
 	if (m_state == MON_STATE_deathwait ||
-		m_state == MON_STATE_Death)	 return;
+		m_state == MON_STATE_Death || GetDamaged)	 return;
 
 	m_fHpCur -= damage;
 
 	if (damage)
 	{
-
+		//피경당했다면 피격당했다고 ON시켜준다.
+		GetDamaged = true;
 		// 블리딩 터트릴 좌표를 만들어서 세팅하고 시작
 		D3DXMATRIX matTS, matR, matT;
 		D3DXMatrixRotationY(&matR, m_fRotY);

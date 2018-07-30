@@ -68,7 +68,7 @@ void cMainGame::Setup()
 	SCENEMANAGER->AddScene("MapEdit", new cSceneMapEdit);
 
 
-	SCENEMANAGER->ChangeScene("Main");
+	SCENEMANAGER->ChangeScene("LobbyLoading");
 	
 	// 커서 설정하는 부분
 	//m_cursorArrow = TEXTUREMANAGER->GetTexture("Texture/Cursor/Arrow.png");
@@ -103,16 +103,16 @@ void cMainGame::Render()
 		D3DCOLOR_XRGB(254, 254,254), 1.0f, 0);
 
 	SetCursor(NULL);
-
-	if (isOptionMode)
+	
+	if(isOptionMode)
 		g_pD3DDevice->ShowCursor(true);
 	else
 		g_pD3DDevice->ShowCursor(false);
 
-
 	g_pD3DDevice->BeginScene();
 	
-	////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	
 
 	//m_pGrid->Render();
 	SCENEMANAGER->Render();
