@@ -93,10 +93,14 @@ void cItemManager::Update()
 	//char텍스트와 int텍스트 로드
 	ItemInfoCTextRenewal("아이템정보");
 	//ItemInfoCTextRenewal("퀵슬롯텍스트");
-	//for (int i = 1; i < 16; i++)
-	//{
-	//	ItemInfoITextRenewal(i);
-	//}
+
+	if (isOptionMode)
+	{
+		for (int i = 1; i < 16; i++)
+		{
+			ItemInfoITextRenewal(i);
+		}
+	}
 
 	//QuickSlotSynchronize();
 	
@@ -256,7 +260,6 @@ void cItemManager::ItemInfoITextRenewal(int sequence)
 			if (sequence == 1)
 			{
 				vInt[1] = m_nGold;
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 
 			// 번호가 2일때 아이템툴팁 텍스트
@@ -266,7 +269,6 @@ void cItemManager::ItemInfoITextRenewal(int sequence)
 
 				vInt[2] = FindSalePriceValue();
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			//스테이터스 텍스트
 			else if (sequence == 3)
@@ -275,7 +277,6 @@ void cItemManager::ItemInfoITextRenewal(int sequence)
 
 				vInt[2] = m_nDefenceValue;
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			//순서이기도 하고 TEXT에 존재하는 번호이기도 함
 			//TEXT하나는 여러곳에서 사용해도 포인터라 두곳에 존재할 수 없음
@@ -283,78 +284,69 @@ void cItemManager::ItemInfoITextRenewal(int sequence)
 			{
 				vInt[1] = FindPotionCount(m_vInvenItem,"하급회복물약");
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			else if (sequence == 5)
 			{
 				vInt[1] = FindPotionCount(m_vInvenItem, "중급회복물약");
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			else if (sequence == 6)
 			{
 				vInt[1] = FindPotionCount(m_vInvenItem, "상급회복물약");
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			else if (sequence == 7)
 			{
 				vInt[1] = FindPotionCount(m_vInvenItem, "하급마나물약");
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			else if (sequence == 8)
 			{
 				vInt[1] = FindPotionCount(m_vInvenItem, "중급마나물약");
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			else if (sequence == 9)
 			{
 				vInt[1] = FindPotionCount(m_vInvenItem, "상급마나물약");
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			else if (sequence == 10)
 			{
 				vInt[1] = FindPotionCount(m_vQuickItem, "하급회복물약");
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			else if (sequence == 11)
 			{
 				vInt[1] = FindPotionCount(m_vQuickItem, "중급회복물약");
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			else if (sequence == 12)
 			{
 				vInt[1] = FindPotionCount(m_vQuickItem, "상급회복물약");
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			else if (sequence == 13)
 			{
 				vInt[1] = FindPotionCount(m_vQuickItem, "하급마나물약");
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			else if (sequence == 14)
 			{
 				vInt[1] = FindPotionCount(m_vQuickItem, "중급마나물약");
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
 			}
 			else if (sequence == 15)
 			{
 				vInt[1] = FindPotionCount(m_vQuickItem, "상급마나물약");
 
-				m_vText[i]->GetText()->SetTextIContents(vInt);
+			
 			}
 			
-
+			m_vText[i]->GetText()->SetTextIContents(vInt);
 		}
+
 	}
+
 }
 
 void cItemManager::ItemInfoCTextRenewal(const char * szFindText)
@@ -1358,20 +1350,27 @@ POINT cItemManager::FindPlaceAndIndex(vector<cItemInfo*> vPlaceItem)
 
 int cItemManager::FindPotionCount(vector<cItemInfo*> vPlaceItem, const char* szName)
 {
-	for (int i = 0; i < vPlaceItem.size(); i++)
-	{		
-		if (vPlaceItem[i]->GetName() == szName)
+
+
+		for (int i = 0; i < vPlaceItem.size(); i++)
 		{
-			return vPlaceItem[i]->GetPotionCount();
-		}	
-	}	
-	for (int i = 8; i < m_vConShopItem.size(); i++)
-	{
-		if (m_vConShopItem[i]->GetName() == szName)
-		{
-			return m_vConShopItem[i]->GetPotionCount();
+			if (vPlaceItem[i]->GetName() == szName)
+			{
+				return vPlaceItem[i]->GetPotionCount();
+			}
 		}
-	}
+		if (vPlaceItem != m_vQuickItem)
+		{
+
+			for (int i = 8; i < m_vConShopItem.size(); i++)
+			{
+				if (m_vConShopItem[i]->GetName() == szName)
+				{
+					return m_vConShopItem[i]->GetPotionCount();
+				}
+			}
+		}
+	
 
 }
 
