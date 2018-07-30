@@ -74,13 +74,15 @@ void cMonster02::Setup(D3DXVECTOR3 v)
 {
 	cMonster::Setup();
 
+	m_sName = "야생곰";
+
 	//처음에 얘로 셋팅해놓는다.
 	//처음 젠되는 위치 설정
 	m_vBehaviorSpot = v;//D3DXVECTOR3(1247, 0, 3578);
 	m_vPosition = v;
-
-	m_fMaxHp = 200.0f;
-	m_fCurHp = 200.0f;
+	
+	m_fHpMax = 200.0f;
+	m_fHpCur = 200.0f;
 	m_fAttack = 10.0f;
 	m_fDefense = 5.0f;
 
@@ -124,6 +126,9 @@ void cMonster02::Setup(D3DXVECTOR3 v)
 	//셰이더관련
 	DeathShader = cShader::LoadShader("XFile/Monster", "DeathShader.fx");
 	SKIN = TEXTUREMANAGER->GetTexture("XFile/Monster/EnragedBear_diff.tga");
+
+	m_pRimLight = cShader::LoadShader("Shader/Effect/", "RimFlash.fx");
+	m_pRimLight->SetFloat("Offset", 0.2f);
 
 	MODE = IDLE;
 }
@@ -228,8 +233,6 @@ void cMonster02::Update()
 	m_pSpere->SetWorld(m_matWorld);
 
 	cMonster::Update();
-
-	cGameObject::Update();
 }
 
 
@@ -586,15 +589,21 @@ void cMonster02::Rebirth()
 
 void cMonster02::Render()
 {
+	RimLightSetup(0, 0, 0, 0, 0, 0, 0);
 	if (m_bIsGen)
 	{
 		if (DissapearingMode)
 			m_pMonster->Render(NULL, DeathShader, m_nTime, SKIN, DissapearingMode, m_bIsGen, m_fTimeofDeath);
 		else
-			m_pMonster->Render(NULL);
+		{
+			if (m_isPicked)
+				m_pMonster->Render(NULL, m_pRimLight);
+			else
+				m_pMonster->Render(NULL);
+		}
 	}
 
-	cGameObject::Render();
+	cMonster::Render();
 
 	if (SightSpere && m_pSphereR)
 		m_pSphereR->Render();

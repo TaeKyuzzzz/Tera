@@ -166,7 +166,7 @@ void cCharacterClass03::Update()
 			m_fTime = 0.0f;
 			m_bIsDone = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('1') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('Q') && m_state == CH_STATE_Wait)
 		{
 			// 가이아 크래시
 			SetAnimWorld();
@@ -179,7 +179,7 @@ void cCharacterClass03::Update()
 			m_isDoEffect = false;
 			m_isDoSkiilSound = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('2') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('E') && m_state == CH_STATE_Wait)
 		{
 			// 커팅슬래시
 
@@ -193,7 +193,7 @@ void cCharacterClass03::Update()
 			m_isDoEffect = false;
 			m_isDoSkiilSound = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('3') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('R') && m_state == CH_STATE_Wait)
 		{
 			// 컷헤드
 
@@ -207,7 +207,7 @@ void cCharacterClass03::Update()
 			m_isDoEffect = false;
 			m_isDoSkiilSound = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('4') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('T') && m_state == CH_STATE_Wait)
 		{
 			SetAnimWorld();
 

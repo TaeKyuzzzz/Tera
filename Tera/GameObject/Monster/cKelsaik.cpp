@@ -97,8 +97,8 @@ void cKelsaik::Setup()
 	
 	//SetLight();
 
-	m_fMaxHp = 4000.0f;
-	m_fCurHp = 0.0f;
+	m_fHpMax = 4000.0f;
+	m_fHpCur = 0.0f;
 	m_fAttack = 30.0f;
 	m_fDefense = 10.0f;
 
@@ -221,10 +221,10 @@ void cKelsaik::Awake_Update()
 	}
 	else if (m_fTime > 0.8f)
 	{
-		if (m_fCurHp < m_fMaxHp)
-			m_fCurHp += m_fMaxHp / 130;
+		if (m_fHpCur < m_fHpMax)
+			m_fHpCur += m_fHpMax / 130;
 		else
-			m_fCurHp = m_fMaxHp;
+			m_fHpCur = m_fHpMax;
 		CAMERAMANAGER->Shaking(0.06f);
 	}
 
@@ -327,7 +327,7 @@ void cKelsaik::Battle_Update()
 
 	if (KEYMANAGER->IsOnceKeyDown('N'))
 	{
-		m_fCurHp = 0;
+		m_fHpCur = 0;
 		ChangeState(DIE);
 	}
 }
@@ -518,7 +518,7 @@ void cKelsaik::Render()
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 	
 	// 히트 박스 렌더
-	HitCircleRender();
+	//HitCircleRender();
 
 	RimLightSetup(0,0,0,0,0,0,0);
 
@@ -1002,7 +1002,7 @@ void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 	Damaged = Damaged - m_fDefense;
 	if (Damaged < 0) Damaged = 0;
 
-	m_fCurHp -= Damaged;
+	m_fHpCur -= Damaged;
 
 	// 블리딩 터트릴 좌표를 만들어서 세팅하고 시작
 	D3DXMATRIX matTS, matR, matT;
@@ -1017,17 +1017,17 @@ void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 	// 피격시 순간 번쩍임을 위해 만들었는데 이 방법은 아닌듯..
 	//g_pD3DDevice->LightEnable(50, true);
 
-	if (m_fCurHp < m_fMaxHp * 0.1f && m_isPossibleBerserk)
+	if (m_fHpCur < m_fHpMax * 0.1f && m_isPossibleBerserk)
 	{
 		m_isPossibleBerserk = false;
 		SetReactionPattern(BERSERK);
 	}
-	else if (m_fCurHp < m_fMaxHp * 0.3f && m_isPossibleDown)
+	else if (m_fHpCur < m_fHpMax * 0.3f && m_isPossibleDown)
 	{
 		m_isPossibleDown = false;
 		SetReactionPattern(REACTIONDOWN);
 	}
-	else if (m_fCurHp < m_fMaxHp * 0.5f && m_isPossibleGroggy)
+	else if (m_fHpCur < m_fHpMax * 0.5f && m_isPossibleGroggy)
 	{
 		m_isPossibleGroggy = false;
 		SetReactionPattern(REACTIONGRGY);
@@ -1041,9 +1041,9 @@ void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 		m_fDamagedStack += Damaged;
 
 
-	if (m_fCurHp < 0)
+	if (m_fHpCur < 0)
 	{
-		m_fCurHp = 0;
+		m_fHpCur = 0;
 		ChangeState(DIE);
 	}
 }
@@ -1061,7 +1061,7 @@ void cKelsaik::SetUpStateBar()
 
 void cKelsaik::UpdateUpStateBar()
 {
-	m_pHpBar->SetGauge(m_fCurHp, m_fMaxHp);
+	m_pHpBar->SetGauge(m_fHpCur, m_fHpMax);
 }
 
 void cKelsaik::RenderUpStateBar()
@@ -1075,7 +1075,7 @@ void cKelsaik::RenderUpStateBar()
 	char szTemp[1024];
 	RECT rc;
 
-	sprintf_s(szTemp, 1024, "%.0f%%", ((float)m_fCurHp /(float)m_fMaxHp)*100.0f);
+	sprintf_s(szTemp, 1024, "%.0f%%", ((float)m_fHpCur /(float)m_fHpMax)*100.0f);
 	SetRect(&rc,
 		WINSIZEX / 2 - 20,137, WINSIZEX / 2 +20,152);
 

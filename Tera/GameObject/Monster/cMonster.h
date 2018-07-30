@@ -7,7 +7,7 @@ class cProgressBar;
 class cMonster : public cGameObject
 {
 public:
-
+	string			m_sName;
 	float			m_fSpeed;
 
 	//iMap*			m_pMap;
@@ -16,8 +16,6 @@ public:
 
 	// 기본 적으로 몬스터가 갖는 속성
 
-	float			m_fMaxHp;
-	float			m_fCurHp;
 
 	float			m_fAttack;
 	float			m_fDefense;
@@ -29,6 +27,7 @@ public:
 	D3DXVECTOR3		m_vCurAnimPos;
 	D3DXVECTOR3		m_vBeforeAnimPos;
 
+	
 	float			m_fHpMax;
 	float			m_fHpCur;
 	float			m_fHpUI;
@@ -112,6 +111,6 @@ public:
 
 	void SetUpStateBar();
 	void UpdateUpStateBar();
-	void RenderUpStateBar();
+	void RenderUpStateBar(string name);
 };
 
