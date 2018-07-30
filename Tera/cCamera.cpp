@@ -47,21 +47,21 @@ void cCamera::Setup()
 
 void cCamera::Update(D3DXVECTOR3 target)
 {
-	
 	m_fWorldY += (currentPt.x - beforePt.x);
 
 	beforePt = currentPt;
 	currentPt = ptMouse;
 	
 	D3DXMatrixRotationY(&m_matRotateY, m_fWorldY * D3DX_PI / 180.0f);
+	D3DXMatrixRotationZ(&m_matRotateX, m_fWorldX * D3DX_PI / 180.0f);
 	
 	D3DXMatrixTranslation(&m_matTraslation, (float)Wheel, 0, 0);
 
 	D3DXVECTOR3 vEye;
 	float x = m_vEye.x;
 
-	D3DXVec3TransformCoord(&vEye, &m_vEye, &m_matTraslation);
-	D3DXVec3TransformCoord(&vEye, &vEye, &m_matRotateX);
+	D3DXVec3TransformCoord(&vEye, &m_vEye, &m_matRotateX);
+	D3DXVec3TransformCoord(&vEye, &vEye, &m_matTraslation);
 	D3DXVec3TransformCoord(&vEye, &vEye, &m_matRotateY);
 	//D3DXVec3TransformCoord(&vEye, &vEye, &m_matRotateZ);
 	D3DXVec3TransformCoord(&vEye, &vEye, &m_matWorld);

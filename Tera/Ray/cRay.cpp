@@ -60,7 +60,7 @@ float cRay::IsPicked(cSpere * spere)
 	D3DXVec3TransformCoord(&r.m_vOriginal, &r.m_vOriginal, &matInvWorld);
 	D3DXVec3TransformNormal(&r.m_vDirection, &r.m_vDirection, &matInvWorld);
 
-	result = D3DXVec3Length(&(spere->GetPosition() - m_vOriginal));
+	result = abs( D3DXVec3Length(&(spere->GetPosition() - m_vOriginal)));
 
 	float vv = D3DXVec3Dot(&r.m_vDirection, &r.m_vDirection);
 	float qv = D3DXVec3Dot(&r.m_vOriginal, &r.m_vDirection);

@@ -96,6 +96,28 @@ bool cTestMap::GetHeight(IN float x, OUT float & y, IN float z)
 	return false;
 }
 
+void cTestMap::GetTerrainSlope(OUT D3DXMATRIX &out, IN float x, IN float z)
+{
+	////1. 지형 노멀 벡터 구하기
+	//const D3DXVECTOR3& vec = m_pGround->GetMesh()->GetNumVertices();
+
+	////2. 지형 노멀 벡터와 Up 벡터의 외적으로 회전축 벡터 구하기
+	//D3DXVECTOR3 rAxis, up = D3DXVECTOR3(0, 1, 0);
+
+	//D3DXVec3Cross(&rAxis, &vec, &up);
+
+
+	////3. 지형 노멀 벡터와 Up 벡터의 내적으로 내적 회전값 구하기
+	//float dot = D3DXVec3Dot(&vec, &up);
+
+	////4. 회전값을 회전각으로 변환
+	//float angle = acos(dot);
+
+
+	////5. 회전축으로 회전각 만큼 행렬 구하기
+	//D3DXMatrixRotationAxis(&out, &rAxis, angle);
+}
+
 void cTestMap::IntersectTri(OUT D3DXVECTOR3 & vPickedPosition, OUT float & ray_dis)
 {
 	cRay_toCube ray;

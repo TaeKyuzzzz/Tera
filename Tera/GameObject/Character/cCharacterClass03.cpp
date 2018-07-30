@@ -254,13 +254,32 @@ void cCharacterClass03::Update()
 		KEYMANAGER->IsStayKeyDown('S')) &&
 		(m_state == CH_STATE_Wait || m_state == CH_STATE_run))
 	{
+		if (m_isRun == false)
+		{
+			m_isRun = true;
+			SOUNDMANAGER->Play("Char_BodyFall");
+		}
+		else if (m_fTime > 0.5f)
+		{
+			m_fTime = 0.0f;
+			m_isRun = false;
+		}
 		//if (m_state == CH_STATE_Wait)
 		//	m_bIsBlend = true;
 		m_state = CH_STATE_run;
+	
 	}
-
-	Move();
-	/////////////////
+	else if (KEYMANAGER->IsOnceKeyUp('W') ||
+		KEYMANAGER->IsOnceKeyUp('A') ||
+		KEYMANAGER->IsOnceKeyUp('D') ||
+		KEYMANAGER->IsOnceKeyUp('S'))
+	{
+		m_isRun = false;
+	}
+	
+		
+		Move();
+	//////////  ///////
 	// 파티클 테스트 입니다.
 	D3DXMATRIX mat;
 	D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);

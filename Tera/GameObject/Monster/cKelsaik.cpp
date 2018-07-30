@@ -530,8 +530,8 @@ void cKelsaik::Render()
 			m_pMonster->Render(NULL); // 요건 평상시의 렌더
 	}
 	else
-	{
-		RimLightSetup(D3DXVECTOR4(1, 0.6, 0.16, 1), m_PossbleDamagedTime*0.2,1.0f);
+	{						// 1, 0.6, 0.16, 1
+		RimLightSetup(D3DXVECTOR4(1, 0, 0, 1), m_PossbleDamagedTime*0.2,1.0f);
 		m_pMonster->Render(NULL, m_pRimLight);// 요건 맞았을때 히트 플래쉬 렌더!
 	}
 
@@ -830,7 +830,10 @@ void cKelsaik::TurnLeft()
 		// 패턴이 끝났다면
 		if (isEndPattern())
 		{
-			SetAngleWithPlayer();
+			//SetAngleWithPlayer();
+			m_fRotY += D3DX_PI;
+			if (m_fRotY > D3DX_PI * 2)
+				m_fRotY -= D3DX_PI * 2;
 			ChangeAnim(MON_Anim_Wait, false);
 			m_isDoingPattern = false;
 		}
@@ -850,7 +853,10 @@ void cKelsaik::TurnRight()
 		// 패턴이 끝났다면
 		if (isEndPattern())
 		{
-			SetAngleWithPlayer();
+			//SetAngleWithPlayer();
+			m_fRotY += D3DX_PI;
+			if (m_fRotY > D3DX_PI * 2)
+				m_fRotY -= D3DX_PI * 2;
 			ChangeAnim(MON_Anim_Wait, false);
 			m_isDoingPattern = false;
 		}

@@ -90,7 +90,7 @@ protected:
 
 	bool				m_isDoEffect;
 	bool				m_isDoSkiilSound;
-
+	
 public:
 	cCharacterClass03();
 	~cCharacterClass03();
