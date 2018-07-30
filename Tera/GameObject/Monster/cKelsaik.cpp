@@ -1000,6 +1000,7 @@ void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 	if (m_isPossibleDamaged == false || STATE == DIE)
 		return;
 
+	SOUNDMANAGER->Play("WPN_Sword_Attack");
 	CAMERAMANAGER->Shaking(0.1f);
 
 	m_isPossibleDamaged = false;

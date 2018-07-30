@@ -558,6 +558,23 @@ void cMonster02::Battle()
 
 void cMonster02::Death()
 {
+	if (m_state != MON_STATE_Death)
+	{
+		int n = rand() % 3;
+		switch (n)
+		{
+		case 0 :
+			ItemDrop("검은마력의신발");
+			break;
+		case 1 :
+			ItemDrop("검은마력의장갑");
+			break;
+		case 2 :
+			ItemDrop("검은마력의옷");
+			break;
+		}
+	}
+
 	m_fHpCur = 0.0f;
 
 	m_state = MON_STATE_Death;

@@ -96,6 +96,8 @@ void cPoalong::Update()
 			if (m_vWhere_To_Stay.z < g_vPlayerPos->z)
 				m_fCosVal = D3DX_PI * 2 - m_fCosVal;
 		}
+		
+		SOUNDMANAGER->Play("Poarong_DialogStart");
 
 		UIMANAGER->SetIsCallConShop(true);
 		isOptionMode = true;
@@ -104,6 +106,7 @@ void cPoalong::Update()
 	}
 	else if (UIMANAGER->GetIsCallConShop() && KEYMANAGER->IsOnceKeyDown('F') && DialogZone < 40)
 	{
+		SOUNDMANAGER->Play("Poarong_DialogEnd");
 		//창을 끄면 다시 원래 쳐다보던 곳으로.
 		{
 			m_fCosVal = 0.0f;

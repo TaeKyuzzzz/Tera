@@ -98,6 +98,8 @@ void cSceneMain::Update()
 
 		if (m_nBGBlackAlpha > 255)
 		{
+			SOUNDMANAGER->Play("Main");
+			SOUNDMANAGER->Pause("Main");
 			SOUNDMANAGER->Stop("Main");
 			SCENEMANAGER->ChangeScene(m_sNextScene.c_str());
 		}

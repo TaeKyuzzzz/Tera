@@ -538,7 +538,7 @@ void cMonster01::BigDamaged()
 void cMonster01::Die()
 {
 	if(m_state != MON_STATE_Death)
-		ItemDrop("검은마력의옷");
+		ItemDrop("아이스소드");
 	
 	m_fHpCur = 0.0f;
 
