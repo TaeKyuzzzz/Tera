@@ -573,6 +573,8 @@ void cMonster02::Death()
 			ItemDrop("검은마력의옷");
 			break;
 		}
+
+		SOUNDMANAGER->Play("M2_MON_STATE_Death");
 	}
 
 	m_fHpCur = 0.0f;
@@ -590,8 +592,6 @@ void cMonster02::Death()
 		m_fTime = 0.0f;
 		MODE = DISAPPEAR;
 	}
-
-	SOUNDMANAGER->Play("M2_MON_STATE_Death");
 }
 
 void cMonster02::Disappear()
