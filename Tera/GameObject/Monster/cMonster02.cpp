@@ -56,6 +56,7 @@ cMonster02::cMonster02()
 
 	m_pParticleBleeding = PARTICLEMANAGER->GetParticle("Bleeding");
 	PARTICLEMANAGER->AddChild(m_pParticleBleeding);
+
 }
 
 
@@ -129,7 +130,7 @@ void cMonster02::Setup(D3DXVECTOR3 v)
 
 	m_pRimLight = cShader::LoadShader("Shader/Effect/", "RimFlash.fx");
 	m_pRimLight->SetFloat("Offset", 0.2f);
-
+	
 	MODE = IDLE;
 }
 
@@ -590,6 +591,7 @@ void cMonster02::Rebirth()
 void cMonster02::Render()
 {
 	RimLightSetup(0, 0, 0, 0, 0, 0, 0);
+
 	if (m_bIsGen)
 	{
 		if (DissapearingMode)
