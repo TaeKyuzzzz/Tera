@@ -55,7 +55,7 @@ void cSceneTest::Setup()
 
 	m_pPopori = new cCharaPopori;
 	m_pPopori->Setup();
-	m_pPopori->SetPosition(D3DXVECTOR3(1794, 0, 3936));
+	m_pPopori->SetPosition(D3DXVECTOR3(1200, 0, 1400));
 	OBJECTMANAGER->AddCharaObject(m_pPopori);
 	OBJECTMANAGER->SetPlayer(m_pPopori);
 	
@@ -63,29 +63,31 @@ void cSceneTest::Setup()
 	m_pDummy->Setup(D3DXVECTOR3(969, -406, 4157));
 	m_pBackGroundBlack = TEXTUREMANAGER->GetSprite("Texture/SceneTexture/BGBlack.png");
 	
+
+	//필드보스
 	m_pMonster01 = new cMonster01;
-	m_pMonster01->Setup(D3DXVECTOR3(1979,0,3893));
+	m_pMonster01->Setup(D3DXVECTOR3(1200,0,3550));
 	//m_pMonster01->SetPosition(m_pMonster01->GetSpot());
 	OBJECTMANAGER->AddMonsterObject(m_pMonster01);
 
 	m_pMonster02 = new cMonster02;
-	m_pMonster02->Setup(D3DXVECTOR3(1247, 0, 3578));
+	m_pMonster02->Setup(D3DXVECTOR3(1247, 0, 2078));
 	OBJECTMANAGER->AddMonsterObject(m_pMonster02);
 
 	m_pMonster02_1 = new cMonster02;
-	m_pMonster02_1->Setup(D3DXVECTOR3(1230, 0, 3548));
+	m_pMonster02_1->Setup(D3DXVECTOR3(1230, 0, 2048));
 	OBJECTMANAGER->AddMonsterObject(m_pMonster02_1);
 
 	m_pMonster02_2 = new cMonster02;
-	m_pMonster02_2->Setup(D3DXVECTOR3(1200, 0, 3500));
+	m_pMonster02_2->Setup(D3DXVECTOR3(1200, 0, 2000));
 	OBJECTMANAGER->AddMonsterObject(m_pMonster02_2);
 
 	m_pMonster02_3 = new cMonster02;
-	m_pMonster02_3->Setup(D3DXVECTOR3(1150, 0, 3300));
+	m_pMonster02_3->Setup(D3DXVECTOR3(1150, 0, 1800));
 	OBJECTMANAGER->AddMonsterObject(m_pMonster02_3);
 
 	m_pMonster02_4 = new cMonster02;
-	m_pMonster02_4->Setup(D3DXVECTOR3(1050, 0, 3650));
+	m_pMonster02_4->Setup(D3DXVECTOR3(1050, 0, 2150));
 	OBJECTMANAGER->AddMonsterObject(m_pMonster02_4);
 
 	m_pPoalong = new cPoalong;

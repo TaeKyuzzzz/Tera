@@ -61,12 +61,6 @@ protected:
 	bool				m_bIsBlend;						// 애니 블렌딩 처리여부
 	float				m_fCosVal;						// 봐야할 각도
 
-	
-														
-	//행동패턴 디자인에 쓰인 임시변수
-	D3DXVECTOR3			temp;
-	D3DXVECTOR2			tt;
-
 	//공격에 쓰이는 본
 
 	ST_BONE*			m_pHandR;						
@@ -75,6 +69,11 @@ protected:
 	cSpere*				m_pSphereL;						
 
 	float				m_fFightZone;
+
+	//피격처리에 쓰는 변수
+
+	bool				GetDamaged = false;;
+	float				DamageTerm = 0.0f;
 
 
 public:
