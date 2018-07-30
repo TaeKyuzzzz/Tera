@@ -132,13 +132,14 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("Poarong_DialogEnd", "Sound/Main/Poarong_DialogEnd01.mp3");
 
 	//== ±âÅ¸
+	m_pLoading->InitForSound("WPN_Hit", "Sound/Main/WPN_Hit.mp3");
+	m_pLoading->InitForSound("WPN_Sword_Attack", "Sound/Main/WPN_Sword_Attack.mp3");
 	m_pLoading->InitForSound("WPN_Sword_Swing", "Sound/Main/WPN_Sword_Swing.mp3");
 	m_pLoading->InitForSound("WPN_Sword_Swing2", "Sound/Main/WPN_Sword_Swing2.mp3");
 	m_pLoading->InitForSound("Char_Wark_GlassLand", "Sound/Main/Char_Wark_GlassLand.mp3");
 	m_pLoading->InitForSound("Char_BodyFall", "Sound/Main/Char_Wark_GlassLand.mp3");
-	m_pLoading->InitForSound("WPN_Hit", "Sound/Main/WPN_Hit.mp3");
-	m_pLoading->InitForSound("WPN_Sword_Attack", "Sound/Main/WPN_Sword_Attack.mp3");
 
-
-
+	m_pLoading->InitForSound("Char_Skill_Explosion", "Sound/Main/Char_Skill_Explosion.mp3");
+	m_pLoading->InitForSound("Use_Drink", "Sound/Main/Use_Drink.mp3");
+	m_pLoading->InitForSound("Use_PotionDrink", "Sound/Main/Use_PotionDrink.mp3");
 }
