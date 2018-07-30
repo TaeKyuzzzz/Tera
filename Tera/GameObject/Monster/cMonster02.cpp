@@ -627,6 +627,10 @@ void cMonster02::Rebirth()
 
 void cMonster02::Render()
 {
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+
 	RimLightSetup(0, 0, 0, 0, 0, 0, 0);
 
 	if (m_bIsGen)

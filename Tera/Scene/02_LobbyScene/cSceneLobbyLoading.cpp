@@ -143,7 +143,7 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("Char_Skill_Explosion", "Sound/Main/Char_Skill_Explosion.mp3");
 	m_pLoading->InitForSound("Use_Drink", "Sound/Main/Use_Drink.mp3");
 	m_pLoading->InitForSound("Use_PotionDrink", "Sound/Main/Use_PotionDrink.mp3");
-	m_pLoading->InitForSound("Use_TeleportWarf", "Sound/Interface/Use_TeleportWarf.mp3");
+	m_pLoading->InitForSound("Use_TeleportWarf", "Sound/Main/Use_TeleportWarf.mp3");
 
 	//== 시스템 사운드
 	m_pLoading->InitForSound("Drop_Coin", "Sound/Interface/Drop_Coin.mp3");

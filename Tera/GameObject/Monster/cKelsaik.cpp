@@ -957,7 +957,7 @@ void cKelsaik::ReactionGroggy()
 		ChangeAnim(MON_Anim_groggy, true);
 		SetAnimWorld();
 
-		SOUNDMANAGER->Play("MON_Anim_groggy");
+		SOUNDMANAGER->Play("GiantGriffin_Groggy");
 	}
 	else
 	{

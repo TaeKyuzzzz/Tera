@@ -154,7 +154,7 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->InitForSound("MON_Anim_groggy", "Sound/Boss/MON_Anim_groggy.mp3");
 	m_pLoading->InitForSound("MON_Anim_flinch", "Sound/Boss/MON_Anim_flinch.mp3");
 	m_pLoading->InitForSound("MON_Anim_Walk", "Sound/Boss/MON_Anim_Walk.mp3");
-
+	m_pLoading->InitForSound("GiantGriffin_Groggy", "Sound/Boss/GiantGriffin_Groggy.mp3");
 	// 타격 관련 ( 로딩에서도 넣어주고 있음 )
 
 	m_pLoading->InitForSound("WPN_Hit", "Sound/Main/WPN_Hit.mp3");
@@ -170,4 +170,5 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->InitForSound("Use_PotionDrink", "Sound/Main/Use_PotionDrink.mp3");
 	m_pLoading->InitForSound("Use_TeleportWarf", "Sound/Interface/Use_TeleportWarf.mp3");
 
+	//GiantGriffin_Groggy
 }
