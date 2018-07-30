@@ -316,6 +316,13 @@ void cCharacterClass03::Update()
 		SOUNDMANAGER->Play("PCDie");
 		Die();
 	}
+	//if (KEYMANAGER->IsOnceKeyDown('M'))
+	//	Die();
+	//if (m_state == CH_STATE_Dearhwait && KEYMANAGER->IsOnceKeyDown(VK_ESCAPE))
+	//{
+	//	SOUNDMANAGER->AllStop();
+	//	SCENEMANAGER->ChangeScene("LobbyLoading");
+	//}
 }
 
 void cCharacterClass03::Render()
@@ -626,9 +633,11 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 
 	cCharacter::Damaged();
 
-	m_fHpCur -= damage;
+	int Damage = damage - m_fDefense;
+	if (Damage < 0) Damage = 0;
+	m_fHpCur -= Damage;
 
-	if (damage < m_fHpMax / 10.0f)
+	if (Damage < m_fHpMax / 10.0f)
 	{
 		m_state = CH_STATE_groggy1;
 		m_fCurAnimTime = 0.5f;
@@ -637,7 +646,7 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 
 		SOUNDMANAGER->Play("PCDamaged");
 	}
-	else if (damage < m_fHpMax / 6.0f)
+	else if (Damage< m_fHpMax / 6.0f)
 	{
 		SetAnimWorld();
 		m_state = CH_STATE_bReactionStart;
@@ -691,7 +700,9 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, DAMAGED_TYPE type
 
 	cCharacter::Damaged();
 
-	m_fHpCur -= damage;
+	int Damage = damage - m_fDefense;
+	if (Damage < 0) Damage = 0;
+	m_fHpCur -= Damage;
 
 	if (type == PC_DMG_TYPE_1)
 	{
@@ -757,9 +768,11 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, fl
 
 	cCharacter::Damaged();
 
-	m_fHpCur -= damage;
+	int Damage = damage - m_fDefense;
+	if (Damage < 0) Damage = 0;
+	m_fHpCur -= Damage;
 
-	if (damage < m_fHpMax / 10.0f)
+	if (Damage < m_fHpMax / 10.0f)
 	{
 		m_state = CH_STATE_groggy1;
 		m_fCurAnimTime = 0.5f;
@@ -768,7 +781,7 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, fl
 
 		SOUNDMANAGER->Play("PCDamaged");
 	}
-	else if (damage < m_fHpMax / 6.0f)
+	else if (Damage < m_fHpMax / 6.0f)
 	{
 		SetAnimWorld();
 		m_state = CH_STATE_bReactionStart;
@@ -858,7 +871,9 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, fl
 
 	cCharacter::Damaged();
 
-	m_fHpCur -= damage;
+	int Damage = damage - m_fDefense;
+	if (Damage < 0) Damage = 0;
+	m_fHpCur -= Damage;
 
 	if (type == PC_DMG_TYPE_1)
 	{

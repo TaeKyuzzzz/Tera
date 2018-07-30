@@ -47,7 +47,7 @@ cMonster02::cMonster02()
 	m_fTracableArea = 1000.0f;
 	m_fRunSpeed = 1.2f;
 	m_fFightZone = 50.0f;
-	m_fHpCur = 200.0f;
+	m_fHpCur = m_fHpMax;
 
 	MODE = IDLE;
 
@@ -615,7 +615,7 @@ void cMonster02::Rebirth()
 	m_fRotY = 0.0f;
 	m_vDirection = D3DXVECTOR3(1, 0, 0);
 	m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
-	m_fHpCur = 200.0f;
+	m_fHpCur = m_fHpMax;
 
 	//5초뒤에 부활.
 	if (GetTickCount() - m_fTimeofDeath >= 5000.0f)
@@ -715,6 +715,8 @@ void cMonster02::Damaged(float damage, D3DXVECTOR3 pos)
 	if (m_state == MON_STATE_deathwait ||
 		m_state == MON_STATE_Death || GetDamaged)	 return;
 
+	int Damage = damage - m_fDefense;
+	if (Damage < 0) Damage = 0;
 	m_fHpCur -= damage;
 
 	if (damage)
