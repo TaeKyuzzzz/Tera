@@ -96,7 +96,25 @@ bool cTestMap::GetHeight(IN float x, OUT float & y, IN float z)
 	return false;
 }
 
-void cTestMap::GetTerrainSlope(OUT D3DXMATRIX &out, IN float x, IN float z)
+void cTestMap::IntersectTri(OUT D3DXVECTOR3 & vPickedPosition, OUT float & ray_dis)
+{
+	cRay_toCube ray;
+	float distMax = 100000.0f; // ray 최대거리
+
+	cRay_toCube r = ray.RayAtWorldSpace(ptMouse.x, ptMouse.y);
+
+	for (UINT i = 0; i <numOfIndex; i += 3)
+	{
+		float u, v, f;
+		r.IntersectTri(m_pVertex[m_pIndex[i + 0]].p,
+			m_pVertex[m_pIndex[i + 1]].p,
+			m_pVertex[m_pIndex[i + 2]].p,
+			vPickedPosition,
+			ray_dis);
+	}
+}
+
+void cTestMap::GetTerrainSlope(OUT D3DXMATRIX & out, IN float x, IN float z)
 {
 	//1. 지형 노멀 벡터 구하기
 	D3DXVECTOR3& vec = GetNormal(x, z);
@@ -118,24 +136,6 @@ void cTestMap::GetTerrainSlope(OUT D3DXMATRIX &out, IN float x, IN float z)
 	D3DXMatrixRotationAxis(&out, &rAxis, angle);
 }
 
-void cTestMap::IntersectTri(OUT D3DXVECTOR3 & vPickedPosition, OUT float & ray_dis)
-{
-	cRay_toCube ray;
-	float distMax = 100000.0f; // ray 최대거리
-
-	cRay_toCube r = ray.RayAtWorldSpace(ptMouse.x, ptMouse.y);
-
-	for (UINT i = 0; i <numOfIndex; i += 3)
-	{
-		float u, v, f;
-		r.IntersectTri(m_pVertex[m_pIndex[i + 0]].p,
-			m_pVertex[m_pIndex[i + 1]].p,
-			m_pVertex[m_pIndex[i + 2]].p,
-			vPickedPosition,
-			ray_dis);
-	}
-}
-
 D3DXVECTOR3 cTestMap::GetNormal(IN float x, IN float z)
 {
 	D3DXVECTOR3 v1, v2, normalV;
@@ -154,7 +154,7 @@ D3DXVECTOR3 cTestMap::GetNormal(IN float x, IN float z)
 		{
 			v1 = m_pVertex[m_pIndex[i + 1]].p - m_pVertex[m_pIndex[i + 0]].p;
 			v2 = m_pVertex[m_pIndex[i + 2]].p - m_pVertex[m_pIndex[i + 0]].p;
-			
+
 			//외적을 이용해서 지면의 법선벡터를 구한다. 만일 지면의 법선벡터가 아래로 향한다면 순서를 바꿔서 다시 구한다.
 			D3DXVec3Cross(&normalV, &v1, &v2);
 			if (normalV.y < 0)
