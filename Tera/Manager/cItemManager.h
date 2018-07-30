@@ -13,8 +13,9 @@ enum eSlotType
 
 enum eITextTitle
 {
-	GOLD = 1,
-	ITEMVALUE,
+	 
+	ITEMVALUE = 1,
+	GOLD,
 	CHARACTERSPEC,
 	POTIONCOUNT
 };
@@ -105,7 +106,7 @@ private:
 	RECT m_QuickRc[16];
 	int m_nExcutionNum = 4;
 
-
+	vector<int> vInt;
 
 	vector<char> vChar;
 
