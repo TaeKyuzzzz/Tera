@@ -462,7 +462,7 @@ void cMonster02::Battle()
 	if (GetDamaged)
 	{
 		DamageTerm += TIMEMANAGER->GetEllapsedTime();
-		if (DamageTerm > 2000.0f)
+		if (DamageTerm > 1000.0f)
 		{
 			GetDamaged = false;
 			DamageTerm = 0.0f;
