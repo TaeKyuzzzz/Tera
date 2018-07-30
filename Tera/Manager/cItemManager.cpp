@@ -91,16 +91,29 @@ void cItemManager::Update()
 	ZeroPotionDelete();
 
 	//char텍스트와 int텍스트 로드
-	ItemInfoCTextRenewal("아이템정보");
+	
 	//ItemInfoCTextRenewal("퀵슬롯텍스트");
 
 	if (isOptionMode)
 	{
-		for (int i = 1; i < 16; i++)
+		
+
+	
+		ItemInfoCTextRenewal("아이템정보");
+
+		for (int j = 1; j < 16; j++)
 		{
-			ItemInfoITextRenewal(i);
+			ItemInfoITextRenewal(j);
 		}
+		
+			
+		
+
+
+	
 	}
+
+	//if (KEYMANAGER->IsOnceKeyDown(VK_NUMPAD3))ItemInfoITextRenewal(3);
 
 	//QuickSlotSynchronize();
 	
@@ -124,22 +137,23 @@ void cItemManager::Render()
 	/*if (m_vQuickItem.size() != 0)
 	{*/
 		//값 찍어보기
-		char szTemp[1024];
-		sprintf_s(szTemp, 1024,
-			"인벤아이템갯수 : %d, \n 장비창아이템갯수 : %d, \n 샵아이템갯수 : %d, \n 퀵슬롯 아이콘갯수 : %d"
-			, m_vInvenItem.size(), m_vStatusItem.size(), m_vConShopItem.size(), m_vQuickItem.size());// ,
-			//(int)m_pVec3SlotPos[0].x, (int)m_pVec3SlotPos[0].y);
-		//sprintf_s(szTemp, 1024, "퀵슬롯의 아이템의 포션갯수 = %d", m_vQuickItem[0]->GetPotionCount());
+		//char szTemp[1024];
+		////sprintf_s(szTemp, 1024,
+		////	"인벤아이템갯수 : %d, \n 장비창아이템갯수 : %d, \n 샵아이템갯수 : %d, \n 퀵슬롯 아이콘갯수 : %d"
+		////	, m_vInvenItem.size(), m_vStatusItem.size(), m_vConShopItem.size(), m_vQuickItem.size());// ,
+		//	//(int)m_pVec3SlotPos[0].x, (int)m_pVec3SlotPos[0].y);
+		////sprintf_s(szTemp, 1024, "퀵슬롯의 아이템의 포션갯수 = %d", m_vQuickItem[0]->GetPotionCount());
+		//sprintf_s(szTemp, 1024, "int.size = %d", vInt.size());
 
-		RECT rc2;
-		SetRect(&rc2, 100, 200, 800, 400);
-		LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA_BIG);
-		pFont->DrawTextA(NULL,
-			szTemp,
-			strlen(szTemp),
-			&rc2,
-			DT_LEFT | DT_TOP,
-			D3DCOLOR_XRGB(255, 255, 0));
+		//RECT rc2;
+		//SetRect(&rc2, 100, 200, 800, 400);
+		//LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_GA_BIG);
+		//pFont->DrawTextA(NULL,
+		//	szTemp,
+		//	strlen(szTemp),
+		//	&rc2,
+		//	DT_LEFT | DT_TOP,
+		//	D3DCOLOR_XRGB(255, 255, 0));
 	//}
 
 	
@@ -243,31 +257,38 @@ int cItemManager::UIITextDataIndex(int variableName)
 
 void cItemManager::ItemInfoITextRenewal(int sequence)
 {
+
+	int index = UIITextDataIndex(sequence);
+
+	//새로 만든 벡터를 데이터갯수에 맞게 재조정한다.
+	//팩 벡터 내부의 백터들중에 첫 텍스트에 입력된 정보가 인트 sequence인 녀석을 찾음
+	vInt.resize(m_vPreTextIDataPack[index].size());
+
 	for (int i = 0; i < m_vText.size(); i++)
 	{
 		if (m_vText[i]->GetidentifyNUM() == sequence)
 		{
 
-			vector<int> vInt;
 
-			//새로 만든 벡터를 데이터갯수에 맞게 재조정한다.
-			//팩 벡터 내부의 백터들중에 첫 텍스트에 입력된 정보가 인트 sequence인 녀석을 찾음
-			vInt.resize(m_vPreTextIDataPack[UIITextDataIndex(sequence)].size());
 
 			//0번은 식별자라 1번부터 작성하면된다.
 
-			// 번호가 1번일때 인벤토리 소지금 텍스트
+			// 번호가 1일때 아이템툴팁 텍스트
 			if (sequence == 1)
 			{
-				vInt[1] = m_nGold;
-			}
+				
 
-			// 번호가 2일때 아이템툴팁 텍스트
-			else if(sequence == 2)
-			{
 				vInt[1] = FindAbilityValue();
 
 				vInt[2] = FindSalePriceValue();
+			}
+
+			
+
+			// 번호가 2번일때 인벤토리 소지금 텍스트
+			else if(sequence == 2)
+			{
+				vInt[1] = m_nGold;
 
 			}
 			//스테이터스 텍스트
@@ -1075,21 +1096,21 @@ void cItemManager::BuyConsumables(int collisionNum)
 
 	if (m_vInvenItem.size() <= 39)
 	{
-		if (collisionNum % 8 == 0 && m_nGold > 250 && !FindSamePotion("하급회복물약"))					
+		if (collisionNum % 8 == 0 && m_nGold >= 250 && !FindSamePotion("하급회복물약"))					
 			CreateItem("하급회복물약", "Texture/ItemIcon/HPSmall.png", HPOTION, 50, 50, m_vInvenItem), CalculatorGold(-250);				
-		if (collisionNum % 8 == 1 && m_nGold > 500 && !FindSamePotion("중급회복물약"))
+		if (collisionNum % 8 == 1 && m_nGold >= 500 && !FindSamePotion("중급회복물약"))
 			CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", HPOTION, 100, 100, m_vInvenItem), CalculatorGold(-500);
-		if (collisionNum % 8 == 2 && m_nGold > 1000 && !FindSamePotion("상급회복물약"))
+		if (collisionNum % 8 == 2 && m_nGold >= 1000 && !FindSamePotion("상급회복물약"))
 			CreateItem("상급회복물약", "Texture/ItemIcon/HPBig.png", HPOTION, 150, 200, m_vInvenItem), CalculatorGold(-1000);
-		if (collisionNum % 8 == 3 && m_nGold > 300 && !FindSamePotion("하급마나물약"))
+		if (collisionNum % 8 == 3 && m_nGold >= 300 && !FindSamePotion("하급마나물약"))
 			CreateItem("하급마나물약", "Texture/ItemIcon/MPSmall.png", MPOTION, 50, 60, m_vInvenItem), CalculatorGold(-300);
-		if (collisionNum % 8 == 4 && m_nGold > 600 && !FindSamePotion("중급마나물약"))
+		if (collisionNum % 8 == 4 && m_nGold >= 600 && !FindSamePotion("중급마나물약"))
 			CreateItem("중급마나물약", "Texture/ItemIcon/MPMid.png", MPOTION, 100, 120, m_vInvenItem), CalculatorGold(-600);
-		if (collisionNum % 8 == 5 && m_nGold > 1200 && !FindSamePotion("상급마나물약"))
+		if (collisionNum % 8 == 5 && m_nGold >= 1200 && !FindSamePotion("상급마나물약"))
 			CreateItem("상급마나물약", "Texture/ItemIcon/MPBig.png", MPOTION, 150, 240, m_vInvenItem), CalculatorGold(-1200);
-		if (collisionNum % 8 == 6 && m_nGold > 1000 && !FindSamePotion("미스테리부적"))
+		if (collisionNum % 8 == 6 && m_nGold >= 1000 && !FindSamePotion("미스테리부적"))
 			CreateItem("미스테리부적", "Texture/ItemIcon/MysteryPaper.png", ETCCONSUMABLES, 0, 200, m_vInvenItem), CalculatorGold(-1000);
-		if (collisionNum % 8 == 7 && m_nGold > 2000 && !FindSamePotion("마을귀환서"))
+		if (collisionNum % 8 == 7 && m_nGold >= 2000 && !FindSamePotion("마을귀환서"))
 			CreateItem("마을귀환서", "Texture/ItemIcon/CityRecall.png", ETCCONSUMABLES, 0, 400, m_vInvenItem), CalculatorGold(-2000);
 
 		InvenTextReconnection();
@@ -1361,7 +1382,7 @@ int cItemManager::FindPotionCount(vector<cItemInfo*> vPlaceItem, const char* szN
 		}
 		if (vPlaceItem != m_vQuickItem)
 		{
-
+	
 			for (int i = 8; i < m_vConShopItem.size(); i++)
 			{
 				if (m_vConShopItem[i]->GetName() == szName)
