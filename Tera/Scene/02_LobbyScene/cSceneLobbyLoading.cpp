@@ -151,4 +151,9 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("Drop_Ore", "Sound/Interface/Drop_Ore.mp3");
 	m_pLoading->InitForSound("Drop_Potion", "Sound/Interface/Drop_Potion.mp3");
 
+	m_pLoading->InitForSound("MouseMove_SelectChange", "Sound/Interface/MouseMove_SelectChange.mp3");
+	m_pLoading->InitForSound("Click_buttom", "Sound/Interface/Click_buttom.mp3");
+	m_pLoading->InitForSound("Click_ItemPickUp", "Sound/Interface/Click_ItemPickUp.mp3");
+	m_pLoading->InitForSound("Click_NewClick", "Sound/Interface/Click_NewClick.mp3");
+
 }
