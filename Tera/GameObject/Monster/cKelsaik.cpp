@@ -99,7 +99,7 @@ void cKelsaik::Setup()
 
 	m_fHpMax = 4000.0f;
 	m_fHpCur = 0.0f;
-	m_fAttack = 30.0f;
+	m_fAttack = 150.0f;
 	m_fDefense = 10.0f;
 
 	m_pMonster = new cSkinnedMesh;

@@ -82,8 +82,8 @@ void cMonster02::Setup(D3DXVECTOR3 v)
 	m_vBehaviorSpot = v;//D3DXVECTOR3(1247, 0, 3578);
 	m_vPosition = v;
 	
-	m_fHpMax = 200.0f;
-	m_fHpCur = 200.0f;
+	m_fHpMax = 105.0f;
+	m_fHpCur = 105.0f;
 	m_fAttack = 10.0f;
 	m_fDefense = 5.0f;
 
@@ -553,7 +553,7 @@ void cMonster02::Battle()
 	if (m_state == MON_STATE_atk01)
 		Attack(m_fAttack);
 	if (m_state == MON_STATE_atk02)
-		Attack(m_fAttack * 3);
+		Attack(m_fAttack);
 }
 
 void cMonster02::Death()

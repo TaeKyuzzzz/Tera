@@ -153,6 +153,8 @@ void cCharacterClass03::Update()
 			m_fCurAnimTime = m_fAnimTime[CH_STATE_tumbling];
 			m_fTime = 0.0f;
 			m_bIsDone = false;
+			m_isRun = false;
+			SOUNDMANAGER->Play("PCDamaged");
 		}
 		else if (KEYMANAGER->IsOnceKeyDown(VK_SPACE))
 		{
@@ -166,8 +168,11 @@ void cCharacterClass03::Update()
 			m_fTime = 0.0f;
 			m_bIsDone = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('Q') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('Q') && m_state == CH_STATE_Wait &&
+			m_fMpCur >= 15)
 		{
+			m_fMpCur -= 15;
+			if (m_fMpCur < 0) m_fMpCur = 0;
 			// 가이아 크래시
 			SetAnimWorld();
 
@@ -179,8 +184,11 @@ void cCharacterClass03::Update()
 			m_isDoEffect = false;
 			m_isDoSkiilSound = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('E') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('E') && m_state == CH_STATE_Wait&&
+			m_fMpCur >= 15)
 		{
+			m_fMpCur -= 15;
+			if (m_fMpCur < 0) m_fMpCur = 0;
 			// 커팅슬래시
 
 			SetAnimWorld();
@@ -193,8 +201,11 @@ void cCharacterClass03::Update()
 			m_isDoEffect = false;
 			m_isDoSkiilSound = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('R') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('R') && m_state == CH_STATE_Wait&&
+			m_fMpCur >= 15)
 		{
+			m_fMpCur -= 15;
+			if (m_fMpCur < 0) m_fMpCur = 0;
 			// 컷헤드
 
 			SetAnimWorld();
@@ -209,6 +220,8 @@ void cCharacterClass03::Update()
 		}
 		else if (KEYMANAGER->IsOnceKeyDown('T') && m_state == CH_STATE_Wait)
 		{
+			m_fMpCur -= 15;
+			if (m_fMpCur < 0) m_fMpCur = 0;
 			SetAnimWorld();
 
 			// 여기는 점프를 만들어야 합니다.
@@ -267,18 +280,19 @@ void cCharacterClass03::Update()
 		//if (m_state == CH_STATE_Wait)
 		//	m_bIsBlend = true;
 		m_state = CH_STATE_run;
-	
+		//m_fCurAnimTime = m_fAnimTime[CH_STATE_run];
 	}
 	else if (KEYMANAGER->IsOnceKeyUp('W') ||
 		KEYMANAGER->IsOnceKeyUp('A') ||
 		KEYMANAGER->IsOnceKeyUp('D') ||
 		KEYMANAGER->IsOnceKeyUp('S'))
 	{
+		//m_fTime = 0.0f;
 		m_isRun = false;
 	}
 	
 		
-		Move();
+	Move();
 	//////////  ///////
 	// 파티클 테스트 입니다.
 	D3DXMATRIX mat;
