@@ -254,13 +254,32 @@ void cCharacterClass03::Update()
 		KEYMANAGER->IsStayKeyDown('S')) &&
 		(m_state == CH_STATE_Wait || m_state == CH_STATE_run))
 	{
+		if (m_isRun == false)
+		{
+			m_isRun = true;
+			SOUNDMANAGER->Play("Char_Wark_GlassLand");
+		}
+		else if (m_fTime > 0.5f)
+		{
+			m_fTime = 0.0f;
+			m_isRun = false;
+		}
 		//if (m_state == CH_STATE_Wait)
 		//	m_bIsBlend = true;
 		m_state = CH_STATE_run;
+	
 	}
-
-	Move();
-	/////////////////
+	else if (KEYMANAGER->IsOnceKeyUp('W') ||
+		KEYMANAGER->IsOnceKeyUp('A') ||
+		KEYMANAGER->IsOnceKeyUp('D') ||
+		KEYMANAGER->IsOnceKeyUp('S'))
+	{
+		m_isRun = false;
+	}
+	
+		
+		Move();
+	//////////  ///////
 	// 파티클 테스트 입니다.
 	D3DXMATRIX mat;
 	D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
@@ -323,7 +342,7 @@ void cCharacterClass03::ProcessCombo()
 	{
 		if (m_bDoCombo)
 		{
-
+			SOUNDMANAGER->Play("WPN_Sword_Swing");
 			m_bDoCombo = false;
 			m_state = CH_STATE_combo2;
 			m_fCurAnimTime = m_fAnimTime[CH_STATE_combo2];
@@ -348,7 +367,7 @@ void cCharacterClass03::ProcessCombo()
 	{
 		if (m_bDoCombo)
 		{
-
+			SOUNDMANAGER->Play("WPN_Sword_Swing");
 			m_bDoCombo = false;
 			m_state = CH_STATE_combo3;
 			m_fCurAnimTime = m_fAnimTime[CH_STATE_combo3];
@@ -373,7 +392,7 @@ void cCharacterClass03::ProcessCombo()
 	{
 		if (m_bDoCombo)
 		{
-
+			SOUNDMANAGER->Play("WPN_Sword_Swing");
 			m_bDoCombo = false;
 			m_state = CH_STATE_combo4;
 			m_fCurAnimTime = m_fAnimTime[CH_STATE_combo4];
@@ -947,6 +966,7 @@ void cCharacterClass03::SkillProcess()
 				OBJECTMANAGER->GiveDamagedMonster(&hitBox, m_fAttack * 3.0f);
 				CAMERAMANAGER->Shaking(0.275f);
 				//SOUNDMANAGER->Play("PCSkill01");
+				SOUNDMANAGER->Play("Char_Skill_Explosion");
 			}
 
 		}
@@ -962,7 +982,7 @@ void cCharacterClass03::SkillProcess()
 			hitBox.SetWorld(matR * matT);
 			OBJECTMANAGER->GiveDamagedMonster(&hitBox, m_fAttack * 3.0f);
 			CAMERAMANAGER->Shaking(0.275f);
-
+			SOUNDMANAGER->Play("Char_Skill_Explosion");
 		}
 	}
 }

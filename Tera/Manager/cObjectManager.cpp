@@ -374,32 +374,22 @@ void cObjectManager::PickObject()
 		bool noOne = false;
 		int min = 1000000;
 		int index = -1;
+		int distance;
 		for (int i = 0; i < m_vecMonster.size();i++)
 		{
 			m_vecMonster[i]->SetIsPicked(false);
-			if (r.IsPicked(m_vecMonster[i]->GetSpere()) > 0)
+			if (distance = r.IsPicked(m_vecMonster[i]->GetSpere()) > 0)
 			{
-				if (min > r.IsPicked(m_vecMonster[i]->GetSpere()))
+				if (min > distance)
 				{
 					index = i;
-					min = r.IsPicked(m_vecMonster[i]->GetSpere());
+					min = distance;
 				}
 				noOne = true;
 			}
 		}
 		if (index >= 0)
-		{
 			m_vecMonster[index]->SetIsPicked(true);
-		
-		}
-		if (!noOne)
-		{
-			for (int i = 0; i < m_vecMonster.size();i++)
-			{
-				m_vecMonster[i]->SetIsPicked(false);
-			
-			}
-		}
 	}
 	
 }

@@ -27,6 +27,7 @@ cCharacter::cCharacter()
 	, m_fDefense(10.0f)
 	, m_fDotDamagedTime(0.0f)
 	, m_pConditionAlpha(0)
+	, m_isRun(false)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matAnimWorld);
@@ -405,7 +406,7 @@ void cCharacter::UseQuickSlot()
 		}
 		if (KEYMANAGER->IsOnceKeyDown(m_vItem[i]->GetQuickSlotNum() + 1 + '0'))
 		{
-			if (m_vItem[i]->GetItemKind() == HPOTION)
+			if (m_vItem[i]->GetItemKind() == HPOTION && m_vItem[i]->GetPotionCount() > 0)
 			{
 				 m_fHpCur += m_vItem[i]->GetAbilityValue();
 				 if (m_fHpCur > m_fHpMax) m_fHpCur = m_fHpMax;
@@ -417,8 +418,10 @@ void cCharacter::UseQuickSlot()
 				 cnt--;
 				 if (cnt < 0) cnt = 0;
 				 m_vItem[i]->SetPotionCount(cnt);
+
+				 SOUNDMANAGER->Play("Use_PotionDrink");
 			}
-			else if (m_vItem[i]->GetItemKind() == MPOTION)
+			else if (m_vItem[i]->GetItemKind() == MPOTION && m_vItem[i]->GetPotionCount() > 0)
 			{
 				m_fMpCur += m_vItem[i]->GetAbilityValue();
 				if (m_fMpCur > m_fMpMax) m_fMpCur = m_fMpMax;
@@ -430,6 +433,8 @@ void cCharacter::UseQuickSlot()
 				cnt--;
 				if (cnt < 0) cnt = 0;
 				m_vItem[i]->SetPotionCount(cnt);
+
+				SOUNDMANAGER->Play("Use_PotionDrink");
 			}
 			
 		}

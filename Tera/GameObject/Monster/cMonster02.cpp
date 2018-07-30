@@ -56,6 +56,7 @@ cMonster02::cMonster02()
 
 	m_pParticleBleeding = PARTICLEMANAGER->GetParticle("Bleeding");
 	PARTICLEMANAGER->AddChild(m_pParticleBleeding);
+
 }
 
 
@@ -129,7 +130,7 @@ void cMonster02::Setup(D3DXVECTOR3 v)
 
 	m_pRimLight = cShader::LoadShader("Shader/Effect/", "RimFlash.fx");
 	m_pRimLight->SetFloat("Offset", 0.2f);
-
+	
 	MODE = IDLE;
 }
 
@@ -462,7 +463,7 @@ void cMonster02::Battle()
 	if (GetDamaged)
 	{
 		DamageTerm += TIMEMANAGER->GetEllapsedTime();
-		if (DamageTerm > 1000.0f)
+		if (DamageTerm > 0.5f)
 		{
 			GetDamaged = false;
 			DamageTerm = 0.0f;
@@ -473,7 +474,7 @@ void cMonster02::Battle()
 	//앵글락 상태에서는 퍼포먼스도중에 회전하지 않는다.(때리면서 돌아가는거 방지)
 	if (!m_bAngleLock)
 	{
-
+		
 		D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
 		D3DXVECTOR3 v;
 		D3DXVec3Normalize(&v, &(*g_vPlayerPos - m_vPosition));
@@ -611,6 +612,7 @@ void cMonster02::Rebirth()
 void cMonster02::Render()
 {
 	RimLightSetup(0, 0, 0, 0, 0, 0, 0);
+
 	if (m_bIsGen)
 	{
 		if (DissapearingMode)

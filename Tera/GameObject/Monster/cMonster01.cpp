@@ -56,9 +56,6 @@ cMonster01::cMonster01()
 
 	m_pParticleBleeding = PARTICLEMANAGER->GetParticle("Bleeding");
 	PARTICLEMANAGER->AddChild(m_pParticleBleeding);
-
-	m_pRimLight = cShader::LoadShader("Shader/Effect/", "RimFlash.fx");
-	m_pRimLight->SetFloat("Offset", 0.2);
 }
 
 
@@ -129,7 +126,7 @@ void cMonster01::Setup(D3DXVECTOR3 v)
 	SKIN = TEXTUREMANAGER->GetTexture("XFile/Monster/AbandonedAutomatedGuardian_diff.tga");
 
 	m_pRimLight = cShader::LoadShader("Shader/Effect/", "RimFlash.fx");
-	m_pRimLight->SetFloat("Offset", 0.2f);
+	m_pRimLight->SetFloat("Offset", 0.2);
 }
 
 void cMonster01::Update()
@@ -296,8 +293,7 @@ void cMonster01::Render()
 	D3DXMATRIX mat;
 	D3DXMatrixIdentity(&mat);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
-
-
+	
 	RimLightSetup(0, 0, 0, 0, 0, 0, 0);
 	if (m_bIsGen)
 	{
@@ -681,9 +677,14 @@ bool cMonster01::Attack(float damage)
 
 void cMonster01::Damaged(float damage, D3DXVECTOR3 pos)
 {
-	if (m_state == MON_STATE_flinch		 || 
-		m_state == MON_STATE_deathwait	 ||
+	if (m_state == MON_STATE_flinch ||
+		m_state == MON_STATE_deathwait ||
 		m_state == MON_STATE_Death)	 return;
+	else if (m_state != MON_STATE_flinch &&
+		m_state != MON_STATE_deathwait &&
+		m_state != MON_STATE_Death)
+		SOUNDMANAGER->Play("WPN_Sword_Attack");
+
 
 	m_fHpCur -= damage;
 

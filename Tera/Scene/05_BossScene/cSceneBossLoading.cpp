@@ -153,5 +153,7 @@ void cSceneBossLoading::TotalLoading()
 
 	m_pLoading->InitForSound("MON_Anim_groggy", "Sound/Boss/MON_Anim_groggy.mp3");
 	m_pLoading->InitForSound("MON_Anim_flinch", "Sound/Boss/MON_Anim_flinch.mp3");
+	m_pLoading->InitForSound("MON_Anim_Walk", "Sound/Boss/MON_Anim_Walk.mp3");
+
 
 }
