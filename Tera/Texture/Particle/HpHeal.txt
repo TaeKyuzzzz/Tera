@@ -26,4 +26,4 @@
 254
 41
 233
-C:\Users\shin\Tera\Tera\Texture\Particle\Heal.png
+Texture\Particle\Heal.png

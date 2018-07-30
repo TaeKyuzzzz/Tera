@@ -104,7 +104,21 @@ void cDropItem::PickUp()
 				ITEMMANAGER->AddInvenItem("검은마력의옷", "Texture/ItemIcon/BlackClothes.png", ARMOR, 75, 3600);
 				m_isUse = false;
 			}
+			else if (m_sName == "검은마력의신발")
+			{
+				ITEMMANAGER->AddInvenItem("검은마력의신발", "Texture/ItemIcon/BlackShoes.png", SHOES, 25, 1400);
+				m_isUse = false;
+			}
+			else if (m_sName == "검은마력의장갑")
+			{
+				ITEMMANAGER->AddInvenItem("검은마력의장갑", "Texture/ItemIcon/BlackGlove.png", GLOVES, 20, 1100);
+				m_isUse = false;
+			}
+			else if (m_sName == "아이스소드")
+			{
+				ITEMMANAGER->AddInvenItem("아이스소드", "Texture/ItemIcon/TwohandIce.png", WEAPON, 150, 4000);
+				m_isUse = false;
+			}
 		}
 	}
 }
-

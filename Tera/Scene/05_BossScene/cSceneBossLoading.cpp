@@ -155,5 +155,19 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->InitForSound("MON_Anim_flinch", "Sound/Boss/MON_Anim_flinch.mp3");
 	m_pLoading->InitForSound("MON_Anim_Walk", "Sound/Boss/MON_Anim_Walk.mp3");
 
+	// 타격 관련 ( 로딩에서도 넣어주고 있음 )
+
+	m_pLoading->InitForSound("WPN_Hit", "Sound/Main/WPN_Hit.mp3");
+	m_pLoading->InitForSound("WPN_Sword_Attack", "Sound/Main/WPN_Sword_Attack.mp3");
+	m_pLoading->InitForSound("WPN_Sword_Swing", "Sound/Main/WPN_Sword_Swing.mp3");
+	m_pLoading->InitForSound("WPN_Sword_Swing2", "Sound/Main/WPN_Sword_Swing2.mp3");
+	m_pLoading->InitForSound("Char_Wark_GlassLand", "Sound/Main/Char_Wark_GlassLand.mp3");
+	m_pLoading->InitForSound("Char_BodyFall", "Sound/Main/Char_BodyFall.mp3");
+
+	// 사용 이용 ( 마찬가지, 로비 로딩에서 넣어줌)
+	m_pLoading->InitForSound("Char_Skill_Explosion", "Sound/Main/Char_Skill_Explosion.mp3");
+	m_pLoading->InitForSound("Use_Drink", "Sound/Main/Use_Drink.mp3");
+	m_pLoading->InitForSound("Use_PotionDrink", "Sound/Main/Use_PotionDrink.mp3");
+	m_pLoading->InitForSound("Use_TeleportWarf", "Sound/Interface/Use_TeleportWarf.mp3");
 
 }

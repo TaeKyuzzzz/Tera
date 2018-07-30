@@ -23,7 +23,7 @@ void cSceneLobbyLoading::Setup()
 	this->TotalLoading();
 
 	isOptionMode = false;
-
+	SOUNDMANAGER->Stop("Main");
 	SOUNDMANAGER->AddSound("Loading", "Sound/Loading/LoadingSound.mp3", true, true);
 	//SOUNDMANAGER->Play("Loading");
 }
