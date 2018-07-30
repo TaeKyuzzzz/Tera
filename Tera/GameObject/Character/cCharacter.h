@@ -65,7 +65,7 @@ public:
 
 	float				m_fDotDamagedTime;
 
-
+	bool				m_isRun;
 public:
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 
