@@ -127,12 +127,17 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("M2_MON_STATE_Death", "Sound/Field/M2_MON_STATE_Death.mp3");
 	m_pLoading->InitForSound("M2_MON_STATE_Damage", "Sound/Field/M2_MON_STATE_Damage.mp3");
 
+	//== npc 상인 poarong
+	m_pLoading->InitForSound("Poarong_DialogStart", "Sound/Main/Poarong_DialogStart02.mp3");
+	m_pLoading->InitForSound("Poarong_DialogEnd", "Sound/Main/Poarong_DialogEnd01.mp3");
+
 	//== 기타
 	m_pLoading->InitForSound("WPN_Sword_Swing", "Sound/Main/WPN_Sword_Swing.mp3");
 	m_pLoading->InitForSound("WPN_Sword_Swing2", "Sound/Main/WPN_Sword_Swing2.mp3");
 	m_pLoading->InitForSound("Char_Wark_GlassLand", "Sound/Main/Char_Wark_GlassLand.mp3");
 	m_pLoading->InitForSound("Char_BodyFall", "Sound/Main/Char_Wark_GlassLand.mp3");
-	m_pLoading->InitForSound("WPN_Hit", "Sound/Main/Char_Wark_GlassLand.mp3");
+	m_pLoading->InitForSound("WPN_Hit", "Sound/Main/WPN_Hit.mp3");
+	m_pLoading->InitForSound("WPN_Sword_Attack", "Sound/Main/WPN_Sword_Attack.mp3");
 
 
 
