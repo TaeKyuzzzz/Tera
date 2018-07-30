@@ -591,7 +591,7 @@ void cMonster02::Death()
 		MODE = DISAPPEAR;
 	}
 
-	//SOUNDMANAGER->Play("M2_MON_STATE_Death");
+	SOUNDMANAGER->Play("M2_MON_STATE_Death");
 }
 
 void cMonster02::Disappear()
