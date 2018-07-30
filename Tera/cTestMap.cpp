@@ -98,24 +98,24 @@ bool cTestMap::GetHeight(IN float x, OUT float & y, IN float z)
 
 void cTestMap::GetTerrainSlope(OUT D3DXMATRIX &out, IN float x, IN float z)
 {
-	////1. 지형 노멀 벡터 구하기
-	//const D3DXVECTOR3& vec = m_pGround->GetMesh()->GetNumVertices();
+	//1. 지형 노멀 벡터 구하기
+	D3DXVECTOR3& vec = GetNormal(x, z);
 
-	////2. 지형 노멀 벡터와 Up 벡터의 외적으로 회전축 벡터 구하기
-	//D3DXVECTOR3 rAxis, up = D3DXVECTOR3(0, 1, 0);
+	//2. 지형 노멀 벡터와 Up 벡터의 외적으로 회전축 벡터 구하기
+	D3DXVECTOR3 rAxis, up = D3DXVECTOR3(0, 1, 0);
 
-	//D3DXVec3Cross(&rAxis, &vec, &up);
-
-
-	////3. 지형 노멀 벡터와 Up 벡터의 내적으로 내적 회전값 구하기
-	//float dot = D3DXVec3Dot(&vec, &up);
-
-	////4. 회전값을 회전각으로 변환
-	//float angle = acos(dot);
+	D3DXVec3Cross(&rAxis, &vec, &up);
 
 
-	////5. 회전축으로 회전각 만큼 행렬 구하기
-	//D3DXMatrixRotationAxis(&out, &rAxis, angle);
+	//3. 지형 노멀 벡터와 Up 벡터의 내적으로 내적 회전값 구하기
+	float dot = D3DXVec3Dot(&vec, &up);
+
+	//4. 회전값을 회전각으로 변환
+	float angle = acos(dot);
+
+
+	//5. 회전축으로 회전각 만큼 행렬 구하기
+	D3DXMatrixRotationAxis(&out, &rAxis, angle);
 }
 
 void cTestMap::IntersectTri(OUT D3DXVECTOR3 & vPickedPosition, OUT float & ray_dis)
@@ -134,4 +134,33 @@ void cTestMap::IntersectTri(OUT D3DXVECTOR3 & vPickedPosition, OUT float & ray_d
 			vPickedPosition,
 			ray_dis);
 	}
+}
+
+D3DXVECTOR3 cTestMap::GetNormal(IN float x, IN float z)
+{
+	D3DXVECTOR3 v1, v2, normalV;
+	D3DXVECTOR3 vRayPos(x, 1000.0f, z);
+	D3DXVECTOR3 vRayDir(0, -1, 0);
+
+	for (int i = 0; i <numOfIndex; i += 3)
+	{
+		float u, v, f;
+		if (D3DXIntersectTri(&m_pVertex[m_pIndex[i + 0]].p,
+			&m_pVertex[m_pIndex[i + 1]].p,
+			&m_pVertex[m_pIndex[i + 2]].p,
+			&vRayPos,
+			&vRayDir,
+			&u, &v, &f))
+		{
+			v1 = m_pVertex[m_pIndex[i + 1]].p - m_pVertex[m_pIndex[i + 0]].p;
+			v2 = m_pVertex[m_pIndex[i + 2]].p - m_pVertex[m_pIndex[i + 0]].p;
+			
+			//외적을 이용해서 지면의 법선벡터를 구한다. 만일 지면의 법선벡터가 아래로 향한다면 순서를 바꿔서 다시 구한다.
+			D3DXVec3Cross(&normalV, &v1, &v2);
+			if (normalV.y < 0)
+				D3DXVec3Cross(&normalV, &v2, &v1);
+			return normalV;
+		}
+	}
+	//예외처리는 안했어....ㅠ.ㅠ
 }
