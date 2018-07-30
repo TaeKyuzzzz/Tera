@@ -105,8 +105,7 @@ private:
 	RECT m_QuickRc[16];
 	int m_nExcutionNum = 4;
 
-	char m_szStr[2] = "C";
-	
+
 
 	vector<char> vChar;
 
@@ -233,7 +232,8 @@ public:
 
 
 	void QuickSlotSynchronize();
-
+	void InventorySynchronize();
+	void ZeroPotionDelete();
 
 
 	int SendItemAtoPlaceB(vector<cItemInfo*>& placeItem);
