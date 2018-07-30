@@ -77,12 +77,14 @@ void cMonster01::Setup(D3DXVECTOR3 v)
 {
 	cMonster::Setup();
 	
+	m_sName = "게이트키퍼";
+
 	//처음에 얘로 셋팅해놓는다.
 	m_vBehaviorSpot = v;//D3DXVECTOR3(1247, 0, 3578);
 	m_vPosition = v;
 
-	m_fMaxHp = 500.0f;
-	m_fCurHp = 500.0f;
+	m_fHpMax = 500.0f;
+	m_fHpCur = 500.0f;
 	m_fAttack = 20.0f;
 	m_fDefense = 10.0f;
 
@@ -221,7 +223,7 @@ void cMonster01::Update()
 
 		cMonster::Update();
 
-		cGameObject::Update();
+		
 
 		m_matWorld = matR * matT;
 		m_pBoundingBox->SetWorld(m_matWorld);
@@ -239,7 +241,7 @@ void cMonster01::Update()
 		m_fRotY = 0.0f;
 		m_vDirection = D3DXVECTOR3(1, 0, 0);
 		m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
-		m_fHpCur = 100.0f;
+		m_fHpCur = m_fHpMax;
 		m_bAnimation = false;
 
 		//5초뒤에 부활.
@@ -295,9 +297,7 @@ void cMonster01::Render()
 	D3DXMatrixIdentity(&mat);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 
-	if (m_isPicked)
-		int a = 10;
-	
+
 	RimLightSetup(0, 0, 0, 0, 0, 0, 0);
 	if (m_bIsGen)
 	{
@@ -318,6 +318,8 @@ void cMonster01::Render()
 		m_pSphereR->Render();
 	if (SightSpere && m_pSphereL)
 		m_pSphereL->Render();
+
+	cMonster::Render();
 }
 
 bool cMonster01::isUseLocalAnim()
