@@ -384,8 +384,8 @@ void cItemManager::ItemInfoCTextRenewal(const char * szFindText)
 			{
 				for (int i = 0; i < m_vAllItem.size(); i++)
 				{
-					char szTemp[3];
-					_itoa(m_vAllItem[i]->GetQuickSlotNum(), szTemp, 10);
+					char szTemp[30];
+					_itoa(m_vAllItem[i]->GetQuickSlotNum(), szTemp, 30);
 
 					vChar[0] = szTemp;
 				}
@@ -1420,10 +1420,10 @@ void cItemManager::QuickSlotTextThisName(const char * szSlotName)
 {
 	CreateUICTextData
 	(
-		{ "Äü½½·ÔÅØ½ºÆ®"}
-		, { { 129,9,0 }}
+		{"Äü½½·ÔÅØ½ºÆ®"}
+		, { { 0,0,0 }}
 		, { BIG }
-		, { { 236,139,255 }}
+		, { { 100,100,100 }}
 	);
 
 	tagText t7;

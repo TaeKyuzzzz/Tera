@@ -135,7 +135,7 @@ void cItemManager::UITextList()
 
 #pragma endregion
 
-	//QuickSlotTextThisName("QSDragZone1");
+	//QuickSlotTextThisName("Status");
 
 
 
