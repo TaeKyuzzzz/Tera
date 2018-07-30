@@ -47,7 +47,7 @@ cMonster02::cMonster02()
 	m_fTracableArea = 1000.0f;
 	m_fRunSpeed = 1.2f;
 	m_fFightZone = 50.0f;
-	m_fHpCur = 200.0f;
+	m_fHpCur = m_fHpMax;
 
 	MODE = IDLE;
 
@@ -82,8 +82,8 @@ void cMonster02::Setup(D3DXVECTOR3 v)
 	m_vBehaviorSpot = v;//D3DXVECTOR3(1247, 0, 3578);
 	m_vPosition = v;
 	
-	m_fHpMax = 200.0f;
-	m_fHpCur = 200.0f;
+	m_fHpMax = 105.0f;
+	m_fHpCur = 105.0f;
 	m_fAttack = 10.0f;
 	m_fDefense = 5.0f;
 
@@ -442,6 +442,7 @@ void cMonster02::Battle()
 	//최상위조건. 몬스터가 죽으면 나머지 다 꽝이야.
 	if (m_fHpCur <= 0)
 	{
+		SOUNDMANAGER->Play("M2_MON_STATE_Death");
 		MODE = DEATH;
 		m_bAtkTerm = true;
 		m_bAnimation = false;
@@ -463,7 +464,7 @@ void cMonster02::Battle()
 	if (GetDamaged)
 	{
 		DamageTerm += TIMEMANAGER->GetEllapsedTime();
-		if (DamageTerm > 1000.0f)
+		if (DamageTerm > 0.5f)
 		{
 			GetDamaged = false;
 			DamageTerm = 0.0f;
@@ -474,7 +475,7 @@ void cMonster02::Battle()
 	//앵글락 상태에서는 퍼포먼스도중에 회전하지 않는다.(때리면서 돌아가는거 방지)
 	if (!m_bAngleLock)
 	{
-
+		
 		D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
 		D3DXVECTOR3 v;
 		D3DXVec3Normalize(&v, &(*g_vPlayerPos - m_vPosition));
@@ -553,11 +554,28 @@ void cMonster02::Battle()
 	if (m_state == MON_STATE_atk01)
 		Attack(m_fAttack);
 	if (m_state == MON_STATE_atk02)
-		Attack(m_fAttack * 3);
+		Attack(m_fAttack);
 }
 
 void cMonster02::Death()
 {
+	if (m_state != MON_STATE_Death)
+	{
+		int n = rand() % 3;
+		switch (n)
+		{
+		case 0 :
+			ItemDrop("검은마력의신발");
+			break;
+		case 1 :
+			ItemDrop("검은마력의장갑");
+			break;
+		case 2 :
+			ItemDrop("검은마력의옷");
+			break;
+		}
+	}
+
 	m_fHpCur = 0.0f;
 
 	m_state = MON_STATE_Death;
@@ -573,8 +591,6 @@ void cMonster02::Death()
 		m_fTime = 0.0f;
 		MODE = DISAPPEAR;
 	}
-
-	//SOUNDMANAGER->Play("M2_MON_STATE_Death");
 }
 
 void cMonster02::Disappear()
@@ -598,7 +614,7 @@ void cMonster02::Rebirth()
 	m_fRotY = 0.0f;
 	m_vDirection = D3DXVECTOR3(1, 0, 0);
 	m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
-	m_fHpCur = 200.0f;
+	m_fHpCur = m_fHpMax;
 
 	//5초뒤에 부활.
 	if (GetTickCount() - m_fTimeofDeath >= 5000.0f)
@@ -611,6 +627,10 @@ void cMonster02::Rebirth()
 
 void cMonster02::Render()
 {
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+
 	RimLightSetup(0, 0, 0, 0, 0, 0, 0);
 
 	if (m_bIsGen)
@@ -698,6 +718,8 @@ void cMonster02::Damaged(float damage, D3DXVECTOR3 pos)
 	if (m_state == MON_STATE_deathwait ||
 		m_state == MON_STATE_Death || GetDamaged)	 return;
 
+	int Damage = damage - m_fDefense;
+	if (Damage < 0) Damage = 0;
 	m_fHpCur -= damage;
 
 	if (damage)

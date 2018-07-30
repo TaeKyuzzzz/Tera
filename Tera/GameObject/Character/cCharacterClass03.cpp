@@ -153,6 +153,8 @@ void cCharacterClass03::Update()
 			m_fCurAnimTime = m_fAnimTime[CH_STATE_tumbling];
 			m_fTime = 0.0f;
 			m_bIsDone = false;
+			m_isRun = false;
+			SOUNDMANAGER->Play("PCDamaged");
 		}
 		else if (KEYMANAGER->IsOnceKeyDown(VK_SPACE))
 		{
@@ -166,8 +168,11 @@ void cCharacterClass03::Update()
 			m_fTime = 0.0f;
 			m_bIsDone = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('Q') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('Q') && m_state == CH_STATE_Wait &&
+			m_fMpCur >= 15)
 		{
+			m_fMpCur -= 15;
+			if (m_fMpCur < 0) m_fMpCur = 0;
 			// 가이아 크래시
 			SetAnimWorld();
 
@@ -179,8 +184,11 @@ void cCharacterClass03::Update()
 			m_isDoEffect = false;
 			m_isDoSkiilSound = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('E') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('E') && m_state == CH_STATE_Wait&&
+			m_fMpCur >= 15)
 		{
+			m_fMpCur -= 15;
+			if (m_fMpCur < 0) m_fMpCur = 0;
 			// 커팅슬래시
 
 			SetAnimWorld();
@@ -193,8 +201,11 @@ void cCharacterClass03::Update()
 			m_isDoEffect = false;
 			m_isDoSkiilSound = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('R') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('R') && m_state == CH_STATE_Wait&&
+			m_fMpCur >= 15)
 		{
+			m_fMpCur -= 15;
+			if (m_fMpCur < 0) m_fMpCur = 0;
 			// 컷헤드
 
 			SetAnimWorld();
@@ -209,6 +220,8 @@ void cCharacterClass03::Update()
 		}
 		else if (KEYMANAGER->IsOnceKeyDown('T') && m_state == CH_STATE_Wait)
 		{
+			m_fMpCur -= 15;
+			if (m_fMpCur < 0) m_fMpCur = 0;
 			SetAnimWorld();
 
 			// 여기는 점프를 만들어야 합니다.
@@ -257,7 +270,7 @@ void cCharacterClass03::Update()
 		if (m_isRun == false)
 		{
 			m_isRun = true;
-			SOUNDMANAGER->Play("Char_BodyFall");
+			SOUNDMANAGER->Play("Char_Wark_GlassLand");
 		}
 		else if (m_fTime > 0.5f)
 		{
@@ -267,18 +280,19 @@ void cCharacterClass03::Update()
 		//if (m_state == CH_STATE_Wait)
 		//	m_bIsBlend = true;
 		m_state = CH_STATE_run;
-	
+		//m_fCurAnimTime = m_fAnimTime[CH_STATE_run];
 	}
 	else if (KEYMANAGER->IsOnceKeyUp('W') ||
 		KEYMANAGER->IsOnceKeyUp('A') ||
 		KEYMANAGER->IsOnceKeyUp('D') ||
 		KEYMANAGER->IsOnceKeyUp('S'))
 	{
+		//m_fTime = 0.0f;
 		m_isRun = false;
 	}
 	
 		
-		Move();
+	Move();
 	//////////  ///////
 	// 파티클 테스트 입니다.
 	D3DXMATRIX mat;
@@ -302,6 +316,13 @@ void cCharacterClass03::Update()
 		SOUNDMANAGER->Play("PCDie");
 		Die();
 	}
+	//if (KEYMANAGER->IsOnceKeyDown('M'))
+	//	Die();
+	//if (m_state == CH_STATE_Dearhwait && KEYMANAGER->IsOnceKeyDown(VK_ESCAPE))
+	//{
+	//	SOUNDMANAGER->AllStop();
+	//	SCENEMANAGER->ChangeScene("LobbyLoading");
+	//}
 }
 
 void cCharacterClass03::Render()
@@ -342,7 +363,7 @@ void cCharacterClass03::ProcessCombo()
 	{
 		if (m_bDoCombo)
 		{
-
+			SOUNDMANAGER->Play("WPN_Sword_Swing");
 			m_bDoCombo = false;
 			m_state = CH_STATE_combo2;
 			m_fCurAnimTime = m_fAnimTime[CH_STATE_combo2];
@@ -367,7 +388,7 @@ void cCharacterClass03::ProcessCombo()
 	{
 		if (m_bDoCombo)
 		{
-
+			SOUNDMANAGER->Play("WPN_Sword_Swing");
 			m_bDoCombo = false;
 			m_state = CH_STATE_combo3;
 			m_fCurAnimTime = m_fAnimTime[CH_STATE_combo3];
@@ -392,7 +413,7 @@ void cCharacterClass03::ProcessCombo()
 	{
 		if (m_bDoCombo)
 		{
-
+			SOUNDMANAGER->Play("WPN_Sword_Swing");
 			m_bDoCombo = false;
 			m_state = CH_STATE_combo4;
 			m_fCurAnimTime = m_fAnimTime[CH_STATE_combo4];
@@ -612,9 +633,11 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 
 	cCharacter::Damaged();
 
-	m_fHpCur -= damage;
+	int Damage = damage - m_fDefense;
+	if (Damage < 0) Damage = 0;
+	m_fHpCur -= Damage;
 
-	if (damage < m_fHpMax / 10.0f)
+	if (Damage < m_fHpMax / 10.0f)
 	{
 		m_state = CH_STATE_groggy1;
 		m_fCurAnimTime = 0.5f;
@@ -623,7 +646,7 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir)
 
 		SOUNDMANAGER->Play("PCDamaged");
 	}
-	else if (damage < m_fHpMax / 6.0f)
+	else if (Damage< m_fHpMax / 6.0f)
 	{
 		SetAnimWorld();
 		m_state = CH_STATE_bReactionStart;
@@ -677,7 +700,9 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, DAMAGED_TYPE type
 
 	cCharacter::Damaged();
 
-	m_fHpCur -= damage;
+	int Damage = damage - m_fDefense;
+	if (Damage < 0) Damage = 0;
+	m_fHpCur -= Damage;
 
 	if (type == PC_DMG_TYPE_1)
 	{
@@ -743,9 +768,11 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, fl
 
 	cCharacter::Damaged();
 
-	m_fHpCur -= damage;
+	int Damage = damage - m_fDefense;
+	if (Damage < 0) Damage = 0;
+	m_fHpCur -= Damage;
 
-	if (damage < m_fHpMax / 10.0f)
+	if (Damage < m_fHpMax / 10.0f)
 	{
 		m_state = CH_STATE_groggy1;
 		m_fCurAnimTime = 0.5f;
@@ -754,7 +781,7 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, fl
 
 		SOUNDMANAGER->Play("PCDamaged");
 	}
-	else if (damage < m_fHpMax / 6.0f)
+	else if (Damage < m_fHpMax / 6.0f)
 	{
 		SetAnimWorld();
 		m_state = CH_STATE_bReactionStart;
@@ -844,7 +871,9 @@ void cCharacterClass03::Damaged(float damage, D3DXVECTOR3 dir, CONDITION con, fl
 
 	cCharacter::Damaged();
 
-	m_fHpCur -= damage;
+	int Damage = damage - m_fDefense;
+	if (Damage < 0) Damage = 0;
+	m_fHpCur -= Damage;
 
 	if (type == PC_DMG_TYPE_1)
 	{
@@ -966,6 +995,7 @@ void cCharacterClass03::SkillProcess()
 				OBJECTMANAGER->GiveDamagedMonster(&hitBox, m_fAttack * 3.0f);
 				CAMERAMANAGER->Shaking(0.275f);
 				//SOUNDMANAGER->Play("PCSkill01");
+				SOUNDMANAGER->Play("Char_Skill_Explosion");
 			}
 
 		}
@@ -981,7 +1011,7 @@ void cCharacterClass03::SkillProcess()
 			hitBox.SetWorld(matR * matT);
 			OBJECTMANAGER->GiveDamagedMonster(&hitBox, m_fAttack * 3.0f);
 			CAMERAMANAGER->Shaking(0.275f);
-
+			SOUNDMANAGER->Play("Char_Skill_Explosion");
 		}
 	}
 }

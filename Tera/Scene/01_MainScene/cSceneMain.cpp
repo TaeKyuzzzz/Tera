@@ -44,6 +44,11 @@ void cSceneMain::Setup()
 	SOUNDMANAGER->AddSound("Main", "Sound/Main/ServerTheme.ogg", true,true);
 	SOUNDMANAGER->Play("Main");
 
+	SOUNDMANAGER->AddSound("MouseMove_SelectChange", "Sound/Interface/MouseMove_SelectChange.mp3");
+	SOUNDMANAGER->AddSound("Click_buttom", "Sound/Interface/Click_buttom.mp3");
+	SOUNDMANAGER->AddSound("Click_ItemPickUp", "Sound/Interface/Click_ItemPickUp.mp3");
+	SOUNDMANAGER->AddSound("Click_NewClick", "Sound/Interface/Click_NewClick.mp3");
+
 }
 
 void cSceneMain::Release()
@@ -59,32 +64,33 @@ void cSceneMain::Update()
 	if (m_isStart == false && m_nBGBlackAlpha > 0)
 		m_nBGBlackAlpha -= 5;
 
-
 	if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 	{
 		for (int i = 0; i < 4; i++)
 		{
 			if (PtInRect(&rc[0], ptMouse))
 			{
+				SOUNDMANAGER->Play("Click_buttom");
 				m_isStart = true;
 				m_sNextScene = "LobbyLoading";
 			}
 			else if (PtInRect(&rc[1], ptMouse))
 			{
+				SOUNDMANAGER->Play("Click_buttom");
 				m_isStart = true;
 				m_sNextScene = "PaticleEdit";
 			}
 			else if (PtInRect(&rc[2], ptMouse))
 			{
-
+				SOUNDMANAGER->Play("Click_buttom");
 			}
 			else if (PtInRect(&rc[3], ptMouse))
 			{
+				SOUNDMANAGER->Play("Click_buttom");
 				DestroyWindow(g_hWnd);
 			}
+
 		}
-	
-		
 	}
 	if (m_isStart)
 	{
@@ -92,6 +98,8 @@ void cSceneMain::Update()
 
 		if (m_nBGBlackAlpha > 255)
 		{
+			SOUNDMANAGER->Play("Main");
+			SOUNDMANAGER->Pause("Main");
 			SOUNDMANAGER->Stop("Main");
 			SCENEMANAGER->ChangeScene(m_sNextScene.c_str());
 		}

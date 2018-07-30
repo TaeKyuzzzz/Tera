@@ -45,7 +45,8 @@ void cItemManager::CreateItemList()
 	CreateItem("중급회복물약", "Texture/ItemIcon/HPMid.png", HPOTION, 100, 100, m_vInvenItem);
 
 
-
+	// 최대 공격력 170 -> 120
+	// 최대 방어력 130 -> 86
 }
 
 

@@ -51,7 +51,6 @@ cSceneTest::~cSceneTest()
 
 void cSceneTest::Setup()
 {
-	//CAMERAMANAGER->SetType(CAMERA_FREE);
 
 	m_pPopori = new cCharaPopori;
 	m_pPopori->Setup();
@@ -144,8 +143,6 @@ void cSceneTest::Update()
 		m_isGoBoss = true;
 	
 	m_pMonster01->Update();
-	
-	m_pPopori->Update();
 
 	m_pMonster02->Update();
 
@@ -159,6 +156,8 @@ void cSceneTest::Update()
 	m_pPoalong->Update();
 
 	m_pBoxLoader->Update();
+
+	m_pPopori->Update();
 
 	PARTICLEMANAGER->Update();
 

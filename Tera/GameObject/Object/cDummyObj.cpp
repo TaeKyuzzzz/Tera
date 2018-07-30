@@ -57,7 +57,10 @@ bool cDummyObj::IsGoBossRoom()
 	if (lengh < distance)
 	{
 		if (KEYMANAGER->IsOnceKeyDown('F'))
+		{
+			SOUNDMANAGER->Play("Use_TeleportWarf");
 			return true;
+		}
 	}
 	return false;
 }

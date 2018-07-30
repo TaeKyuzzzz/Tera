@@ -878,7 +878,7 @@ void cSceneMapEdit::FG_Sight()
 {
 	for (int b = 0; b < m_vecBObject.size(); b++)
 	{
-		if (KEYMANAGER->IsOnceKeyDown('F'))
+		if (KEYMANAGER->IsOnceKeyDown('H'))
 			m_vecBObject[b]->SetSightBox(!m_vecBObject[b]->GetSightBox());
 		if (KEYMANAGER->IsOnceKeyDown('G'))
 			m_vecBObject[b]->SetSightSpere(!m_vecBObject[b]->GetSightSpere());

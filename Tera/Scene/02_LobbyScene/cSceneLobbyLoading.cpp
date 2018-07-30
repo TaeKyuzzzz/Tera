@@ -23,7 +23,7 @@ void cSceneLobbyLoading::Setup()
 	this->TotalLoading();
 
 	isOptionMode = false;
-
+	SOUNDMANAGER->Stop("Main");
 	SOUNDMANAGER->AddSound("Loading", "Sound/Loading/LoadingSound.mp3", true, true);
 	//SOUNDMANAGER->Play("Loading");
 }
@@ -139,9 +139,11 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("Char_Wark_GlassLand", "Sound/Main/Char_Wark_GlassLand.mp3");
 	m_pLoading->InitForSound("Char_BodyFall", "Sound/Main/Char_BodyFall.mp3");
 
+	//== 사용/이용
 	m_pLoading->InitForSound("Char_Skill_Explosion", "Sound/Main/Char_Skill_Explosion.mp3");
 	m_pLoading->InitForSound("Use_Drink", "Sound/Main/Use_Drink.mp3");
 	m_pLoading->InitForSound("Use_PotionDrink", "Sound/Main/Use_PotionDrink.mp3");
+	m_pLoading->InitForSound("Use_TeleportWarf", "Sound/Main/Use_TeleportWarf.mp3");
 
 	//== 시스템 사운드
 	m_pLoading->InitForSound("Drop_Coin", "Sound/Interface/Drop_Coin.mp3");
@@ -155,5 +157,9 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("Click_buttom", "Sound/Interface/Click_buttom.mp3");
 	m_pLoading->InitForSound("Click_ItemPickUp", "Sound/Interface/Click_ItemPickUp.mp3");
 	m_pLoading->InitForSound("Click_NewClick", "Sound/Interface/Click_NewClick.mp3");
+	m_pLoading->InitForSound("Click_Menu", "Sound/Interface/Click_Menu.mp3");
+
+
+
 
 }

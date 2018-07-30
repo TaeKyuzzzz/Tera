@@ -99,7 +99,7 @@ void cKelsaik::Setup()
 
 	m_fHpMax = 4000.0f;
 	m_fHpCur = 0.0f;
-	m_fAttack = 30.0f;
+	m_fAttack = 150.0f;
 	m_fDefense = 10.0f;
 
 	m_pMonster = new cSkinnedMesh;
@@ -957,7 +957,7 @@ void cKelsaik::ReactionGroggy()
 		ChangeAnim(MON_Anim_groggy, true);
 		SetAnimWorld();
 
-		SOUNDMANAGER->Play("MON_Anim_groggy");
+		SOUNDMANAGER->Play("GiantGriffin_Groggy");
 	}
 	else
 	{
@@ -1000,6 +1000,7 @@ void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 	if (m_isPossibleDamaged == false || STATE == DIE)
 		return;
 
+	SOUNDMANAGER->Play("WPN_Sword_Attack");
 	CAMERAMANAGER->Shaking(0.1f);
 
 	m_isPossibleDamaged = false;

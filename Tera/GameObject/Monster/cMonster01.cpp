@@ -241,10 +241,10 @@ void cMonster01::Update()
 		m_fHpCur = m_fHpMax;
 		m_bAnimation = false;
 
-		//5초뒤에 부활.
+		//5초뒤에 부활. -> 그냥 젠 안시킬꺼야. 다시 젠시킬려면 isGen을 true로 바꿔줘.
 		if (GetTickCount() - m_fTimeofDeath >= 5000.0f)
 		{
-			m_bIsGen = true;
+			m_bIsGen = false;
 			m_bDeath = false;
 			DissapearingMode = false;
 			m_pMonster->AnimAdvanceTime();
@@ -538,7 +538,7 @@ void cMonster01::BigDamaged()
 void cMonster01::Die()
 {
 	if(m_state != MON_STATE_Death)
-		ItemDrop("검은마력의옷");
+		ItemDrop("아이스소드");
 	
 	m_fHpCur = 0.0f;
 
@@ -677,9 +677,14 @@ bool cMonster01::Attack(float damage)
 
 void cMonster01::Damaged(float damage, D3DXVECTOR3 pos)
 {
-	if (m_state == MON_STATE_flinch		 || 
-		m_state == MON_STATE_deathwait	 ||
+	if (m_state == MON_STATE_flinch ||
+		m_state == MON_STATE_deathwait ||
 		m_state == MON_STATE_Death)	 return;
+	else if (m_state != MON_STATE_flinch &&
+		m_state != MON_STATE_deathwait &&
+		m_state != MON_STATE_Death)
+		SOUNDMANAGER->Play("WPN_Sword_Attack");
+
 
 	m_fHpCur -= damage;
 
