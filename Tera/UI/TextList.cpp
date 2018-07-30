@@ -128,8 +128,14 @@ void cItemManager::UITextList()
 
 #pragma endregion
 
+#pragma region 스킬슬롯텍스트
 
 
+
+
+#pragma endregion
+
+	QuickSlotTextThisName("QSDragZone1");
 
 
 

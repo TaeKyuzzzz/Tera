@@ -243,6 +243,7 @@ public:
 	int FindPotionCount(vector<cItemInfo*> vPlaceItem, const char* szName);
 
 	void PotionCountTextThisName(const char* szPotionName);
+	void QuickSlotTextThisName(const char* szSlotName);
 	bool ClickUseItemThisPlace(vector<cItemInfo*>& sendItem);
 
 

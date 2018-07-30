@@ -92,10 +92,11 @@ void cItemManager::Update()
 
 	//char텍스트와 int텍스트 로드
 	ItemInfoCTextRenewal("아이템정보");
-	for (int i = 1; i < 16; i++)
-	{
-		ItemInfoITextRenewal(i);
-	}
+	//ItemInfoCTextRenewal("퀵슬롯텍스트");
+	//for (int i = 1; i < 16; i++)
+	//{
+	//	ItemInfoITextRenewal(i);
+	//}
 
 	//QuickSlotSynchronize();
 	
@@ -366,43 +367,55 @@ void cItemManager::ItemInfoCTextRenewal(const char * szFindText)
 
 			vChar.resize(m_vPreTextCDataPack[UICTextDataIndex(szFindText)].size());
 
-
-
-			for (int i = 0; i < m_vAllItem.size(); i++)
+			if (szFindText == "퀵슬롯텍스트")
 			{
-				if (m_vAllItem[i]->GetUIRoot()->GetIsColDragRcAndPT())
+				for (int i = 0; i < m_vAllItem.size(); i++)
 				{
-					vChar[0] = m_vAllItem[i]->GetName();
+					char szTemp[3];
+					_itoa(m_vAllItem[i]->GetQuickSlotNum(), szTemp, 10);
 
-					if (m_vAllItem[i]->GetItemKind() == ETCCONSUMABLES)
+					vChar[0] = szTemp;
+				}
+				m_vText[i]->GetText()->SetTextCContents(vChar);
+			}
+			else
+			{ 
+				for (int i = 0; i < m_vAllItem.size(); i++)
+				{
+					if (m_vAllItem[i]->GetUIRoot()->GetIsColDragRcAndPT())
 					{
-						vChar[1] = "기능아이템";
+						vChar[0] = m_vAllItem[i]->GetName();
+
+						if (m_vAllItem[i]->GetItemKind() == ETCCONSUMABLES)
+						{
+							vChar[1] = "기능아이템";
+						}
+
+						else if (m_vAllItem[i]->GetItemKind() == HPOTION || m_vAllItem[i]->GetItemKind() == MPOTION)
+						{
+							vChar[1] = "회복력";
+						}
+
+						else if (m_vAllItem[i]->GetItemKind() == WEAPON)
+						{
+							vChar[1] = "공격력";
+						}
+
+						else if (m_vAllItem[i]->GetItemKind() == SKILLICON)
+						{
+							vChar[1] = "위력";
+						}
+						else
+						{
+							vChar[1] = "방어력";
+						}
+
+						vChar[2] = "설명";
+
+						vChar[3] = textExplane.find(m_vAllItem[i]->GetName())->second;
+
+						vChar[4] = FindItemPos();
 					}
-
-					else if (m_vAllItem[i]->GetItemKind() == HPOTION || m_vAllItem[i]->GetItemKind() == MPOTION)
-					{
-						vChar[1] = "회복력";
-					}
-
-					else if (m_vAllItem[i]->GetItemKind() == WEAPON)
-					{
-						vChar[1] = "공격력";
-					}
-
-					else if (m_vAllItem[i]->GetItemKind() == SKILLICON)
-					{
-						vChar[1] = "위력";
-					}
-					else
-					{
-						vChar[1] = "방어력";
-					}
-
-					vChar[2] = "설명";
-
-					vChar[3] = textExplane.find(m_vAllItem[i]->GetName())->second;
-
-					vChar[4] = FindItemPos();
 				}
 
 
@@ -1380,6 +1393,24 @@ void cItemManager::PotionCountTextThisName(const char * szPotionName)
 	CreateText(t7);
 
 	m_nExcutionNum += 1;
+
+}
+
+void cItemManager::QuickSlotTextThisName(const char * szSlotName)
+{
+	CreateUICTextData
+	(
+		{ "퀵슬롯텍스트"}
+		, { { 129,9,0 }}
+		, { BIG }
+		, { { 236,139,255 }}
+	);
+
+	tagText t7;
+	t7.Type = CONSTCHAR;
+	t7.szTextName = "퀵슬롯텍스트";
+	t7.szParrentName = szSlotName;
+	CreateText(t7);
 
 }
 
