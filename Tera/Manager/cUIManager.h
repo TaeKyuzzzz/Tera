@@ -44,6 +44,13 @@ private:
 
 	HDC hdc;
 
+
+	const char* szDragZoneC;
+	const char* szSkillSlotC;
+	char szNum[3];
+	string szDragZone[16];
+	string szSkillSlot[16];
+
 	cUIInfo* m_pUIInfo;
 	cItemManager* _IM;
 

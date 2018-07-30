@@ -136,20 +136,6 @@ void cCharacter::SetUpStateBar()
 		UIX + 19 + m_BackBar->textureInfo.Width / 7.0f,
 		UIY + 32 + WINSIZEY / 30.0f, // 6Â÷ÀÌ
 		WINSIZEX / 3.0f, WINSIZEY / 30.0f);
-
-	//m_pHpBar = new cProgressBar;
-	//m_pHpBar->Setup("Texture/CharacterInfo/HP.png",
-	//	"Texture/CharacterInfo/HPLose.png",
-	//	19 + m_BackBar->textureInfo.Width / 7.0f,
-	//	26,
-	//	WINSIZEX / 3.0f, WINSIZEY / 30.0f);
-	//
-	//m_pMpBar = new cProgressBar;
-	//m_pMpBar->Setup("Texture/CharacterInfo/MP.png",
-	//	"Texture/CharacterInfo/MPLose.png",
-	//	19 + m_BackBar->textureInfo.Width / 7.0f,
-	//	32 + WINSIZEY / 30.0f,
-	//	WINSIZEX / 3.0f, WINSIZEY / 30.0f);
 }
 
 void cCharacter::UpdateUpStateBar()

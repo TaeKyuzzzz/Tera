@@ -68,9 +68,9 @@ LPD3DXFONT cFontManager::GetFont(eFontType type)
 		fd.Width = 7;
 		fd.Weight = FW_NORMAL;
 		fd.Italic = false;
-		//fd.CharSet = DEFAULT_CHARSET;
-		//fd.OutputPrecision = OUT_DEFAULT_PRECIS;
-		//fd.PitchAndFamily = FF_DONTCARE;
+		fd.CharSet = DEFAULT_CHARSET;
+		fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+		fd.PitchAndFamily = FF_DONTCARE;
 	}
 	else if (type == TF_MAIN)
 	{

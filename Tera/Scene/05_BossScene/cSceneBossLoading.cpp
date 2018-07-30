@@ -89,6 +89,9 @@ void cSceneBossLoading::TotalLoading()
 	m_pLoading->IniteForParticle("CDT_Ice", "Texture/Particle/CDT_Ice.txt");
 	m_pLoading->IniteForParticle("CDT_Burn", "Texture/Particle/CDT_Burn.txt");
 
+	m_pLoading->IniteForParticle("HpPotion", "Texture/Particle/HpHeal.txt");
+	m_pLoading->IniteForParticle("MpPotion", "Texture/Particle/MpHeal.txt");
+
 	// 보스가 사용하는 파티클
 	m_pLoading->IniteForParticle("IceHand2", "Texture/Particle/IceHand2.txt");
 	m_pLoading->IniteForParticle("FireHand", "Texture/Particle/FireHand.txt");

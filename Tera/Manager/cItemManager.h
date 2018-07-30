@@ -106,6 +106,9 @@ private:
 	int m_nExcutionNum = 4;
 
 
+
+	vector<char> vChar;
+
 	int m_nCheckNum = 0;
 
 	D3DXVECTOR3 m_pVec3SlotPos[16];
@@ -224,18 +227,23 @@ public:
 	void MainUIInfo(); 
 	void PotionOverlap();
 	bool FindSamePotion(const char* szPotionName);
-	void TextReconnection();
-	void QuickSlotSynchronize();
+	void InvenTextReconnection();
+	void QuickTextReconnection();
 
+
+	void QuickSlotSynchronize();
+	void InventorySynchronize();
+	void ZeroPotionDelete();
 
 
 	int SendItemAtoPlaceB(vector<cItemInfo*>& placeItem);
 	int SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, eSlotType _eSlotType);
 
 	POINT FindPlaceAndIndex(vector<cItemInfo*> vPlaceItem);
-	int FindPotionCount(const char* szName);
+	int FindPotionCount(vector<cItemInfo*> vPlaceItem, const char* szName);
 
 	void PotionCountTextThisName(const char* szPotionName);
+	void QuickSlotTextThisName(const char* szSlotName);
 	bool ClickUseItemThisPlace(vector<cItemInfo*>& sendItem);
 
 
