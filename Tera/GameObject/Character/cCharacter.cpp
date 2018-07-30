@@ -27,6 +27,7 @@ cCharacter::cCharacter()
 	, m_fDefense(10.0f)
 	, m_fDotDamagedTime(0.0f)
 	, m_pConditionAlpha(0)
+	, m_isRun(false)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matAnimWorld);
