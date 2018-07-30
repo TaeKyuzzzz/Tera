@@ -137,9 +137,18 @@ void cSceneLobbyLoading::TotalLoading()
 	m_pLoading->InitForSound("WPN_Sword_Swing", "Sound/Main/WPN_Sword_Swing.mp3");
 	m_pLoading->InitForSound("WPN_Sword_Swing2", "Sound/Main/WPN_Sword_Swing2.mp3");
 	m_pLoading->InitForSound("Char_Wark_GlassLand", "Sound/Main/Char_Wark_GlassLand.mp3");
-	m_pLoading->InitForSound("Char_BodyFall", "Sound/Main/Char_Wark_GlassLand.mp3");
+	m_pLoading->InitForSound("Char_BodyFall", "Sound/Main/Char_BodyFall.mp3");
 
 	m_pLoading->InitForSound("Char_Skill_Explosion", "Sound/Main/Char_Skill_Explosion.mp3");
 	m_pLoading->InitForSound("Use_Drink", "Sound/Main/Use_Drink.mp3");
 	m_pLoading->InitForSound("Use_PotionDrink", "Sound/Main/Use_PotionDrink.mp3");
+
+	//== 시스템 사운드
+	m_pLoading->InitForSound("Drop_Coin", "Sound/Interface/Drop_Coin.mp3");
+	m_pLoading->InitForSound("Drop_Gold", "Sound/Interface/Drop_Gold.mp3");
+	m_pLoading->InitForSound("Drop_Normal", "Sound/Interface/Drop_Normal.mp3");
+	m_pLoading->InitForSound("Drop_Metal", "Sound/Interface/Drop_Metal.mp3");
+	m_pLoading->InitForSound("Drop_Ore", "Sound/Interface/Drop_Ore.mp3");
+	m_pLoading->InitForSound("Drop_Potion", "Sound/Interface/Drop_Potion.mp3");
+
 }
