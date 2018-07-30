@@ -154,6 +154,8 @@ void cSceneTest::Update()
 	m_pMonster02_3->Update();
 	m_pMonster02_4->Update();
 
+	OBJECTMANAGER->Update();
+
 	m_pPoalong->Update();
 
 	m_pBoxLoader->Update();
@@ -191,6 +193,8 @@ void cSceneTest::Render()
 	m_pMonster02_2->Render();
 	m_pMonster02_3->Render();
 	m_pMonster02_4->Render();
+
+	OBJECTMANAGER->Render();
 
 	m_pBoxLoader->Render();
 

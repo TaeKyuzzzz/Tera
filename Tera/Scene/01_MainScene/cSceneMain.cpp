@@ -25,7 +25,7 @@ cSceneMain::~cSceneMain()
 
 void cSceneMain::Setup()
 {
-	m_pBackGround = TEXTUREMANAGER->GetSprite("Texture/SceneTexture/LoadingImage.png");
+	m_pBackGround = TEXTUREMANAGER->GetSprite("Texture/SceneTexture/Loadingimage2.png"); // Loadingimage2 LoadingImage
 	m_pBackGroundBlack = TEXTUREMANAGER->GetSprite("Texture/SceneTexture/BGBlack.png");
 	m_pBackGroundWhite = TEXTUREMANAGER->GetSprite("Texture/SceneTexture/BGWhite.png");
 

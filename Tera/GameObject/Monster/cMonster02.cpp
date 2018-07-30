@@ -74,13 +74,15 @@ void cMonster02::Setup(D3DXVECTOR3 v)
 {
 	cMonster::Setup();
 
+	m_sName = "야생곰";
+
 	//처음에 얘로 셋팅해놓는다.
 	//처음 젠되는 위치 설정
 	m_vBehaviorSpot = v;//D3DXVECTOR3(1247, 0, 3578);
 	m_vPosition = v;
-
-	m_fMaxHp = 200.0f;
-	m_fCurHp = 200.0f;
+	
+	m_fHpMax = 200.0f;
+	m_fHpCur = 200.0f;
 	m_fAttack = 10.0f;
 	m_fDefense = 5.0f;
 
@@ -124,6 +126,9 @@ void cMonster02::Setup(D3DXVECTOR3 v)
 	//셰이더관련
 	DeathShader = cShader::LoadShader("XFile/Monster", "DeathShader.fx");
 	SKIN = TEXTUREMANAGER->GetTexture("XFile/Monster/EnragedBear_diff.tga");
+
+	m_pRimLight = cShader::LoadShader("Shader/Effect/", "RimFlash.fx");
+	m_pRimLight->SetFloat("Offset", 0.2f);
 
 	MODE = IDLE;
 }
@@ -228,8 +233,6 @@ void cMonster02::Update()
 	m_pSpere->SetWorld(m_matWorld);
 
 	cMonster::Update();
-
-	cGameObject::Update();
 }
 
 
@@ -382,6 +385,8 @@ void cMonster02::Awake()
 		m_fTime = 0.0f;
 		return;
 	}
+
+	//SOUNDMANAGER->Play("M2_MON_STATE_Idle");
 }
 
 void cMonster02::Chase()
@@ -499,14 +504,22 @@ void cMonster02::Battle()
 		switch (patternNum)
 		{
 		case 0:
+		{
 			//전투모션은 atk01타입이다.
 			m_state = MON_STATE_atk01;
 			//현재 애니메이션 구간길이를 입력해줍니다.
 			m_fCurAnimTime = m_fAnimTime[MON_STATE_atk01];
+
+			SOUNDMANAGER->Play("M2_MON_STATE_atk01");
+		}
 			break;
 		case 1:
+		{
 			m_state = MON_STATE_atk02;
 			m_fCurAnimTime = m_fAnimTime[MON_STATE_atk02];
+
+			SOUNDMANAGER->Play("M2_MON_STATE_atk01");
+		}
 			break;
 		}
 	}
@@ -559,6 +572,8 @@ void cMonster02::Death()
 		m_fTime = 0.0f;
 		MODE = DISAPPEAR;
 	}
+
+	//SOUNDMANAGER->Play("M2_MON_STATE_Death");
 }
 
 void cMonster02::Disappear()
@@ -595,15 +610,21 @@ void cMonster02::Rebirth()
 
 void cMonster02::Render()
 {
+	RimLightSetup(0, 0, 0, 0, 0, 0, 0);
 	if (m_bIsGen)
 	{
 		if (DissapearingMode)
 			m_pMonster->Render(NULL, DeathShader, m_nTime, SKIN, DissapearingMode, m_bIsGen, m_fTimeofDeath);
 		else
-			m_pMonster->Render(NULL);
+		{
+			if (m_isPicked)
+				m_pMonster->Render(NULL, m_pRimLight);
+			else
+				m_pMonster->Render(NULL);
+		}
 	}
 
-	cGameObject::Render();
+	cMonster::Render();
 
 	if (SightSpere && m_pSphereR)
 		m_pSphereR->Render();
@@ -690,6 +711,8 @@ void cMonster02::Damaged(float damage, D3DXVECTOR3 pos)
 		D3DXMatrixTranslation(&matT, x, y, z);
 		m_pParticleBleeding->SetWorld(matR * matT);
 		m_pParticleBleeding->Start();
+
+		//SOUNDMANAGER->Play("M2_MON_STATE_Damage");
 
 	}
 }

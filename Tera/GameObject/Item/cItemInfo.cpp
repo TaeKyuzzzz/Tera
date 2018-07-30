@@ -7,6 +7,7 @@
 
 cItemInfo::cItemInfo()
 	:m_nQuickSlotNum(INDEXNOTSET)
+	, m_nPotionCount(1)
 {
 }
 

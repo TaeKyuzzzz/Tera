@@ -1,12 +1,7 @@
 #include "stdafx.h"
 #include "Manager\cItemManager.h"
 
-enum eITextTitle
-{
-	GOLD = 1,
-	ITEMVALUE,
-	CHARACTERSPEC
-};
+
 
 
 void cItemManager::UITextList()
@@ -29,6 +24,36 @@ void cItemManager::UITextList()
 
 #pragma endregion
 
+#pragma region 아이템툴팁
+	CreateUICTextData
+	(
+		{ "아이템정보","능력", "설명:", "설명의내용", "판매또는구매가격" }
+		, { { 50,10,0 },{ 50,40,0 },{ 10,90,0 },{ 30, 120, 0 },{ 30, 200,0 } }
+		, { MID, MID, MID, MID, SMALL }
+		, { { 135,132,255 },{ 200,200,200 },{ 128,128,128 },{ 128,128,128 },{ 255,255,255 } }
+	);
+
+	tagText t2;
+	t2.Type = CONSTCHAR;
+	t2.szTextName = "아이템정보";
+	t2.szParrentName = "ItemExplaneWindow";
+	CreateText(t2);
+
+
+	CreateUIITextData
+	(
+		{ ITEMVALUE, ZEROVALUE, ZEROVALUE }
+		, { { 0, 0, 0 },{ 155, 38, 0 },{ 130, 200, 0 } }
+		, { MID, MID, SMALL }
+		, { { 0, 0, 0 },{ 230, 50, 230 },{ 255, 255, 255 } }
+	);
+
+	tagText t3;
+	t3.Type = VARIABLEVALUE;
+	t3.nIdentyfyNum = ITEMVALUE;
+	t3.szParrentName = "ItemExplaneWindow";
+	CreateText(t3);
+#pragma endregion
 
 #pragma region 인벤토리
 	CreateUIITextData
@@ -81,36 +106,38 @@ void cItemManager::UITextList()
 
 
 
-#pragma region 아이템툴팁
-	CreateUICTextData
-	(
-		{ "아이템정보","능력", "설명:", "설명의내용", "판매또는구매가격"}
-		, { { 50,10,0 },{ 50,40,0 },{ 10,90,0 }, {30, 120, 0}, {30, 200,0 }}
-		, { MID, MID, MID, MID, SMALL }
-		, { { 135,132,255 },{ 200,200,200 },{ 128,128,128 }, {128,128,128}, {255,255,255} }
-	);
-
-	tagText t2;
-	t2.Type = CONSTCHAR;
-	t2.szTextName = "아이템정보";
-	t2.szParrentName = "ItemExplaneWindow";
-	CreateText(t2);
 
 
-	CreateUIITextData
-	(
-		{ ITEMVALUE, ZEROVALUE, ZEROVALUE}
-		, { { 0, 0, 0 },{ 155, 38, 0 }, {130, 200, 0} }
-		, { MID, MID, SMALL }
-		, { { 0, 0, 0 },{ 230, 50, 230 }, {255, 255, 255} }
-	);
+#pragma region 포션카운트
 
-	tagText t3;
-	t3.Type = VARIABLEVALUE;
-	t3.nIdentyfyNum = ITEMVALUE;
-	t3.szParrentName = "ItemExplaneWindow";
-	CreateText(t3);
+	PotionCountTextThisName("하급회복물약");
+	PotionCountTextThisName("중급회복물약");
+	PotionCountTextThisName("상급회복물약");
+	PotionCountTextThisName("하급마나물약");
+	PotionCountTextThisName("중급마나물약");
+	PotionCountTextThisName("상급마나물약");
+
+	PotionCountTextThisName("하급회복물약");
+	PotionCountTextThisName("중급회복물약");
+	PotionCountTextThisName("상급회복물약");
+	PotionCountTextThisName("하급마나물약");
+	PotionCountTextThisName("중급마나물약");
+	PotionCountTextThisName("상급마나물약");
+
+
+
 #pragma endregion
+
+#pragma region 스킬슬롯텍스트
+
+
+
+
+#pragma endregion
+
+	//QuickSlotTextThisName("QSDragZone1");
+
+
 
 	TextExplane();
 }
@@ -141,6 +168,11 @@ void cItemManager::TextExplane()
 	textExplane["퍼플플랫아머"] = "보라색 천을 \n덧대어 만든 옷";
 	textExplane["퍼플플랫슈즈"] = "보라색 천을 \n덧대어 만든 신발";
 	textExplane["퍼플플랫글러브"] = "보라색 천을 \n덧대어 만든 장갑";
+
+	textExplane["바람가르기"] = "공중으로 뛰어올라 \n 회전하며 회전력을 \n 검에 집중시킨다";
+	textExplane["내려치기"] = "검을 높게 들어올려 \n 검의무게에 힘을더해 \n 강하게 공격한다";
+	textExplane["만월베기"] = "검을 종으로 회전시켜 \n 만월을 그리며 벤다";
+	textExplane["찌르기"] = "예리한 검의 끝에 \n 모든 힘을 실어 \n 강하게 찌른다";
 	
 
 	 

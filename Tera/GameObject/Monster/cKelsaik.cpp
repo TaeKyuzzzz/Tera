@@ -97,8 +97,8 @@ void cKelsaik::Setup()
 	
 	//SetLight();
 
-	m_fMaxHp = 4000.0f;
-	m_fCurHp = 0.0f;
+	m_fHpMax = 4000.0f;
+	m_fHpCur = 0.0f;
 	m_fAttack = 30.0f;
 	m_fDefense = 10.0f;
 
@@ -212,6 +212,8 @@ void cKelsaik::Awake_Update()
 	if (m_Anim != MON_Anim_modeAlarm)
 	{
 		ChangeAnim(MON_Anim_modeAlarm, true);
+
+		SOUNDMANAGER->Play("MON_Anim_modeAlarm");
 	}
 	else if (isEndPattern())
 	{
@@ -219,12 +221,11 @@ void cKelsaik::Awake_Update()
 	}
 	else if (m_fTime > 0.8f)
 	{
-		if (m_fCurHp < m_fMaxHp)
-			m_fCurHp += m_fMaxHp / 130;
+		if (m_fHpCur < m_fHpMax)
+			m_fHpCur += m_fHpMax / 130;
 		else
-			m_fCurHp = m_fMaxHp;
+			m_fHpCur = m_fHpMax;
 		CAMERAMANAGER->Shaking(0.06f);
-
 	}
 
 	//if (isPlayerInDistance())
@@ -326,7 +327,7 @@ void cKelsaik::Battle_Update()
 
 	if (KEYMANAGER->IsOnceKeyDown('N'))
 	{
-		m_fCurHp = 0;
+		m_fHpCur = 0;
 		ChangeState(DIE);
 	}
 }
@@ -410,6 +411,8 @@ void cKelsaik::Death_Update()
 	{
 		ChangeAnim(MON_Anim_Death,true);
 		SetAnimWorld();
+
+		SOUNDMANAGER->Play("MON_Anim_Death");
 	}
 	else
 	{
@@ -515,7 +518,7 @@ void cKelsaik::Render()
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 	
 	// 히트 박스 렌더
-	HitCircleRender();
+	//HitCircleRender();
 
 	RimLightSetup(0,0,0,0,0,0,0);
 
@@ -528,7 +531,7 @@ void cKelsaik::Render()
 	}
 	else
 	{
-		RimLightSetup(D3DXVECTOR4(1.0f,0.0f,0.0f,1.0f), m_PossbleDamagedTime*0.2,1.0f);
+		RimLightSetup(D3DXVECTOR4(1, 0.6, 0.16, 1), m_PossbleDamagedTime*0.2,1.0f);
 		m_pMonster->Render(NULL, m_pRimLight);// 요건 맞았을때 히트 플래쉬 렌더!
 	}
 
@@ -672,6 +675,7 @@ void cKelsaik::AttackPattern01()
 		SetAngleWithPlayer();
 		SetAnimWorld();
 		m_fHitCircleRadian = 0.0f;
+
 	}
 	else
 	{
@@ -695,6 +699,8 @@ void cKelsaik::AttackPattern01()
 				m_pFireEffect->Start();
 				CAMERAMANAGER->Shaking(0.3f);
 				m_vHitCirclePos[0] = D3DXVECTOR3(mat._41, -45, mat._43);
+
+				SOUNDMANAGER->Play("MON_Anim_atk01");
 			}
 			else if (m_fTime <= 2.8 && !m_pEffectCost)
 			{
@@ -740,6 +746,8 @@ void cKelsaik::AttackPattern02()
 				m_pIceEffect->Start();
 				CAMERAMANAGER->Shaking(0.3f);
 				m_vHitCirclePos[0] = D3DXVECTOR3(mat._41, -45, mat._43);
+
+				SOUNDMANAGER->Play("MON_Anim_atk02");
 			}
 			else if (m_fTime <= 2.8 && !m_pEffectCost)
 			{
@@ -792,6 +800,8 @@ void cKelsaik::AttackPattern03()
 				m_pFireEffect->Start();
 				m_vHitCirclePos[1] = D3DXVECTOR3(mat._41, -45, mat._43);
 				CAMERAMANAGER->Shaking(0.3f);
+
+				SOUNDMANAGER->Play("MON_Anim_roundAtk01");
 			}
 			else if (m_fTime <= 2.45 && !m_pEffectCost)
 			{
@@ -863,6 +873,8 @@ void cKelsaik::TurnBack()
 			ChangeAnim(MON_Anim_roundAtk02, true);
 		}
 		SetAnimWorld();
+
+		SOUNDMANAGER->Play("MON_Anim_roundAtk02");
 	}
 	else
 	{
@@ -888,6 +900,8 @@ void cKelsaik::Berserk()
 	if (m_Anim != MON_Anim_heavyatk01)
 	{
 		ChangeAnim(MON_Anim_heavyatk01, true);
+
+		SOUNDMANAGER->Play("MON_Anim_heavyatk01");
 	}
 	else if (isEndPattern())
 	{
@@ -917,6 +931,8 @@ void cKelsaik::DamageReaction()
 	if (m_Anim != MON_Anim_flinch)
 	{
 		ChangeAnim(MON_Anim_flinch,true);
+
+		SOUNDMANAGER->Play("MON_Anim_flinch");
 	}
 	else
 	{
@@ -934,6 +950,8 @@ void cKelsaik::ReactionGroggy()
 	{
 		ChangeAnim(MON_Anim_groggy, true);
 		SetAnimWorld();
+
+		SOUNDMANAGER->Play("MON_Anim_groggy");
 	}
 	else
 	{
@@ -984,7 +1002,7 @@ void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 	Damaged = Damaged - m_fDefense;
 	if (Damaged < 0) Damaged = 0;
 
-	m_fCurHp -= Damaged;
+	m_fHpCur -= Damaged;
 
 	// 블리딩 터트릴 좌표를 만들어서 세팅하고 시작
 	D3DXMATRIX matTS, matR, matT;
@@ -999,17 +1017,17 @@ void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 	// 피격시 순간 번쩍임을 위해 만들었는데 이 방법은 아닌듯..
 	//g_pD3DDevice->LightEnable(50, true);
 
-	if (m_fCurHp < m_fMaxHp * 0.1f && m_isPossibleBerserk)
+	if (m_fHpCur < m_fHpMax * 0.1f && m_isPossibleBerserk)
 	{
 		m_isPossibleBerserk = false;
 		SetReactionPattern(BERSERK);
 	}
-	else if (m_fCurHp < m_fMaxHp * 0.3f && m_isPossibleDown)
+	else if (m_fHpCur < m_fHpMax * 0.3f && m_isPossibleDown)
 	{
 		m_isPossibleDown = false;
 		SetReactionPattern(REACTIONDOWN);
 	}
-	else if (m_fCurHp < m_fMaxHp * 0.5f && m_isPossibleGroggy)
+	else if (m_fHpCur < m_fHpMax * 0.5f && m_isPossibleGroggy)
 	{
 		m_isPossibleGroggy = false;
 		SetReactionPattern(REACTIONGRGY);
@@ -1023,9 +1041,9 @@ void cKelsaik::Damaged(float Damaged, D3DXVECTOR3 pos)
 		m_fDamagedStack += Damaged;
 
 
-	if (m_fCurHp < 0)
+	if (m_fHpCur < 0)
 	{
-		m_fCurHp = 0;
+		m_fHpCur = 0;
 		ChangeState(DIE);
 	}
 }
@@ -1043,7 +1061,7 @@ void cKelsaik::SetUpStateBar()
 
 void cKelsaik::UpdateUpStateBar()
 {
-	m_pHpBar->SetGauge(m_fCurHp, m_fMaxHp);
+	m_pHpBar->SetGauge(m_fHpCur, m_fHpMax);
 }
 
 void cKelsaik::RenderUpStateBar()
@@ -1057,7 +1075,7 @@ void cKelsaik::RenderUpStateBar()
 	char szTemp[1024];
 	RECT rc;
 
-	sprintf_s(szTemp, 1024, "%.0f%%", ((float)m_fCurHp /(float)m_fMaxHp)*100.0f);
+	sprintf_s(szTemp, 1024, "%.0f%%", ((float)m_fHpCur /(float)m_fHpMax)*100.0f);
 	SetRect(&rc,
 		WINSIZEX / 2 - 20,137, WINSIZEX / 2 +20,152);
 

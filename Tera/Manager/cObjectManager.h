@@ -22,11 +22,15 @@ private:
 	vector<cGameObject*>		m_vecMonster;
 
 	vector<cBoundingObject*>	m_vecObjectB; //lsc
+
+	vector<cGameObject*>		m_vecItemObject;
 public:
 
 	void AddObject(cGameObject* obj);
 	void AddCharaObject(cGameObject* obj);
 	void AddMonsterObject(cGameObject* obj);
+	void AddItemObject(cGameObject* obj);
+
 	void AddObject(vector<cBoundingObject*> obj); //lsc
 
 	bool IsCollision(cGameObject * obj1, cGameObject * obj2);
@@ -44,4 +48,7 @@ public:
 	void VecClear();
 
 	void PickObject();
+
+	void Update();
+	void Render();
 };

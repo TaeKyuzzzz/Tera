@@ -38,6 +38,22 @@ void cObjectManager::AddMonsterObject(cGameObject * obj)
 	m_vecMonster.push_back(obj);
 }
 
+void cObjectManager::AddItemObject(cGameObject * obj)
+{
+	for (int i = 0; i < m_vecItemObject.size(); i++)
+	{
+		if (m_vecItemObject[i]->GetIsUse() == false)
+		{
+			m_vecItemObject[i]->SetIsUse(true);
+			m_vecItemObject[i]->SetPosition(obj->GetPosition());
+			m_vecItemObject[i]->SetName(obj->GetName());
+			delete obj;
+			return;
+		}
+	}
+	m_vecItemObject.push_back(obj);
+}
+
 bool cObjectManager::IsCollision(cGameObject * obj1, cGameObject * obj2)
 {
 	// 구 충돌 여부 부터
@@ -65,13 +81,13 @@ bool cObjectManager::IsCollision(cGameObject * obj1)
 			return result;
 	}
 
-	//for (int i = 0; i < m_vecObject.size(); i++)
-	//{
-	//	result = IsCollision(obj1, );
-	//
-	//	if (result)
-	//		return result;
-	//}
+	for (int i = 0; i < m_vecObjectB.size(); i++)
+	{
+		result = IsCollision(obj1, m_vecObjectB[i]);
+	
+		if (result)
+			return result;
+	}
 
 	return false;
 }
@@ -331,10 +347,28 @@ void cObjectManager::PickObject()
 {
 	// 오브 젝트들의 벡터를 순회하면서 피킹할 것임
 	// 왜냐! 피킹되면 타겟된걸로 간주! 림라이트를 씌울 것이다
-	// 중복 처리는 필요 없을듯
+	// 중복 처리까지 해야함
 
 	if (!isOptionMode)
 	{
+		//cRay * temp = new cRay;
+		//cRay r = temp->RayAtWorldSpace(WINSIZEX/2, WINSIZEY/2);
+		//bool noOne = false;
+		//int min = 1000000;
+		//int index = -1;
+		//for (int i = 0; i < m_vecMonster.size();i++)
+		//{
+		//	m_vecMonster[i]->SetIsPicked(false);
+		//	if (r.IsPicked(m_vecMonster[i]->GetSpere()) > 0)
+		//		m_vecMonster[i]->SetIsPicked(true);
+		//}
+		//for (int i = 0; i < m_vecObject.size();i++)
+		//{
+		//	m_vecObject[i]->SetIsPicked(false);
+		//	if (r.IsPicked(m_vecObject[i]->GetSpere()) > 0)
+		//		m_vecObject[i]->SetIsPicked(true);
+		//}
+	
 		cRay * temp = new cRay;
 		cRay r = temp->RayAtWorldSpace(WINSIZEX/2, WINSIZEY/2);
 		bool noOne = false;
@@ -344,14 +378,44 @@ void cObjectManager::PickObject()
 		{
 			m_vecMonster[i]->SetIsPicked(false);
 			if (r.IsPicked(m_vecMonster[i]->GetSpere()) > 0)
-				m_vecMonster[i]->SetIsPicked(true);
+			{
+				if (min > r.IsPicked(m_vecMonster[i]->GetSpere()))
+				{
+					index = i;
+					min = r.IsPicked(m_vecMonster[i]->GetSpere());
+				}
+				noOne = true;
+			}
 		}
-		for (int i = 0; i < m_vecObject.size();i++)
+		if (index >= 0)
 		{
-			m_vecObject[i]->SetIsPicked(false);
-			if (r.IsPicked(m_vecObject[i]->GetSpere()) > 0)
-				m_vecObject[i]->SetIsPicked(true);
+			m_vecMonster[index]->SetIsPicked(true);
+		
+		}
+		if (!noOne)
+		{
+			for (int i = 0; i < m_vecMonster.size();i++)
+			{
+				m_vecMonster[i]->SetIsPicked(false);
+			
+			}
 		}
 	}
 	
+}
+
+void cObjectManager::Update()
+{
+	for (int i = 0; i < m_vecItemObject.size(); i++)
+	{
+		if(m_vecItemObject[i])
+			m_vecItemObject[i]->Update();
+	}
+}
+
+void cObjectManager::Render()
+{
+
+	for (int i = 0; i < m_vecItemObject.size(); i++)
+		m_vecItemObject[i]->Render();
 }

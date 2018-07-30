@@ -135,6 +135,8 @@ void cCharacterClass03::Update()
 				m_fCurAnimTime = m_fAnimTime[CH_STATE_combo1];
 				m_fTime = 0.0f;
 				m_bIsDone = false;
+
+				SOUNDMANAGER->Play("WPN_Sword_Swing");
 			}
 		}
 		else if (KEYMANAGER->IsOnceKeyDown(VK_RBUTTON) &&
@@ -156,13 +158,15 @@ void cCharacterClass03::Update()
 		{
 			SetAnimWorld();
 
+			SOUNDMANAGER->Play("WPN_Sword_Swing2");
+
 			// 여기는 점프를 만들어야 합니다.
 			m_state = CH_STATE_DwonBlow;
 			m_fCurAnimTime = m_fAnimTime[CH_STATE_DwonBlow];
 			m_fTime = 0.0f;
 			m_bIsDone = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('1') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('Q') && m_state == CH_STATE_Wait)
 		{
 			// 가이아 크래시
 			SetAnimWorld();
@@ -175,7 +179,7 @@ void cCharacterClass03::Update()
 			m_isDoEffect = false;
 			m_isDoSkiilSound = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('2') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('E') && m_state == CH_STATE_Wait)
 		{
 			// 커팅슬래시
 
@@ -189,7 +193,7 @@ void cCharacterClass03::Update()
 			m_isDoEffect = false;
 			m_isDoSkiilSound = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('3') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('R') && m_state == CH_STATE_Wait)
 		{
 			// 컷헤드
 
@@ -203,7 +207,7 @@ void cCharacterClass03::Update()
 			m_isDoEffect = false;
 			m_isDoSkiilSound = false;
 		}
-		else if (KEYMANAGER->IsOnceKeyDown('4') && m_state == CH_STATE_Wait)
+		else if (KEYMANAGER->IsOnceKeyDown('T') && m_state == CH_STATE_Wait)
 		{
 			SetAnimWorld();
 
@@ -532,7 +536,9 @@ void cCharacterClass03::Move()
 		m_vPosition = beforePos;
 		D3DXMATRIX mat, matR, matT;
 		D3DXMatrixRotationY(&matR, m_fRotY);
-
+		D3DXVECTOR3 dir(m_fSpeed, 0, 0);
+		D3DXVec3TransformNormal(&dir, &dir, &matR);
+		m_vPosition -= dir;
 		D3DXMatrixIdentity(&mat);
 		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y + 15, m_vPosition.z);
 		m_pBoundingBox->SetWorld(matR * mat);

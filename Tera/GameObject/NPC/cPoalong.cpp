@@ -7,6 +7,7 @@
 #include "Spere\cSpere.h"
 
 #include "Particle\cParticleSet.h"
+#include "Shader\cShader.h"
 
 cPoalong::cPoalong()
 	: m_pPoalong(NULL)
@@ -48,6 +49,9 @@ void cPoalong::Setup(D3DXVECTOR3 v)
 	// 备 积己(富吧荐 乐绰 Zone 积己)
 	m_pSpere = new cSpere;
 	m_pSpere->Setup(m_vWhere_To_Stay, 40);
+
+	m_pRimLight = cShader::LoadShader("Shader/Effect/", "RimFlash.fx");
+	m_pRimLight->SetFloat("Offset", 0.2);
 }
 
 void cPoalong::Update()
@@ -57,7 +61,7 @@ void cPoalong::Update()
 	temp1.y = m_vWhere_To_Stay.z - g_vPlayerPos->z;
 	float DialogZone = D3DXVec2Length(&temp1);
 	*/
-	float DialogZone = DistanceXZ(m_vWhere_To_Stay, *g_vPlayerPos);
+	 DialogZone = DistanceXZ(m_vWhere_To_Stay, *g_vPlayerPos);
 
 	m_pDummyRoot->TransformationMatrix._42 = m_matWorld._42;
 	m_pPoalong->Update(m_matWorld);
@@ -115,7 +119,19 @@ void cPoalong::Update()
 
 void cPoalong::Render()
 {
-	m_pPoalong->Render(NULL);
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+
+	RimLightSetup(0, 0, 0, 0, 0, 0, 0);
+
+	if (DialogZone < 40)
+	{
+		m_pPoalong->Render(NULL);
+		m_pPoalong->Render(NULL,m_pRimLight);
+	}
+	else
+		m_pPoalong->Render(NULL);
 
 	cGameObject::Render();
 }

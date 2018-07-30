@@ -30,7 +30,10 @@ private:
 	SYNTHESIZE(int, m_nBuyPrice, BuyPrice);
 	SYNTHESIZE(int, m_nSalePrice, SalePrice);
 	SYNTHESIZE(int, m_nQuickSlotNum, QuickSlotNum);
+	SYNTHESIZE(int, m_nPotionCount, PotionCount);
 	
+
+
 	//텍스트관련
 	SYNTHESIZE(cUITextView*, m_pText, Text);
 		//변수일때

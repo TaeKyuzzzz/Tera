@@ -11,6 +11,14 @@ enum eSlotType
 
 };
 
+enum eITextTitle
+{
+	GOLD = 1,
+	ITEMVALUE,
+	CHARACTERSPEC,
+	POTIONCOUNT
+};
+
 #define ITEMMANAGER	cItemManager::GetInstance()
 
 class cItemInfo;
@@ -95,7 +103,11 @@ private:
 	RECT m_InvenRc;
 	RECT m_StatusRc;
 	RECT m_QuickRc[16];
+	int m_nExcutionNum = 4;
 
+
+
+	vector<char> vChar;
 
 	int m_nCheckNum = 0;
 
@@ -173,7 +185,7 @@ public:
 	void ItemExplaneRender();
 	void ImitationIconRender();
 	void CreateImitationImage();
-	void QuickSlotSynchronize();
+	
 
 
 #pragma endregion
@@ -212,13 +224,32 @@ public:
 	void BuyConsumables(int collisionNum);
 	void QuickSlotPosRenewal();
 	void QuickSlotItemPosRenewal();
-	void MainUIInfo();
+	void MainUIInfo(); 
+	void PotionOverlap();
+	bool FindSamePotion(const char* szPotionName);
+	void InvenTextReconnection();
+	void QuickTextReconnection();
+
+
+	void QuickSlotSynchronize();
+	void InventorySynchronize();
+	void ZeroPotionDelete();
 
 
 	int SendItemAtoPlaceB(vector<cItemInfo*>& placeItem);
 	int SendItemAtoPlaceB(vector<cItemInfo*>& placeItem, eSlotType _eSlotType);
 
 	POINT FindPlaceAndIndex(vector<cItemInfo*> vPlaceItem);
+	int FindPotionCount(vector<cItemInfo*> vPlaceItem, const char* szName);
+
+	void PotionCountTextThisName(const char* szPotionName);
+	void QuickSlotTextThisName(const char* szSlotName);
 	bool ClickUseItemThisPlace(vector<cItemInfo*>& sendItem);
+
+
+
+
+	// 영주가 추가한 드롭 아이템 관련 함수
+	void AddInvenItem(const char* itemName, const char* filePath, tagItemKindAndETC itemType, int itemAbility, int itemSalePrice);
 };
 

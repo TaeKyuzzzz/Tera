@@ -17,67 +17,71 @@ void cCube::Setup()
 
 void cCube::Setup(D3DXVECTOR3 min, D3DXVECTOR3 max)
 {
-	ST_PC_VERTEX v;
+	ST_PCT_VERTEX v;
 	D3DCOLOR color(0xff00ff00);
 
 	v.c = color;
 
-	v.p = D3DXVECTOR3(min.x, max.y, min.z); m_vecVertex.push_back(v);  // -1 1 -1
-	v.p = D3DXVECTOR3(max.x, max.y, min.z); m_vecVertex.push_back(v);  // 1 1 -1
-	v.p = D3DXVECTOR3(min.x, min.y, min.z); m_vecVertex.push_back(v); // -1 -1 -1
+	v.p = D3DXVECTOR3(min.x, max.y, min.z); v.t = D3DXVECTOR2(0, 0); m_vecVertex.push_back(v);  // -1 1 -1
+	v.p = D3DXVECTOR3(max.x, max.y, min.z); v.t = D3DXVECTOR2(1, 0); m_vecVertex.push_back(v);  // 1 1 -1
+	v.p = D3DXVECTOR3(min.x, min.y, min.z); v.t = D3DXVECTOR2(0, 1); m_vecVertex.push_back(v); // -1 -1 -1
 
-	v.p = D3DXVECTOR3(max.x, max.y, min.z); m_vecVertex.push_back(v);  // 1 1 -1
-	v.p = D3DXVECTOR3(max.x, min.y, min.z); m_vecVertex.push_back(v);   // 1 -1 -1
-	v.p = D3DXVECTOR3(min.x, min.y, min.z); m_vecVertex.push_back(v);  // -1 1 -1
+	v.p = D3DXVECTOR3(max.x, max.y, min.z); v.t = D3DXVECTOR2(1, 0); m_vecVertex.push_back(v);  // 1 1 -1
+	v.p = D3DXVECTOR3(max.x, min.y, min.z); v.t = D3DXVECTOR2(1, 1); m_vecVertex.push_back(v);   // 1 -1 -1
+	v.p = D3DXVECTOR3(min.x, min.y, min.z); v.t = D3DXVECTOR2(0, 1); m_vecVertex.push_back(v);  // -1 1 -1
 
-	v.p = D3DXVECTOR3(max.x, max.y, max.z); m_vecVertex.push_back(v);  // 1 1 1
-	v.p = D3DXVECTOR3(min.x, max.y, max.z); m_vecVertex.push_back(v);  // -1 1 1
-	v.p = D3DXVECTOR3(max.x, min.y, max.z); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(max.x, max.y, max.z); v.t = D3DXVECTOR2(0, 0); m_vecVertex.push_back(v);  // 1 1 1
+	v.p = D3DXVECTOR3(min.x, max.y, max.z); v.t = D3DXVECTOR2(1, 0); m_vecVertex.push_back(v);  // -1 1 1
+	v.p = D3DXVECTOR3(max.x, min.y, max.z); v.t = D3DXVECTOR2(0, 1); m_vecVertex.push_back(v);
 
-	v.p = D3DXVECTOR3(min.x, max.y, max.z); m_vecVertex.push_back(v);  // -1 1 1
-	v.p = D3DXVECTOR3(min.x, min.y, max.z); m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(max.x, min.y, max.z); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(min.x, max.y, max.z); v.t = D3DXVECTOR2(1, 0); m_vecVertex.push_back(v);  // -1 1 1
+	v.p = D3DXVECTOR3(min.x, min.y, max.z); v.t = D3DXVECTOR2(1, 1); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(max.x, min.y, max.z); v.t = D3DXVECTOR2(0, 1); m_vecVertex.push_back(v);
 
+	v.p = D3DXVECTOR3(max.x, max.y, min.z); v.t = D3DXVECTOR2(0, 0); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(max.x, min.y, max.z); v.t = D3DXVECTOR2(1, 1); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(max.x, min.y, min.z); v.t = D3DXVECTOR2(0, 1); m_vecVertex.push_back(v);
 
-	v.p = D3DXVECTOR3(max.x, max.y, min.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(max.x, min.y, max.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(max.x, min.y, min.z);  m_vecVertex.push_back(v);
-										    
-										    
-	v.p = D3DXVECTOR3(max.x, max.y, min.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(max.x, max.y, max.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(max.x, min.y, max.z);  m_vecVertex.push_back(v);
-										    
-										    
-	v.p = D3DXVECTOR3(min.x, max.y, max.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(min.x, min.y, min.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(min.x, min.y, max.z);  m_vecVertex.push_back(v);
-										    
-										    
-	v.p = D3DXVECTOR3(min.x, max.y, max.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(min.x, max.y, min.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(min.x, min.y, min.z);  m_vecVertex.push_back(v);
-										    
-										    
-	v.p = D3DXVECTOR3(min.x, max.y, max.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(max.x, max.y, min.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(min.x, max.y, min.z);  m_vecVertex.push_back(v);
-										    
-										    
-	v.p = D3DXVECTOR3(min.x, max.y, max.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(max.x, max.y, max.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(max.x, max.y, min.z);  m_vecVertex.push_back(v);
-										    
-										    
-	v.p = D3DXVECTOR3(max.x, min.y, max.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(min.x, min.y, max.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(max.x, min.y, min.z);  m_vecVertex.push_back(v);
-										    
-										    
-	v.p = D3DXVECTOR3(min.x, min.y, max.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(min.x, min.y, min.z);  m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(max.x, min.y, min.z);  m_vecVertex.push_back(v);
+	//
+	v.p = D3DXVECTOR3(max.x, max.y, min.z); v.t = D3DXVECTOR2(0, 0); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(max.x, max.y, max.z); v.t = D3DXVECTOR2(1, 0); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(max.x, min.y, max.z); v.t = D3DXVECTOR2(1, 1); m_vecVertex.push_back(v);
 
+	v.p = D3DXVECTOR3(min.x, max.y, max.z); v.t = D3DXVECTOR2(0, 0); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(min.x, min.y, min.z); v.t = D3DXVECTOR2(1, 1); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(min.x, min.y, max.z); v.t = D3DXVECTOR2(0, 1); m_vecVertex.push_back(v);
+
+	v.p = D3DXVECTOR3(min.x, max.y, max.z); v.t = D3DXVECTOR2(0, 0); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(min.x, max.y, min.z); v.t = D3DXVECTOR2(1, 0); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(min.x, min.y, min.z); v.t = D3DXVECTOR2(1, 1); m_vecVertex.push_back(v);
+
+	v.p = D3DXVECTOR3(min.x, max.y, max.z); v.t = D3DXVECTOR2(0, 0); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(max.x, max.y, min.z); v.t = D3DXVECTOR2(1, 1); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(min.x, max.y, min.z); v.t = D3DXVECTOR2(0, 1); m_vecVertex.push_back(v);
+
+	v.p = D3DXVECTOR3(min.x, max.y, max.z); v.t = D3DXVECTOR2(0, 0); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(max.x, max.y, max.z); v.t = D3DXVECTOR2(1, 0); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(max.x, max.y, min.z); v.t = D3DXVECTOR2(1, 1); m_vecVertex.push_back(v);
+
+	v.p = D3DXVECTOR3(max.x, min.y, max.z); v.t = D3DXVECTOR2(0, 0); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(min.x, min.y, max.z); v.t = D3DXVECTOR2(1, 0); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(max.x, min.y, min.z); v.t = D3DXVECTOR2(0, 1); m_vecVertex.push_back(v);
+
+	v.p = D3DXVECTOR3(min.x, min.y, max.z); v.t = D3DXVECTOR2(1, 0); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(min.x, min.y, min.z); v.t = D3DXVECTOR2(1, 1); m_vecVertex.push_back(v);
+	v.p = D3DXVECTOR3(max.x, min.y, min.z); v.t = D3DXVECTOR2(0, 1); m_vecVertex.push_back(v);
+
+	m_vecPtVertex.resize(m_vecVertex.size());
+
+	for (int i = 0; i < m_vecVertex.size(); i++)
+	{
+		m_vecPtVertex[i].p = m_vecVertex[i].p;
+		m_vecPtVertex[i].t = m_vecVertex[i].t;
+	}
+}
+
+void cCube::Update()
+{
 }
 
 void cCube::Update(D3DXVECTOR3 min, D3DXVECTOR3 max)
@@ -131,17 +135,20 @@ void cCube::Update(D3DXVECTOR3 min, D3DXVECTOR3 max)
 	m_vecVertex[35].p = D3DXVECTOR3(max.x, min.y, max.z);
 }
 
-
-void cCube::Update()
-{
-}
-
 void cCube::Render()
 {
-	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
-	g_pD3DDevice->SetTexture(0, NULL);
+	g_pD3DDevice->SetFVF(ST_PCT_VERTEX::FVF);
 	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
 		m_vecVertex.size() / 3,
 		&m_vecVertex[0],
-		sizeof(ST_PC_VERTEX));
+		sizeof(ST_PCT_VERTEX));
+}
+
+void cCube::PTRender()
+{
+	g_pD3DDevice->SetFVF(ST_PT_VERTEX::FVF);
+	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
+		m_vecPtVertex.size() / 3,
+		&m_vecPtVertex[0],
+		sizeof(ST_PT_VERTEX));
 }
