@@ -463,7 +463,7 @@ void cMonster02::Battle()
 	if (GetDamaged)
 	{
 		DamageTerm += TIMEMANAGER->GetEllapsedTime();
-		if (DamageTerm > 1000.0f)
+		if (DamageTerm > 0.5f)
 		{
 			GetDamaged = false;
 			DamageTerm = 0.0f;
@@ -474,7 +474,7 @@ void cMonster02::Battle()
 	//앵글락 상태에서는 퍼포먼스도중에 회전하지 않는다.(때리면서 돌아가는거 방지)
 	if (!m_bAngleLock)
 	{
-
+		
 		D3DXVECTOR3 u = D3DXVECTOR3(1, 0, 0);
 		D3DXVECTOR3 v;
 		D3DXVec3Normalize(&v, &(*g_vPlayerPos - m_vPosition));

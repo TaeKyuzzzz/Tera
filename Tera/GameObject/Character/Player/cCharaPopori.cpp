@@ -368,17 +368,35 @@ void cCharaPopori::AttackBoundBox()
 	// 검 휘두를때 타이밍을 맞춰서 때리게 해야해.. ( 준비자세 때 히트 판정이 되지않게 )
 	
 	if (m_state == CH_STATE_combo1 && m_fTime > m_fAnimTime[CH_STATE_combo1] - 0.5f)
+	{
 		Attack(m_fAttack);
+		
+	}
 	else if (m_state == CH_STATE_combo2 && m_fTime >= m_fAnimTime[CH_STATE_combo2] - 0.5f)
+	{
 		Attack(m_fAttack);
+		//SOUNDMANAGER->Play("WPN_Sword_Swing");
+	}
 	else if (m_state == CH_STATE_combo3 && m_fTime >= m_fAnimTime[CH_STATE_combo3] - 0.4f)
+	{
 		Attack(m_fAttack);
+		//SOUNDMANAGER->Play("WPN_Sword_Swing2");
+	}
 	else if (m_state == CH_STATE_combo4 && m_fTime >= m_fAnimTime[CH_STATE_combo4] - 1.2f)
+	{
 		Attack(m_fAttack);
+		//SOUNDMANAGER->Play("WPN_Sword_Swing");
+	}
 	else if (m_state == CH_STATE_CutHead)
+	{
 		Attack(m_fAttack);
+		//SOUNDMANAGER->Play("WPN_Sword_Swing2");
+	}
 	else if (m_state == CH_STATE_StingerBlade)
+	{
 		Attack(m_fAttack);
+		//SOUNDMANAGER->Play("WPN_Sword_Swing");
+	}
 }
 
 bool cCharaPopori::Attack(float damage)

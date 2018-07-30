@@ -677,9 +677,14 @@ bool cMonster01::Attack(float damage)
 
 void cMonster01::Damaged(float damage, D3DXVECTOR3 pos)
 {
-	if (m_state == MON_STATE_flinch		 || 
-		m_state == MON_STATE_deathwait	 ||
+	if (m_state == MON_STATE_flinch ||
+		m_state == MON_STATE_deathwait ||
 		m_state == MON_STATE_Death)	 return;
+	else if (m_state != MON_STATE_flinch &&
+		m_state != MON_STATE_deathwait &&
+		m_state != MON_STATE_Death)
+		SOUNDMANAGER->Play("WPN_Sword_Attack");
+
 
 	m_fHpCur -= damage;
 

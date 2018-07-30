@@ -68,7 +68,7 @@ void cMainGame::Setup()
 	SCENEMANAGER->AddScene("MapEdit", new cSceneMapEdit);
 
 
-	SCENEMANAGER->ChangeScene("LobbyLoading");
+	SCENEMANAGER->ChangeScene("Main");
 	
 	// 커서 설정하는 부분
 	//m_cursorArrow = TEXTUREMANAGER->GetTexture("Texture/Cursor/Arrow.png");
