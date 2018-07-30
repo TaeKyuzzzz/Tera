@@ -80,6 +80,9 @@ void cCharacter::Setup()
 
 void cCharacter::Update()
 {
+	m_fMpCur += 0.005;
+	if (m_fMpCur > m_fMpMax)m_fMpCur = m_fMpMax;
+
 	UpdateUpStateBar();
 	PlusMapHeight();
 

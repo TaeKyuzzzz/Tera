@@ -51,7 +51,6 @@ cSceneTest::~cSceneTest()
 
 void cSceneTest::Setup()
 {
-	//CAMERAMANAGER->SetType(CAMERA_FREE);
 
 	m_pPopori = new cCharaPopori;
 	m_pPopori->Setup();
