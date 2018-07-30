@@ -442,6 +442,7 @@ void cMonster02::Battle()
 	//최상위조건. 몬스터가 죽으면 나머지 다 꽝이야.
 	if (m_fHpCur <= 0)
 	{
+		SOUNDMANAGER->Play("M2_MON_STATE_Death");
 		MODE = DEATH;
 		m_bAtkTerm = true;
 		m_bAnimation = false;
@@ -573,8 +574,6 @@ void cMonster02::Death()
 			ItemDrop("검은마력의옷");
 			break;
 		}
-
-		SOUNDMANAGER->Play("M2_MON_STATE_Death");
 	}
 
 	m_fHpCur = 0.0f;
