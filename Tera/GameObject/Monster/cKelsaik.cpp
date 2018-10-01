@@ -524,7 +524,7 @@ void cKelsaik::Render()
 
 	if (m_isPossibleDamaged)
 	{
-		if(m_isPicked)
+		if(m_isPicked && STATE != DIE)
 			m_pMonster->Render(NULL, m_pRimLight);
 		else
 			m_pMonster->Render(NULL); // 요건 평상시의 렌더
@@ -535,7 +535,8 @@ void cKelsaik::Render()
 		m_pMonster->Render(NULL, m_pRimLight);// 요건 맞았을때 히트 플래쉬 렌더!
 	}
 
-	cGameObject::Render();
+	if(m_fHpCur > 0)
+		cGameObject::Render();
 
 	if (SightSpere && m_pSphereR)
 		m_pSphereR->Render();
@@ -830,10 +831,10 @@ void cKelsaik::TurnLeft()
 		// 패턴이 끝났다면
 		if (isEndPattern())
 		{
-			//SetAngleWithPlayer();
-			m_fRotY += D3DX_PI;
-			if (m_fRotY > D3DX_PI * 2)
-				m_fRotY -= D3DX_PI * 2;
+			SetAngleWithPlayer();
+			//m_fRotY += D3DX_PI;
+			//if (m_fRotY > D3DX_PI * 2)
+			//	m_fRotY -= D3DX_PI * 2;
 			ChangeAnim(MON_Anim_Wait, false);
 			m_isDoingPattern = false;
 		}
@@ -853,10 +854,10 @@ void cKelsaik::TurnRight()
 		// 패턴이 끝났다면
 		if (isEndPattern())
 		{
-			//SetAngleWithPlayer();
-			m_fRotY += D3DX_PI;
-			if (m_fRotY > D3DX_PI * 2)
-				m_fRotY -= D3DX_PI * 2;
+			SetAngleWithPlayer();
+			//m_fRotY += D3DX_PI;
+			//if (m_fRotY > D3DX_PI * 2)
+			//	m_fRotY -= D3DX_PI * 2;
 			ChangeAnim(MON_Anim_Wait, false);
 			m_isDoingPattern = false;
 		}
@@ -887,7 +888,10 @@ void cKelsaik::TurnBack()
 		// 패턴이 끝났다면
 		if (isEndPattern())
 		{
-			SetAngleWithPlayer();
+			//SetAngleWithPlayer();
+			m_fRotY += D3DX_PI;
+			if (m_fRotY > D3DX_PI * 2)
+				m_fRotY -= D3DX_PI * 2;
 			ChangeAnim(MON_Anim_Wait, false);
 			m_isDoingPattern = false;
 		}
@@ -903,22 +907,22 @@ void cKelsaik::TurnBack()
 
 void cKelsaik::Berserk()
 {
-	if (m_Anim != MON_Anim_heavyatk01)
-	{
-		ChangeAnim(MON_Anim_heavyatk01, true);
-
-		SOUNDMANAGER->Play("MON_Anim_heavyatk01");
-	}
-	else if (isEndPattern())
-	{
+	//if (m_Anim != MON_Anim_heavyatk01)
+	//{
+	//	ChangeAnim(MON_Anim_heavyatk01, true);
+	//
+	//	SOUNDMANAGER->Play("MON_Anim_modeAlarm");
+	//}
+	//else if (isEndPattern())
+	//{
 		m_fAttack *= 2.0f;
 		m_isDoingPattern = false;
 		ChangeAnim(MON_Anim_Wait,false);
-	}
-	else if (m_fTime > 0.8f)
-	{
-		CAMERAMANAGER->Shaking(0.06f);
-	}
+	//}
+	//else if (m_fTime > 0.8f)
+	//{
+	//	CAMERAMANAGER->Shaking(0.06f);
+	//}
 }
 
 void cKelsaik::SetReactionPattern(int patternNum)
@@ -977,6 +981,8 @@ void cKelsaik::ReactionDown()
 	{
 		ChangeAnim(MON_Anim_ReactionStart, true);
 		SetAnimWorld();
+
+		SOUNDMANAGER->Play("GiantGriffin_Groggy");
 	}
 	else
 	{

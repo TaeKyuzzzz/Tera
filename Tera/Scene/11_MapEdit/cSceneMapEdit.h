@@ -19,6 +19,7 @@ private:
 	cBoundingObject* m_pGameObject;
 	cSpere* m_pSphere;
 
+	//
 	cTestMap*	m_pMap;
 	string m_sFileName;
 
@@ -26,6 +27,7 @@ private:
 	cTown_House* m_pTown_House;
 
 public:
+	//
 	SYNTHESIZE_REF(vector<cBoundingObject*>, m_vecBObject, BObject); //볼과 박스들이 들어있는것의 집합체.
 
 	std::vector<ST_PC_VERTEX> m_pLine; //선택면을 그릴 vector

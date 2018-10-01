@@ -54,7 +54,7 @@ void cSceneBossLoading::TotalLoading()
 {
 	// 보스룸에 필요한 리소스들 가져오기
 
-	m_pLoading->InitForSound("BossBGM", "Sound/BossRoom/Boss_Battle.ogg");
+	m_pLoading->InitForSound("BossBGM", "Sound/BossRoom/Boss_Battle.ogg",true,true);
 
 	// 맵에 쓰이는 스태틱 메시를 불러옵시다
 	m_pLoading->InitForStaticMesh("XFile/Boss_Room/Bottom_ray.X");

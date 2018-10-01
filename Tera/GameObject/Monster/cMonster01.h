@@ -102,7 +102,6 @@ public:
 
 	//---------------------------µø¿€
 
-	void ProcessCombo();
 	void ProcessDamaged();
 
 	void ProcessBigDamaged();

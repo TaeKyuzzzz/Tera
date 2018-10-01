@@ -265,7 +265,7 @@ void cMonster01::Update()
 			m_vCurAnimPos = D3DXVECTOR3(0, 0, 0);
 			m_vBeforeAnimPos = D3DXVECTOR3(0, 0, 0);
 			m_fTime = 0.0f;
-			m_state == MON_STATE_deathwait;
+			//m_state = MON_STATE_deathwait;
 			m_bAngleLock = false;
 		}
 
@@ -309,13 +309,14 @@ void cMonster01::Render()
 	}
 
 	cGameObject::Render();
-
+	
 	if (SightSpere && m_pSphereR)
 		m_pSphereR->Render();
 	if (SightSpere && m_pSphereL)
 		m_pSphereL->Render();
 
-	cMonster::Render();
+	if (m_fHpCur > 0)
+		cMonster::Render();
 }
 
 bool cMonster01::isUseLocalAnim()

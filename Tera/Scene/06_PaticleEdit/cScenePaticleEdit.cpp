@@ -503,7 +503,8 @@ void cScenePaticleEdit::LoadTexture()
 
 	GetOpenFileName(&OFN);
 
-	MessageBox(NULL, OFN.lpstrFile, L"File Name", MB_OK);
+	//MessageBox(NULL, OFN.lpstrFile, L"File Name", MB_OK);
+	
 	WideCharToMultiByte(CP_ACP, 0, OFN.lpstrFile, -1, str, 1024, NULL, NULL);
 
 	strcpy(m_szFile, str);
@@ -526,7 +527,7 @@ void cScenePaticleEdit::Play()
 		m_fDirectionZ, m_fRandDirZMin, m_fRandDirZMax,
 		m_szFile
 		, D3DCOLOR_ARGB(m_nAlpha, m_nColorR, m_nColorG, m_nColorB));
-//	m_pParticleSet->Start();
+	m_pParticleSet->Start();
 }
 
 void cScenePaticleEdit::SaveParticle()

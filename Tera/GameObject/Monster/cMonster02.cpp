@@ -653,18 +653,18 @@ void cMonster02::Render()
 	if (SightSpere && m_pSphereL)
 		m_pSphereL->Render();
 
-	char szTemp[1024];
-	sprintf_s(szTemp, 1024, "MODE : %d", MODE);
-	RECT rc;
-	SetRect(&rc, WINSIZEX - 200, 200, WINSIZEX, 300);
-
-	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
-	pFont->DrawTextA(NULL,
-		szTemp,
-		strlen(szTemp),
-		&rc,
-		DT_LEFT | DT_VCENTER,
-		D3DCOLOR_XRGB(255, 0, 0));
+	//char szTemp[1024];
+	//sprintf_s(szTemp, 1024, "MODE : %d", MODE);
+	//RECT rc;
+	//SetRect(&rc, WINSIZEX - 200, 200, WINSIZEX, 300);
+	//
+	//LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
+	//pFont->DrawTextA(NULL,
+	//	szTemp,
+	//	strlen(szTemp),
+	//	&rc,
+	//	DT_LEFT | DT_VCENTER,
+	//	D3DCOLOR_XRGB(255, 0, 0));
 }
 
 

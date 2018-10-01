@@ -3,11 +3,11 @@
 class cSpere;
 class cBoundingBox;
 
-enum OBJ_TYPE
-{
-	OBJ_CHARACTER,
-
-};
+//enum OBJ_TYPE
+//{
+//	OBJ_CHARACTER,
+//
+//};
 
 enum CONDITION
 {

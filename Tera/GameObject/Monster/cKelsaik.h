@@ -7,7 +7,7 @@ class cProgressBar;
 class cSprite;
 
 // 랜덤으로 발동하는 패턴외의 패턴들
-#define NUMOFPATTERN	3
+#define NUMOFPATTERN	(3)
 #define LEFTTURN		(NUMOFPATTERN)
 #define RIGHTTURN		(NUMOFPATTERN+1)
 #define BACKTURN		(NUMOFPATTERN+2)

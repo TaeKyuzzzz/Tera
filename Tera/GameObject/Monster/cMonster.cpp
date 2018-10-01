@@ -57,6 +57,7 @@ void cMonster::Render()
 {
 	cGameObject::Render();
 
+	if(m_fHpCur > 0)
 	RenderUpStateBar(m_sName);
 }
 
@@ -102,7 +103,8 @@ void cMonster::UpdateUpStateBar()
 
 void cMonster::RenderUpStateBar(string name)
 {
-	if (m_isPicked)
+
+	if (m_isPicked && m_fHpCur > 0)
 	{
 		m_BackBar->Render(D3DXVECTOR3(0, 0, 0), 
 			D3DXVECTOR3(WINSIZEX / 2 - m_BackBar->textureInfo.Width / 2.0f, 10, 0));

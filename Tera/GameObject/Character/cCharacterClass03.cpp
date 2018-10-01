@@ -154,7 +154,7 @@ void cCharacterClass03::Update()
 			m_fTime = 0.0f;
 			m_bIsDone = false;
 			m_isRun = false;
-			SOUNDMANAGER->Play("PCDamaged");
+			//SOUNDMANAGER->Play("PCDamaged");
 		}
 		else if (KEYMANAGER->IsOnceKeyDown(VK_SPACE))
 		{
@@ -269,6 +269,7 @@ void cCharacterClass03::Update()
 	{
 		if (m_isRun == false)
 		{
+			SOUNDMANAGER->Stop("Char_Wark_GlassLand");
 			m_isRun = true;
 			SOUNDMANAGER->Play("Char_Wark_GlassLand");
 		}
@@ -298,11 +299,11 @@ void cCharacterClass03::Update()
 	D3DXMATRIX mat;
 	D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 
-	if (KEYMANAGER->IsOnceKeyDown('P'))
-	{
-		m_pParticleHeal->SetWorld(mat);
-		m_pParticleHeal->Start();
-	}
+	//if (KEYMANAGER->IsOnceKeyDown('P'))
+	//{
+	//	m_pParticleHeal->SetWorld(mat);
+	//	m_pParticleHeal->Start();
+	//}
 
 	//m_pParticleAura->SetWorld(mat);
 	//m_pParticleAura->Update();
@@ -345,7 +346,7 @@ void cCharacterClass03::SetAnimWorld()
 	D3DXVec3TransformNormal(&m_vDirection, &D3DXVECTOR3(1, 0, 0), &matR);
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	m_matAnimWorld = matR * matT;
-	m_matWorld = matR * matT;;
+	m_matWorld = matR * matT;
 }
 
 void cCharacterClass03::ProcessCombo()
@@ -499,6 +500,7 @@ void cCharacterClass03::ProcessDie()
 
 void cCharacterClass03::Move()
 {
+
 	// 이동에 관련된 함수
 	D3DXVECTOR3 beforePos = m_vPosition;
 	float		beforeRot = m_fRotY;
@@ -576,7 +578,7 @@ void cCharacterClass03::Move()
 		m_vPosition = beforePos;
 		D3DXMATRIX mat, matR, matT;
 		D3DXMatrixRotationY(&matR, m_fRotY);
-		D3DXVECTOR3 dir(m_fSpeed, 0, 0);
+		D3DXVECTOR3 dir(0.05f, 0, 0);
 		D3DXVec3TransformNormal(&dir, &dir, &matR);
 		m_vPosition -= dir;
 		D3DXMatrixIdentity(&mat);

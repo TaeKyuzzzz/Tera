@@ -13,6 +13,8 @@
 #include "Scene\05_BossScene\cSceneBoss.h"
 
 #include "Scene/11_MapEdit/cSceneMapEdit.h"
+
+
 cMainGame::cMainGame()
 	: m_pCamera(NULL)
 	, m_pGrid(NULL)
@@ -119,18 +121,18 @@ void cMainGame::Render()
 
 	TIMEMANAGER->Render();
 
-	char szTemp[1024];
-	sprintf_s(szTemp, 1024, "%d %d", ptMouse.x, ptMouse.y);
-	RECT rc;
-	SetRect(&rc, WINSIZEX - 200, 0100, WINSIZEX, 200);
-
-	LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
-	pFont->DrawTextA(NULL,
-		szTemp,
-		strlen(szTemp),
-		&rc,
-		DT_LEFT | DT_VCENTER,
-		D3DCOLOR_XRGB(255, 0, 0));
+	//char szTemp[1024];
+	//sprintf_s(szTemp, 1024, "%d %d", ptMouse.x, ptMouse.y);
+	//RECT rc;
+	//SetRect(&rc, WINSIZEX - 200, 0100, WINSIZEX, 200);
+	//
+	//LPD3DXFONT pFont = FONTMANAGER->GetFont(cFontManager::FT_DEFAULT);
+	//pFont->DrawTextA(NULL,
+	//	szTemp,
+	//	strlen(szTemp),
+	//	&rc,
+	//	DT_LEFT | DT_VCENTER,
+	//	D3DCOLOR_XRGB(255, 0, 0));
 	///////////////////////////////////////////////////////////////////
 	g_pD3DDevice->EndScene();
 

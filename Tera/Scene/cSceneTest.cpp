@@ -54,7 +54,7 @@ void cSceneTest::Setup()
 
 	m_pPopori = new cCharaPopori;
 	m_pPopori->Setup();
-	m_pPopori->SetPosition(D3DXVECTOR3(1200, 0, 1400));
+	m_pPopori->SetPosition(D3DXVECTOR3(1200, 0, 2600));
 	OBJECTMANAGER->AddCharaObject(m_pPopori);
 	OBJECTMANAGER->SetPlayer(m_pPopori);
 	
@@ -69,25 +69,25 @@ void cSceneTest::Setup()
 	//m_pMonster01->SetPosition(m_pMonster01->GetSpot());
 	OBJECTMANAGER->AddMonsterObject(m_pMonster01);
 
-	m_pMonster02 = new cMonster02;
-	m_pMonster02->Setup(D3DXVECTOR3(1247, 0, 2078));
-	OBJECTMANAGER->AddMonsterObject(m_pMonster02);
-
-	m_pMonster02_1 = new cMonster02;
-	m_pMonster02_1->Setup(D3DXVECTOR3(1230, 0, 2048));
-	OBJECTMANAGER->AddMonsterObject(m_pMonster02_1);
-
-	m_pMonster02_2 = new cMonster02;
-	m_pMonster02_2->Setup(D3DXVECTOR3(1200, 0, 2000));
-	OBJECTMANAGER->AddMonsterObject(m_pMonster02_2);
-
-	m_pMonster02_3 = new cMonster02;
-	m_pMonster02_3->Setup(D3DXVECTOR3(1150, 0, 1800));
-	OBJECTMANAGER->AddMonsterObject(m_pMonster02_3);
-
-	m_pMonster02_4 = new cMonster02;
-	m_pMonster02_4->Setup(D3DXVECTOR3(1050, 0, 2150));
-	OBJECTMANAGER->AddMonsterObject(m_pMonster02_4);
+	//m_pMonster02 = new cMonster02;
+	//m_pMonster02->Setup(D3DXVECTOR3(1247, 0, 2078));
+	//OBJECTMANAGER->AddMonsterObject(m_pMonster02);
+	//
+	//m_pMonster02_1 = new cMonster02;
+	//m_pMonster02_1->Setup(D3DXVECTOR3(1230, 0, 2048));
+	//OBJECTMANAGER->AddMonsterObject(m_pMonster02_1);
+	//
+	//m_pMonster02_2 = new cMonster02;
+	//m_pMonster02_2->Setup(D3DXVECTOR3(1200, 0, 2000));
+	//OBJECTMANAGER->AddMonsterObject(m_pMonster02_2);
+	//
+	//m_pMonster02_3 = new cMonster02;
+	//m_pMonster02_3->Setup(D3DXVECTOR3(1150, 0, 1800));
+	//OBJECTMANAGER->AddMonsterObject(m_pMonster02_3);
+	//
+	//m_pMonster02_4 = new cMonster02;
+	//m_pMonster02_4->Setup(D3DXVECTOR3(1050, 0, 2150));
+	//OBJECTMANAGER->AddMonsterObject(m_pMonster02_4);
 
 	m_pPoalong = new cPoalong;
 	m_pPoalong->Setup(D3DXVECTOR3(972,0,3813));
@@ -103,11 +103,11 @@ void cSceneTest::Setup()
 
 	m_pPopori->SetMap(m_pMap);
 	m_pMonster01->SetMap(m_pMap);
-	m_pMonster02->SetMap(m_pMap);
-	m_pMonster02_1->SetMap(m_pMap);
-	m_pMonster02_2->SetMap(m_pMap);
-	m_pMonster02_3->SetMap(m_pMap);
-	m_pMonster02_4->SetMap(m_pMap);
+	//m_pMonster02->SetMap(m_pMap);
+	//m_pMonster02_1->SetMap(m_pMap);
+	//m_pMonster02_2->SetMap(m_pMap);
+	//m_pMonster02_3->SetMap(m_pMap);
+	//m_pMonster02_4->SetMap(m_pMap);
 	m_pPoalong->SetMap(m_pMap);
 	
 	OBJECTMANAGER->AddObject(m_pDummy);
@@ -144,12 +144,12 @@ void cSceneTest::Update()
 	
 	m_pMonster01->Update();
 
-	m_pMonster02->Update();
+	//m_pMonster02->Update();
 
-	m_pMonster02_1->Update();
-	m_pMonster02_2->Update();
-	m_pMonster02_3->Update();
-	m_pMonster02_4->Update();
+	//m_pMonster02_1->Update();
+	//m_pMonster02_2->Update();
+	//m_pMonster02_3->Update();
+	//m_pMonster02_4->Update();
 
 	OBJECTMANAGER->Update();
 
@@ -187,11 +187,11 @@ void cSceneTest::Render()
 	m_pTown_House->Render();
 
 	m_pPoalong->Render();
-	m_pMonster02->Render();
-	m_pMonster02_1->Render();
-	m_pMonster02_2->Render();
-	m_pMonster02_3->Render();
-	m_pMonster02_4->Render();
+	//m_pMonster02->Render();
+	//m_pMonster02_1->Render();
+	//m_pMonster02_2->Render();
+	//m_pMonster02_3->Render();
+	//m_pMonster02_4->Render();
 
 	OBJECTMANAGER->Render();
 

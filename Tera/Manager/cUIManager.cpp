@@ -188,50 +188,50 @@ void cUIManager::CallKeyInput()
 		}
 	}
 
-	if (!m_isCallInven && KEYMANAGER->IsOnceKeyDown(VK_NUMPAD3))
+	if (!m_isCallInven && KEYMANAGER->IsOnceKeyDown('I'))
 	{
 		m_isCallInven = true;
 		isOptionMode = true;
 		CAMERAMANAGER->SetType(CAMERA_FIX);
 		SOUNDMANAGER->Play("OpenInterface");
 	}
-	else if (m_isCallInven && KEYMANAGER->IsOnceKeyDown(VK_NUMPAD3))
+	else if (m_isCallInven && KEYMANAGER->IsOnceKeyDown('I'))
 	{
 		m_isCallInven = false;
 		SOUNDMANAGER->Play("CloseInterface");
 	}
-	if (!m_isCallConShop && KEYMANAGER->IsOnceKeyDown(VK_NUMPAD2))
+	if (!m_isCallConShop && KEYMANAGER->IsOnceKeyDown('O'))
 	{
 		m_isCallConShop = true;
 		isOptionMode = true;
 		CAMERAMANAGER->SetType(CAMERA_FIX);
 		SOUNDMANAGER->Play("OpenInterface");
 	}
-	else if (m_isCallConShop && KEYMANAGER->IsOnceKeyDown(VK_NUMPAD2))
+	else if (m_isCallConShop && KEYMANAGER->IsOnceKeyDown('O'))
 	{
 		m_isCallConShop = false;
 		SOUNDMANAGER->Play("CloseInterface");
 	}
-	if (!m_isCallStatus && KEYMANAGER->IsOnceKeyDown(VK_NUMPAD1))
+	if (!m_isCallStatus && KEYMANAGER->IsOnceKeyDown('P'))
 	{
 		m_isCallStatus = true;
 		isOptionMode = true;
 		CAMERAMANAGER->SetType(CAMERA_FIX);
 		SOUNDMANAGER->Play("OpenInterface");
 	}
-	else if (m_isCallStatus && KEYMANAGER->IsOnceKeyDown(VK_NUMPAD1))
+	else if (m_isCallStatus && KEYMANAGER->IsOnceKeyDown('P'))
 	{
 		m_isCallStatus = false;
 		SOUNDMANAGER->Play("CloseInterface");
 	}
-	if (!m_isCallQuickSlot && KEYMANAGER->IsOnceKeyDown(VK_NUMPAD4))
+	if (!m_isCallQuickSlot && KEYMANAGER->IsOnceKeyDown('U'))
 	{
 		m_isCallQuickSlot = true;
 		isOptionMode = true;
 		CAMERAMANAGER->SetType(CAMERA_FIX);
 		SOUNDMANAGER->Play("OpenInterface");
 	}
-	else if (m_isCallQuickSlot && KEYMANAGER->IsOnceKeyDown(VK_NUMPAD4))
+	else if (m_isCallQuickSlot && KEYMANAGER->IsOnceKeyDown('U'))
 	{
 		m_isCallQuickSlot = false;
 		SOUNDMANAGER->Play("CloseInterface");
